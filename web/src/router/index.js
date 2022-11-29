@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import login from '../views/AccountLogin'
 import register from '../views/AccountRegister'
 import admin from '../views/AdminView'
-import study from '../views/study/UtilsView'
+import study from '../views/UtilsView'
 const routes = [ 
   {
     path:'/login',

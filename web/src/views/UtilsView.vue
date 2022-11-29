@@ -1,4 +1,6 @@
 <template>
+  <el-row >
+    <el-col :span="18" :offset="3">
   <el-dialog
     v-model="dialogVisible"
     title="添加"
@@ -19,8 +21,8 @@
   </el-dialog>
   <el-tabs v-if="$store.state.account==='admin'"
     v-model="editableTabsValue"
-    class="demo-tabs"
     @tab-change="changeTab"
+    class="demo-tabs"
   >
   <el-tab-pane > 
     <template #label>
@@ -33,9 +35,9 @@
       :label="item.title"
       :name="item.name"
     >
-    <el-row justify="center" v-if="item.show">
-      <el-col :span="1" >
-        <el-button  type="primary" @click="item.show=false" plain>编辑</el-button>
+    <el-row justify="space-evenly" v-if="item.show">
+      <el-col  :span="1" style="margin-right:-40px;">
+        <el-button  type="primary"  @click="item.show=false" plain>编辑</el-button>
         <el-button type="success" style="margin-top:10px;" class="fsafs" @click="dialogVisible = true" plain>添加</el-button>
         <el-button  type="danger" style="margin-top:10px;" class="fsafs" @click="removeTab(item.name)" plain>删除</el-button>
         <el-affix class="fsafs" :offset="100">
@@ -44,8 +46,8 @@
           </a>
         </el-affix>
       </el-col>
-      <el-col :span="16" >
-          <el-card shadow="never">
+      <el-col :span="21" >
+          <el-card>
               <el-col :span="24">
                   <v-md-preview  :text="item.content"></v-md-preview >
               </el-col>
@@ -56,7 +58,7 @@
     left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code | save back" 
     right-toolbar="preview toc sync-scroll fullscreen"
     :toolbar="vue.toolbar"
-    @save="item.show=true,save()" height="800px"></v-md-editor>
+    @save="item.show=true,save()" ></v-md-editor>
     </el-tab-pane>
   </el-tabs>
   <el-tabs v-else
@@ -83,8 +85,8 @@
               </a>
             </el-affix>
       </el-col>
-      <el-col :span="16" >
-          <el-card shadow="never">
+      <el-col :span="21" >
+          <el-card >
               <el-col :span="24">
                   <v-md-preview  :text="item.content"></v-md-preview >
               </el-col>
@@ -93,12 +95,14 @@
   </el-row>
     </el-tab-pane>
   </el-tabs>
+</el-col>
+</el-row>
 </template>
 
 <script>
 import {onMounted, ref,reactive} from 'vue'
 import {useStore} from 'vuex'
-import router from '../../router/index'
+import router from '../router/index'
 import $ from 'jquery'
     $(function () {
         $(window).scroll(function () {
@@ -115,10 +119,14 @@ import $ from 'jquery'
       const vue = reactive({
           toolbar: {
           back: {
-              title: '推出',
+              title: '取消编辑',
               icon: 'v-md-icon-undo',
               action() {
-                  
+                const tabs = editableTabs.value
+                tabs.forEach((i)=>{
+                  if(i.name===editableTabsValue.value)
+                  i.show = true
+                })
               },
           },
           },
@@ -215,17 +223,8 @@ import $ from 'jquery'
 </script>
 
 <style scoped>
-.demo-tabs>.is-top {
-  position: sticky;
-  top: 0;
-  margin-left: 200px;
-  margin-right: 200px;
-  font-size: 25px;
-  z-index: 10;
-  background-image: radial-gradient(transparent 1px,#f7f7f7 0);
-  background-size: 4px 4px;
-  -webkit-backdrop-filter: saturate(50%) blur(4px);
-  backdrop-filter: saturate(50%) blur(4px);
+.demo-tabs > .is_top{
+  background-color: red;
 }
 .fas{
   position: absolute;
@@ -250,6 +249,4 @@ import $ from 'jquery'
 .fsafs{
   margin: 0px;
 }
-
-
 </style>
