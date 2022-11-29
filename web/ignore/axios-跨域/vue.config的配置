@@ -1,0 +1,24 @@
+const { defineConfig } = require('@vue/cli-service')
+module.exports = defineConfig({
+  transpileDependencies: true
+})
+module.exports={//解决跨域问题
+ // devServer:{ //方法一
+  //   proxy:'https://v.api.aa1.cn'
+  // }
+  devServer:{
+    proxy:{
+      '/api':{//请求api前缀  有前缀 就走代理
+        target:'https://api.apiopen.top/',//基础路径
+        ws:true,//websocket
+        changeOrigin:true,//是否跨域 默认true
+        pathRewrite:{
+          '^/api':''//把前缀api去掉 不带过去
+        }
+      },
+      // '..'{  其他前缀
+
+      // }
+    }
+  }
+}

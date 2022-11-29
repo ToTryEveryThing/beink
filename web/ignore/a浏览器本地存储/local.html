@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>localStorage</title>
+    <!-- 
+        localStorage 一直都有 5MB
+        sessionStorage  网页关闭数据就没了
+     -->
+</head>
+<body>
+
+    <h1>Hello World</h1>
+
+    <button onclick="savedata()">点我保存数据</button>
+    <button onclick="readdata()">点我读取数据</button>
+    <button onclick="deledata()">点我删除数据</button>
+    <script>
+        const p = {id:5,name:'李明'}
+        function savedata(){
+                            // (  唯一 ,xxx  )
+            localStorage.setItem("66","weiyi ")
+            localStorage.setItem('id','name')
+            // 转成json串
+            localStorage.setItem("id",JSON.stringify(p))
+        }
+        function readdata(){
+            let p = localStorage.getItem('id')
+            console.log(JSON.parse(p))
+        }
+
+        function deledata(){
+            localStorage.removeItem("66")
+        }
+
+        // localStorage.clear()清空
+
+    </script>
+
+    
+</body>
+</html>
