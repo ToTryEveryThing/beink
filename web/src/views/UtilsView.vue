@@ -55,6 +55,7 @@
       </el-col>
   </el-row>
     <v-md-editor v-if="!item.show" v-model="item.content" 
+    height="850px"
     left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code | save back" 
     right-toolbar="preview toc sync-scroll fullscreen"
     :toolbar="vue.toolbar"
@@ -101,7 +102,7 @@
 
 <script>
 import {onMounted, ref,reactive} from 'vue'
-import {useStore} from 'vuex'
+import {useStore } from 'vuex'
 import router from '../router/index'
 import $ from 'jquery'
     $(function () {
@@ -115,6 +116,12 @@ import $ from 'jquery'
         });
     });
   export default{
+    mounted(){
+      this.$bus.on('send',data=>{
+          console.log(data)
+          localStorage.setItem("activeName",data)
+      })
+    },
     setup(){
       const vue = reactive({
           toolbar: {
@@ -138,32 +145,32 @@ import $ from 'jquery'
       const editableTabs = ref([])
       const dialogVisible = ref(false)
       const addTab = () => {
-      const newTabName = ++tabIndex
-      editableTabs.value.push({
-        title: title.value,
-        name: newTabName,
-        content: `# New Tab content about ${title.value}`,
-        show:true
-      })
-      editableTabsValue.value = newTabName
-      dialogVisible.value  = false
-      title.value = ''
-      save()
-    }
+          const newTabName = ++tabIndex
+          editableTabs.value.push({
+              title: title.value,
+              name: newTabName,
+              content: `# New Tab content about ${title.value}`,
+              show:true
+          })
+          editableTabsValue.value = newTabName
+          dialogVisible.value  = false
+          title.value = ''
+          save()
+      }
     const removeTab = (targetName) => {
-      let f = confirm("确定吗")
-      if(!f)return 
-      const tabs = editableTabs.value
-      editableTabsValue.value = targetName - 1 || 1
-      editableTabs.value = tabs.filter((tab) => tab.name !== targetName)
-      const Tabs = editableTabs.value
-      Tabs.forEach((i,index)=>{
-        i.name = index+1
-      })
-      save()
+        let f = confirm("确定吗")
+        if(!f)return 
+        const tabs = editableTabs.value
+        editableTabsValue.value = targetName - 1 || 1
+        editableTabs.value = tabs.filter((tab) => tab.name !== targetName)
+        const Tabs = editableTabs.value
+        Tabs.forEach((i,index)=>{
+          i.name = index+1
+        })
+        save()
     }
     const goBack = ()=>{
-      router.push({name:'main'})
+        router.push({name:'main'})
     }
     const save = ()=>{
       $.ajax({

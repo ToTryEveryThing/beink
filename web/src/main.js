@@ -36,7 +36,7 @@ VMdPreview.use(githubTheme, {
 });
 const app = createApp(App)
 
-app.config.globalProperties.$bus = mitt()
+app.config.globalProperties.$bus = new  mitt()
 app.use(VMdPreview)
 app.use(VueMarkdownEditor)
 app.use(store)

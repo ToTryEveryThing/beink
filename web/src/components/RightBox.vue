@@ -17,7 +17,7 @@
         </el-carousel>
         <el-col :span="24" justify="space-evenly" >
             <el-card>
-                <el-row  justify="space-evenly">
+                <el-row  justify="space-evenly" >
                     <el-col  v-for="i in colorList" :key="i.id" :span="4">
                         <el-card shadow="hover"  @click="change(i.backColor,i.color,i.id)" :style="{ backgroundColor: i.backColor }" class="card"> 
                             <el-col :span="4"><div class="grid-content ep-bg-purple" /></el-col>
@@ -26,27 +26,17 @@
                   </el-row>
             </el-card>
         </el-col>
-        <el-col :span="24" >
+        <el-col  :span="24" :gutter="20">
             <el-card>
-                <el-row>
-                    <el-col :span="4">
-                            <el-col :span="4"><div class="grid-content ep-bg-purple" />
-                                <el-tag @click="send(1)">
-                                    <router-link style="color:#409eff;"  to="/study">git</router-link>
-                                </el-tag>
-                            </el-col>
+                <el-row >
+                    <el-col :span="6" v-for="i in $store.state.study.editableTabs" :key="i.name">
+                        <el-tag   style="cursor: pointer;"  @click="send(i.name)">
+                            {{i.title}}
+                        </el-tag>
                     </el-col>
-                    <el-col :span="4">
-                        <el-col :span="4"><div class="grid-content ep-bg-purple" />
-                            <el-tag @click="send(2)" type="success">
-                                <router-link style="color:#67c23a"  to="/study">java</router-link>
-                            </el-tag>
-                        </el-col>
-                </el-col>
-                  </el-row>
+                </el-row>
             </el-card>
         </el-col>
-        
         <el-row justify="space-evenly">
             <el-col :span="12">
                 <el-button type="danger" style="width:100%;" v-if="$store.state.is_login" @click="logout" plain>退出</el-button>
@@ -60,6 +50,7 @@
 import { mapState , mapActions} from 'vuex'
 import { ElMessage } from 'element-plus'
 import {useStore} from 'vuex'
+import router from '../router/index'
 import $ from 'jquery'
     export default{
         data(){
@@ -67,7 +58,8 @@ import $ from 'jquery'
                 drawer:false,
                 visible :false,
                 labelPosition :'right',
-                store : useStore()
+                store : useStore(),
+                ss:[]
             }
         },
         computed:{
@@ -89,13 +81,14 @@ import $ from 'jquery'
             open1() {
                 ElMessage('退出登录')
             },
-            send(i){
-                localStorage.setItem("activeName",i)
-            },
             logout(){
                 sessionStorage.setItem("name","")
                 this.store.dispatch("logout")
                 this.open1()
+            },
+            send(i){
+                this.$bus.emit('send',i)
+                router.push({name:'study'})
             },
             change(a,b,c){
                 if(this.store.state.is_login===true){

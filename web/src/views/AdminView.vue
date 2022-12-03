@@ -12,6 +12,28 @@
             <el-col :span="16" :offset="1">
               <el-col :span="24">
                 <el-card shadow="never">
+                  <el-row>
+                    <el-col :span="12">
+                      <el-input
+                      v-model="sou"
+                      @change="query"
+                      clearable 
+                      placeholder="Please input"
+                      class="input-with-select"
+                    >
+                      <template #prepend>
+                        <el-select v-model="select" placeholder="Select" style="width: 90px">
+                          <el-option label="ID" value="2" />
+                          <el-option label="Name" value="1" />
+                          <!-- <el-option label="Date" value="3" /> -->
+                        </el-select>
+                      </template>
+                      <template #append>
+                        <el-button @click="query" >查询</el-button>
+                      </template>
+                    </el-input>
+                    </el-col>
+                  </el-row>
                   <el-table :data="tableData" stripe border >
                     <el-table-column sortable  prop="id" label="ID"  />
                     <el-table-column prop="account" label="Name"  />
@@ -39,25 +61,15 @@
   >
   <el-col :span="24">
     <el-card shadow="never">
-
-
-      <el-date-picker
-        v-model="value2"
-        type="datetime"
-        placeholder="Select date and time"
-        :shortcuts="shortcuts"
-      />
-
-      <el-input  type="text" :value="tableData[index].id">
+      <el-input  type="text" v-model="tableData[index].id">
         <template #prepend>id</template>
       </el-input>
-      <el-input  :value="tableData[index].account">
+      <el-input  maxlength="10" show-word-limit v-model="tableData[index].account">
         <template #prepend>account</template>
       </el-input>
-      <el-input  :value="tableData[index].date">
+      <el-input  type="date" v-model="tableData[index].date">
         <template #prepend>date</template>
       </el-input>
-     
     </el-card>
   </el-col>
     <template #footer>
@@ -69,6 +81,7 @@
       </span>
     </template>
   </el-dialog>
+  
 </template>
 
 <script>
@@ -81,13 +94,32 @@ export default {
     setup(){
       const vue = reactive({
         tableData:[],
+        table:[],
         loading:false,
         dialogVisible :false,
-        index:0
+        index:0,
+        sou:'',
+        select:'Name'
       }) 
       const editUser = (i)=>{
         vue.dialogVisible = true
         vue.index = i
+      }
+      const query = ()=>{
+        if(vue.sou===''){
+          vue.tableData = vue.table
+        }else{
+          if(vue.select==='Name'){
+            vue.tableData = vue.table.filter((i)=>{
+               return i.account==vue.sou
+            })
+          }
+          else{
+            vue.tableData = vue.table.filter((i)=>{
+               return i.id==vue.sou
+            })
+          }
+        }
       }
       let handleDelete= (a)=>{
         let f = confirm("确认删除" + vue.tableData[a].account)
@@ -103,9 +135,10 @@ export default {
               },
               success(res){
                 for (let i in res){
-                  res[i].date = moment(res[i].date). utcOffset( 480). format( 'YYYY-MM-DD HH:mm:ss')
+                  res[i].date = moment(res[i].date). utcOffset( 480). format( 'YYYY-MM-DD')
                 }
                  vue.tableData=res
+                 vue.table = vue.tableData
               },error(res){
                 console.log(res)
               }
@@ -124,10 +157,11 @@ export default {
             },
             success(res){
               for (let i in res){
-               res[i].date = moment(res[i].date). utcOffset( 480). format( 'YYYY-MM-DD HH:mm:ss')
+               res[i].date = moment(res[i].date). utcOffset( 480). format( 'YYYY-MM-DD')
               }
               vue.loading = false
               vue.tableData = res
+              vue.table = vue.tableData
 
             },error(){
             }
@@ -149,7 +183,8 @@ export default {
         }
       })
       return {
-        ...toRefs(vue),handleDelete,editUser
+        ...toRefs(vue),handleDelete,editUser,
+        query
       }
     }
 }

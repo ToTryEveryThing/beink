@@ -30,6 +30,7 @@ import {reactive,toRefs,onMounted} from 'vue'
                 min: new Date().getMinutes() < 10 ? "0" + new Date().getMinutes() : new Date().getMinutes()
             })
             onMounted(() => {
+                store.commit("show",'')
                 const jwt = localStorage.getItem("jwt");
                 if(jwt){
                     store.commit("updateToken",jwt)

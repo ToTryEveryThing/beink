@@ -3,6 +3,7 @@ import { createStore  } from 'vuex'
 import {nanoid} from 'nanoid'
 import $ from 'jquery'
 import admin from './admin'
+import study from './study'
 //存储全局数据
 const state = {
   pulling_info: true,
@@ -185,7 +186,8 @@ export default createStore({
     mutations,
     getters,
     modules: {
-      admin:admin
+      admin:admin,
+      study:study
     }
   
 
