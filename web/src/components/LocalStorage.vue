@@ -1,6 +1,6 @@
 <template>
-    <ul>
-        <li v-for="i in localList " :key="i.id"> 
+    <ul :class="[$store.state.background===''?'add1':'add2']">
+        <li  v-for="i in localList " :key="i.id"> 
              <a :href="i.href" target="_self">
                 <svg aria-hidden="true">
                     <use :xlink:href="i.icon"></use>
@@ -24,11 +24,11 @@
                 <button @click="nohh"  class="no">取消</button>
             </div>
         </div>
-        <div class="add" v-if="localList.length<=4" @click="isShow =! isShow">
-            <svg  class="icon" aria-hidden="true">
-                <use xlink:href="#icon-zengjia"></use>
-            </svg>
-        </div>
+            <div class="add" v-if="localList.length<=4" @click="isShow =! isShow">
+                <svg  class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-zengjia"></use>
+                </svg>
+            </div>
      </ul>
 </template>
 
@@ -96,9 +96,13 @@
         text-align: center;
         line-height: 70px;
     }
-    .add:hover{
+    .add1 .add:hover{
         background-color: var(--color);
     }
+    .add2 .add:hover{
+        background-color: rgba(225,225,225,.2);
+    }
+
     .icon{
         width: 50px;
         height: 30px;
@@ -167,8 +171,11 @@
         position:relative;
         margin-left: 10px;;
     }
-    li:hover{
+    .add1 li:hover{
         background-color: var(--color);
+    }
+    .add2 li:hover{
+        background-color: rgba(225,225,225,.2);
     }
     a{
         display: flex;

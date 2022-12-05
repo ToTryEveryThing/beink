@@ -1,5 +1,5 @@
 <template>
-    <div class="open">
+    <div class="open" v-if="$store.state.background===''">
         <ul>
             <li v-for="i in list1" :key="i.name">
                 <a rel="nofollow" :href="i.href" target="_self">
@@ -11,6 +11,26 @@
             </li>
         </ul>
         <ul>
+            <li v-for="i in list2" :key="i.name">
+                <a rel="nofollow" :href="i.href" target="_self">
+                    <svg aria-hidden="true">
+                        <use :xlink:href="i.icon"></use>
+                    </svg>
+                    <p>{{i.name}}</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div v-else class="openhh">
+        <ul>
+            <li v-for="i in list1" :key="i.name">
+                <a rel="nofollow" :href="i.href" target="_self">
+                    <svg aria-hidden="true">
+                        <use :xlink:href="i.icon"></use>
+                    </svg>
+                    <p>{{i.name}}</p>
+                </a>
+            </li>
             <li v-for="i in list2" :key="i.name">
                 <a rel="nofollow" :href="i.href" target="_self">
                     <svg aria-hidden="true">
@@ -63,45 +83,87 @@
         flex-direction: column;
         align-items: center;
     }
-    li{
+    .openhh{
+        margin-top: 30vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+   .open li{
         list-style: none;
         width: 120px;
         height: 80px;
         margin-left: 10px;
         margin-right: 10px;
     }
-    ul{
+    .openhh li{
+        list-style: none;
+        width: 90px;
+        height: 40px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    .open ul{
         position:relative;
         display: flex;
         box-shadow:7px  7px  20px #9f9d9d1f;
         padding: 10px;
         margin-top: 10px;
     }
-    a{
+    .openhh ul{
+        display: flex;
+        padding: 10px;
+        margin-top: 10px;
+    }
+    .open a{
         position: relative;
         display: block;
         width: 120px;
         height: 80px;
         display: flex;
         justify-content: center;
-        transition: .5s;
+        transition: .3s;
         border-radius: 5%;
     }
-    a:hover{
+    .openhh a{
+        position: relative;
+        display: block;
+        width: 90px;
+        height: 70px;
+        display: flex;
+        justify-content: center;
+        transition: .3s;
+        border-radius: 5%;
+    }
+    .open  a:hover{
         background-color: var(--color);
     }
-    use{
+    .openhh a:hover{
+        background-color: rgba(225,225,225,.2);
+    }
+    .open use{
         position: absolute;
         width: 30px;
         height: 30px;
     }
-    svg{
+    .openhh use{
+        position: absolute;
+        width: 30px;
+        height: 30px;
+    }
+    .open svg{
         margin-top: 10px;
         position: absolute;
         width: 30px;
         height: 30px;
     }
-    a p{
+    .openhh svg{
+        margin-top: 10px;
+        position: absolute;
+        width: 30px;
+        height: 30px;
+    }
+    .open a p{
         position:absolute;
         bottom: 0;
         left: 50%;
@@ -109,5 +171,14 @@
         color: #2d3436;
         margin-bottom: 15px;
         font-size: 13px;
+    }
+    .openhh a p{
+        position:absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%);
+        color:#d5d5d5;
+        margin-bottom: 8px;
+        font-size: 11px;
     }
 </style>

@@ -13,6 +13,8 @@ import store from './store'
 // 事件总线
 import mitt from 'mitt'
 
+//icon
+import * as ELIcons from '@element-plus/icons-vue'
 
 //VMdPreview
 import VMdPreview from '@kangc/v-md-editor/lib/preview';
@@ -35,11 +37,14 @@ VMdPreview.use(githubTheme, {
     Hljs: hljs,
 });
 const app = createApp(App)
-
+for (let iconName in ELIcons) {
+	app.component(iconName, ELIcons[iconName])
+}
 app.config.globalProperties.$bus = new  mitt()
 app.use(VMdPreview)
 app.use(VueMarkdownEditor)
 app.use(store)
+
 // app.use(ElementPlus)
 app.use(router)
 app.mount('#app')

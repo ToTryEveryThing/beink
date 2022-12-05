@@ -26,7 +26,10 @@
   >
   <el-tab-pane > 
     <template #label>
-      <span style="color: #b1b3b8;" @click="goBack">&lt;- Back</span>
+      <span  @click="goBack">
+        <ArrowLeft style="height:20px;width:20px;     margin-bottom: -5px;" />
+        <HomeFilled style=" margin-bottom: -5px;margin-left:5px;"/>
+      </span>
     </template>
   </el-tab-pane>
     <el-tab-pane
@@ -69,7 +72,10 @@
   >
   <el-tab-pane > 
     <template #label>
-      <span @click="goBack">  &lt;- Back</span>
+      <span @click="goBack">
+        <ArrowLeft style="height:20px;width:20px;     margin-bottom: -5px;" />
+        <HomeFilled style=" margin-bottom: -5px;margin-left:5px;"/>
+      </span>
     </template>
   </el-tab-pane>
     <el-tab-pane
@@ -201,6 +207,8 @@ import $ from 'jquery'
         })
     }
     onMounted(()=>{
+      document.getElementsByTagName('body')[0].style.backgroundImage 
+            = `url("")`
       editableTabsValue.value = Number(localStorage.getItem("activeName"))   || 1
       aaa()
       const jwt = localStorage.getItem("jwt");

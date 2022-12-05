@@ -6,10 +6,11 @@
             <router-link to="/register">注册</router-link>
         </div>
         <div class="main" v-else>
-            <h3 style="margin-bottom:5px;">{{$store.state.account}}</h3>
-            <router-link v-if="$store.state.account=='admin'" to="/admin">admin</router-link>
+            <h3 style="margin-bottom:5px;"><UserFilled style="width: 1em; height: 1em; margin-right: 10px; margin-bottom:-3px;color: #79bbff;" />{{$store.state.account}}</h3>
+            <router-link v-if="$store.state.account=='admin'" to="/admin"><More style="width: 1em; height: 1em;  margin-bottom:-3px;color:  #73767a;"/></router-link>
         </div>
         <el-carousel interval="1000" direction="vertical" >
+            
             <el-carousel-item v-for="i in list" :key="i.id">
                 <img v-if="i.id==='666'" @click="changeBackground(i.src)" src="@/assets/4.jpg" alt="">
                 <img v-else :src="i.src" @click="changeBackground(i.src)" alt="">
@@ -43,7 +44,6 @@
             </el-col>
           </el-row>
     </el-drawer>
-    {{$store.state.listlist}}
 </template>
 
 <script>

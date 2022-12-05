@@ -1,13 +1,14 @@
 <template>
-    <div class="Search-type" >
-        <form action="https://www.baidu.com/baidu" target="_top">
-            <input id="input" @blur="showed" type="text" @focus="hh"  @keyup="choise"  placeholder="......" name="word"  v-model="name">
+    <div class="Search-type"  >
+        <form :class="[$store.state.background===''?'input1':'input2']"   action="https://www.baidu.com/baidu" target="_top">
+            <input id="input" @blur="showed" type="text" @focus="hh"  @keyup="choise"  placeholder="......" name="word"  v-model="name"> 
             <div class="suggest">
               <ul v-if="is_show" id="search-result">
                 <li  v-for="i in list" :key="i"  @click="click(i)">{{i}}</li>
               </ul>
             </div>
         </form>
+        
     </div>
 </template>
 
@@ -99,7 +100,7 @@ export default{
     margin-bottom: 20px;
 
   }
-  input{
+  .input1 input{
     border:none;
     border-radius: 2%;
     outline: none;
@@ -113,19 +114,40 @@ export default{
     background-color: #ffffff4a;
     box-shadow: 2px 2px 10px var(--color);
   }
-  input:hover{
+  .input2 input{
+    border:none;
+    border-radius: 2%;
+    outline: none;
+    font-size: 17px;
+    line-height: 5px;
+    height:38px;
+    width: 625px;
+    color:#2f3542;
+    text-indent: 10px;
+    transition: .3s;
+    background-color: #e2e2e294;
+    box-shadow: 2px 2px 20px#8a858560;
+  }
+  .input1 input:hover{
     box-shadow: 2px 2px 20px#a3a1a160;
   }
   .suggest{
     position:relative;
   }
-  ul{
+  .input1 ul{
     position: absolute;
     z-index: 99999;
     width: 100%;
     background-color: var(--backColor);
     box-shadow: 7px 8px 13px 0px var(--color);
   }
+  .input2 ul{
+    position: absolute;
+    z-index: 99999;
+    width: 100%;
+    background-color: #ffffff81;
+    box-shadow: 2px 2px 20px#8a858560;
+  } 
   li{
     position: relative;
     list-style: none;
