@@ -5,5 +5,5 @@ import com.example.demo.pojo.web;
 import java.util.List;
 
 public interface userDeleteService {
-    List<web> delete(Integer id);
+    String delete(Integer id);
 }

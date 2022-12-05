@@ -1,5 +1,5 @@
 <template>
-  <el-row >
+  <el-row>
     <el-col :span="18" :offset="3">
   <el-dialog
     v-model="dialogVisible"
@@ -230,9 +230,6 @@ import $ from 'jquery'
 </script>
 
 <style scoped>
-.demo-tabs > .is_top{
-  background-color: red;
-}
 .fas{
   position: absolute;
   margin-left: 7px;
