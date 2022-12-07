@@ -13,7 +13,7 @@
             <router-link to="/">主页</router-link>
             <router-link to="/register">去注册</router-link>
           </div>
-    </el-form>
+    </el-form> 
 </template>
 
 <script>

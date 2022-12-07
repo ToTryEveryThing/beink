@@ -17,8 +17,11 @@ const state = {
       // 第一个
       {id:nanoid(),src:require('@/assets/41ca469687507ff4e7c6a3c0d3b0ff56.jpg')},
       {id:nanoid(),src:require('@/assets/wallhaven-1jpdz3.png')},
-      {id:nanoid(),src:require('@/assets/wallhaven-4lm7py.jpg')},
-      {id:nanoid(),src:require('@/assets/wallhaven-nm2d80.jpg')},
+      {id:nanoid(),src:require('@/assets/wallhaven-4geeqq.jpg')},
+      {id:nanoid(),src:require('@/assets/wallhaven-z8mk1v.png')},
+      {id:nanoid(),src:require('@/assets/wallhaven-vg8mo8.jpg')},
+      {id:nanoid(),src:require('@/assets/wallhaven-rr2yow_1920x929.png')},
+      
       {id:'666',src:''}  
     ],
     colorList:[

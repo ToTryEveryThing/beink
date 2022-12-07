@@ -8,10 +8,11 @@
     <AppList/>
     <div class="copyright">
         <a href="https://beian.miit.gov.cn/#/Integrated/index">👻豫ICP备2021034834号 </a> <el-divider direction="vertical" />
-        <a href="https://blog.csdn.net/qq_53950686"> 👣2022 by beink  </a> <el-divider direction="vertical" />
+        <a href="https://blog.csdn.net/qq_53950686"> 🪁2022 by beink  </a> <el-divider direction="vertical" />
         <a href="https://github.com/ToTryEveryThing/beink">✨Github</a>
   </div>
 </template>
+
 <script>
 import {useStore} from 'vuex'
 import router from '../router/index'
@@ -19,7 +20,7 @@ import LocalStorage from '../components/LocalStorage.vue';
 import ToSearch from '../components/ToSearch.vue';
 import RightBox from '../components/RightBox.vue';
 import AppList from '../components/AppList.vue';
-
+import $ from 'jquery'
 import {reactive,toRefs,onMounted} from 'vue'
     export default{
         components:{ LocalStorage, ToSearch, RightBox,AppList },
@@ -27,9 +28,14 @@ import {reactive,toRefs,onMounted} from 'vue'
             const store = useStore();
             const vue = reactive({
                 hour:new Date().getHours(),
-                min: new Date().getMinutes() < 10 ? "0" + new Date().getMinutes() : new Date().getMinutes()
+                min: new Date().getMinutes() < 10 ? "0" + new Date().getMinutes() : new Date().getMinutes(),
             })
             onMounted(() => {
+                let i = store.state.backImg||localStorage.getItem("color")||6
+                    $('html').css({'--backColor':store.state.colorList[i-1].backColor})  
+                    $('html').css({'--color':store.state.colorList[i-1].color})
+ 
+                
                 store.commit("show",'')
                 const jwt = localStorage.getItem("jwt");
                 if(jwt){
@@ -75,7 +81,7 @@ import {reactive,toRefs,onMounted} from 'vue'
         transition: .3s;
     }
     .copyright a:hover{
-        color:#5e5c5c;
+        color:#dfe6e9;
     }
     .time {
 		animation-name: focus-in-contract;

@@ -1,5 +1,6 @@
 <template>
     <img id="time" @click="drawer = true"  src="@/assets/moon.png">
+    <el-icon @click="drawer = true"  style="float:right;width:30px;height:90px; margin-right:0px;"><DArrowLeft style="width:20px;height:20px;"/></el-icon>
     <el-drawer size="380px" v-model="drawer" :with-header="false">
         <div class="main" v-if="!$store.state.is_login">
             <router-link to="/login">登录</router-link>
@@ -9,13 +10,18 @@
             <h3 style="margin-bottom:5px;"><UserFilled style="width: 1em; height: 1em; margin-right: 10px; margin-bottom:-3px;color: #79bbff;" />{{$store.state.account}}</h3>
             <router-link v-if="$store.state.account=='admin'" to="/admin"><More style="width: 1em; height: 1em;  margin-bottom:-3px;color:  #73767a;"/></router-link>
         </div>
-        <el-carousel interval="1000" direction="vertical" >
-            
+        <el-carousel  interval="1000" direction="vertical" >
             <el-carousel-item v-for="i in list" :key="i.id">
                 <img v-if="i.id==='666'" @click="changeBackground(i.src)" src="@/assets/4.jpg" alt="">
                 <img v-else :src="i.src" @click="changeBackground(i.src)" alt="">
             </el-carousel-item>
         </el-carousel>
+        <!-- <el-input v-model="input1" placeholder="Please input">
+            <template #prepend>URL:</template>
+            <template #append>
+                <el-button @click="(changeBackground(input1),input1='')">提交</el-button>
+              </template>
+        </el-input> -->
         <el-col :span="24" justify="space-evenly" >
             <el-card>
                 <el-row  justify="space-evenly" >
@@ -59,7 +65,8 @@ import $ from 'jquery'
                 visible :false,
                 labelPosition :'right',
                 store : useStore(),
-                ss:[]
+                ss:[],
+                input1:'',
             }
         },
         computed:{
@@ -138,6 +145,7 @@ import $ from 'jquery'
         margin-top: 20px;
     }
     .el-carousel{
+        overflow: hidden;
         height: 173px;
         width:340px;
     }
@@ -161,5 +169,24 @@ import $ from 'jquery'
         width: 50px;
         cursor: pointer;
     }
+    .el-icon:hover{
+        transition:.3s;
+        background-color: rgba(225,225,225,.2);
+        animation-play-state: paused;
+    }
+    .el-icon {
+		animation-timing-function: ease;
+		animation: slide-left 1s   infinite ;
+	}
+	@keyframes slide-left {
+		0% {
+			transform:translateX(0);
+            opacity:0;
+		}
+		100% {
+			transform:translateX(-10px);
+            opacity:1;
+		}
+	}
     
 </style>

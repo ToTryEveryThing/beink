@@ -207,8 +207,9 @@ import $ from 'jquery'
         })
     }
     onMounted(()=>{
+      $('html').css({'--backColor':'#f7f7f7f'})  
       document.getElementsByTagName('body')[0].style.backgroundImage 
-            = `url("")`
+            = `url("")`   
       editableTabsValue.value = Number(localStorage.getItem("activeName"))   || 1
       aaa()
       const jwt = localStorage.getItem("jwt");
@@ -238,6 +239,7 @@ import $ from 'jquery'
 </script>
 
 <style scoped>
+
 .fas{
   position: absolute;
   margin-left: 7px;
@@ -260,5 +262,9 @@ import $ from 'jquery'
 }
 .fsafs{
   margin: 0px;
+}
+@media only screen and (max-width: 500px) {
+
+  
 }
 </style>

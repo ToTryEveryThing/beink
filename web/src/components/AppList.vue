@@ -23,7 +23,7 @@
     </div>
     <div v-else class="openhh">
         <ul>
-            <li v-for="i in list1" :key="i.name">
+            <li v-for="i in list2" :key="i.name">
                 <a rel="nofollow" :href="i.href" target="_self">
                     <svg aria-hidden="true">
                         <use :xlink:href="i.icon"></use>
@@ -31,7 +31,7 @@
                     <p>{{i.name}}</p>
                 </a>
             </li>
-            <li v-for="i in list2" :key="i.name">
+            <li v-for="i in list1" :key="i.name">
                 <a rel="nofollow" :href="i.href" target="_self">
                     <svg aria-hidden="true">
                         <use :xlink:href="i.icon"></use>
@@ -99,19 +99,21 @@
     .openhh li{
         list-style: none;
         width: 90px;
-        height: 40px;
+        height: 70px;
         margin-left: 10px;
         margin-right: 10px;
     }
     .open ul{
         position:relative;
         display: flex;
+        flex-wrap: wrap;
         box-shadow:7px  7px  20px #9f9d9d1f;
         padding: 10px;
         margin-top: 10px;
     }
     .openhh ul{
         display: flex;
+        flex-wrap: wrap;
         padding: 10px;
         margin-top: 10px;
     }
@@ -137,9 +139,12 @@
     }
     .open  a:hover{
         background-color: var(--color);
+        transform:translateY(-10px);
     }
     .openhh a:hover{
         background-color: rgba(225,225,225,.2);
+        transform:translateY(-10px);
+        color:white;
     }
     .open use{
         position: absolute;
@@ -173,12 +178,15 @@
         font-size: 13px;
     }
     .openhh a p{
-        position:absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translate(-50%);
-        color:#d5d5d5;
-        margin-bottom: 8px;
+        position:relative;
+        top: 45px;
+        color:#d5d5d5e1;
         font-size: 11px;
     }
+    @media only screen and (max-width: 410px) {
+        .openhh{
+            margin-top: 5vh;
+        }
+        
+      }
 </style>

@@ -7,7 +7,7 @@
             <el-col :span="4" :offset="1">
               <el-col :span="24"  >
                   <el-image  style="width: 100px; height: 100px" src="https://cdn.acwing.com/media/user/profile/photo/71127_lg_5c719f083a.png" :fit="fit" />
-              </el-col>
+                </el-col>
             </el-col>
             <el-col :span="16" :offset="1">
               <el-col :span="24">
@@ -96,7 +96,7 @@
       </span>
     </template>
   </el-dialog>
-  
+
 </template>
 
 <script>
@@ -116,7 +116,7 @@ export default {
         sou:'',
         select:'Name',
         count:'',
-        page :1
+        page :1,
       }) 
       const editUser = (i)=>{
         vue.dialogVisible = true
