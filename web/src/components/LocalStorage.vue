@@ -120,12 +120,23 @@
         fill: currentColor;
         overflow: hidden;
     }
-    span{
+    .add1 span{
         position: absolute;
         bottom: 5px;
         font-size: 12px;
         height: 18px;
         color:grey;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+    }
+    .add2 span{
+        position: absolute;
+        bottom: 5px;
+        font-size: 12px;
+        height: 18px;
+        color:#f7f7f7;
         width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -250,4 +261,13 @@
 			opacity:1;
 		}
 	}
+    @media only screen and (max-width: 410px) {
+        a{
+            width: 80px;
+            height: 40px;
+        }
+        .add{
+            display: none;
+        }
+      }
 </style>

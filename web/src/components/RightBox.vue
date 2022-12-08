@@ -188,5 +188,10 @@ import $ from 'jquery'
             opacity:1;
 		}
 	}
+    @media only screen and (max-width: 410px) {
+        #time{
+            width: 35px;;
+        }
+      }
     
 </style>

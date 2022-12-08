@@ -239,7 +239,6 @@ import $ from 'jquery'
 </script>
 
 <style scoped>
-
 .fas{
   position: absolute;
   margin-left: 7px;

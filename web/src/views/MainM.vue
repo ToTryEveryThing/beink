@@ -80,6 +80,14 @@ import {reactive,toRefs,onMounted} from 'vue'
         text-decoration: none;
         transition: .3s;
     }
+    @media only screen and (max-width: 410px) {
+        .copyright a,.copyright{
+            font-size:10px;
+        }
+        .time{
+            font-size:35px;
+        }
+      }
     .copyright a:hover{
         color:#dfe6e9;
     }

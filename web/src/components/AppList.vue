@@ -107,14 +107,16 @@
         position:relative;
         display: flex;
         flex-wrap: wrap;
+        justify-content: center;
         box-shadow:7px  7px  20px #9f9d9d1f;
-        padding: 10px;
+        padding: 7px;
         margin-top: 10px;
     }
     .openhh ul{
         display: flex;
         flex-wrap: wrap;
-        padding: 10px;
+        justify-content: center;
+        padding: 7px;
         margin-top: 10px;
     }
     .open a{
@@ -180,8 +182,9 @@
     .openhh a p{
         position:relative;
         top: 45px;
-        color:#d5d5d5e1;
+        color:#ffffff;
         font-size: 11px;
+        height: 20px;;
     }
     @media only screen and (max-width: 410px) {
         .openhh{

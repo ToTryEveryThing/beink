@@ -3,7 +3,7 @@
         <form :class="[$store.state.background===''?'input1':'input2']"   action="https://www.baidu.com/baidu" target="_top">
             
             
-                <input id="input" @blur="showed" type="text" @focus="hh"  @keyup="choise"  placeholder="......" name="word"  v-model="name"> 
+                <input id="input" @blur="showed" autofocus="autofocus" type="text" @focus="hh"  @keyup="choise"  placeholder name="word"  v-model="name"> 
             <div class="suggest">
               <ul v-if="is_show" id="search-result">
                 <li  v-for="i in list" :key="i"  @click="click(i)">{{i}}</li>
@@ -104,7 +104,7 @@ export default{
   }
   .input1 input{
     border:none;
-    border-radius: 2%;
+    border-radius: 10px;
     outline: none;
     font-size: 20px;
     line-height: 5px;
@@ -118,7 +118,7 @@ export default{
   }
   .input2 input{
     border:none;
-    border-radius: 2%;
+    border-radius: 10px;
     outline: none;
     font-size: 17px;
     line-height: 5px;
@@ -167,8 +167,11 @@ export default{
   }
   @media only screen and (max-width: 410px) {
     .input1 input,.input2 input {
-      height:20px;
+      height:35px;
       width: 325px;
+    }
+    input{
+      background-color: white !important;
     }
   }
   
