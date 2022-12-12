@@ -1,6 +1,6 @@
 <template>
     <img id="time" @click="drawer = true"  src="@/assets/moon.png">
-    <el-icon @click="drawer = true"  style="float:right;width:30px;height:90px; margin-right:0px;"><DArrowLeft style="width:20px;height:20px;"/></el-icon>
+    <el-icon @click="drawer = true" class="iicon" style="float:right;width:30px;height:90px; margin-right:0px;"><DArrowLeft style="width:20px;height:20px;"/></el-icon>
     <el-drawer size="380px" v-model="drawer" :with-header="false">
         <div class="main" v-if="!$store.state.is_login">
             <router-link to="/login">登录</router-link>
@@ -174,7 +174,7 @@ import $ from 'jquery'
         background-color: rgba(225,225,225,.2);
         animation-play-state: paused;
     }
-    .el-icon {
+    .iicon {
 		animation-timing-function: ease;
 		animation: slide-left 1s   infinite ;
 	}

@@ -21,7 +21,6 @@ const state = {
       {id:nanoid(),src:require('@/assets/wallhaven-z8mk1v.png')},
       {id:nanoid(),src:require('@/assets/wallhaven-vg8mo8.jpg')},
       {id:nanoid(),src:require('@/assets/wallhaven-rr2yow_1920x929.png')},
-      
       {id:'666',src:''}  
     ],
     colorList:[
