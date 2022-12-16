@@ -1,16 +1,14 @@
 <template>
     <div class="Search-type"  >
         <form :class="[$store.state.background===''?'input1':'input2']"   action="https://www.baidu.com/baidu" target="_top">
-            
-            
-                <input id="input" @blur="showed" autofocus="autofocus" type="text" @focus="hh"  @keyup="choise"  placeholder name="word"  v-model="name"> 
-            <div class="suggest">
+                <input id="input" @blur="showed"  type="text" @focus="hh"  @keyup="choise"  placeholder name="word"  v-model="name"> 
+                <div class="xxx"></div>
+              <div class="suggest">
               <ul v-if="is_show" id="search-result">
                 <li  v-for="i in list" :key="i"  @click="click(i)">{{i}}</li>
               </ul>
             </div>
         </form>
-        
     </div>
 </template>
 
@@ -97,6 +95,7 @@ export default{
     margin: 0;
   }  
   .Search-type{
+    position: relative;
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
@@ -174,5 +173,27 @@ export default{
       background-color: white !important;
     }
   }
-  
+  input:focus  + .xxx{
+    height:23px;
+    background-color: rgba(0,0,0,0);
+  }
+  .xxx{
+    position: relative;
+    width: 2px;
+    height: 23px;
+    margin-top: -30px;
+    margin-left: 9px;
+    margin-right: 10px;;
+    background-color: black;
+  }
+  @keyframes xxx{
+    0% {
+			transform:scaleY(1);
+			opacity:1;
+		}
+		100% {
+			transform:scaleY(0.3);
+			opacity:1;
+		}
+  }
 </style>

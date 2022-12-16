@@ -78,7 +78,7 @@
         text-decoration: none;
     }
     .open{
-        margin-top: 20px;
+        margin-top: 80px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -93,8 +93,8 @@
         list-style: none;
         width: 120px;
         height: 80px;
-        margin-left: 10px;
-        margin-right: 10px;
+        margin-left: 20px;
+        margin-right: 20px;
     }
     .openhh li{
         list-style: none;

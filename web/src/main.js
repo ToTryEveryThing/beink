@@ -1,3 +1,13 @@
+/*
+ * @Author: 米叔 849299509@qq.com
+ * @Date: 2022-11-29 08:55:32
+ * @LastEditors: 米叔 849299509@qq.com
+ * @LastEditTime: 2022-12-13 15:46:30
+ * @FilePath: \web\src\main.js
+ * @Description: 
+ * 
+ * Copyright (c) 2022 by 米叔 849299509@qq.com, All Rights Reserved. 
+ */
 // 整个项目的入口文件
 
 import { createApp } from 'vue'
@@ -30,6 +40,7 @@ import '@kangc/v-md-editor/lib/theme/style/github.css';
 
 // highlightjs
 import hljs from 'highlight.js';
+
 VueMarkdownEditor.use(githubTheme, {
     Hljs: hljs,
 });
@@ -41,6 +52,7 @@ for (let iconName in ELIcons) {
 	app.component(iconName, ELIcons[iconName])
 }
 app.config.globalProperties.$bus = new  mitt()
+
 app.use(VMdPreview)
 app.use(VueMarkdownEditor)
 app.use(store)

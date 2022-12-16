@@ -39,7 +39,7 @@
       :name="item.name"
     >
     <el-row justify="space-evenly" v-if="item.show">
-      <el-col  :span="1" style="margin-right:-40px;">
+      <el-col  :span="1">
         <el-button  type="primary"  @click="item.show=false" plain>编辑</el-button>
         <el-button type="success" style="margin-top:10px;" class="fsafs" @click="dialogVisible = true" plain>添加</el-button>
         <el-button  type="danger" style="margin-top:10px;" class="fsafs" @click="removeTab(item.name)" plain>删除</el-button>
@@ -49,12 +49,22 @@
           </a>
         </el-affix>
       </el-col>
-      <el-col :span="21" >
+      <el-col :span="16" >
           <el-card>
               <el-col :span="24">
                   <v-md-preview  :text="item.content"></v-md-preview >
               </el-col>
           </el-card>
+      </el-col>
+      <el-col :gutter="20" :span="3">
+        <el-card body-style="" shadow="always">
+          <el-col :span="12">
+            <el-image style="width: 100px; height: 100px" src="https://cdn.acwing.com/media/user/profile/photo/71127_lg_5c719f083a.png" :fit="fit" /> 
+          </el-col>
+          <el-col :span="12">
+            <el-tag>米叔</el-tag>
+          </el-col>
+        </el-card>
       </el-col>
   </el-row>
     <v-md-editor v-if="!item.show" v-model="item.content" 
