@@ -1,6 +1,5 @@
 //引入vuex
 import { createStore  } from 'vuex'
-import {nanoid} from 'nanoid'
 import $ from 'jquery'
 import admin from './admin'
 import study from './study'
@@ -15,13 +14,25 @@ const state = {
     localList:JSON.parse(localStorage.getItem('list')) || [],
     list:[
       // 第一个
-      {id:nanoid(),src:require('@/assets/41ca469687507ff4e7c6a3c0d3b0ff56.jpg')},
-      {id:nanoid(),src:require('@/assets/wallhaven-1jpdz3.png')},
-      {id:nanoid(),src:require('@/assets/wallhaven-4geeqq.jpg')},
-      {id:nanoid(),src:require('@/assets/wallhaven-z8mk1v.png')},
-      {id:nanoid(),src:require('@/assets/wallhaven-vg8mo8.jpg')},
-      {id:nanoid(),src:require('@/assets/wallhaven-rr2yow_1920x929.png')},
-      {id:'666',src:''}  
+      {src:require('@/assets/41ca469687507ff4e7c6a3c0d3b0ff56.jpg')},
+      {src:require('@/assets/wallhaven-1jpdz3.png')},
+      {src:require('@/assets/wallhaven-z8mk1v.png')},
+      {src:require('@/assets/wallhaven-rr2yow_1920x929.png')},
+    ],
+    list1:[
+      // 第一个
+      {src:require('@/assets/41ca469687507ff4e7c6a3c0d3b0ff56.jpg')},
+      {src:require('@/assets/wallhaven-1jpdz3.png')},
+      {src:require('@/assets/wallhaven-4geeqq.jpg')},
+      {src:require('@/assets/wallhaven-z8mk1v.png')},
+      {src:require('@/assets/wallhaven-vg8mo8.jpg')},
+      {src:require('@/assets/wallhaven-rr2yow_1920x929.png')},
+      {src:require('@/assets/wallhaven-l83k62.jpg')},
+      {src:require('@/assets/wallhaven-jx5pm5.jpg')},
+      {src:require('@/assets/wallhaven-weywvr.jpg')},
+      {src:require('@/assets/wallhaven-7p3we9.png')},
+      {src:require('@/assets/wallhaven-d6gydo.png')},
+      {src:'https://w.wallhaven.cc/full/jx/wallhaven-jx5yq5.png'},
     ],
     colorList:[
       {id:1,backColor:'#55efc4',color:'#17ddb6de'},
@@ -94,7 +105,6 @@ const actions = {
     localStorage.removeItem("jwt");
     context.commit("logout");
   }
-
 }
 
 //操作数据 
@@ -141,9 +151,6 @@ const mutations = {
       })
     }
   },
-
-
-
   updateUser(state,value){
     state.id = value.id
     state.account = value.account

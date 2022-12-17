@@ -3,25 +3,24 @@
     <el-icon @click="drawer = true" class="iicon" style="float:right;width:30px;height:90px; margin-right:0px;"><DArrowLeft style="width:20px;height:20px;"/></el-icon>
     <el-drawer size="380px" v-model="drawer" :with-header="false">
         <div class="main" v-if="!$store.state.is_login">
-            <router-link to="/login">登录</router-link>
-            <router-link to="/register">注册</router-link>
+            <el-button @click="dialogLogin = true ,drawer = false">登录</el-button>
+            <el-button @click="dialogRegister = true,drawer = false">注册</el-button>
         </div>
         <div class="main" v-else>
             <h3 style="margin-bottom:5px;"><UserFilled style="width: 1em; height: 1em; margin-right: 10px; margin-bottom:-3px;color: #79bbff;" />{{$store.state.account}}</h3>
             <router-link v-if="$store.state.account=='admin'" to="/admin"><More style="width: 1em; height: 1em;  margin-bottom:-3px;color:  #73767a;"/></router-link>
         </div>
-        <el-carousel  interval="1000" direction="vertical" >
-            <el-carousel-item v-for="i in list" :key="i.id">
-                <img v-if="i.id==='666'" @click="changeBackground(i.src)" src="@/assets/4.jpg" alt="">
-                <img v-else :src="i.src" @click="changeBackground(i.src)" alt="">
+        <el-carousel  interval="1000" direction="horizontal" >
+            <el-carousel-item v-for="i in list" :key="i.src">
+                <img :src="i.src"  @click="changeBackground(i.src)" alt="">
             </el-carousel-item>
         </el-carousel>
-        <!-- <el-input v-model="input1" placeholder="Please input">
-            <template #prepend>URL:</template>
-            <template #append>
-                <el-button @click="(changeBackground(input1),input1='')">提交</el-button>
-              </template>
-        </el-input> -->
+        <el-col :span="24"  >
+            <el-card>
+                <el-button @click="dialogBack = true,drawer = false">更多背景</el-button>
+                <el-button style="float:right;" @click="changeBackground('')">取消背景</el-button>
+            </el-card>
+        </el-col>
         <el-col :span="24" justify="space-evenly" >
             <el-card>
                 <el-row  justify="space-evenly" >
@@ -50,6 +49,48 @@
             </el-col>
           </el-row>
     </el-drawer>
+    <el-dialog destroy-on-close :show-close="false" :fullscreen="true" v-model="dialogLogin" >
+        <template #header="{close}">
+            <div class="my-header" style="float:right;">
+              <el-button type="danger" @click="close">
+                Close
+              </el-button>
+            </div>
+          </template>
+        <login v-slot="hh" >
+            <li style="display:none;" v-if="hh.keyyy===true?dialogLogin=false:dialogLogin=true"></li>
+        </login>
+    </el-dialog>
+    <el-dialog destroy-on-close :fullscreen="true" :show-close="false" v-model="dialogRegister" >
+        <template #header="{close}">
+            <div class="my-header" style="float:right;">
+              <el-button type="danger" @click="close">
+                Close
+              </el-button>
+            </div>
+          </template>
+        <register v-slot="hh">
+            <li style="display:none;" v-if="hh.keyyy===true?(dialogRegister=false,dialogLogin=true):dialogRegister=true"></li>
+        </register>
+    </el-dialog>
+    <el-dialog :show-close="false"  :draggable="true" v-model="dialogBack" >
+        <template #header="{close }">
+            <div >
+                <h4  style="float:left;">切换背景</h4>
+                <el-link href="https://wallhaven.cc/" type="primary">图片来源</el-link>
+              <el-button  style="float:right;" type="danger" @click="close">
+                Close
+              </el-button>
+            </div>
+          </template>
+          <el-scrollbar height="40vh">
+          <el-row :gutter="10">
+            <el-col :span="6" v-for="i in list1" :key="i.src">
+                <el-image class="imagss" @click="changeBackground(i.src)" :src="i.src" />
+            </el-col>
+          </el-row>
+        </el-scrollbar>
+    </el-dialog>
 </template>
 
 <script>
@@ -57,20 +98,27 @@ import { mapState , mapActions} from 'vuex'
 import { ElMessage } from 'element-plus'
 import {useStore} from 'vuex'
 import router from '../router/index'
+import login from '../views/AccountLogin'
+import register from '../views/AccountRegister.vue'
 import $ from 'jquery'
     export default{
+        components:{login ,register},
         data(){
             return {
+                dialogLogin:false,
+                dialogRegister:false,
                 drawer:false,
+                dialogBack:false,
                 visible :false,
                 labelPosition :'right',
                 store : useStore(),
                 ss:[],
                 input1:'',
+                List:[]
             }
         },
         computed:{
-            ...mapState(['background','list','colorList']),
+            ...mapState(['background','list1','list','colorList']),
         },
         mounted(){
             let hour = new Date().getHours()
@@ -192,6 +240,13 @@ import $ from 'jquery'
         #time{
             width: 35px;;
         }
+      }
+      .imagss{
+        transition: .2s;
+        overflow: hidden;
+      }
+      .imagss:hover{
+        transform: scale(1);
       }
     
 </style>

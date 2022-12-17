@@ -1,5 +1,5 @@
 <template>
-    <el-form style="padding-top: 15vh;" autocomplete="off" label-width="80px"  :label-position="labelPosition">
+    <el-form style="margin-top:10vh;" autocomplete="off" label-width="80px"  :label-position="labelPosition">
       <h1>Login</h1>
         <el-form-item label="Name" >
           <el-input autocomplete="off" autofocus="autofocus" maxlength="10" show-word-limit   v-model="account" />
@@ -8,11 +8,8 @@
             <el-input  autocomplete="off"  @keyup.enter="login" show-password type="password" v-model="password" />
         </el-form-item> 
         {{message}}
-          <el-button @click="login"   type="primary">确定</el-button>
-          <div class="goto">
-            <router-link to="/">主页</router-link>
-            <router-link to="/register">去注册</router-link>
-          </div>
+        <slot :keyyy="nor"></slot>
+          <el-button @click="login"  type="primary">确定</el-button>
     </el-form> 
 </template>
 
@@ -29,7 +26,8 @@ export default {
       drawer:true,
       color:'rgba(19, 206, 102, 0.8)',
       visible :true,
-      labelPosition :'right'
+      labelPosition :'right',
+      nor:false,
     })
     const open2 = () => {
       ElMessage({
@@ -52,6 +50,7 @@ export default {
                     success(){
                         store.dispatch("getinfo",{
                             success(){
+                              vue.nor = true
                               open2()
                               sessionStorage.setItem("name",store.state.account)
                               router.push({name:'main'})
@@ -76,20 +75,6 @@ export default {
 
 
 <style scoped>
-  .goto{
-    margin-top: 10px;
-    display: flex;
-  }
-  .goto a:first-child{
-    margin-left: 200px;
-  }
-  .goto a{
-    font-size: 15px;
-    display: block;
-    height: 32px;
-    width: 150px;
-    color:#a29bfe;
-  }
   a:hover{
     color:#6c5ce7;
   }

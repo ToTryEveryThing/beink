@@ -1,6 +1,6 @@
 <template>
   
-  <el-form style="padding-top: 15vh;" autocomplete="off" label-width="80px"  :label-position="labelPosition">
+  <el-form  style="margin-top:10vh;" autocomplete="off" label-width="80px"  :label-position="labelPosition">
     <h1>Register</h1>
       <el-form-item label="Name" >
         <el-input autocomplete="off" autofocus="autofocus" maxlength="10" show-word-limit   v-model="account" />
@@ -9,11 +9,8 @@
           <el-input  autocomplete="off" @keyup.enter="register"  show-password type="password" v-model="password" />
       </el-form-item>
       {{message}}
+      <slot :keyyy="nor"></slot>
         <el-button @click="register" type="primary">注册</el-button>
-        <div class="goto">
-          <router-link to="/">主页</router-link>
-          <router-link to="/login">去登录</router-link>
-        </div>
   </el-form>
 </template>
 
@@ -28,7 +25,8 @@ export default {
     const vue = reactive({
       drawer:true,
       visible :true,
-      labelPosition :'right'
+      labelPosition :'right',
+      nor:false,
     })
     const open2 = () => {
       ElMessage({
@@ -55,7 +53,8 @@ export default {
             },
             success(res){
                 if(res.message === "success"){
-                  open2()
+                    open2()
+                    vue.nor = true
                     router.push({name:'login'})
                 }else{
                     open3(res.message)
@@ -75,20 +74,6 @@ export default {
 </script>
 
 <style scoped>
-.goto{
-  margin-top: 10px;
-  display: flex;
-}
-.goto a:first-child{
-  margin-left: 200px;
-}
-.goto a{
-  font-size: 15px;
-  display: block;
-  height: 32px;
-  width: 150px;
-  color:#a29bfe;
-}
 a:hover{
   color:#6c5ce7;
 }
