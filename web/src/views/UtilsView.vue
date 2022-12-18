@@ -1,5 +1,5 @@
 <template>
-  <el-row>
+  <el-row >
     <el-col :span="18" :offset="3">
   <el-dialog
     v-model="dialogVisible"
@@ -19,7 +19,7 @@
       </span>
     </template>
   </el-dialog>
-  <el-tabs v-if="$store.state.account==='admin'"
+  <el-tabs 
     v-model="editableTabsValue"
     @tab-change="changeTab"
     class="demo-tabs"
@@ -39,10 +39,17 @@
       :name="item.name"
     >
     <el-row justify="space-evenly" v-if="item.show">
-      <el-col  :span="1">
+      <el-col  :span="1" v-if="$store.state.account==='admin'">
         <el-button  type="primary"  @click="item.show=false" plain>编辑</el-button>
         <el-button type="success" style="margin-top:10px;" class="fsafs" @click="dialogVisible = true" plain>添加</el-button>
         <el-button  type="danger" style="margin-top:10px;" class="fsafs" @click="removeTab(item.name)" plain>删除</el-button>
+        <el-affix class="fsafs" :offset="100">
+          <a style="display:none" href="javascript:window.scrollTo(0,0)" class="fas">
+            <span></span>
+          </a>
+        </el-affix>
+      </el-col>
+      <el-col  :span="1" v-else>
         <el-affix class="fsafs" :offset="100">
           <a style="display:none" href="javascript:window.scrollTo(0,0)" class="fas">
             <span></span>
@@ -57,14 +64,12 @@
           </el-card>
       </el-col>
       <el-col :gutter="20" :span="3">
-        <el-card body-style="" shadow="always">
           <el-col :span="12">
             <el-image style="width: 100px; height: 100px" src="https://cdn.acwing.com/media/user/profile/photo/71127_lg_5c719f083a.png" :fit="fit" /> 
           </el-col>
           <el-col :span="12">
             <el-tag>米叔</el-tag>
           </el-col>
-        </el-card>
       </el-col>
   </el-row>
     <v-md-editor v-if="!item.show" v-model="item.content" 
@@ -73,43 +78,6 @@
     right-toolbar="preview toc sync-scroll fullscreen"
     :toolbar="vue.toolbar"
     @save="item.show=true,save()" ></v-md-editor>
-    </el-tab-pane>
-  </el-tabs>
-  <el-tabs v-else
-    v-model="editableTabsValue"
-    class="demo-tabs"
-    @tab-change="changeTab"
-  >
-  <el-tab-pane > 
-    <template #label>
-      <span @click="goBack">
-        <ArrowLeft style="height:20px;width:20px;     margin-bottom: -5px;" />
-        <HomeFilled style=" margin-bottom: -5px;margin-left:5px;"/>
-      </span>
-    </template>
-  </el-tab-pane>
-    <el-tab-pane
-      v-for="item in editableTabs"
-      :key="item.name"
-      :label="item.title"
-      :name="item.name"
-    >
-    <el-row justify="center">
-      <el-col :span="1" >
-          <el-affix :offset="80">
-              <a style="display:none" href="javascript:window.scrollTo(0,0)" class="fas">
-                <span></span>
-              </a>
-            </el-affix>
-      </el-col>
-      <el-col :span="21" >
-          <el-card >
-              <el-col :span="24">
-                  <v-md-preview  :text="item.content"></v-md-preview >
-              </el-col>
-          </el-card>
-      </el-col>
-  </el-row>
     </el-tab-pane>
   </el-tabs>
 </el-col>

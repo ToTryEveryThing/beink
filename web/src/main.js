@@ -34,25 +34,24 @@ import '@kangc/v-md-editor/lib/style/preview.css';
 import VueMarkdownEditor from '@kangc/v-md-editor';
 import '@kangc/v-md-editor/lib/style/base-editor.css';
 
-// 引入你所使用的主题 此处以 github 主题为例
-import githubTheme from '@kangc/v-md-editor/lib/theme/github';
-import '@kangc/v-md-editor/lib/theme/style/github.css';
+//主题
+import vuepressTheme from '@kangc/v-md-editor/lib/theme/vuepress.js';
+import '@kangc/v-md-editor/lib/theme/style/vuepress.css';
 
-// highlightjs
-import hljs from 'highlight.js';
 
-VueMarkdownEditor.use(githubTheme, {
-    Hljs: hljs,
+import Prism from 'prismjs';
+
+VueMarkdownEditor.use(vuepressTheme, {
+    Prism,
 });
-VMdPreview.use(githubTheme, {
-    Hljs: hljs,
-});
+VMdPreview.use(vuepressTheme, {
+    Prism,
+  });
 const app = createApp(App)
 for (let iconName in ELIcons) {
 	app.component(iconName, ELIcons[iconName])
 }
 app.config.globalProperties.$bus = new  mitt()
-
 app.use(VMdPreview)
 app.use(VueMarkdownEditor)
 app.use(store)

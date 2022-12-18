@@ -11,5 +11,14 @@ module.exports = {
         "styleLibraryName":"theme-chalk"
       }
     ]
-  ]
+  ],
+  //语法高亮
+  plugins: [
+    [
+      'prismjs',
+      {
+        languages: ['html','java','javascript','css','xml'],
+      },
+    ],
+  ],
 }

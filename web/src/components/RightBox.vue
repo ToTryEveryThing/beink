@@ -10,7 +10,7 @@
             <h3 style="margin-bottom:5px;"><UserFilled style="width: 1em; height: 1em; margin-right: 10px; margin-bottom:-3px;color: #79bbff;" />{{$store.state.account}}</h3>
             <router-link v-if="$store.state.account=='admin'" to="/admin"><More style="width: 1em; height: 1em;  margin-bottom:-3px;color:  #73767a;"/></router-link>
         </div>
-        <el-carousel  interval="1000" direction="horizontal" >
+        <el-carousel  interval="2000" direction="horizontal" >
             <el-carousel-item v-for="i in list" :key="i.src">
                 <img :src="i.src"  @click="changeBackground(i.src)" alt="">
             </el-carousel-item>
@@ -21,28 +21,26 @@
                 <el-button style="float:right;" @click="changeBackground('')">取消背景</el-button>
             </el-card>
         </el-col>
+        <el-divider><el-icon color="#dfd3f4"><Picture /></el-icon></el-divider>
         <el-col :span="24" justify="space-evenly" >
-            <el-card>
                 <el-row  justify="space-evenly" >
                     <el-col  v-for="i in colorList" :key="i.id" :span="4">
                         <el-card shadow="hover"  @click="change(i.backColor,i.color,i.id)" :style="{ backgroundColor: i.backColor }" class="card"> 
-                            <el-col :span="4"><div class="grid-content ep-bg-purple" /></el-col>
                         </el-card>
                     </el-col>
-                  </el-row>
-            </el-card>
+                </el-row>
         </el-col>
+        <el-divider><el-icon color="#dfd3f4"><MagicStick /></el-icon></el-divider>
         <el-col  :span="24" :gutter="20">
-            <el-card>
-                <el-row >
-                    <el-col :span="6" v-for="i in $store.state.study.editableTabs" :key="i.name">
+                <el-row justify="space-evenly">
+                    <el-col :span="4" v-for="i in $store.state.study.editableTabs" :key="i.name">
                         <el-tag   style="cursor: pointer;"  @click="send(i.name)">
                             {{i.title}}
                         </el-tag>
                     </el-col>
                 </el-row>
-            </el-card>
         </el-col>
+        <el-divider><el-icon color="#dfd3f4" ><Reading /></el-icon></el-divider>
         <el-row justify="space-evenly">
             <el-col :span="12">
                 <el-button type="danger" style="width:100%;" v-if="$store.state.is_login" @click="logout" plain>退出</el-button>
@@ -53,7 +51,7 @@
         <template #header="{close}">
             <div class="my-header" style="float:right;">
               <el-button type="danger" @click="close">
-                Close
+                关闭
               </el-button>
             </div>
           </template>
@@ -65,7 +63,7 @@
         <template #header="{close}">
             <div class="my-header" style="float:right;">
               <el-button type="danger" @click="close">
-                Close
+                关闭
               </el-button>
             </div>
           </template>
@@ -74,19 +72,19 @@
         </register>
     </el-dialog>
     <el-dialog :show-close="false"  :draggable="true" v-model="dialogBack" >
-        <template #header="{close }">
+        <template #header="{close}">
             <div >
                 <h4  style="float:left;">切换背景</h4>
                 <el-link href="https://wallhaven.cc/" type="primary">图片来源</el-link>
               <el-button  style="float:right;" type="danger" @click="close">
-                Close
+                关闭
               </el-button>
             </div>
           </template>
           <el-scrollbar height="40vh">
           <el-row :gutter="10">
-            <el-col :span="6" v-for="i in list1" :key="i.src">
-                <el-image class="imagss" @click="changeBackground(i.src)" :src="i.src" />
+            <el-col :span="8" v-for="i in list1" :key="i.src">
+                <el-image class="imagss" @click="changeBackground(i.src)" :src="i.src"  />
             </el-col>
           </el-row>
         </el-scrollbar>
@@ -112,9 +110,6 @@ import $ from 'jquery'
                 visible :false,
                 labelPosition :'right',
                 store : useStore(),
-                ss:[],
-                input1:'',
-                List:[]
             }
         },
         computed:{
@@ -146,6 +141,7 @@ import $ from 'jquery'
                 router.push({name:'study'})
             },
             change(a,b,c){
+                if(this.store.state.background!=='')return
                 if(this.store.state.is_login===true){
                         $.ajax({
                             url:'https://so.beink.cn/user/account/color/',
