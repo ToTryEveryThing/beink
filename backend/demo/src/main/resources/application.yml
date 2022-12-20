@@ -11,6 +11,8 @@ mybatis-plus:
 
 
 
+
+
 #  global-config:
 #    db-config:
 #      table-prefix: xxx  设置表格统一前缀
