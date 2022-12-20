@@ -71,19 +71,12 @@
             <li style="display:none;" v-if="hh.keyyy===true?(dialogRegister=false,dialogLogin=true):dialogRegister=true"></li>
         </register>
     </el-dialog>
-    <el-dialog :show-close="false"  :draggable="true" v-model="dialogBack" >
+    <el-dialog style="padding:0;" width="55%" :show-close="false"   :draggable="true" v-model="dialogBack" >
         <template #header="{close}">
             <el-row justify="space-between">
                 <el-col :span="8">
                     <h4  style="float:left;">切换背景</h4>
                     <el-link href="https://wallhaven.cc/" type="primary">图片来源</el-link>
-                </el-col>
-                <el-col v-if="$store.state.account==='admin'" :span="8">
-                    <el-input v-model="other" style="float:right;"  placeholder="Please input src">
-                        <template #append>
-                            <el-button @click="addSrc" type="info">提交</el-button>
-                        </template>
-                      </el-input>
                 </el-col>
                 <el-col :span="8">
                     <el-button  style="float:right;" size="small" type="danger" @click="close">
@@ -92,23 +85,31 @@
                 </el-col>
               </el-row>
           </template>
-          <el-scrollbar height="40vh">
-          <el-row :gutter="10">
-            <el-col :span="8" v-for="i in List" :key="i">
-                <div class="load">
-                    <el-image  class="imagss"
-                    fit="cover"
-                    @click="changeBackground(i)"
-                    :src="i" />
-                    <el-row class="upp">
-                        <el-col :span="2" v-if="$store.state.account==='admin'" >
-                            <el-button size="small" type="danger" @click="ddd(i)">删除图片</el-button>
-                        </el-col>
-                      </el-row>
-                </div>
-            </el-col>
-          </el-row>
-        </el-scrollbar>
+          <el-scrollbar height="420px">
+          <ul class="ul">
+            
+                <li v-for="i in List" :key="i">
+                    <div class="load">
+                        <el-image  class="imagss"
+                        fit="fit"
+                        style="width:320px;height:200px;"
+                        @click="changeBackground(i)"
+                        :src="i" />
+                        <el-row class="upp">
+                            <el-col :span="2" v-if="$store.state.account==='admin'" >
+                                <el-button size="small" type="danger" @click="ddd(i)">删除图片</el-button>
+                            </el-col>
+                        </el-row>
+                    </div>
+                </li>
+                <li v-if="$store.state.account==='admin'">
+                    <div class="upload">
+                        <input  type="file" style="width:318px;height:148px;" id="XXX"/>
+                        <el-button @click="getTokenn" style="width:318px;height:50px;">提交</el-button>
+                    </div>
+                </li>
+            
+        </ul></el-scrollbar>
     </el-dialog>
 
 </template>
@@ -117,6 +118,7 @@
 import { mapState ,mapActions } from 'vuex'
 import { ElMessage } from 'element-plus'
 import {useStore} from 'vuex'
+import  OSS from 'ali-oss'
 import router from '../router/index'
 import login from '../views/AccountLogin'
 import register from '../views/AccountRegister.vue'
@@ -155,6 +157,33 @@ import {onMounted, ref } from 'vue'
             onMounted(()=>{
                 jiazai()
             })
+            const getTokenn =()=>{
+            let e = document.getElementById('XXX')
+            if(e.value=='')return
+                $.ajax({
+                    url:'https://so.beink.cn/oss/getToken/',
+                    type:'get',
+                    headers:{
+                        Authorization:"Bearer " + store.state.token
+                    },
+                    success(res){
+                        console.log(res)
+                        let client = new OSS({
+                            region: res.region,
+                            accessKeyId: res.accessKeyId,
+                            accessKeySecret : res.accessKeySecert,
+                            stsToken: res.stsToken,
+                            bucket: res.bucket,
+                            secure:true
+                        })
+                        client.put(e.files[0].name,e.files[0])
+                        other.value = "https://images.beink.cn/" + e.files[0].name,
+                        setTimeout(addSrc,1000)
+                    },error(){
+                    }
+                })
+            }
+
             function addSrc(){
                 List.value.push(other.value)
                 other.value=''
@@ -165,7 +194,8 @@ import {onMounted, ref } from 'vue'
                 aa()
             }   
             return{
-                List ,ddd,addSrc,other,jiazai
+                List ,ddd,other,jiazai
+                ,getTokenn
             }
         },
         data(){
@@ -308,6 +338,7 @@ import {onMounted, ref } from 'vue'
         overflow: hidden;
         position: relative;
         cursor: pointer;
+        margin-bottom: 10px;
     }
     .load el-button{
         font-size: 10px;
@@ -320,6 +351,23 @@ import {onMounted, ref } from 'vue'
     .load:hover .upp{
         transform: translateY(-100%);
     }
-    
+    .ul{
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        overflow: auto;
+    }
+    .ul li{
+        list-style: none;
+        margin-left: 10px;
+    }  
+    .upload{
+        width:320px;
+        height:200px;
+        box-sizing: border-box;
+    }
+    .upload:hover{
+        border:1px grey Dashed;
+    }
     
 </style>

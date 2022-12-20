@@ -14,10 +14,9 @@ const state = {
     localList:JSON.parse(localStorage.getItem('list')) || [],
     list:[
       // 第一个
-      {src:'https://images.beink.cn/images/41ca469687507ff4e7c6a3c0d3b0ff56.jpg'},
-      {src:'https://images.beink.cn/images/wallhaven-1jpdz3.png'},
-      {src:'https://images.beink.cn/images/wallhaven-z8mk1v.png'},
-      {src:'https://images.beink.cn/images/wallhaven-rr2yow_1920x929.png'},
+      {src:'https://images.beink.cn/41ca469687507ff4e7c6a3c0d3b0ff56.jpg'},
+      {src:'https://images.beink.cn/wallhaven-z8mk1v.png'},
+      {src:'https://images.beink.cn/wallhaven-rr2yow_1920x929.png'},
     ],
     colorList:[
       {id:1,backColor:'#55efc4',color:'#17ddb6de'},
