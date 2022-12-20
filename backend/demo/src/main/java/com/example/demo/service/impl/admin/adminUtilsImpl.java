@@ -1,8 +1,8 @@
 package com.example.demo.service.impl.admin;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.demo.mapper.webMapper;
-import com.example.demo.pojo.web;
+import com.example.demo.mapper.PublicMapper;
+import com.example.demo.pojo.Public;
 import com.example.demo.service.admin.adminUtilsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,22 +16,39 @@ public class adminUtilsImpl implements adminUtilsService {
 
 
     @Autowired
-    private webMapper webMapper;
+    private PublicMapper publicMapper;
 
     @Override
     public String save(String markdown) {
-        QueryWrapper<web> q = new QueryWrapper<>();
-        q.eq("account","admin");
-        web web = new web();
-        web.setGit(markdown);
-        int update = webMapper.update(web, q);
+        QueryWrapper<Public> q = new QueryWrapper<>();
+        Public aPublic = new Public();
+        aPublic.setGit(markdown);
+        q.eq("id",1);
+        int update = publicMapper.update(aPublic, q);
         if(update>=1)return "success";
         else return "error";
     }
 
     @Override
     public String show() {
-        web web = webMapper.selectById(1);
-        return web.getGit();
+        Public Public = publicMapper.selectById(1);
+        return Public.getGit();
+    }
+
+    @Override
+    public String save_list(String backlist) {
+        QueryWrapper<Public> q = new QueryWrapper<>();
+        Public aPublic = new Public();
+        aPublic.setBacklist(backlist);
+        q.eq("id",1);
+        int update = publicMapper.update(aPublic, q);
+        if(update>=1)return "success";
+        else return "error";
+    }
+
+    @Override
+    public String show_list() {
+        Public Public = publicMapper.selectById(1);
+        return Public.getBacklist();
     }
 }

@@ -17,7 +17,7 @@
         </el-carousel>
         <el-col :span="24"  >
             <el-card>
-                <el-button @click="dialogBack = true,drawer = false">更多背景</el-button>
+                <el-button @click="dialogBack = true,drawer = false ,jiazai()">更多背景</el-button>
                 <el-button style="float:right;" @click="changeBackground('')">取消背景</el-button>
             </el-card>
         </el-col>
@@ -73,34 +73,101 @@
     </el-dialog>
     <el-dialog :show-close="false"  :draggable="true" v-model="dialogBack" >
         <template #header="{close}">
-            <div >
-                <h4  style="float:left;">切换背景</h4>
-                <el-link href="https://wallhaven.cc/" type="primary">图片来源</el-link>
-              <el-button  style="float:right;" type="danger" @click="close">
-                关闭
-              </el-button>
-            </div>
+            <el-row justify="space-between">
+                <el-col :span="8">
+                    <h4  style="float:left;">切换背景</h4>
+                    <el-link href="https://wallhaven.cc/" type="primary">图片来源</el-link>
+                </el-col>
+                <el-col v-if="$store.state.account==='admin'" :span="8">
+                    <el-input v-model="other" style="float:right;"  placeholder="Please input src">
+                        <template #append>
+                            <el-button @click="addSrc" type="info">提交</el-button>
+                        </template>
+                      </el-input>
+                </el-col>
+                <el-col :span="8">
+                    <el-button  style="float:right;" size="small" type="danger" @click="close">
+                        关闭
+                      </el-button>
+                </el-col>
+              </el-row>
           </template>
           <el-scrollbar height="40vh">
           <el-row :gutter="10">
-            <el-col :span="8" v-for="i in list1" :key="i.src">
-                <el-image class="imagss" @click="changeBackground(i.src)" :src="i.src"  />
+            <el-col :span="8" v-for="i in List" :key="i">
+                <div class="load">
+                    <el-image  class="imagss"
+                    fit="cover"
+                    @click="changeBackground(i)"
+                    :src="i" />
+                    <el-row class="upp">
+                        <el-col :span="2" v-if="$store.state.account==='admin'" >
+                            <el-button size="small" type="danger" @click="ddd(i)">删除图片</el-button>
+                        </el-col>
+                      </el-row>
+                </div>
             </el-col>
           </el-row>
         </el-scrollbar>
     </el-dialog>
+
 </template>
 
 <script>
-import { mapState , mapActions} from 'vuex'
+import { mapState ,mapActions } from 'vuex'
 import { ElMessage } from 'element-plus'
 import {useStore} from 'vuex'
 import router from '../router/index'
 import login from '../views/AccountLogin'
 import register from '../views/AccountRegister.vue'
 import $ from 'jquery'
+import {onMounted, ref } from 'vue'
     export default{
         components:{login ,register},
+        setup(){
+            const List = ref([])
+            const other = ref('')
+            const store = useStore()
+            const jiazai = ()=>{
+                $.ajax({
+                    url:'https://so.beink.cn/user/admin/backlist/show/',
+                    type:'post',
+                    success(res){
+                        List.value = JSON.parse(res)
+                    },
+                    error(res){
+                        console.log(res)
+                    }
+                 })
+            }
+            const aa = ()=>{
+                $.ajax({
+                    url:'https://so.beink.cn/user/admin/backlist/save/',
+                    type:'post',
+                    headers:{
+                        Authorization:"Bearer " + store.state.token
+                    },
+                    data:{
+                        backlist:JSON.stringify(List.value)
+                    }
+                })
+            }
+            onMounted(()=>{
+                jiazai()
+            })
+            function addSrc(){
+                List.value.push(other.value)
+                other.value=''
+                aa()
+            }
+            const ddd = (i)=>{
+                List.value = List.value.filter((tab) => tab !== i)
+                aa()
+            }   
+            return{
+                List ,ddd,addSrc,other,jiazai
+            }
+        },
         data(){
             return {
                 dialogLogin:false,
@@ -113,7 +180,7 @@ import $ from 'jquery'
             }
         },
         computed:{
-            ...mapState(['background','list1','list','colorList']),
+            ...mapState(['background','list','colorList']),
         },
         mounted(){
             let hour = new Date().getHours()
@@ -237,12 +304,22 @@ import $ from 'jquery'
             width: 35px;;
         }
       }
-      .imagss{
-        transition: .2s;
+    .load{
         overflow: hidden;
-      }
-      .imagss:hover{
-        transform: scale(1);
-      }
+        position: relative;
+        cursor: pointer;
+    }
+    .load el-button{
+        font-size: 10px;
+    }
+    .load .upp{
+        transition: .3s;
+        position: absolute;
+        transform: translateY(100%);
+    }
+    .load:hover .upp{
+        transform: translateY(-100%);
+    }
+    
     
 </style>

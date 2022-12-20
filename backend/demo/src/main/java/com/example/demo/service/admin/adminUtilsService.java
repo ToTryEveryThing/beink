@@ -7,4 +7,6 @@ package com.example.demo.service.admin;
 public interface adminUtilsService {
     String save(String markdown);
     String show();
+    String save_list(String backlist);
+    String show_list();
 }

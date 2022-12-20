@@ -19,19 +19,6 @@ const state = {
       {src:'https://images.beink.cn/images/wallhaven-z8mk1v.png'},
       {src:'https://images.beink.cn/images/wallhaven-rr2yow_1920x929.png'},
     ],
-    list1:[
-      // 第一个
-      {src:'https://images.beink.cn/images/41ca469687507ff4e7c6a3c0d3b0ff56.jpg'},
-      {src:'https://images.beink.cn/images/wallhaven-1jpdz3.png'},
-      {src:'https://images.beink.cn/images/wallhaven-4geeqq.jpg'},
-      {src:'https://images.beink.cn/images/wallhaven-z8mk1v.png'},
-      {src:'https://images.beink.cn/images/wallhaven-vg8mo8.jpg'},
-      {src:'https://images.beink.cn/images/wallhaven-rr2yow_1920x929.png'},
-      {src:'https://images.beink.cn/images/wallhaven-l83k62.jpg'},
-      {src:'https://images.beink.cn/images/wallhaven-jx5pm5.jpg'},
-      {src:'https://images.beink.cn/images/wallhaven-weywvr.jpg'},
-      {src:'https://images.beink.cn/images/wallhaven-7p3we9.png'},
-    ],
     colorList:[
       {id:1,backColor:'#55efc4',color:'#17ddb6de'},
       {id:2,backColor:'#81ecec',color:'#2ae1dc8f'},
@@ -43,7 +30,6 @@ const state = {
     background:JSON.parse(localStorage.getItem('background')) || '',
     backgroundColor:'rgba(19, 206, 102, 0.8)'
 }
-
 //响应组件中的动作
 const actions = {
   changeBackground(contest,value){

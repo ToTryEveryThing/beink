@@ -64,7 +64,6 @@ public class RegisterImpl implements RegisterService {
          web1.setPassword(pass);
          web1.setAccount(account);
          web1.setDate(new Date());
-         web1.setGit("");
          webMapper.insert(web1);
         System.out.println(new Date());
         map.put("message","success");

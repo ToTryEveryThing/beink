@@ -29,6 +29,15 @@ public class adminUtilsController {
         return adminUtilsService.show();
     }
 
+    @PostMapping("/user/admin/backlist/save/")
+    public String savee(@RequestParam Map<String , String> map){
+        return adminUtilsService.save_list(map.get("backlist"));
+    }
+
+    @PostMapping("/user/admin/backlist/show/")
+    public String showw(){
+        return adminUtilsService.show_list();
+    }
 
 
 

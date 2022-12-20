@@ -73,12 +73,11 @@ class DemoApplicationTests {
     }
     @Test
     void TestUpdata(){
-        user user = new user();
-        user.setAccount("llll");
         UpdateWrapper<user> q = new UpdateWrapper<>();
-        q.eq("password","666");
-//        不屑password 不被修改
-        UserMapper.update(user,q);
+        q.eq("id",1);
+        user user = new user();
+        user.setAccount("sdfhsdf");
+        UserMapper.update(user, q);
     }
 
     @Test
