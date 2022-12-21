@@ -45,7 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 //                公开的链接
                 .antMatchers("/user/admin/git/show/","/user/account/token/",
-                        "/user/account/register/","/user/admin/backlist/show/").permitAll()
+                        "/user/account/register/","/user/admin/backlist/show/",
+                        "/oss/getList/").permitAll()
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest().authenticated();
 

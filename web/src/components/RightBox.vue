@@ -87,14 +87,13 @@
           </template>
           <el-scrollbar height="420px">
           <ul class="ul">
-            
                 <li v-for="i in List" :key="i">
                     <div class="load">
                         <el-image  class="imagss"
                         fit="fit"
                         style="width:320px;height:200px;"
-                        @click="changeBackground(i)"
-                        :src="i" />
+                        @click="changeBackground('https://images.beink.cn/'+i)"
+                        :src="'https://images.beink.cn/'+i" />
                         <el-row class="upp">
                             <el-col :span="2" v-if="$store.state.account==='admin'" >
                                 <el-button size="small" type="danger" @click="ddd(i)">删除图片</el-button>
@@ -104,8 +103,9 @@
                 </li>
                 <li v-if="$store.state.account==='admin'">
                     <div class="upload">
-                        <input  type="file" style="width:318px;height:148px;" id="XXX"/>
-                        <el-button @click="getTokenn" style="width:318px;height:50px;">提交</el-button>
+                            <input  type="file" style="width:318px;height:148px;" id="XXX"/>
+                            <el-button @click="upload" style="width:318px;height:50px;">提交</el-button>
+                        
                     </div>
                 </li>
             
@@ -118,7 +118,6 @@
 import { mapState ,mapActions } from 'vuex'
 import { ElMessage } from 'element-plus'
 import {useStore} from 'vuex'
-import  OSS from 'ali-oss'
 import router from '../router/index'
 import login from '../views/AccountLogin'
 import register from '../views/AccountRegister.vue'
@@ -132,70 +131,58 @@ import {onMounted, ref } from 'vue'
             const store = useStore()
             const jiazai = ()=>{
                 $.ajax({
-                    url:'https://so.beink.cn/user/admin/backlist/show/',
-                    type:'post',
+                    url:'https://so.beink.cn/oss/getList/',
+                    type:'get',
                     success(res){
-                        List.value = JSON.parse(res)
+                        List.value = res
                     },
                     error(res){
                         console.log(res)
                     }
                  })
             }
-            const aa = ()=>{
-                $.ajax({
-                    url:'https://so.beink.cn/user/admin/backlist/save/',
-                    type:'post',
-                    headers:{
-                        Authorization:"Bearer " + store.state.token
-                    },
-                    data:{
-                        backlist:JSON.stringify(List.value)
-                    }
-                })
-            }
             onMounted(()=>{
                 jiazai()
             })
-            const getTokenn =()=>{
-            let e = document.getElementById('XXX')
-            if(e.value=='')return
+            const upload = ()=>{
+                let e = document.getElementById('XXX')
+                if(e.value=='')return
+                var formData = new FormData(); 
+		        formData.append('file', e.files[0]); //传给后端的路径
                 $.ajax({
-                    url:'https://so.beink.cn/oss/getToken/',
-                    type:'get',
+                    url:'https://so.beink.cn/oss/uploadImage/',
+                    type:'post',
+                    data: formData,
+                    processData: false, // 告诉jQuery不要去处理发送的数据
+			        contentType: false, // 告诉jQuery不要去设置Content-Type请求头
                     headers:{
                         Authorization:"Bearer " + store.state.token
                     },
                     success(res){
-                        console.log(res)
-                        let client = new OSS({
-                            region: res.region,
-                            accessKeyId: res.accessKeyId,
-                            accessKeySecret : res.accessKeySecert,
-                            stsToken: res.stsToken,
-                            bucket: res.bucket,
-                            secure:true
-                        })
-                        client.put(e.files[0].name,e.files[0])
-                        other.value = "https://images.beink.cn/" + e.files[0].name,
-                        setTimeout(addSrc,1000)
-                    },error(){
+                        List.value = res
+                    }
+                        
+                })
+                
+            }
+            
+            const ddd = (i)=>{
+                $.ajax({
+                    url:'https://so.beink.cn/oss/deleteImage/',
+                    type:'delete',
+                    headers:{
+                        Authorization:"Bearer " + store.state.token
+                    },
+                    data:{
+                        url:i
+                    },
+                    success(res){
+                        List.value = res
                     }
                 })
-            }
-
-            function addSrc(){
-                List.value.push(other.value)
-                other.value=''
-                aa()
-            }
-            const ddd = (i)=>{
-                List.value = List.value.filter((tab) => tab !== i)
-                aa()
             }   
             return{
-                List ,ddd,other,jiazai
-                ,getTokenn
+                List ,ddd,other,jiazai,upload
             }
         },
         data(){
@@ -365,9 +352,10 @@ import {onMounted, ref } from 'vue'
         width:320px;
         height:200px;
         box-sizing: border-box;
+        transition: .2s;
     }
     .upload:hover{
-        border:1px grey Dashed;
+        background-color: burlywood;
     }
     
 </style>

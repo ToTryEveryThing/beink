@@ -1,5 +1,10 @@
 package com.example.demo.service.admin;
 
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSClientBuilder;
+import com.aliyun.oss.OSSException;
+import com.aliyun.oss.model.OSSObjectSummary;
+import com.aliyun.oss.model.ObjectListing;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.auth.sts.AssumeRoleRequest;
 import com.aliyuncs.auth.sts.AssumeRoleResponse;
@@ -9,6 +14,11 @@ import com.example.demo.config.AliossConfig;
 import com.example.demo.vo.OssTokenVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author 睡醒继续做梦
@@ -20,6 +30,22 @@ public class OssService {
 
     @Autowired
     private AliossConfig aliossConfig;
+
+    public List uploadObject(MultipartFile file) throws IOException {
+        String originalFilename = file.getOriginalFilename();
+        OSS  os = new OSSClientBuilder().build(
+                aliossConfig.getEndpoint(),
+                aliossConfig.getAccessKeyId(),
+                aliossConfig.getAccessKeySecert());
+        os.putObject(
+                aliossConfig.getBucket(),
+                originalFilename,
+                file.getInputStream()
+        );
+        os.shutdown();
+        return getList();
+
+    }
 
     public OssTokenVo getToken() throws ClientException {
 
@@ -48,5 +74,59 @@ public class OssService {
                 .region("oss-" +  aliossConfig.getRegionID())
                 .bucket(aliossConfig.getBucket())
                 .build();
+    }
+
+    public List getList(){
+        OSS ossClient = new OSSClientBuilder().build(aliossConfig.getEndpoint()
+                ,aliossConfig.getAccessKeyId()
+                ,aliossConfig.getAccessKeySecert());
+
+        try {
+            // 列举文件。如果不设置keyPrefix，则列举存储空间下的所有文件。如果设置keyPrefix，则列举包含指定前缀的文件。
+            ObjectListing objectListing = ossClient.listObjects(aliossConfig.getBucket());
+            List<OSSObjectSummary> sums = objectListing.getObjectSummaries();
+            ArrayList<String> list = new ArrayList<>();
+            for (OSSObjectSummary s : sums) {
+//                System.out.println("\t" + s.getKey());
+                list.add(s.getKey());
+            }
+            return list;
+        } catch (OSSException oe) {
+            System.out.println("Caught an OSSException, which means your request made it to OSS, "
+                    + "but was rejected with an error response for some reason.");
+            System.out.println("Error Message:" + oe.getErrorMessage());
+            System.out.println("Error Code:" + oe.getErrorCode());
+            System.out.println("Request ID:" + oe.getRequestId());
+            System.out.println("Host ID:" + oe.getHostId());
+        } finally {
+            if (ossClient != null) {
+                ossClient.shutdown();
+            }
+        }
+        return null;
+    }
+
+    public List deleteObject(String s){
+        OSS ossClient = new OSSClientBuilder().build(
+                 aliossConfig.getEndpoint()
+                ,aliossConfig.getAccessKeyId()
+                ,aliossConfig.getAccessKeySecert());
+        try {
+            // 删除文件或目录。如果要删除目录，目录必须为空。
+            ossClient.deleteObject(aliossConfig.getBucket(), s);
+            return this.getList();
+        } catch (OSSException oe) {
+            System.out.println("Caught an OSSException, which means your request made it to OSS, "
+                    + "but was rejected with an error response for some reason.");
+            System.out.println("Error Message:" + oe.getErrorMessage());
+            System.out.println("Error Code:" + oe.getErrorCode());
+            System.out.println("Request ID:" + oe.getRequestId());
+            System.out.println("Host ID:" + oe.getHostId());
+        } finally {
+            if (ossClient != null) {
+                ossClient.shutdown();
+            }
+        }
+        return null;
     }
 }
