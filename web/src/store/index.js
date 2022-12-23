@@ -1,7 +1,7 @@
 //引入vuex
 import { createStore  } from 'vuex'
 import $ from 'jquery'
-import admin from './admin'
+import images from './images'
 import study from './study'
 //存储全局数据
 const state = {
@@ -178,7 +178,7 @@ export default createStore({
     mutations,
     getters,
     modules: {
-      admin:admin,
+      images:images,
       study:study
     }
   

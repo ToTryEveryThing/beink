@@ -1,6 +1,5 @@
 <template>
     <img id="time" @click="drawer = true"  src="@/assets/moon.png">
-    <el-icon @click="drawer = true" class="iicon" style="float:right;width:30px;height:90px; margin-right:0px;"><DArrowLeft style="width:20px;height:20px;"/></el-icon>
     <el-drawer size="380px" v-model="drawer" :with-header="false">
         <div class="main" v-if="!$store.state.is_login">
             <el-button @click="dialogLogin = true ,drawer = false">登录</el-button>
@@ -17,7 +16,7 @@
         </el-carousel>
         <el-col :span="24"  >
             <el-card>
-                <el-button @click="dialogBack = true,drawer = false ,jiazai()">更多背景</el-button>
+                <el-button @click="dialogBack = true,drawer = false">更多背景</el-button>
                 <el-button style="float:right;" @click="changeBackground('')">取消背景</el-button>
             </el-card>
         </el-col>
@@ -76,7 +75,10 @@
             <el-row justify="space-between">
                 <el-col :span="8">
                     <h4  style="float:left;">切换背景</h4>
-                    <el-link href="https://wallhaven.cc/" type="primary">图片来源</el-link>
+                    <el-tag >
+                        <el-link href="https://wallhaven.cc/" type="primary">图片来源</el-link>
+                    </el-tag>
+                    
                 </el-col>
                 <el-col :span="8">
                     <el-button  style="float:right;" size="small" type="danger" @click="close">
@@ -87,36 +89,30 @@
           </template>
           <el-scrollbar height="420px">
           <ul class="ul">
-                <li v-for="i in List" :key="i">
+                <li v-for="i in $store.state.images.ImagesList" :key="i">
                     <div class="load">
                         <el-image  class="imagss"
                         fit="fit"
                         style="width:320px;height:200px;"
                         @click="changeBackground('https://images.beink.cn/'+i)"
                         :src="'https://images.beink.cn/'+i" />
-                        <el-row class="upp">
-                            <el-col :span="2" v-if="$store.state.account==='admin'" >
-                                <el-button size="small" type="danger" @click="ddd(i)">删除图片</el-button>
-                            </el-col>
-                        </el-row>
+                        <button class="delete" @click="ddd(i)" v-if="$store.state.account==='admin'"></button>
+
                     </div>
                 </li>
                 <li v-if="$store.state.account==='admin'">
                     <div class="upload">
                             <input  type="file" style="width:318px;height:148px;" id="XXX"/>
                             <el-button @click="upload" style="width:318px;height:50px;">提交</el-button>
-                        
                     </div>
                 </li>
-            
         </ul></el-scrollbar>
     </el-dialog>
-
 </template>
 
 <script>
 import { mapState ,mapActions } from 'vuex'
-import { ElMessage } from 'element-plus'
+import { ElMessage ,ElNotification  } from 'element-plus'
 import {useStore} from 'vuex'
 import router from '../router/index'
 import login from '../views/AccountLogin'
@@ -127,62 +123,40 @@ import {onMounted, ref } from 'vue'
         components:{login ,register},
         setup(){
             const List = ref([])
-            const other = ref('')
             const store = useStore()
-            const jiazai = ()=>{
-                $.ajax({
-                    url:'https://so.beink.cn/oss/getList/',
-                    type:'get',
-                    success(res){
-                        List.value = res
-                    },
-                    error(res){
-                        console.log(res)
-                    }
-                 })
-            }
             onMounted(()=>{
-                jiazai()
+                store.dispatch("getList")
+                if(localStorage.getItem("info")===null){
+                    open2()
+                    localStorage.setItem("info","info")
+                }
             })
+            const open2 = () => {
+                ElNotification({
+                    title: 'info',
+                    message: "点击小太阳 以查看更多的功能",
+                    position: 'top-right',
+                    type: 'info',
+                })
+            }
             const upload = ()=>{
                 let e = document.getElementById('XXX')
                 if(e.value=='')return
                 var formData = new FormData(); 
 		        formData.append('file', e.files[0]); //传给后端的路径
-                $.ajax({
-                    url:'https://so.beink.cn/oss/uploadImage/',
-                    type:'post',
-                    data: formData,
-                    processData: false, // 告诉jQuery不要去处理发送的数据
-			        contentType: false, // 告诉jQuery不要去设置Content-Type请求头
-                    headers:{
-                        Authorization:"Bearer " + store.state.token
-                    },
-                    success(res){
-                        List.value = res
-                    }
-                        
+                store.dispatch("upload",{
+                    token:store.state.token,
+                    formData:formData
                 })
-                
             }
-            
             const ddd = (i)=>{
-                $.ajax({
-                    url:'https://so.beink.cn/oss/deleteImage/',
-                    type:'delete',
-                    headers:{
-                        Authorization:"Bearer " + store.state.token
-                    },
-                    data:{
-                        url:i
-                    },
-                    success(res){
-                        List.value = res
-                    }
+                store.dispatch("delete",{
+                    url:i,
+                    token:store.state.token,
                 })
             }   
             return{
-                List ,ddd,other,jiazai,upload
+                List ,ddd,upload
             }
         },
         data(){
@@ -297,48 +271,46 @@ import {onMounted, ref } from 'vue'
         width: 50px;
         cursor: pointer;
     }
-    .el-icon:hover{
+    .ul li:hover{
         transition:.3s;
         background-color: rgba(225,225,225,.2);
         animation-play-state: paused;
     }
-    .iicon {
-		animation-timing-function: ease;
-		animation: slide-left 1s   infinite ;
-	}
-	@keyframes slide-left {
-		0% {
-			transform:translateX(0);
-            opacity:0;
-		}
-		100% {
-			transform:translateX(-10px);
-            opacity:1;
-		}
-	}
     @media only screen and (max-width: 410px) {
         #time{
             width: 35px;;
         }
       }
     .load{
-        overflow: hidden;
         position: relative;
         cursor: pointer;
         margin-bottom: 10px;
     }
-    .load el-button{
-        font-size: 10px;
-    }
-    .load .upp{
-        transition: .3s;
+    .delete{
+        border: none;
+        cursor: pointer;
+        border-radius: 4px;
+        background: #d43e4b;
         position: absolute;
-        transform: translateY(100%);
+        z-index: 0;
+        width:320px;
+        height:0px;
+        left: 0;
+        bottom:4px;
+        transition: .3s;
     }
-    .load:hover .upp{
-        transform: translateY(-100%);
+    .imagss:hover + .delete ,.delete:hover{
+        height:40px;
+    }
+    .imagss{
+        border-radius: 4px;
+        transition: .2s;
+    }
+    .imagss:hover,.upload:hover{
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     }
     .ul{
+        box-sizing: border-box;
         display: flex;
         justify-content: space-around;
         flex-wrap: wrap;
@@ -351,11 +323,7 @@ import {onMounted, ref } from 'vue'
     .upload{
         width:320px;
         height:200px;
-        box-sizing: border-box;
         transition: .2s;
-    }
-    .upload:hover{
-        background-color: burlywood;
     }
     
 </style>

@@ -48,6 +48,10 @@ VMdPreview.use(vuepressTheme, {
     Prism,
   });
 const app = createApp(App)
+// 屏蔽错误信息
+// app.config.errorHandler = () => null;
+//关闭警告信息
+app.config.warnHandler = () => null;
 for (let iconName in ELIcons) {
 	app.component(iconName, ELIcons[iconName])
 }
