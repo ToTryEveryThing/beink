@@ -8,7 +8,7 @@ spring:
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
+#hsdhsh
 alioss:
   endpoint: https://oss-cn-beijing.aliyuncs.com
   accessKeyId:  LTAI5tFURunRaquic7imcEeU
