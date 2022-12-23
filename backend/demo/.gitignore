@@ -5,6 +5,8 @@ target/
 /src/main/resources/
 
 *.yml
+application.properties
+application.yml
 *.properties
 ### STS ###
 .apt_generated

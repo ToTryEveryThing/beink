@@ -9,8 +9,8 @@ target/
 /backend/demo/src/test/**
 /backend/demo/src/main/resources/
 
-*.yml
-*.properties
+.yml
+.properties
 ### STS ###
 .apt_generated
 .classpath
