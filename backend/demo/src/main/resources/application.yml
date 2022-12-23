@@ -9,11 +9,13 @@ mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-#baidu
-
-
-
-
+alioss:
+  endpoint: https://oss-cn-beijing.aliyuncs.com
+  accessKeyId:  LTAI5tFURunRaquic7imcEeU
+  accessKeySecert: EMqIwjsspBGaxYS3vWcljlQkCtZTEl
+  roleArn: acs:ram::1093137327074106:role/beink
+  regionID: cn-beijing
+  bucket: beink
 
 #  global-config:
 #    db-config:
