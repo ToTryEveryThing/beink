@@ -7,64 +7,23 @@
                 </svg>
                 <span>{{i.name}}</span>
              </a>
-             <button @click="dele(i.id)">
-                <svg  class="icon1" aria-hidden="true">
-                    <use xlink:href="#icon-shanchu"></use>
-                </svg>
-             </button>
         </li>
-        <div class="isShow" v-if="isShow">
-            <h4>添加网址</h4>
-            <label>Name</label>
-            <input type="text" autofocus="autofocus" v-model="name"><br>
-           <label>Url</label>
-            <input type="text" v-model="href">
-            <div class="yesOrno">
-                <button @click="hh" class="yes">确定</button>
-                <button @click="nohh"  class="no">取消</button>
-            </div>
-        </div>
-            <div class="add" v-if="localList.length<=4" @click="isShow =! isShow">
-                <svg  class="icon" aria-hidden="true">
-                    <use xlink:href="#icon-zengjia"></use>
-                </svg>
-            </div>
      </ul>
 </template>
 
 <script>
-    import {nanoid} from 'nanoid'
-    import {  mapState ,mapMutations} from 'vuex';
+    import {  mapState } from 'vuex';
     export default{
         data() {
             return {
-                href:'',
-                name:'',
-                isShow:false,
-                icon:['#icon-yongquan','#icon-zhifeiji','#icon-qiqiu','#icon-zhifengche',
-                '#icon-fengche','#icon-quqi','#icon-xigua','#icon-yinliao','#icon-bingqilin',
-                '#icon-diqiuyi']
             }
         },
+        
         computed:{
             ...mapState(['localList'])
         },
         methods:{
-            hh(){
-                if(this.href===''||this.name===''){
-                    alert('填完');
-                    return 
-                }
-                const ll = {id:nanoid(),href:this.href,name:this.name,icon:`${this.icon[Math.floor(Math.random()*10)]}`};
-                this.$store.dispatch('changeList',ll)
-                this.href=this.name=''
-                this.isShow =! this.isShow
-            }, 
-            nohh(){
-                this.isShow =! this.isShow
-                this.href=this.name=''
-            } ,
-            ...mapMutations(['dele'])
+            
         },
     }
 </script>
@@ -142,41 +101,13 @@
         text-overflow: ellipsis;
         text-align: center;
     }
-    .isShow{
-        position: absolute;
-        border-radius: 5px;
-        margin-bottom: 5px;
-        box-shadow: 1px 1px 5px grey;
-        width: 200px;
-        background-color: white;
-        padding: 10px;
-        z-index: 999;
-    }
     h4{
         margin-bottom: 10px;
     }
     label{
         font-size:15px;
     }
-    .yesOrno{
-        margin-top: 10px;
-        display: flex;
-        justify-content: space-between;
-        height: 25px;
-    }
-    .yes,.no{
-        width:90px;
-        border:none;
-        transition: .2s;
-        border-radius: 5%;
-    }
-    .no:hover{
-        background-color: rgb(221, 156, 156);
-    }
-    .yes:hover{
-        background-color: rgb(130, 130, 236);
-        
-    }
+    
     li{
         list-style:none;
         position:relative;
@@ -215,16 +146,6 @@
     }
     table, td, th {
         border: 2px solid rgb(134, 134, 134);
-    }
-    input{
-        text-indent: 5px;
-        outline:none;
-        border:1px black solid;
-        height: 18px;
-        width: 192px;
-    }
-    input:focus{
-        background-color: #884df059;
     }
     li {
 		animation-name: fade-in-top;
