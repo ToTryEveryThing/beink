@@ -2,3 +2,10 @@
 
 ----
 >2022/12/19    study和backlist 分出一个表
+
+## SpringBoot 2.0.x 之后 文件上传大小限制
+
+> ```properties
+> spring.servlet.multipart.max-file-size=10MB
+> spring.servlet.multipart.max-request-size=10MB
+> ```

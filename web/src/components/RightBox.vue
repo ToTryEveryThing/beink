@@ -266,7 +266,13 @@ import {onMounted, ref } from 'vue'
         padding: 0;
         margin: 0;
     }
-    body{background-size:100% 100%;background-size:cover}
+    body{
+        background-size:100% 100%;
+        background-size:cover;
+        height: 100%;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+    }
     #time{
         position: absolute;
         right: 0;
