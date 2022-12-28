@@ -19,7 +19,7 @@ import {useStore} from 'vuex'
 import {ref} from 'vue'
 import { reactive, toRefs } from '@vue/reactivity'
 import router from '../router/index'
-import { ElMessage } from 'element-plus'
+import { success, error } from '@/utiles/message'
 export default {
   setup(){
     const vue = reactive({
@@ -29,16 +29,6 @@ export default {
       labelPosition :'right',
       nor:false,
     })
-    const open2 = () => {
-      ElMessage({
-        message: '登录成功',
-        type: 'success',
-      })
-    }
-    
-    const open4 = () => {
-      ElMessage.error('账号或密码错误')
-    }
     const store = useStore();
             let account = ref('')
             let password = ref('')
@@ -51,14 +41,14 @@ export default {
                         store.dispatch("getinfo",{
                             success(){
                               vue.nor = true
-                              open2()
+                              success("登录成功")
                               sessionStorage.setItem("name",store.state.account)
                               router.push({name:'main'})
                             },
                         })
                     },
                     error(){
-                      open4()
+                      error("账号或密码错误")
                     }
                 })
             }
@@ -67,7 +57,7 @@ export default {
         account,
         password,
         message,
-        login,open2,open4
+        login
       }
   }
 }

@@ -16,8 +16,8 @@ public class userDeleteImpl implements userDeleteService {
     public String delete(Integer id) {
         int res = webmapper.deleteById(id);
         if(res>=1) {
-           return "true";
+           return "success";
         }
-        else return "false";
+        else return "error";
     }
 }

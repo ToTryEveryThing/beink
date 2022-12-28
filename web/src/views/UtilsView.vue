@@ -160,7 +160,8 @@ import $ from 'jquery'
       $.ajax({
           url:"https://so.beink.cn/user/admin/git/save/",
           data:{
-              markdown:JSON.stringify(editableTabs.value)
+              markdown:JSON.stringify(editableTabs.value),
+              account:store.state.account
           },
           headers:{
                 Authorization:"Bearer " + store.state.token

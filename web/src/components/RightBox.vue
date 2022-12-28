@@ -146,15 +146,18 @@ import {onMounted, ref } from 'vue'
                 let e = document.getElementById('XXX')
                 if(e.value=='')return
                 var formData = new FormData(); 
+                //表单可以增加数据 如下
 		        formData.append('file', e.files[0]); //传给后端的路径
+                formData.append('account',store.state.account)
                 store.dispatch("upload",{
                     token:store.state.token,
-                    formData:formData
+                    formData:formData,
                 })
             }
             const ddd = (i)=>{
                 store.dispatch("delete",{
                     url:i,
+                    account:store.state.account,
                     token:store.state.token,
                 })
             }   

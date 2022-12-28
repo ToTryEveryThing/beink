@@ -1,14 +1,5 @@
 import $ from 'jquery'
-import { ElMessage } from 'element-plus'
-const open2 = (i) => {
-    ElMessage({
-      message: i,
-      type: 'success',
-    })
-  }
-const open4 = (i) => {
-    ElMessage.error(i)
-}
+import {success , error} from  '../utiles/message'
 export default {
     state: {
         ImagesList:[]
@@ -22,7 +13,7 @@ export default {
                     context.commit("getList",res);
                 },
                 error(){
-                    open4("图片获取失败")
+                    error("图片获取失败")
                 }
              })
         },
@@ -34,14 +25,15 @@ export default {
                     Authorization:"Bearer " + value.token
                 },
                 data:{
-                    url:value.url
+                    url:value.url,
+                    account:value.account
                 },
                 success(res){
                     context.commit("getList",res)
-                    open2("删除成功")
+                    success("删除成功")
                 },
                 error(){
-                    open4("删除失败")
+                    error("删除失败")
                 }
             })
         },
@@ -49,7 +41,7 @@ export default {
             $.ajax({
                 url:'https://so.beink.cn/oss/uploadImage/',
                 type:'post',
-                data: value.formData,
+                data:value.formData,
                 processData: false, // 告诉jQuery不要去处理发送的数据
                 contentType: false, // 告诉jQuery不要去设置Content-Type请求头
                 headers:{
@@ -57,10 +49,10 @@ export default {
                 },
                 success(res){
                     context.commit("getList",res)
-                    open2("上传成功")
+                    success("上传成功")
                 },
                 error(){
-                    open4("上传失败")
+                    error("上传失败")
                 }    
             })
         }

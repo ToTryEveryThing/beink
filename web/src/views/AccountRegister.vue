@@ -17,7 +17,7 @@
 <script>
 import {ref} from 'vue'
 import { reactive, toRefs } from '@vue/reactivity'
-import { ElMessage } from 'element-plus'
+import {success,error} from '../utiles/message'
 import $ from 'jquery'
 import router from '../router/index'
 export default {
@@ -28,18 +28,6 @@ export default {
       labelPosition :'right',
       nor:false,
     })
-    const open2 = () => {
-      ElMessage({
-        message: '注册成功',
-        type: 'success',
-      })
-    }
-    const open3 = value => {
-      ElMessage({
-        message: value,
-        type: 'warning',
-      })
-    }
     let account = ref('')
     let password = ref('')
     let message = ref('')
@@ -53,11 +41,11 @@ export default {
             },
             success(res){
                 if(res.message === "success"){
-                    open2()
+                    success("注册成功")
                     vue.nor = true
                     router.push({name:'login'})
                 }else{
-                    open3(res.message)
+                    error(res.message)
                 }
             },
         })
@@ -66,8 +54,7 @@ export default {
         ...toRefs(vue),
         account,
         password,
-        message,register,open2
-        ,open3
+        message,register
       }
   }
 }

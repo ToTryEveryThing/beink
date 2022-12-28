@@ -40,7 +40,7 @@ public class JwtUtil {
         return Jwts.builder()
                 .setId(uuid)
                 .setSubject(subject)
-                .setIssuer("sg")
+                .setIssuer("米叔")
                 .setIssuedAt(now)
                 .signWith(signatureAlgorithm, secretKey)
                 .setExpiration(expDate);
@@ -50,7 +50,7 @@ public class JwtUtil {
         byte[] encodeKey = Base64.getDecoder().decode(JwtUtil.JWT_KEY);
         return new SecretKeySpec(encodeKey, 0, encodeKey.length, "HmacSHA256");
     }
-
+//解析Token
     public static Claims parseJWT(String jwt) throws Exception {
         SecretKey secretKey = generalKey();
         return Jwts.parserBuilder()

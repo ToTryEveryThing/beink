@@ -31,7 +31,7 @@ public class LoginImpl implements LoginService {
 
         UserDetailsImpl loginUser = (UserDetailsImpl) authenticate.getPrincipal();
         web web = loginUser.getWeb();
-        String jwt = JwtUtil.createJWT(String.valueOf(web.getId()));
+        String jwt = JwtUtil.createJWT(String.valueOf(web.getAccount()));
 
         Map<String,String> map = new HashMap<>();
         map.put("message","success");

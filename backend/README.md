@@ -9,3 +9,5 @@
 > spring.servlet.multipart.max-file-size=10MB
 > spring.servlet.multipart.max-request-size=10MB
 > ```
+
+> 避免拿着Token乱改  限制一下  不过方法不太行😅😅

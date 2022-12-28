@@ -1,5 +1,6 @@
 package com.example.demo.config.filter;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.mapper.webMapper;
 import com.example.demo.pojo.web;
 import com.example.demo.service.impl.utils.UserDetailsImpl;
@@ -28,7 +29,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("Authorization");
-
         if (!StringUtils.hasText(token) || !token.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
@@ -43,8 +43,9 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        web user = userMapper.selectById(Integer.parseInt(userid));
+        QueryWrapper<web> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("account",userid);
+        web user = userMapper.selectOne(queryWrapper);
 
         if (user == null) {
             throw new RuntimeException("用户名未登录");

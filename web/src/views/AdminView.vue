@@ -169,9 +169,10 @@ export default {
               },
               data:{
                   id:vue.tableData[a].id,
+                  account:store.state.account
               },
               success(res){
-                if(res==="true")
+                if(res==="success")
                   aaa()
               },error(res){
                 console.log(res)
