@@ -31,8 +31,8 @@
         </el-col>
         <el-divider><el-icon color="#dfd3f4"><MagicStick /></el-icon></el-divider>
         <el-col  :span="24" :gutter="20">
-                <el-row justify="space-evenly">
-                    <el-col :span="4" v-for="i in $store.state.study.editableTabs" :key="i.name">
+                <el-row >
+                    <el-col :span="6" v-for="i in $store.state.study.editableTabs" :key="i.name">
                         <el-tag   style="cursor: pointer;"  @click="send(i.name)">
                             {{i.title}}
                         </el-tag>
