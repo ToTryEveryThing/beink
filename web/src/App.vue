@@ -2,7 +2,9 @@
   <router-view/>
 </template>
 
-<script >
+<script setup >
+import darkClass from './utiles/dark'
+darkClass(localStorage.getItem("theme"))
 </script>
 
 <style>

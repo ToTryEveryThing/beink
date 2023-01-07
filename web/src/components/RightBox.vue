@@ -14,9 +14,10 @@
                 <img :src="i.src"  @click="changeBackground(i.src)" alt="">
             </el-carousel-item>
         </el-carousel>
-        <el-col :span="24"  >
+        <el-col :span="24">
             <el-card>
                 <el-button @click="dialogBack = true,drawer = false">更多背景</el-button>
+                <el-button @click="dark">切换模式</el-button>
                 <el-button style="float:right;" @click="changeBackground('')">取消背景</el-button>
             </el-card>
         </el-col>
@@ -31,7 +32,7 @@
         </el-col>
         <el-divider><el-icon color="#dfd3f4"><MagicStick /></el-icon></el-divider>
         <el-col  :span="24" :gutter="20">
-                <el-row >
+                <el-row class="hhhhhhhh">
                     <el-col :span="6" v-for="i in $store.state.study.editableTabs" :key="i.name">
                         <el-tag   style="cursor: pointer;"  @click="send(i.name)">
                             {{i.title}}
@@ -113,6 +114,7 @@
 </template>
 
 <script>
+import darkClass from '../utiles/dark.js'
 import { mapState ,mapActions } from 'vuex'
 import { ElMessage ,ElNotification  } from 'element-plus'
 import {useStore} from 'vuex'
@@ -134,6 +136,16 @@ import {onMounted, ref } from 'vue'
                     localStorage.setItem("info","info")
                 }
             })
+            const dark = ()=>{
+                let Class = localStorage.getItem("theme") || "";
+                if(Class==="dark"){
+                    darkClass()
+                    localStorage.setItem("theme","sun")
+                }else{
+                    darkClass("dark")
+                    localStorage.setItem("theme","dark")
+                }
+            }
             const open2 = () => {
                 ElNotification({
                     title: 'info',
@@ -162,7 +174,7 @@ import {onMounted, ref } from 'vue'
                 })
             }   
             return{
-                List ,ddd,upload
+                List ,ddd,upload,dark
             }
         },
         data(){
@@ -336,6 +348,10 @@ import {onMounted, ref } from 'vue'
         width:320px;
         height:200px;
         transition: .2s;
+    }
+    .hhhhhhhh{
+        display: flex;
+        justify-content: space-around;
     }
     
 </style>

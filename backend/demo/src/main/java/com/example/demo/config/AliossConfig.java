@@ -18,6 +18,4 @@ public class AliossConfig {
     private String roleArn;
     private String  regionID;
     private String bucket;
-
-
 }

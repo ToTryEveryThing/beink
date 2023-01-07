@@ -1,6 +1,6 @@
 <template>
-  <el-row >
-    <el-col :span="18" :offset="3">
+  <el-row justify="center">
+    <el-col :md="18" :xs="24">
   <el-dialog
     v-model="dialogVisible"
     title="添加"
@@ -38,8 +38,8 @@
       :label="item.title"
       :name="item.name"
     >
-    <el-row justify="space-evenly" v-if="item.show">
-      <el-col  :span="1" v-if="$store.state.account==='admin'">
+    <el-row  justify="space-evenly" v-if="item.show">
+      <el-col :span="1" v-if="$store.state.account==='admin'">
         <el-button  type="primary"  @click="item.show=false" plain>编辑</el-button>
         <el-button type="success" style="margin-top:10px;" class="fsafs" @click="dialogVisible = true" plain>添加</el-button>
         <el-button  type="danger" style="margin-top:10px;" class="fsafs" @click="removeTab(item.name)" plain>删除</el-button>
@@ -56,28 +56,30 @@
           </a>
         </el-affix>
       </el-col>
-      <el-col :span="16" >
+      <el-col :xs="23" :sm="16">
           <el-card>
               <el-col :span="24">
-                  <v-md-preview  :text="item.content"></v-md-preview >
+                  <v-md-preview  id="preview" class="dark" :text="item.content"></v-md-preview >
               </el-col>
           </el-card>
       </el-col>
-      <el-col :gutter="20" :span="3">
+      <el-col class="hidden-xs-only" :gutter="20" :span="3">
           <el-col :span="12">
             <el-image style="width: 100px; height: 100px" src="https://cdn.acwing.com/media/user/profile/photo/71127_lg_5c719f083a.png" :fit="fit" /> 
           </el-col>
-          <el-col :span="12">
-            <el-tag>米叔</el-tag>
+          <el-col  :span="12">
+            <el-tag >米叔</el-tag>
           </el-col>
       </el-col>
   </el-row>
-    <v-md-editor v-if="!item.show" v-model="item.content" 
+    <v-md-editor  v-if="!item.show" v-model="item.content" 
     height="850px"
     left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code | save back" 
     right-toolbar="preview toc sync-scroll fullscreen"
     :toolbar="vue.toolbar"
-    @save="item.show=true,save()" ></v-md-editor>
+    @save="item.show=true,save()" 
+    >
+  </v-md-editor>
     </el-tab-pane>
   </el-tabs>
 </el-col>
@@ -104,7 +106,7 @@ import $ from 'jquery'
       this.$bus.on('send',data=>{
           console.log(data)
           localStorage.setItem("activeName",data)
-      })
+      })     
     },
     setup(){
       const vue = reactive({

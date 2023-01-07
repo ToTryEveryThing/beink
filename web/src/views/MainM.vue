@@ -34,8 +34,6 @@ import {reactive,toRefs,onMounted} from 'vue'
                 let i = store.state.backImg||localStorage.getItem("color")||6
                     $('html').css({'--backColor':store.state.colorList[i-1].backColor})  
                     $('html').css({'--color':store.state.colorList[i-1].color})
- 
-                
                 store.commit("show",'')
                 const jwt = localStorage.getItem("jwt");
                 if(jwt){

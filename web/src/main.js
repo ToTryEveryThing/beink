@@ -17,7 +17,9 @@ import App from './App.vue'
 // import ElementPlus from 'element-plus'
 // import 'element-plus/dist/index.css'
 
+import 'element-plus/theme-chalk/display.css'
 import 'element-plus/dist/index.css'
+import 'element-plus/theme-chalk/dark/css-vars.css'
 import router from './router'
 import store from './store'
 // 事件总线
@@ -43,10 +45,20 @@ import Prism from 'prismjs';
 
 VueMarkdownEditor.use(vuepressTheme, {
     Prism,
+    // config: {
+    //   toc: {
+    //     includeLevel: [1,2,3,4],
+    //   },
+    // },
 });
 VMdPreview.use(vuepressTheme, {
     Prism,
-  });
+    // config: {
+    //   toc: {
+    //     includeLevel: [1,2,3,4],
+    //   },
+    // },
+});
 const app = createApp(App)
 // 屏蔽错误信息
 // app.config.errorHandler = () => null;
