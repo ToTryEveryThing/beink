@@ -43,6 +43,8 @@
         <el-divider><el-icon color="#dfd3f4" ><Reading /></el-icon></el-divider>
         <APP/>
         <el-divider><el-icon color="#dfd3f4" ><Link /></el-icon></el-divider>
+        <chat style="text-algin:center;"/>
+        <el-divider><el-icon color="#dfd3f4"><ChatDotRound /></el-icon></el-divider>
         <el-row justify="space-evenly">
             <el-col :span="12">
                 <el-button type="danger" style="width:100%;" v-if="$store.state.is_login" @click="logout" plain>退出</el-button>
@@ -118,6 +120,7 @@ import darkClass from '../utiles/dark.js'
 import { mapState ,mapActions } from 'vuex'
 import { ElMessage ,ElNotification  } from 'element-plus'
 import {useStore} from 'vuex'
+import chat from './GoChat.vue'
 import router from '../router/index'
 import login from '../views/AccountLogin'
 import register from '../views/AccountRegister.vue'
@@ -125,7 +128,7 @@ import APP from '../components/AppCURD.vue'
 import $ from 'jquery'
 import {onMounted, ref } from 'vue'
     export default{
-        components:{login ,register ,APP},
+        components:{login ,register ,APP ,chat},
         setup(){
             const List = ref([])
             const store = useStore()

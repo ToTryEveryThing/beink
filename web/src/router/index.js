@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import admin from '../views/AdminView'
 import study from '../views/UtilsView'
+import chat from '../views/ChatView'
 const routes = [ 
   {
     path:'/',
@@ -25,6 +26,21 @@ const routes = [
     meta: {
       req:false,
     }, 
+  },
+  {
+    path:"/chat",
+    name:'caht',
+    component:chat,
+    meta: {
+      req:false,
+    }, 
+    // 独享路由  
+    beforeEnter: (to,from,next) => {
+        if(sessionStorage.getItem("name")==="")
+        next("/")
+        else
+        next()
+    }
   },
   {
     path: '/404',
@@ -54,7 +70,7 @@ router.beforeEach((to,from,next)=>{
           next('/404')
         }
     }else{
-      next()
+        next()
     }
 })
 export default router

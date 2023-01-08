@@ -137,6 +137,7 @@ const mutations = {
   updateUser(state,value){
     state.id = value.id
     state.account = value.account
+    sessionStorage.setItem("id",value.id)
     state.is_login = value.is_login
     state.backImg = value.backImg
     state.localList = JSON.parse(value.listlist)
