@@ -58,7 +58,7 @@
                 ],
                 list2:[
                     {href:'https://cn.vuejs.org/guide/introduction.html',icon:'#icon-Vue',name:'Vue'},
-                    {href:'https://gitee.com/mi_shu',icon:'#icon-gitee',name:'gitee'},
+                    {href:'/study',icon:'#icon-biji',name:'study'},
                     {href:'https://www.w3school.com.cn/index.html',icon:'#icon-w3school',name:'w3school'}
                 ]
             })

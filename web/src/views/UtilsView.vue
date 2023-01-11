@@ -59,17 +59,28 @@
       <el-col :xs="23" :sm="16">
           <el-card>
               <el-col :span="24">
-                  <v-md-preview  id="preview" class="dark" :text="item.content"></v-md-preview >
+                  <v-md-preview ref="preview" id="preview" class="dark" :text="item.content"></v-md-preview >
               </el-col>
           </el-card>
       </el-col>
-      <el-col class="hidden-xs-only" :gutter="20" :span="3">
-          <el-col :span="12">
-            <el-image style="width: 100px; height: 100px" src="https://cdn.acwing.com/media/user/profile/photo/71127_lg_5c719f083a.png" :fit="fit" /> 
-          </el-col>
-          <el-col  :span="12">
-            <el-tag >米叔</el-tag>
-          </el-col>
+      <el-col class="hidden-xs-only" :gutter="20" :span="4">
+        <el-affix :offset="0">
+          <el-scrollbar height="100vh">
+            <el-col :span="12">
+              <el-image style="width: 100px; height: 100px" src="https://cdn.acwing.com/media/user/profile/photo/71127_lg_5c719f083a.png" :fit="fit" /> 
+            </el-col>
+            <el-col  :span="24">
+              <div
+              v-for="anchor in vue.titles" :key="anchor.title"
+              :style="{ padding: `0px 0 10px ${anchor.indent * 20}px` ,color:'#3eaf7c'}"
+              @click="handleAnchorClick(anchor)"
+            >
+              <a style="cursor: pointer">{{ anchor.title }}</a>
+            </div>
+            </el-col>
+          </el-scrollbar>
+         
+        </el-affix>
       </el-col>
   </el-row>
     <v-md-editor  v-if="!item.show" v-model="item.content" 
@@ -110,6 +121,7 @@ import $ from 'jquery'
     },
     setup(){
       const vue = reactive({
+          titles:[],
           toolbar: {
           back: {
               title: '取消编辑',
@@ -124,6 +136,7 @@ import $ from 'jquery'
           },
           },
       })
+      let preview = ref(null)
       let tabIndex = 0
       let store = useStore()
       let title = ref('')
@@ -184,6 +197,7 @@ import $ from 'jquery'
             success(res){
               editableTabs.value = JSON.parse(res)
               tabIndex = editableTabs.value.length
+              changeTitle()
             },
         })
     }
@@ -205,11 +219,37 @@ import $ from 'jquery'
             })
         }
     })
+    const handleAnchorClick = (anchor)=> {
+      const { lineIndex } = anchor;
+      const heading = preview.value[editableTabsValue.value-1].$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
+      if (heading) {
+        preview.value[editableTabsValue.value-1].scrollToTarget({
+          target: heading,
+          scrollContainer: window,
+          top: 60,
+        });
+      }
+    }
+    const changeTitle =()=>{
+      const anchors = preview.value[editableTabsValue.value-1].$el.querySelectorAll('h2,h3')
+      const titles = Array.from(anchors).filter((title) => !!title.innerText.trim());
+      if (!titles.length) {
+        vue.titles = [];
+        return;
+      }
+      const hTags = Array.from(new Set(titles.map((title) => title.tagName))).sort();
+      vue.titles = titles.map((el) => ({
+        title: el.innerText,
+        lineIndex: el.getAttribute('data-v-md-line'),
+        indent: hTags.indexOf(el.tagName),
+      }));
+    }
    const changeTab = ()=>{
-    localStorage.setItem("activeName",editableTabsValue.value)
+      localStorage.setItem("activeName",editableTabsValue.value)
+      changeTitle()
    }
-    return{
-      title,vue,
+    return{handleAnchorClick,
+      title,vue,preview,
         addTab,removeTab,
         editableTabsValue,
         editableTabs,save,
