@@ -69,13 +69,14 @@
             <el-col :span="12">
               <el-image style="width: 100px; height: 100px" src="https://cdn.acwing.com/media/user/profile/photo/71127_lg_5c719f083a.png" :fit="fit" /> 
             </el-col>
-            <el-col  :span="24">
+            <el-col   :span="24">
               <div
+              style="position:relative;"
               v-for="anchor in vue.titles" :key="anchor.title"
               :style="{ padding: `0px 0 10px ${anchor.indent * 20}px` ,color:'#3eaf7c'}"
               @click="handleAnchorClick(anchor)"
             >
-              <a style="cursor: pointer">{{ anchor.title }}</a>
+              <a style="cursor: pointer" :id="anchor.id"  class="goto">{{ anchor.title }}</a>
             </div>
             </el-col>
           </el-scrollbar>
@@ -94,10 +95,13 @@
     </el-tab-pane>
   </el-tabs>
 </el-col>
+<div id="hdfhsdfh"></div>
 </el-row>
+
 </template>
 
 <script>
+import { nanoid } from 'nanoid'
 import {onMounted, ref,reactive} from 'vue'
 import {useStore } from 'vuex'
 import router from '../router/index'
@@ -113,14 +117,9 @@ import $ from 'jquery'
         });
     });
   export default{
-    mounted(){
-      this.$bus.on('send',data=>{
-          console.log(data)
-          localStorage.setItem("activeName",data)
-      })     
-    },
     setup(){
       const vue = reactive({
+          asd : '#hdfhsdfh',
           titles:[],
           toolbar: {
           back: {
@@ -143,7 +142,7 @@ import $ from 'jquery'
       const editableTabsValue = ref()
       const editableTabs = ref([])
       const dialogVisible = ref(false)
-      const addTab = () => {
+    const addTab = () => {
           const newTabName = ++tabIndex
           editableTabs.value.push({
               title: title.value,
@@ -155,7 +154,7 @@ import $ from 'jquery'
           dialogVisible.value  = false
           title.value = ''
           save()
-      }
+    }
     const removeTab = (targetName) => {
         let f = confirm("确定吗")
         if(!f)return 
@@ -197,11 +196,13 @@ import $ from 'jquery'
             success(res){
               editableTabs.value = JSON.parse(res)
               tabIndex = editableTabs.value.length
-              changeTitle()
+              setTimeout(function(){changeTitle()},200)
+              
             },
         })
     }
     onMounted(()=>{
+      
       $('html').css({'--backColor':'#f7f7f7f'})  
       document.getElementsByTagName('body')[0].style.backgroundImage 
             = `url("")`   
@@ -220,6 +221,10 @@ import $ from 'jquery'
         }
     })
     const handleAnchorClick = (anchor)=> {
+      $(`${vue.asd}`).removeClass("goto-active")
+      $(`#pane-${editableTabsValue.value} #${anchor.id}`).addClass("goto-active")
+      console.log($(`#${anchor.id}`).html())
+      vue.asd = `#pane-${editableTabsValue.value} #${anchor.id}`
       const { lineIndex } = anchor;
       const heading = preview.value[editableTabsValue.value-1].$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
       if (heading) {
@@ -242,6 +247,7 @@ import $ from 'jquery'
         title: el.innerText,
         lineIndex: el.getAttribute('data-v-md-line'),
         indent: hTags.indexOf(el.tagName),
+        id:nanoid()
       }));
     }
    const changeTab = ()=>{
@@ -286,5 +292,23 @@ import $ from 'jquery'
 @media only screen and (max-width: 500px) {
 
   
+}
+.goto{
+  border: 3px solid #40a0ff00;
+  padding-left: 5px;
+  transition: 0.3s;
+}
+.goto:hover{
+  margin-left: 10px;
+  box-sizing: border-box;
+  color:   #0984e3;
+  border-left: #0984e3 solid 3px;
+}
+.goto-active{
+  border: 3px solid #40a0ff00;
+  padding-left: 5px;
+  box-sizing: border-box;
+  color:   var(--el-color-primary);
+  border-left: #0984e3 solid 3px;
 }
 </style>
