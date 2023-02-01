@@ -1,14 +1,12 @@
 package com.example.demo.controller.admin;
 
+import com.example.demo.aop.PermissionCheck;
 import com.example.demo.service.admin.adminUtilsService;
-import com.example.demo.utils.IdandName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -22,15 +20,10 @@ public class adminUtilsController {
     @Autowired
     private adminUtilsService adminUtilsService;
 
-    @Autowired
-    private HttpServletRequest request;
-
 //    +
+    @PermissionCheck
     @PostMapping("/user/admin/git/save/")
-    public String save(@RequestParam Map<String , String> map) throws Exception {
-        if(!new IdandName().admin(request.getHeader("Authorization"),map.get("account"))){
-            return "error";
-        }
+    public String save(@RequestParam Map<String , String> map){
         return adminUtilsService.save(map.get("markdown"));
     }
 

@@ -163,7 +163,6 @@ import {onMounted, ref } from 'vue'
                 var formData = new FormData(); 
                 //表单可以增加数据 如下
 		        formData.append('file', e.files[0]); //传给后端的路径
-                formData.append('account',store.state.account)
                 store.dispatch("upload",{
                     token:store.state.token,
                     formData:formData,
@@ -229,7 +228,6 @@ import {onMounted, ref } from 'vue'
                                 Authorization:"Bearer " + this.store.state.token
                             },
                             data:{
-                                account:this.store.state.account,
                                 backImg:c,
                                 list:(localStorage.getItem("list"))
                             },

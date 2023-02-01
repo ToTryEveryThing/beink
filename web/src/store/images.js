@@ -23,7 +23,6 @@ export default {
                 },
                 data:{
                     url:value.url,
-                    account:value.account
                 },
                 success(res){
                     context.commit("getList",res)

@@ -40,7 +40,7 @@
                   placeholder="Please input"
                   @keyup.enter="send"
                 />
-                <el-button style="float:right;" @click.once="send" type="primary">发送</el-button>
+                <el-button style="float:right;" @click="send" type="primary">发送</el-button>
             </el-card>
           </el-col>
         </el-row>
@@ -171,4 +171,5 @@
     .scroll >>> .el-scrollbar__view{
   
     }
+
   </style>

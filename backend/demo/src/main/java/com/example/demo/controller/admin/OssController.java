@@ -1,6 +1,7 @@
 package com.example.demo.controller.admin;
 
 import com.aliyuncs.exceptions.ClientException;
+import com.example.demo.aop.PermissionCheck;
 import com.example.demo.service.admin.OssService;
 import com.example.demo.utils.IdandName;
 import com.example.demo.vo.OssTokenVo;
@@ -25,16 +26,11 @@ public class OssController {
     @Autowired
     private OssService ossService;
 
-    @Autowired
-    private HttpServletRequest request;
 //+
+    @PermissionCheck
     @PostMapping("uploadImage/")
-    public List upload(MultipartFile file,@RequestParam String account) throws Exception {
-        if(!new IdandName().admin(request.getHeader("Authorization"),account)){
-            return null;
-        }
+    public List upload(MultipartFile file) throws Exception {
         return ossService.uploadObject(file);
-
     }
 
 //    @GetMapping("/getToken/")
@@ -48,10 +44,8 @@ public class OssController {
     }
 //+
     @DeleteMapping("/deleteImage/")
-    public List deleteImage (@RequestParam  Map<String,String> map) throws Exception {
-        if(!new IdandName().admin(request.getHeader("Authorization"),map.get("account"))){
-            return null;
-        }
+    @PermissionCheck
+    public List deleteImage (@RequestParam  Map<String,String> map) {
          return ossService.deleteObject(map.get("url"));
     }
 

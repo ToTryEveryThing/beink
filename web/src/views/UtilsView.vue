@@ -191,8 +191,7 @@ import $ from 'jquery'
       $.ajax({
           url:"https://so.beink.cn/user/admin/git/save/",
           data:{
-              markdown:JSON.stringify(editableTabs.value),
-              account:store.state.account
+              markdown:JSON.stringify(editableTabs.value)
           },
           headers:{
                 Authorization:"Bearer " + store.state.token
