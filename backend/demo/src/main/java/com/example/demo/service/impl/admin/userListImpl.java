@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.mapper.RecordMapper;
 import com.example.demo.pojo.Record;
 import com.example.demo.service.admin.userListService;
+import com.example.demo.utils.redisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,9 @@ import java.util.List;
 
 @Service
 public class userListImpl implements userListService {
+
+    @Autowired
+    private redisUtil redisUtil;
 
     @Autowired
     private RecordMapper recordMapper;

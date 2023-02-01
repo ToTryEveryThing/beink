@@ -36,7 +36,7 @@ public class adminUtilsController {
 
     @PostMapping("/user/admin/git/show/")
     public String show(){
-        return adminUtilsService.show();
+        return adminUtilsService.redisShow();
     }
 
 }

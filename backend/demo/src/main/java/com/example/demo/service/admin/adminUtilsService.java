@@ -9,4 +9,6 @@ public interface adminUtilsService {
     String show();
     String save_list(String backlist);
     String show_list();
+
+    String redisShow();
 }

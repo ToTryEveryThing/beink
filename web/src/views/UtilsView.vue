@@ -40,18 +40,34 @@
     >
     <el-row  justify="space-evenly" v-if="item.show">
       <el-col :span="1" v-if="$store.state.account==='admin'">
-        <el-button  type="primary"  @click="item.show=false" plain>编辑</el-button>
-        <el-button type="success" style="margin-top:10px;" class="fsafs" @click="dialogVisible = true" plain>添加</el-button>
-        <el-button  type="danger" style="margin-top:10px;" class="fsafs" @click="removeTab(item.name)" plain>删除</el-button>
-        <el-affix class="fsafs" :offset="100">
-          <a style="display:none" href="javascript:window.scrollTo(0,0)" class="fas">
+        <el-affix   :offset="70">
+          <el-button  type="primary"  @click="item.show=false" plain>编辑</el-button>
+          <el-button type="success" style="margin-top:10px;" class="fsafs" @click="dialogVisible = true" plain>添加</el-button>
+          <el-button  type="danger" style="margin-top:10px;" class="fsafs" @click="removeTab(item.name)" plain>删除</el-button>
+          <el-button link @click="Todark"  style="margin-top:10px;" class="fsafs">
+            <el-icon >
+              <Sunny  />
+            </el-icon>
+            <el-icon >
+              <Moon />
+            </el-icon>
+          </el-button>
+          <a  href="javascript:window.scrollTo(0,0)" style="margin-top:10px;" class="fas">
             <span></span>
           </a>
         </el-affix>
       </el-col>
       <el-col  :span="1" v-else>
-        <el-affix class="fsafs" :offset="100">
-          <a style="display:none" href="javascript:window.scrollTo(0,0)" class="fas">
+        <el-affix  :offset="100">
+          <el-button @click="Todark"  style="margin-top:10px;" class="fsafs">
+            <el-icon >
+              <Sunny  />
+            </el-icon>
+            <el-icon >
+              <Moon />
+            </el-icon>
+          </el-button>
+          <a style="margin-top:10px;" href="javascript:window.scrollTo(0,0)" class="fas">
             <span></span>
           </a>
         </el-affix>
@@ -105,17 +121,18 @@ import { nanoid } from 'nanoid'
 import {onMounted, ref,reactive} from 'vue'
 import {useStore } from 'vuex'
 import router from '../router/index'
+import dark from '../utiles/dark'
 import $ from 'jquery'
-    $(function () {
-        $(window).scroll(function () {
-            if ($(window).scrollTop() > 300) {
-                $(".fas").fadeIn(50);
-            }
-            else {
-                $(".fas").fadeOut(50);
-            }
-        });
-    });
+    // $(function () {
+    //     $(window).scroll(function () {
+    //         if ($(window).scrollTop() > 300) {
+    //             $(".fas").fadeIn(50);
+    //         }
+    //         else {
+    //             $(".fas").fadeOut(50);
+    //         }
+    //     });
+    // });
   export default{
     setup(){
       const vue = reactive({
@@ -196,13 +213,21 @@ import $ from 'jquery'
             success(res){
               editableTabs.value = JSON.parse(res)
               tabIndex = editableTabs.value.length
-              setTimeout(function(){changeTitle()},200)
-              
+              setTimeout(function(){changeTitle()},1000)
             },
         })
     }
+    const Todark = ()=>{
+      let Class = localStorage.getItem("theme") || "";
+      if(Class==="dark"){
+          dark()
+          localStorage.setItem("theme","sun")
+      }else{
+          dark("dark")
+          localStorage.setItem("theme","dark")
+      }
+    }
     onMounted(()=>{
-      
       $('html').css({'--backColor':'#f7f7f7f'})  
       document.getElementsByTagName('body')[0].style.backgroundImage 
             = `url("")`   
@@ -223,7 +248,6 @@ import $ from 'jquery'
     const handleAnchorClick = (anchor)=> {
       $(`${vue.asd}`).removeClass("goto-active")
       $(`#pane-${editableTabsValue.value} #${anchor.id}`).addClass("goto-active")
-      console.log($(`#${anchor.id}`).html())
       vue.asd = `#pane-${editableTabsValue.value} #${anchor.id}`
       const { lineIndex } = anchor;
       const heading = preview.value[editableTabsValue.value-1].$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
@@ -254,7 +278,7 @@ import $ from 'jquery'
       localStorage.setItem("activeName",editableTabsValue.value)
       changeTitle()
    }
-    return{handleAnchorClick,
+    return{handleAnchorClick,Todark,
       title,vue,preview,
         addTab,removeTab,
         editableTabsValue,

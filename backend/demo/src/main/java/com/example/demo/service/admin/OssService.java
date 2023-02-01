@@ -11,6 +11,7 @@ import com.aliyuncs.auth.sts.AssumeRoleResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.example.demo.config.AliossConfig;
+import com.example.demo.utils.redisUtil;
 import com.example.demo.vo.OssTokenVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,10 @@ import java.util.List;
 
 @Service
 public class OssService {
+
+    @Autowired
+    private redisUtil redisUtil;
+
 
     @Autowired
     private AliossConfig aliossConfig;
@@ -77,6 +82,7 @@ public class OssService {
     }
 
     public List getList(){
+        System.out.println("我是一");
         OSS ossClient = new OSSClientBuilder().build(aliossConfig.getEndpoint()
                 ,aliossConfig.getAccessKeyId()
                 ,aliossConfig.getAccessKeySecert());
@@ -90,6 +96,7 @@ public class OssService {
 //                System.out.println("\t" + s.getKey());
                 list.add(s.getKey());
             }
+            redisUtil.set("oss",list);
             return list;
         } catch (OSSException oe) {
             System.out.println("Caught an OSSException, which means your request made it to OSS, "
@@ -104,6 +111,14 @@ public class OssService {
             }
         }
         return null;
+    }
+
+    public List redisList(){
+        if(redisUtil.get("oss")==null){
+            redisUtil.set("oss",this.getList());
+        }
+        return (List) redisUtil.get("oss");
+
     }
 
     public List deleteObject(String s){

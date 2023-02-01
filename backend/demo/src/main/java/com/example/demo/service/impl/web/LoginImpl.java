@@ -24,6 +24,7 @@ public class LoginImpl implements LoginService {
     @Override
     public Map<String, String> getToken(String account, String password) {
 
+        System.out.println("hello world");
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(account,password);
 //    自动处理异常

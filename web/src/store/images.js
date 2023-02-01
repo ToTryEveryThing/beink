@@ -12,9 +12,6 @@ export default {
                 success(res){
                     context.commit("getList",res);
                 },
-                error(){
-                    error("图片获取失败")
-                }
              })
         },
         delete(context,value){

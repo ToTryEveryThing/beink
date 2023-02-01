@@ -152,7 +152,7 @@ import {onMounted, ref } from 'vue'
             const open2 = () => {
                 ElNotification({
                     title: 'info',
-                    message: "点击小太阳 以查看更多的功能",
+                    message: "点击右侧图标 以查看更多的功能",
                     position: 'top-right',
                     type: 'info',
                 })

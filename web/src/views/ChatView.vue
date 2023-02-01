@@ -1,12 +1,12 @@
 <template>
     <el-row class="row-bg" justify="space-evenly">
-      <el-col :span="20">
-        <el-card shadow="never">
+      <el-col :span="24">
+        <el-card shadow="never" >
         <el-row>
-          <el-col :span="5">
+          <el-col :sm="5" :xs="7">
             <el-card shadow="never">
               <li>在线用户 我：<el-tag>{{ name  }}</el-tag></li> 
-              <el-scrollbar  height="700px">
+              <el-scrollbar  >
                 <el-divider ><el-icon><User /></el-icon></el-divider>
                 <li class="user"  @click="choice(item)" v-for="item in userList" :key="item">
                   <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"/> 
@@ -19,12 +19,11 @@
               </el-scrollbar>
             </el-card>
           </el-col>
-          <el-col :span="19">
+          <el-col :sm="19" :xs="17">
             <el-card  shadow="never">
                 <div class="oneUser">{{ oneUserName }}</div>
                 <el-divider />
-                <el-scrollbar height="450px" id="srcoll" always class="scroll">
-                 
+                <el-scrollbar height="64vh" id="srcoll" always class="scroll">
                   <div class="fu"  v-for="j in withContext.context" :key="j.author">
                     <div v-if="j.author==='wo'" class="wo" >{{j.context }}</div> 
                     <div v-if="j.author==='ta'" id="ta" class="ta">{{j.context }}</div> 
@@ -33,14 +32,15 @@
                 </el-scrollbar>
                 <el-divider />
                 <el-input
-                maxlength="50"
-                show-word-limit
+                  maxlength="100"
+                  show-word-limit
                   v-model="textarea"
-                  :rows="3"
+                  :rows="4"
                   type="textarea"
                   placeholder="Please input"
+                  @keyup.enter="send"
                 />
-                <el-button style="float:right;" @click="send" type="primary">发送</el-button>
+                <el-button style="float:right;" @click.once="send" type="primary">发送</el-button>
             </el-card>
           </el-col>
         </el-row>

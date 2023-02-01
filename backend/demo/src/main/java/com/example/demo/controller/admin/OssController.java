@@ -44,7 +44,7 @@ public class OssController {
 //
     @GetMapping("/getList/")
     public List GetList(){
-        return ossService.getList();
+        return ossService.redisList();
     }
 //+
     @DeleteMapping("/deleteImage/")

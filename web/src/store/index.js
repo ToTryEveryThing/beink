@@ -23,8 +23,8 @@ const state = {
       {id:2,backColor:'#81ecec',color:'#2ae1dc8f'},
       {id:3,backColor:'#74b9ff',color:'#51abf1'},
       {id:4,backColor:'#a29bfe',color:'#8d7ff7'},
-      {id:5,backColor:'#dfe6e9',color:'#b2bec3'},
-      {id:6,backColor:'#f7f7f7',color:'#ddd'},
+      {id:5,backColor:'#f7f7f7',color:'#ddd'},
+      {id:6,backColor:'#202123',color:'#262727'},
     ],
     background:JSON.parse(localStorage.getItem('background')) || '',
     backgroundColor:'rgba(19, 206, 102, 0.8)'
