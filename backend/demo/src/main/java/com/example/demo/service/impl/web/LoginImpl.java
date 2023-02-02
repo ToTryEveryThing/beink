@@ -1,5 +1,6 @@
 package com.example.demo.service.impl.web;
 
+import com.example.demo.controller.common.Result;
 import com.example.demo.pojo.web;
 import com.example.demo.service.impl.utils.UserDetailsImpl;
 import com.example.demo.service.web.LoginService;
@@ -22,9 +23,8 @@ public class LoginImpl implements LoginService {
 
 
     @Override
-    public Map<String, String> getToken(String account, String password) {
+    public Result getToken(String account, String password) {
 
-        System.out.println("hello world");
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(account,password);
 //    自动处理异常
@@ -35,9 +35,8 @@ public class LoginImpl implements LoginService {
         String jwt = JwtUtil.createJWT(String.valueOf(web.getAccount()));
 
         Map<String,String> map = new HashMap<>();
-        map.put("message","success");
         map.put("token",jwt);
 
-        return map;
+        return new Result(1,"success",map);
     }
 }

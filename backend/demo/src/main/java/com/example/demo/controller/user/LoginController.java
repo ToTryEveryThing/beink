@@ -1,5 +1,6 @@
 package com.example.demo.controller.user;
 
+import com.example.demo.controller.common.Result;
 import com.example.demo.service.web.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +17,7 @@ public class LoginController  {
 
 
     @PostMapping("/user/account/token/")
-    public Map<String,String> getToken(@RequestParam Map<String,String>map){
+    public Result getToken(@RequestParam Map<String,String>map){
 
         String account = map.get("account");
         String password = map.get("password");

@@ -10,7 +10,8 @@ export default {
                 url:'https://so.beink.cn/oss/getList/',
                 type:'get',
                 success(res){
-                    context.commit("getList",res);
+                    if(res.code===1)
+                    context.commit("getList",res.date);
                 },
              })
         },
@@ -25,8 +26,12 @@ export default {
                     url:value.url,
                 },
                 success(res){
-                    context.commit("getList",res)
-                    success("删除成功")
+                    if(res.code===1){
+                        context.commit("getList",res.date)
+                        success("删除成功")
+                    }else{
+                        error("删除失败") 
+                    }
                 },
                 error(){
                     error("删除失败")
@@ -44,8 +49,14 @@ export default {
                     Authorization:"Bearer " + value.token
                 },
                 success(res){
-                    context.commit("getList",res)
-                    success("上传成功")
+                    if(res.code===1){
+                        context.commit("getList",res.date)
+                        success("上传成功")
+                    }else{
+                        error("上传失败")
+                    }
+                    
+                   
                 },
                 error(){
                     error("上传失败")
@@ -55,6 +66,7 @@ export default {
     },
     mutations: {
         getList(state,value){
+            console.log(value)
             state.ImagesList = value
         }
     },

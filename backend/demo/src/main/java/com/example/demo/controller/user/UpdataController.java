@@ -1,5 +1,7 @@
 package com.example.demo.controller.user;
 
+import com.example.demo.aop.PermissionCheck;
+import com.example.demo.controller.common.Result;
 import com.example.demo.service.web.updataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,9 +20,9 @@ public class UpdataController {
     @Autowired
     private updataService updataService;
 
+    @PermissionCheck
     @PostMapping("/user/account/updata/")
-    public String updata(@RequestParam Map<String,String> map){
-
+    public Result updata(@RequestParam Map<String,String> map){
         int id = Integer.parseInt(map.get("id"));
         String account = map.get("account");
         String backimg = map.get("backimg");

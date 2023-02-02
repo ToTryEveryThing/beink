@@ -172,7 +172,7 @@ export default {
                   account:store.state.account
               },
               success(res){
-                if(res==="success")
+                if(res.msg==="success")
                   aaa()
               },error(res){
                 console.log(res)

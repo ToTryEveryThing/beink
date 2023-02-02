@@ -1,6 +1,7 @@
 package com.example.demo.controller.admin;
 
 import com.example.demo.aop.PermissionCheck;
+import com.example.demo.controller.common.Result;
 import com.example.demo.service.admin.adminUtilsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,12 +24,12 @@ public class adminUtilsController {
 //    +
     @PermissionCheck
     @PostMapping("/user/admin/git/save/")
-    public String save(@RequestParam Map<String , String> map){
+    public Result save(@RequestParam Map<String , String> map){
         return adminUtilsService.save(map.get("markdown"));
     }
 
     @PostMapping("/user/admin/git/show/")
-    public String show(){
+    public Result show(){
         return adminUtilsService.redisShow();
     }
 

@@ -210,9 +210,13 @@ import $ from 'jquery'
             url:"https://so.beink.cn/user/admin/git/show/",
             type:'post',
             success(res){
-              editableTabs.value = JSON.parse(res)
-              tabIndex = editableTabs.value.length
-              setTimeout(function(){changeTitle()},1000)
+              if(res.code===1){
+                res = res.date
+                editableTabs.value = JSON.parse(res)
+                tabIndex = editableTabs.value.length
+                setTimeout(function(){changeTitle()},1000)
+              }
+              
             },
         })
     }

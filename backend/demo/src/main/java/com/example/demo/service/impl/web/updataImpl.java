@@ -1,6 +1,7 @@
 package com.example.demo.service.impl.web;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.example.demo.controller.common.Result;
 import com.example.demo.mapper.webMapper;
 import com.example.demo.pojo.user;
 import com.example.demo.pojo.web;
@@ -19,7 +20,7 @@ public class updataImpl implements updataService {
     private webMapper webMapper;
 
     @Override
-    public String Updata(int id, String account, String backimg) {
+    public Result Updata(int id, String account, String backimg) {
         web web = new web();
         web.setAccount(account);
         web.setBackimg(backimg);
@@ -28,7 +29,7 @@ public class updataImpl implements updataService {
 //        不屑password 不被修改
         int update = webMapper.update(web, q);
         if(update>=1){
-            return "true";
-        }else return "false";
+            return new Result(1,"true");
+        }else return new Result(0,"false");
     }
 }

@@ -11,6 +11,7 @@ import com.aliyuncs.auth.sts.AssumeRoleResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.example.demo.config.AliossConfig;
+import com.example.demo.controller.common.Result;
 import com.example.demo.utils.redisUtil;
 import com.example.demo.vo.OssTokenVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class OssService {
     @Autowired
     private AliossConfig aliossConfig;
 
-    public List uploadObject(MultipartFile file) throws IOException {
+    public Result uploadObject(MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
         OSS  os = new OSSClientBuilder().build(
                 aliossConfig.getEndpoint(),
@@ -48,7 +49,7 @@ public class OssService {
                 file.getInputStream()
         );
         os.shutdown();
-        return getList();
+        return new Result(1,"success",getList());
 
     }
 
@@ -113,15 +114,15 @@ public class OssService {
         return null;
     }
 
-    public List redisList(){
+    public Result redisList(){
         if(redisUtil.get("oss")==null){
             redisUtil.set("oss",this.getList());
         }
-        return (List) redisUtil.get("oss");
+        return new Result(1,"success",redisUtil.get("oss"));
 
     }
 
-    public List deleteObject(String s){
+    public Result deleteObject(String s){
         OSS ossClient = new OSSClientBuilder().build(
                  aliossConfig.getEndpoint()
                 ,aliossConfig.getAccessKeyId()
@@ -129,7 +130,7 @@ public class OssService {
         try {
             // 删除文件或目录。如果要删除目录，目录必须为空。
             ossClient.deleteObject(aliossConfig.getBucket(), s);
-            return this.getList();
+            return new Result(1,"success",getList());
         } catch (OSSException oe) {
             System.out.println("Caught an OSSException, which means your request made it to OSS, "
                     + "but was rejected with an error response for some reason.");
@@ -142,6 +143,6 @@ public class OssService {
                 ossClient.shutdown();
             }
         }
-        return null;
+        return new Result(0,"error");
     }
 }

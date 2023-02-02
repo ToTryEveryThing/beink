@@ -1,7 +1,9 @@
 package com.example.demo.service.web;
 
+import com.example.demo.controller.common.Result;
+
 import java.util.Map;
 
 public interface RegisterService {
-    Map<String,String> register(String account, String password);
+   Result register(String account, String password);
 }

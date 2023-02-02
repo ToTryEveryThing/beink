@@ -1,5 +1,6 @@
 package com.example.demo.controller.user;
 
+import com.example.demo.controller.common.Result;
 import com.example.demo.service.web.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +16,7 @@ public class RegisterController {
     private RegisterService registerService;
 
     @PostMapping("/user/account/register/")
-    public Map<String,String > register(@RequestParam Map<String,String>map){
+    public Result register(@RequestParam Map<String,String>map){
         String account = map.get("account");
         String password = map.get("password");
         return registerService.register(account,password);

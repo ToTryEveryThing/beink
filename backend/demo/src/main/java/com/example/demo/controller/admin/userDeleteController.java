@@ -2,6 +2,7 @@ package com.example.demo.controller.admin;
 
 
 import com.example.demo.aop.PermissionCheck;
+import com.example.demo.controller.common.Result;
 import com.example.demo.service.admin.userDeleteService;
 import com.example.demo.utils.IdandName;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ public class userDeleteController {
 //+
     @PostMapping("/user/admin/delete/")
     @PermissionCheck
-    public String delete(@RequestParam Map<String , String> map) {
+    public Result delete(@RequestParam Map<String , String> map) {
         int id = Integer.parseInt(map.get("id"));
         return userDeleteService.delete(id);
     }

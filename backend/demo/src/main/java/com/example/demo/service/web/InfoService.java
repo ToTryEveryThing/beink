@@ -1,9 +1,10 @@
 package com.example.demo.service.web;
 
 
-import java.util.Map;
+import com.example.demo.controller.common.Result;
+
 
 
 public interface InfoService {
-      Map<String ,String > getinfo();
+      Result getinfo();
 }

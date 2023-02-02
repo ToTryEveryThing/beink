@@ -2,6 +2,7 @@ package com.example.demo.controller.admin;
 
 import com.aliyuncs.exceptions.ClientException;
 import com.example.demo.aop.PermissionCheck;
+import com.example.demo.controller.common.Result;
 import com.example.demo.service.admin.OssService;
 import com.example.demo.utils.IdandName;
 import com.example.demo.vo.OssTokenVo;
@@ -29,7 +30,7 @@ public class OssController {
 //+
     @PermissionCheck
     @PostMapping("uploadImage/")
-    public List upload(MultipartFile file) throws Exception {
+    public Result upload(MultipartFile file) throws Exception {
         return ossService.uploadObject(file);
     }
 
@@ -39,13 +40,13 @@ public class OssController {
 //    }
 //
     @GetMapping("/getList/")
-    public List GetList(){
+    public Result GetList(){
         return ossService.redisList();
     }
 //+
     @DeleteMapping("/deleteImage/")
     @PermissionCheck
-    public List deleteImage (@RequestParam  Map<String,String> map) {
+    public Result deleteImage (@RequestParam  Map<String,String> map) {
          return ossService.deleteObject(map.get("url"));
     }
 

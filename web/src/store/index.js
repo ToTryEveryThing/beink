@@ -48,12 +48,13 @@ const actions = {
           password:value.password
       },
       success(res){
-        if(res.message === "success"){  
+        if(res.msg === "success"){ 
+            res  = res.date 
             localStorage.setItem("jwt",res.token)
             context.commit("updateToken",res.token)
             value.success(res)
         }  else{
-            value.error(res)
+            value.error(res.msg)
         }
       },
       error(res){
@@ -69,14 +70,15 @@ const actions = {
               Authorization:"Bearer " + context.state.token
           },
           success(res){
-              if(res.message == "success"){
+              if(res.msg == "success"){
+                res = res.date
                   context.commit("updateUser",{
                     ...res,
                     is_login : true, 
                   }); 
                   data.success(res);
               }else{
-                data.success(res);
+                data.success(res.date);
               }   
           },
           error(res){

@@ -1,7 +1,9 @@
 package com.example.demo.service.web;
 
+import com.example.demo.controller.common.Result;
+
 import java.util.Map;
 
 public interface colorService {
-    Map<String,String> setColor(String account,String color,String list);
+    Result setColor(String account, String color, String list);
 }

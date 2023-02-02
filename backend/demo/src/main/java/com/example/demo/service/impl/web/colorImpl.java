@@ -1,6 +1,7 @@
 package com.example.demo.service.impl.web;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.example.demo.controller.common.Result;
 import com.example.demo.mapper.webMapper;
 import com.example.demo.pojo.web;
 import com.example.demo.service.web.colorService;
@@ -17,16 +18,16 @@ public class colorImpl implements colorService {
     private webMapper webMapper;
 
     @Override
-    public Map<String, String> setColor(String account,String color,String list) {
+    public Result setColor(String account, String color, String list) {
         web web = new web();
         web.setBackimg(color);
         web.setList(list);
         UpdateWrapper<web> q = new UpdateWrapper<>();
         q.eq("account",account);
-        webMapper.update(web,q);
-
-        Map<String,String> map = new HashMap<>();
-        map.put("message","success");
-        return map;
+        int update = webMapper.update(web, q);
+        if(update>=1)
+            return new Result(1,"success");
+        else
+            return new Result(0,"error");
     }
 }

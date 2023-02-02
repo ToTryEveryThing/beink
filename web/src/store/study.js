@@ -9,7 +9,10 @@ export default {
                 url:"https://so.beink.cn/user/admin/git/show/",
                 type:'post',
                 success(res){
-                  state.editableTabs = JSON.parse(res)
+                  if(res.code===1){
+                    state.editableTabs = JSON.parse(res.date)
+                  }
+                  
                 },
             })
         }

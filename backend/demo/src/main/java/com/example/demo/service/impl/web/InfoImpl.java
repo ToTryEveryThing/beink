@@ -1,5 +1,6 @@
 package com.example.demo.service.impl.web;
 
+import com.example.demo.controller.common.Result;
 import com.example.demo.pojo.web;
 import com.example.demo.service.impl.utils.UserDetailsImpl;
 import com.example.demo.service.web.InfoService;
@@ -13,7 +14,7 @@ import java.util.Map;
 @Service
 public class InfoImpl implements InfoService {
     @Override
-    public Map<String, String> getinfo() {
+    public Result getinfo() {
 
         UsernamePasswordAuthenticationToken authentication =
                 (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
@@ -24,13 +25,12 @@ public class InfoImpl implements InfoService {
 
 
         Map<String,String> map = new HashMap<>();
-        map.put("message","success");
         map.put("id",String.valueOf(web.getId()));
         map.put("account",web.getAccount());
         map.put("password",web.getPassword());
         map.put("backImg",web.getBackimg());
         map.put("listlist",web.getList());
-        return map;
+        return new Result(1,"success",map);
 
 
     }

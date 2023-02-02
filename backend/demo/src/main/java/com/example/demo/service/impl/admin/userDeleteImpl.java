@@ -1,5 +1,6 @@
 package com.example.demo.service.impl.admin;
 
+import com.example.demo.controller.common.Result;
 import com.example.demo.mapper.webMapper;
 import com.example.demo.service.admin.userDeleteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,11 @@ public class userDeleteImpl implements userDeleteService {
     private webMapper webmapper;
 
     @Override
-    public String delete(Integer id) {
+    public Result delete(Integer id) {
         int res = webmapper.deleteById(id);
         if(res>=1) {
-           return "success";
+           return new Result(1,"success");
         }
-        else return "error";
+        else return new Result(0,"error");
     }
 }

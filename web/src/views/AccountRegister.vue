@@ -40,12 +40,12 @@ export default {
                 password:password.value
             },
             success(res){
-                if(res.message === "success"){
+                if(res.msg === "success"){
                     success("注册成功")
                     vue.nor = true
                     router.push({name:'login'})
                 }else{
-                    error(res.message)
+                    error(res.msg)
                 }
             },
         })

@@ -1,10 +1,10 @@
 package com.example.demo.controller;
 
-import com.example.demo.utils.redisUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import com.example.demo.controller.common.Result;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
 
 
 /**
@@ -14,14 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class InitController {
 
-    @Autowired
-    private redisUtil  redisUtil;
-
     @GetMapping ("/redis/")
-    public String index(){
+    public Result index(){
+        ArrayList<String> list = new ArrayList<>();
+        list.add("hello worlod");
+        list.add("世界 你好");
 
-        redisUtil.set("hh","HH");
-       return (String) redisUtil.get("hh");
+        return new Result(100,"你好",list);
     }
 
 }

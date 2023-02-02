@@ -1,6 +1,7 @@
 package com.example.demo.controller.user;
 
 import com.example.demo.aop.PermissionCheck;
+import com.example.demo.controller.common.Result;
 import com.example.demo.service.web.colorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,11 +18,10 @@ public class colorController {
 
     @PostMapping("/user/account/color/")
     @PermissionCheck
-    public Map<String,String> setColor(@RequestParam Map<String,String>map){
+    public Result setColor(@RequestParam Map<String,String>map){
         String account = map.get("account");
         String color = map.get("backImg");
         String list = map.get("list");
         return colorService.setColor(account,color,list);
-
     }
 }
