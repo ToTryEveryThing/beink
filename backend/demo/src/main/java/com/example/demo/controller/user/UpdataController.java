@@ -26,7 +26,8 @@ public class UpdataController {
         int id = Integer.parseInt(map.get("id"));
         String account = map.get("account");
         String backimg = map.get("backimg");
-        return updataService.Updata(id,account,backimg);
+        String role = map.get("role");
+        return updataService.Updata(id,account,backimg,role);
     }
 
 }

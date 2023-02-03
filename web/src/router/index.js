@@ -64,7 +64,7 @@ const router = createRouter({
 
 router.beforeEach((to,from,next)=>{
     if(to.meta.req){
-        if(sessionStorage.getItem("name")==="admin" && localStorage.getItem("jwt")){
+        if(sessionStorage.getItem("role")==="admin" && localStorage.getItem("jwt")){
           next()
         }else{
           next('/404')

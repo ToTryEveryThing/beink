@@ -14,12 +14,12 @@ import java.util.ArrayList;
 @RestController
 public class InitController {
 
+
     @GetMapping ("/redis/")
     public Result index(){
         ArrayList<String> list = new ArrayList<>();
         list.add("hello worlod");
         list.add("世界 你好");
-
         return new Result(100,"你好",list);
     }
 

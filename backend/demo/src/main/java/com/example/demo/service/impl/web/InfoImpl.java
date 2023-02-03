@@ -30,6 +30,7 @@ public class InfoImpl implements InfoService {
         map.put("password",web.getPassword());
         map.put("backImg",web.getBackimg());
         map.put("listlist",web.getList());
+        map.put("role",web.getRole());
         return new Result(1,"success",map);
 
 

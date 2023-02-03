@@ -4,12 +4,12 @@
       <el-col :span="24">
         <el-card shadow="never">
           <el-row >
-            <el-col :span="4" :offset="1">
+            <el-col :span="4">
               <el-col :span="24"  >
                   <el-image  style="width: 100px; height: 100px" src="https://cdn.acwing.com/media/user/profile/photo/71127_lg_5c719f083a.png" :fit="fit" />
                 </el-col>
             </el-col>
-            <el-col :span="16" :offset="1">
+            <el-col :span="20" >
               <el-col :span="24">
                 <el-card shadow="never">
                   <el-row>
@@ -35,11 +35,17 @@
                     </el-col>
                   </el-row>
                   <el-table :data="tableData" stripe border >
-                    <el-table-column   prop="id" label="ID"  />
+                    <el-table-column   prop="id" label="ID" />
                     <el-table-column prop="account" label="Name"  />
+                    <el-table-column  label="Role"   >
+                      <template #default="scope">
+                            <el-tag v-if="scope.row.role==='admin'">{{ scope.row.role }}</el-tag>
+                            <el-tag type="info" v-else>{{ scope.row.role }}</el-tag>
+                      </template>
+                    </el-table-column>>
                     <el-table-column prop="backimg" label="Img"  />
                     <el-table-column  prop="date" label="Date"   />
-                    <el-table-column label="Operations">
+                    <el-table-column label="Operations" fixed="right" width="150">
                       <template #default="scope">
                         <el-button size="small" @click="editUser(scope.$index)" type="info" >Edit</el-button>
                         <el-button size="small" type="danger" @click="handleDelete(scope.$index)">Delete</el-button>
@@ -69,11 +75,18 @@
   >
   <el-col :span="24">
     <el-card shadow="never">
+      <el-tag>管理员</el-tag>
+      <el-switch
+        v-model="isAdmin"
+        inline-prompt
+        active-text="是"
+        inactive-text="否"
+      />
       <el-input  type="text" disabled v-model="tableData[index].id">
-        <template #prepend>id</template>
+        <template #prepend>ID</template>
       </el-input>
       <el-input  maxlength="10" show-word-limit v-model="tableData[index].account">
-        <template #prepend>account</template>
+        <template #prepend>name</template>
       </el-input>
       <el-input  v-model="tableData[index].backimg">
         <template #prepend>backimg</template>
@@ -104,6 +117,7 @@ import {useStore} from 'vuex'
 import router from '../router/index'
 import {onMounted, reactive, toRefs} from 'vue'
 import moment from 'moment/moment'
+import {success,error} from '../utiles/message'
 export default {
     setup(){
       const vue = reactive({
@@ -116,10 +130,12 @@ export default {
         select:'Name',
         count:'',
         page :1,
+        isAdmin:false
       }) 
       const editUser = (i)=>{
         vue.dialogVisible = true
         vue.index = i
+        vue.isAdmin = vue.tableData[i].role === "admin" ? true : false 
       }
       const updata =()=>{
         vue.dialogVisible = false
@@ -132,12 +148,18 @@ export default {
               data:{
                   id:vue.tableData[vue.index].id,
                   account:vue.tableData[vue.index].account,
-                  backimg:vue.tableData[vue.index].backimg
+                  backimg:vue.tableData[vue.index].backimg,
+                  role:vue.isAdmin === true ? "admin" : "use",
               },
               success(res){
-                console.log(res)
-              },error(res){
-                console.log(res)
+                if(res.code===1){
+                  success("修改成功")
+                  vue.tableData[vue.index].role = vue.isAdmin === true ? "admin" : "use"
+                }else{
+                  error("修改失败")
+                }
+              },error(){
+                error("error")
               }
         })
       }

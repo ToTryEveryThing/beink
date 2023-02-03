@@ -7,7 +7,7 @@
         </div>
         <div class="main" v-else>
             <h3 style="margin-bottom:5px;"><UserFilled style="width: 1em; height: 1em; margin-right: 10px; margin-bottom:-3px;color: #79bbff;" />{{$store.state.account}}</h3>
-            <router-link v-if="$store.state.account=='admin'" to="/admin"><More style="width: 1em; height: 1em;  margin-bottom:-3px;color:  #73767a;"/></router-link>
+            <router-link v-if="$store.state.role=='admin'" to="/admin"><More style="width: 1em; height: 1em;  margin-bottom:-3px;color:  #73767a;"/></router-link>
         </div>
         <el-carousel  interval="2000" direction="horizontal" >
             <el-carousel-item v-for="i in list" :key="i.src">
@@ -101,11 +101,11 @@
                         style="width:320px;height:200px;"
                         @click="changeBackground('https://images.beink.cn/'+i)"
                         :src="'https://images.beink.cn/'+i" />
-                        <button class="delete" @click="ddd(i)" v-if="$store.state.account==='admin'"></button>
+                        <button class="delete" @click="ddd(i)" v-if="$store.state.role==='admin'"></button>
 
                     </div>
                 </li>
-                <li v-if="$store.state.account==='admin'">
+                <li v-if="$store.state.role==='admin'">
                     <div class="upload">
                             <input  type="file" style="width:318px;height:148px;" id="XXX"/>
                             <el-button @click="upload" style="width:318px;height:50px;">提交</el-button>

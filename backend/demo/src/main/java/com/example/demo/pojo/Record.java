@@ -20,5 +20,6 @@ public class Record {
     private String account;
     private Date date;
     private String backimg;
+    private String role;
 
 }

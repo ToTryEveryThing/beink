@@ -66,7 +66,6 @@ export default {
     },
     mutations: {
         getList(state,value){
-            console.log(value)
             state.ImagesList = value
         }
     },

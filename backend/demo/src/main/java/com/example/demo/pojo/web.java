@@ -20,4 +20,5 @@ public class web {
     private String backimg;
     private String list;
     private Date date;
+    private String role;
 }

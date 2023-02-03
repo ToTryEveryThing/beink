@@ -11,6 +11,7 @@ const state = {
     token:'',
     backImg:'',
     is_login:false,
+    role:'',
     localList:JSON.parse(localStorage.getItem('list')) || [],
     list:[
       // 第一个
@@ -142,8 +143,10 @@ const mutations = {
     sessionStorage.setItem("id",value.id)
     state.is_login = value.is_login
     state.backImg = value.backImg
+    state.role = value.role
     state.localList = JSON.parse(value.listlist)
     sessionStorage.setItem("name",state.account)
+    sessionStorage.setItem("role",value.role)
     localStorage.setItem("color",value.backImg)
     localStorage.setItem("list",value.listlist)
   },
@@ -157,6 +160,7 @@ const mutations = {
     state.token = ""
     state.backImg = "6"
     state.date = ""
+    state.role = ""
   },
   updatePullingInfo(state, pulling_info) {
     state.pulling_info = pulling_info;

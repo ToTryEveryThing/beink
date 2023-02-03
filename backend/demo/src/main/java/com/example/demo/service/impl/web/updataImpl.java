@@ -20,10 +20,11 @@ public class updataImpl implements updataService {
     private webMapper webMapper;
 
     @Override
-    public Result Updata(int id, String account, String backimg) {
+    public Result Updata(int id, String account, String backimg, String role) {
         web web = new web();
         web.setAccount(account);
         web.setBackimg(backimg);
+        web.setRole(role);
         UpdateWrapper<web> q = new UpdateWrapper<>();
         q.eq("id",id);
 //        不屑password 不被修改

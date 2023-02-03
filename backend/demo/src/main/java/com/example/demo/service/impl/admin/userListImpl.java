@@ -17,8 +17,6 @@ import java.util.List;
 @Service
 public class userListImpl implements userListService {
 
-    @Autowired
-    private redisUtil redisUtil;
 
     @Autowired
     private RecordMapper recordMapper;

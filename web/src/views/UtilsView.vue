@@ -39,7 +39,7 @@
       :name="item.name"
     >
     <el-row  justify="space-evenly" v-if="item.show">
-      <el-col :span="1" v-if="$store.state.account==='admin'">
+      <el-col :span="1" v-if="$store.state.role==='admin'">
         <el-affix   :offset="70">
           <el-button  type="primary"  @click="item.show=false" plain>编辑</el-button>
           <el-button type="success" style="margin-top:10px;" class="fsafs" @click="dialogVisible = true" plain>添加</el-button>
