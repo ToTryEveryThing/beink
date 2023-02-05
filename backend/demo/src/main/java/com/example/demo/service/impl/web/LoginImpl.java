@@ -24,16 +24,13 @@ public class LoginImpl implements LoginService {
 
     @Override
     public Result getToken(String account, String password) {
-
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(account,password);
 //    自动处理异常
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
-
         UserDetailsImpl loginUser = (UserDetailsImpl) authenticate.getPrincipal();
         web web = loginUser.getWeb();
         String jwt = JwtUtil.createJWT(String.valueOf(web.getAccount()));
-
         Map<String,String> map = new HashMap<>();
         map.put("token",jwt);
 

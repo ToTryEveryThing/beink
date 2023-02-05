@@ -2,20 +2,17 @@ package com.example.demo.service.impl.web;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.demo.controller.common.Result;
-import com.example.demo.mapper.webMapper;
+import com.example.demo.mapper.WebMapper;
 import com.example.demo.pojo.web;
 import com.example.demo.service.web.colorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Service
 public class colorImpl implements colorService {
 
     @Autowired
-    private webMapper webMapper;
+    private WebMapper webMapper;
 
     @Override
     public Result setColor(String account, String color, String list) {

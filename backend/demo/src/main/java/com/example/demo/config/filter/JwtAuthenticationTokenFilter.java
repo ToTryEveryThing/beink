@@ -1,7 +1,7 @@
 package com.example.demo.config.filter;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.demo.mapper.webMapper;
+import com.example.demo.mapper.WebMapper;
 import com.example.demo.pojo.web;
 import com.example.demo.service.impl.utils.UserDetailsImpl;
 import com.example.demo.utils.JwtUtil;
@@ -24,7 +24,7 @@ import java.io.IOException;
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Autowired
-    private webMapper userMapper;
+    private WebMapper userMapper;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {

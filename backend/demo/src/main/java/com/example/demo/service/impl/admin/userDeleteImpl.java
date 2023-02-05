@@ -1,7 +1,7 @@
 package com.example.demo.service.impl.admin;
 
 import com.example.demo.controller.common.Result;
-import com.example.demo.mapper.webMapper;
+import com.example.demo.mapper.WebMapper;
 import com.example.demo.service.admin.userDeleteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class userDeleteImpl implements userDeleteService {
 
     @Autowired
-    private webMapper webmapper;
+    private WebMapper webmapper;
 
     @Override
     public Result delete(Integer id) {

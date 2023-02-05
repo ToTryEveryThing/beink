@@ -1,7 +1,7 @@
 package com.example.demo.aop;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.demo.mapper.webMapper;
+import com.example.demo.mapper.WebMapper;
 import com.example.demo.pojo.web;
 import com.example.demo.utils.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +18,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author 睡醒继续做梦
@@ -31,7 +29,7 @@ import java.util.List;
 public class PermissionCheckAspect {
 
     @Autowired
-    private webMapper webMapper;
+    private WebMapper webMapper;
 
     //切入点表达式决定了用注解方式的方法切还是针对某个路径下的所有类和方法进行切，方法必须是返回void类型
     @Pointcut("@annotation(com.example.demo.aop.PermissionCheck)")
@@ -57,7 +55,6 @@ public class PermissionCheckAspect {
 //            log.info("当前接口请求的用户角色role:{}",role);
 //            String[] roles = role.split(",");//接口允许的角色
 //            List<String> list = Arrays.asList(roles);
-            //如果该接口只允许老师角色访问。则要获取当前用户是不是老师角色。
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             String authorization = request.getHeader("Authorization").substring(7);
             String userInfo =new JwtUtil().parseJWT(authorization).getSubject();

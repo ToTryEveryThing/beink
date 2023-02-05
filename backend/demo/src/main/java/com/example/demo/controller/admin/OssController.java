@@ -1,19 +1,12 @@
 package com.example.demo.controller.admin;
 
-import com.aliyuncs.exceptions.ClientException;
 import com.example.demo.aop.PermissionCheck;
 import com.example.demo.controller.common.Result;
 import com.example.demo.service.admin.OssService;
-import com.example.demo.utils.IdandName;
-import com.example.demo.vo.OssTokenVo;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 /**

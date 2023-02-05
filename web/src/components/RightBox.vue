@@ -230,7 +230,7 @@ import {onMounted, ref } from 'vue'
                             data:{
                                 backImg:c,
                                 list:(localStorage.getItem("list"))
-                            },
+                            }
                         })
                     }
                 localStorage.setItem("color",c)

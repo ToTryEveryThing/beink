@@ -1,7 +1,8 @@
-package com.example.demo.service.impl;
+package com.example.demo.service.impl.utils;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.demo.mapper.webMapper;
+import com.example.demo.mapper.WebMapper;
+
 import com.example.demo.pojo.web;
 import com.example.demo.service.impl.utils.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class DetailService implements UserDetailsService {
 
     @Autowired
-    private webMapper webMapper;
+    private WebMapper webMapper;
 
     @Override
     public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {

@@ -17,7 +17,7 @@
 <script>
 import {ref} from 'vue'
 import { reactive, toRefs } from '@vue/reactivity'
-import {success,error} from '../utiles/message'
+import {error} from '../utiles/message'
 import $ from 'jquery'
 import router from '../router/index'
 export default {
@@ -41,7 +41,6 @@ export default {
             },
             success(res){
                 if(res.msg === "success"){
-                    success("注册成功")
                     vue.nor = true
                     router.push({name:'login'})
                 }else{

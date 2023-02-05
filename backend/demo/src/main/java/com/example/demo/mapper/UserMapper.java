@@ -1,14 +1,22 @@
 package com.example.demo.mapper;
-
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.demo.pojo.user;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
-import java.util.Map;
+import com.example.demo.pojo.User;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+/**
+* @author 小猖娃
+* @description 针对表【user】的数据库操作Mapper
+* @createDate 2023-02-04 12:01:35
+* @Entity com.example.demo.pojo.User
+*/
 @Mapper
-public interface UserMapper extends BaseMapper<user> {
-//    自定义功能
-    Map<String ,Object> selectMapById(int id);
-
+public interface UserMapper extends BaseMapper<User> {
+    int deleteByAccount(@Param("account") String account);
+    int insertSelective(User user);
 }
+
+
+
+

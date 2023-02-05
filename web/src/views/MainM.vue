@@ -8,7 +8,7 @@
     <AppList/>
     <div class="copyright">
         <a href="https://beian.miit.gov.cn/#/Integrated/index">👻豫ICP备2021034834号 </a> <el-divider direction="vertical" />
-        <a href="https://blog.csdn.net/qq_53950686"> 🪁2022 by beink  </a> <el-divider direction="vertical" />
+        <a href="https://blog.csdn.net/qq_53950686"> 🪁2023 by beink  </a> <el-divider direction="vertical" />
         <a href="https://github.com/ToTryEveryThing/beink">✨Github</a>
   </div>
 </template>

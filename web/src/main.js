@@ -64,10 +64,13 @@ const app = createApp(App)
 // app.config.errorHandler = () => null;
 //关闭警告信息
 app.config.warnHandler = () => null;
+// icon
 for (let iconName in ELIcons) {
 	app.component(iconName, ELIcons[iconName])
 }
+// 全局属性
 app.config.globalProperties.$bus = new  mitt()
+// app.provide('https', 'https://so.beink.cn/')
 app.use(VMdPreview)
 app.use(VueMarkdownEditor)
 app.use(store)

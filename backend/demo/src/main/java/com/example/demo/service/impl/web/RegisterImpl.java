@@ -2,7 +2,7 @@ package com.example.demo.service.impl.web;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.controller.common.Result;
-import com.example.demo.mapper.webMapper;
+import com.example.demo.mapper.WebMapper;
 import com.example.demo.pojo.web;
 import com.example.demo.service.web.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.List;
 public class RegisterImpl implements RegisterService {
 
     @Autowired
-    private webMapper webMapper;
+    private WebMapper webMapper;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

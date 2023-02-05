@@ -13,7 +13,7 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.example.demo.config.AliossConfig;
 import com.example.demo.controller.common.Result;
 import com.example.demo.utils.redisUtil;
-import com.example.demo.vo.OssTokenVo;
+import com.example.demo.pojo.OssTokenVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -106,6 +106,8 @@ public class OssService {
             System.out.println("Error Code:" + oe.getErrorCode());
             System.out.println("Request ID:" + oe.getRequestId());
             System.out.println("Host ID:" + oe.getHostId());
+        } catch (Exception e){
+          e.printStackTrace();
         } finally {
             if (ossClient != null) {
                 ossClient.shutdown();
