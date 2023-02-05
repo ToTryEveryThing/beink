@@ -32,7 +32,9 @@
                         <el-button @click="query" >查询</el-button>
                       </template>
                     </el-input>
+                    
                     </el-col>
+                    <el-button @click="excel" type="primary">导出</el-button>
                   </el-row>
                   <el-table :data="tableData" stripe border >
                     <el-table-column   prop="id" label="ID" />
@@ -118,6 +120,8 @@ import router from '../router/index'
 import {onMounted, reactive, toRefs} from 'vue'
 import moment from 'moment/moment'
 import {success,error} from '../utiles/message'
+import XLSX from "xlsx";
+// import FileSaver from 'file-saver'
 export default {
     setup(){
       const vue = reactive({
@@ -136,6 +140,22 @@ export default {
         vue.dialogVisible = true
         vue.index = i
         vue.isAdmin = vue.tableData[i].role === "admin" ? true : false 
+      }
+      const excel = ()=>{
+        // console.log(vue.tableData)
+        const ws = XLSX.utils.json_to_sheet(vue.tableData)//此处tableData.value为表格的数据
+        const wb = XLSX.utils.book_new()
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+        const binaryData = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+
+        /* 创建 Blob 对象 */
+        const blob = new Blob([binaryData], { type: 'application/octet-stream' });
+
+        /* 下载文件 */
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'data.xlsx';
+        link.click();
       }
       const updata =()=>{
         vue.dialogVisible = false
@@ -251,6 +271,7 @@ export default {
         }
       })
       return {
+        excel,
         ...toRefs(vue),handleDelete,editUser,
         query,ppage,handleCurrentChange,
         updata

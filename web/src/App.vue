@@ -22,5 +22,8 @@ darkClass(localStorage.getItem("theme"))
   body::-webkit-scrollbar-thumb { 
     border-radius: 3px; 
     background:#b2bec3;
-}
+  }  
+  body{
+    margin: 0;
+  }
 </style>
