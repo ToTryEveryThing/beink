@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 public class GlobalInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        System.out.println(".....");
         String token = request.getHeader("Authorization").substring(7);
         request.getSession().setAttribute("account", JwtUtil.parseJWT(token).getSubject());
         return true;

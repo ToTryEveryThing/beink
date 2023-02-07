@@ -32,11 +32,13 @@
                         <el-button @click="query" >查询</el-button>
                       </template>
                     </el-input>
-                    
                     </el-col>
-                    <el-button @click="excel" type="primary">导出</el-button>
+                    <el-button @click="excel"  type="primary">导出</el-button>
                   </el-row>
-                  <el-table :data="tableData" stripe border >
+                  <el-table :data="tableData" stripe border
+                  @selection-change="handleSelectionChange"
+                   >
+                    <el-table-column type="selection" width="55" />
                     <el-table-column   prop="id" label="ID" />
                     <el-table-column prop="account" label="Name"  />
                     <el-table-column  label="Role"   >
@@ -54,13 +56,17 @@
                       </template>
                     </el-table-column>
                   </el-table>
+                  
                   <div style="margin-top:10px;">
+                    <el-button style="float:right;" type="danger" @click="multiple">删除多个</el-button>
                     <el-pagination 
                       @current-change="handleCurrentChange"
                         background   @next-click="ppage(1)" @prev-click="ppage(-1)" 
                         layout="prev, pager, next" 
                         :total="count"/>
+                      
                   </div>
+                  
                 </el-card>
               </el-col>
             </el-col>
@@ -134,7 +140,8 @@ export default {
         select:'Name',
         count:'',
         page :1,
-        isAdmin:false
+        isAdmin:false,
+        ids:[]
       }) 
       const editUser = (i)=>{
         vue.dialogVisible = true
@@ -156,6 +163,35 @@ export default {
         link.href = URL.createObjectURL(blob);
         link.download = 'data.xlsx';
         link.click();
+      }
+      const handleSelectionChange = (i)=>{
+        vue.ids = []
+        i.forEach(y => {
+          vue.ids.unshift(y.id)
+        });
+      }
+      const multiple = ()=>{
+        if(vue.ids.length!==0)
+        $.ajax({
+              url:'https://so.beink.cn/user/admin/multiple/',
+              type:'post',
+              headers:{
+                  Authorization:"Bearer " + store.state.token
+              },
+              data:{
+                  ids:JSON.stringify({ids:JSON.stringify(vue.ids)})
+              },
+              success(res){
+                  if(res.code===1){
+                    success("删除成功")
+                    aaa()
+                  }else{
+                    error("删除出错")
+                  }
+              },error(res){
+                  console.log(res)
+              }
+          })
       }
       const updata =()=>{
         vue.dialogVisible = false
@@ -271,7 +307,8 @@ export default {
         }
       })
       return {
-        excel,
+        handleSelectionChange,
+        excel,multiple,
         ...toRefs(vue),handleDelete,editUser,
         query,ppage,handleCurrentChange,
         updata

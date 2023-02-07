@@ -5,6 +5,8 @@ import com.example.demo.pojo.web;
 
 import java.util.List;
 
+
 public interface userDeleteService {
     Result delete(Integer id);
+    Result deleteMultiple(String s);
 }

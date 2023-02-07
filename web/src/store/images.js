@@ -18,7 +18,7 @@ export default {
         delete(context,value){
             $.ajax({
                 url:'https://so.beink.cn/oss/deleteImage/',
-                type:'delete',
+                type:'post',
                 headers:{
                     Authorization:"Bearer " + value.token
                 },

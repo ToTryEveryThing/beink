@@ -37,10 +37,10 @@ public class OssController {
         return ossService.redisList();
     }
 //+
-    @DeleteMapping("/deleteImage/")
+    @PostMapping("/deleteImage/")
     @PermissionCheck
-    public Result deleteImage (@RequestParam  Map<String,String> map) {
-         return ossService.deleteObject(map.get("url"));
+    public Result deleteImage (@RequestParam(value = "url",required = false) String url) {
+         return ossService.deleteObject(url);
     }
 
 }
