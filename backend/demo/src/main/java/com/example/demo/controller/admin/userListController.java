@@ -15,10 +15,12 @@ public class userListController {
     @Autowired
     private userListService userListService;
 
+
     @PostMapping("/user/admin/list/")
     public JSONObject list(@RequestParam Map<String ,String >map){
+        String name = map.get("name");
         Integer page = Integer.parseInt(map.get("page"));
-        return userListService.userList(page);
+        return userListService.userList(name,page);
     }
 
 

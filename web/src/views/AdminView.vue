@@ -22,11 +22,7 @@
                       class="input-with-select"
                     >
                       <template #prepend>
-                        <el-select v-model="select" placeholder="Select" style="width: 90px">
-                          <el-option label="ID" value="2" />
-                          <el-option label="Name" value="1" />
-                          <!-- <el-option label="Date" value="3" /> -->
-                        </el-select>
+                        Name
                       </template>
                       <template #append>
                         <el-button @click="query" >查询</el-button>
@@ -132,12 +128,10 @@ export default {
     setup(){
       const vue = reactive({
         tableData:[],
-        table:[],
         loading:false,
         dialogVisible :false,
         index:0,
         sou:'',
-        select:'Name',
         count:'',
         page :1,
         isAdmin:false,
@@ -220,20 +214,7 @@ export default {
         })
       }
       const query = ()=>{
-        if(vue.sou===''){
-          vue.tableData = vue.table
-        }else{
-          if(vue.select==='Name'){
-            vue.tableData = vue.table.filter((i)=>{
-                return i.account.indexOf(vue.sou)!=-1
-            })
-          }
-          else{
-            vue.tableData = vue.table.filter((i)=>{
-               return i.id==vue.sou
-            })
-          }
-        }
+       aaa()
       }
       let handleDelete= (a)=>{
         let f = confirm("确认删除" + vue.tableData[a].account)
@@ -266,9 +247,14 @@ export default {
                 Authorization:"Bearer " + store.state.token
             },
             data:{
-                page:vue.page
+                page:vue.page,
+                name:vue.sou
             },
             success(res){
+              if(res.code===0){
+                return 
+              }
+              console.log(res)
               vue.count = res.count
               vue.tableData = res.records
               for (let i in vue.tableData){

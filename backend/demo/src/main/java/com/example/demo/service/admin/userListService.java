@@ -3,5 +3,5 @@ import com.alibaba.fastjson.JSONObject;
 
 
 public interface userListService {
-    JSONObject userList(Integer page);
+    JSONObject userList(String name,Integer page);
 }

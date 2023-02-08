@@ -13,6 +13,6 @@ public class ExceptionAdvice {
 //    @ExceptionHandler(Exception.class)
     public Result doException(){
         System.out.println("exception");
-        return new Result(0,"error");
+        return new Result(0,"异常");
     }
 }
