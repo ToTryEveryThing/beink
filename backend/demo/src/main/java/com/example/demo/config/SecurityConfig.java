@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                公开的链接
                 .antMatchers("/user/admin/git/show/","/user/account/token/",
                         "/user/account/register/","/user/admin/backlist/show/",
-                        "/oss/getList/","/redis/")
+                        "/oss/getList/","/redis/","/captcha/")
                 .permitAll()
                 //只允许本地服务器访问
 //                .hasIpAddress("127.0.0.1")
@@ -57,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/websocket/**");
+        web.ignoring().antMatchers("/GuessWebsocket/**");
     }
 
 }

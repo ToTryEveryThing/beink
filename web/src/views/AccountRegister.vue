@@ -8,6 +8,10 @@
       <el-form-item label="Password">
           <el-input  autocomplete="off" @keyup.enter="register"  show-password type="password" v-model="password" />
       </el-form-item>
+      <el-form-item label="验证码"> 
+        <el-input  autocomplete="off" style="width:200px"    v-model="code" />
+        <img width="100" height="40"  @click="captcha" :src="cha"/>
+    </el-form-item>
       {{message}}
       <slot :keyyy="nor"></slot>
         <el-button @click="register" type="primary">注册</el-button>
@@ -15,7 +19,7 @@
 </template>
 
 <script>
-import {ref} from 'vue'
+import {ref, onMounted} from 'vue'
 import { reactive, toRefs } from '@vue/reactivity'
 import {error} from '../utiles/message'
 import $ from 'jquery'
@@ -27,17 +31,33 @@ export default {
       visible :true,
       labelPosition :'right',
       nor:false,
+      cha:'',
     })
     let account = ref('')
     let password = ref('')
     let message = ref('')
+    let code = ref('')
+    onMounted(()=>{
+      captcha()
+    })
+    
+    const captcha = ()=>{
+      $.ajax({
+        url:"https://so.beink.cn/captcha/",
+        type:'get',
+        success(res){
+          vue.cha = res
+        }
+      })
+    }
     const register = ()=>{
         $.ajax({
             url:"https://so.beink.cn/user/account/register/",
             type:'post',
             data:{
                 account:account.value,
-                password:password.value
+                password:password.value,
+                code:code.value
             },
             success(res){
                 if(res.msg === "success"){
@@ -50,6 +70,8 @@ export default {
         })
     }
       return{
+        code,
+        captcha,
         ...toRefs(vue),
         account,
         password,

@@ -1,7 +1,7 @@
 <template>
     <el-row class="row-bg" justify="space-evenly">
       <el-col :span="24">
-        <el-card shadow="never" >
+        <el-card shadow="never" body-style="padding:0;">
         <el-row>
           <el-col :sm="5" :xs="7">
             <el-card shadow="never">
@@ -23,7 +23,7 @@
             <el-card  shadow="never">
                 <div class="oneUser">{{ oneUserName }}</div>
                 <el-divider />
-                <el-scrollbar height="64vh" id="srcoll" always class="scroll">
+                <el-scrollbar height="60vh" id="srcoll" always class="scroll">
                   <div class="fu"  v-for="j in withContext.context" :key="j.author">
                     <div v-if="j.author==='wo'" class="wo" >{{j.context }}</div> 
                     <div v-if="j.author==='ta'" id="ta" class="ta">{{j.context }}</div> 
@@ -50,9 +50,9 @@
   </template>
   
   <script setup>
-  import {ref ,onMounted , reactive ,onUnmounted } from 'vue'
+  import {ref ,onMounted , reactive  } from 'vue'
   import router from '../router/index'
-  import {success} from '../utiles/message'
+  import {useStore} from 'vuex'
     let oneUserName = ref("请选择一位发起聊天")
     let oneUserId = ref(0)
     let textarea = ref("")
@@ -61,12 +61,13 @@
     let context = reactive([])
     let name = sessionStorage.getItem("name")
     let id = sessionStorage.getItem("id") 
-    let socket = null;
+    const store = useStore();
+    let Socket = null;
     const send = ()=>{
       if(textarea.value==='')return
       if(oneUserName.value==="请选择一位发起聊天")return
       if(oneUserId.value===0)return
-      socket.send(JSON.stringify({id:oneUserId.value,message:textarea.value}));
+      Socket.send(JSON.stringify({id:oneUserId.value,message:textarea.value}));
       withContext.value.context.push({author:'wo',context:textarea.value})
       textarea.value = ''
       setTimeout(function(){
@@ -100,11 +101,12 @@
       document.getElementById("bottom").scrollIntoView(false);
     }
     onMounted(()=>{
-      socket = new WebSocket(`wss://so.beink.cn/websocket/${id}/${name}`);
-      socket.onopen = () => {
-        success("连接成功")
+      store.commit("up",sessionStorage.getItem("name"))
+      Socket = new WebSocket(`wss://so.beink.cn/websocket/${id}/${name}`);
+      Socket.onopen = () => {
+        store.commit("updateChatSocket",Socket)
       }
-      socket.onmessage = msg => {
+      Socket.onmessage = msg => {
         let value = JSON.parse(msg.data) 
         if(value.author==='All'){
           userList.value = value.message
@@ -127,12 +129,10 @@
           }
         }
       }
-      socket.onclose = () => {
+      Socket.onclose = () => {
           router.push("/")
+        console.log("disconnected!");
       }
-    })
-    onUnmounted(() => {
-        socket.close();
     })
 
   </script>

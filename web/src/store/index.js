@@ -3,6 +3,7 @@ import { createStore  } from 'vuex'
 import $ from 'jquery'
 import images from './images'
 import study from './study'
+import guess from './guess'
 //存储全局数据
 const state = {
   pulling_info: true,
@@ -46,7 +47,8 @@ const actions = {
       type:'post',
       data:{
           account:value.account,
-          password:value.password
+          password:value.password,
+          code:value.code
       },
       success(res){
         if(res.msg === "success"){ 
@@ -186,7 +188,8 @@ export default createStore({
     getters,
     modules: {
       images:images,
-      study:study
+      study:study,
+      guess:guess
     }
   
 

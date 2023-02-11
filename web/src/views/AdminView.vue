@@ -182,8 +182,8 @@ export default {
                   }else{
                     error("删除出错")
                   }
-              },error(res){
-                  console.log(res)
+              },error(){
+                error("删除出错")
               }
           })
       }

@@ -19,6 +19,7 @@ public class RegisterController {
     public Result register(@RequestParam Map<String,String>map){
         String account = map.get("account");
         String password = map.get("password");
-        return registerService.register(account,password);
+        String code = map.get("code");
+        return registerService.register(account,password,code);
     }
 }

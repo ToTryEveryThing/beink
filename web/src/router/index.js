@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import admin from '../views/AdminView'
 import study from '../views/UtilsView'
 import chat from '../views/ChatView'
+import more from '../views/more/MoreView'
+import guess from '../components/game/GuessGame'
 const routes = [ 
   {
     path:'/',
@@ -28,19 +30,16 @@ const routes = [
     }, 
   },
   {
-    path:"/chat",
-    name:'caht',
-    component:chat,
+    path:"/more",
+    name:'more',
+    component:more,
+    children:[
+      {path:'guess',component:guess},
+      {path:'chat',component:chat}
+    ],
     meta: {
       req:false,
     }, 
-    // 独享路由  
-    beforeEnter: (to,from,next) => {
-        if(sessionStorage.getItem("name")==="")
-        next("/")
-        else
-        next()
-    }
   },
   {
     path: '/404',

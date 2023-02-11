@@ -4,7 +4,9 @@ import com.example.demo.controller.common.Result;
 import com.example.demo.pojo.web;
 import com.example.demo.service.impl.utils.UserDetailsImpl;
 import com.example.demo.service.web.LoginService;
+import com.example.demo.utils.Code.IsCode;
 import com.example.demo.utils.JwtUtil;
+import com.example.demo.utils.redisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,9 +23,17 @@ public class LoginImpl implements LoginService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private redisUtil redisUtil;
+
 
     @Override
-    public Result getToken(String account, String password) {
+    public Result getToken(String account, String password, String code) {
+
+        if(!new IsCode().is(code,redisUtil)){
+            return new Result(0,"验证码错误");
+        }
+
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(account,password);
 //    自动处理异常

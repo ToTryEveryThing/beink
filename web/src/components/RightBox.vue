@@ -41,9 +41,9 @@
                 </el-row>
         </el-col>
         <el-divider><el-icon color="#dfd3f4" ><Reading /></el-icon></el-divider>
-        <APP/>
+            <APP/>
         <el-divider><el-icon color="#dfd3f4" ><Link /></el-icon></el-divider>
-        <chat style="text-algin:center;"/>
+            <chat style="text-algin:center;"/>
         <el-divider><el-icon color="#dfd3f4"><ChatDotRound /></el-icon></el-divider>
         <el-row justify="space-evenly">
             <el-col :span="12">

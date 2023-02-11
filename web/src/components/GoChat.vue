@@ -10,7 +10,7 @@
 <script setup>
 import router from '../router/index'
 const chat=()=>{
-    router.push("/chat")
+    router.push("/more/chat")
 }
 </script>
 
