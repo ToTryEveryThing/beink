@@ -19,12 +19,11 @@
 import { useStore } from 'vuex';
 export default {
     setup(){
-        console.log("choose")
         const store = useStore()
         const choise = (i)=>{
             if(store.state.guess.is_click){
                 store.state.guess.socket.send(JSON.stringify({event:"match",match:i}))
-                store.state.guess.is_click = false
+                store.commit("tip",i)
             } 
         }
         return{

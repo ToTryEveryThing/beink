@@ -1,34 +1,46 @@
 <template>
-  <el-menu
-    :default-active="activeIndex"
-    class="el-menu-demo"
-    mode="horizontal"
-    :ellipsis="false"
-    @select="handleSelect"
-    router
-  >
-    <el-menu-item index="/">
-      <el-image  src="https://beink.cn/ink.png" style="width:50px;"></el-image>
-    </el-menu-item>
-    <div class="flex-grow" />
-    <el-menu-item index="/more/chat"><el-icon><ChatDotRound /></el-icon>聊天</el-menu-item>
-    <el-menu-item index="/more/guess"><el-icon><User /></el-icon>猜拳</el-menu-item>
-  </el-menu>
-  <keep-alive>
-    <router-view/>
-  </keep-alive>
+  <div class="common-layout">
+    <el-container>
+      <el-header>
+        <el-menu
+          :default-active="activeIndex"
+          class="el-menu-demo"
+          mode="horizontal"
+          :ellipsis="false"
+          @select="handleSelect"
+          router
+        >
+          <el-menu-item index="/">
+            <el-image  src="https://beink.cn/ink.png" style="width:50px;"></el-image>
+          </el-menu-item>
+          <div class="flex-grow" />
+          <el-menu-item index="/more/chat"><el-icon><ChatDotRound /></el-icon>聊天</el-menu-item>
+          <el-menu-item index="/more/guess"><el-icon><User /></el-icon>猜拳</el-menu-item>
+        </el-menu>
+      </el-header>
+      <el-main>
+            <router-view/>
+      </el-main>
+    </el-container>
+  </div>
+
 </template>
 
 <script  setup>
-
+import $ from 'jquery'
 import { ref , onUnmounted} from 'vue'
+import {useStore} from 'vuex'
+const store = useStore()
+document.getElementsByTagName('body')[0].style.backgroundImage = ``
 const activeIndex = ref("/more/chat")
-const handleSelect = (key,keyPath) => {
-  console.log(key, keyPath)
+$('html').css({'--backColor':''})  
+$('html').css({'--color':''})
+const handleSelect = (key) => {
   activeIndex.value = key
 }
 onUnmounted(() => {
-  console.log("结束了")
+  
+  store.commit("closeWebSocket")
 
 })
 </script>
@@ -37,4 +49,8 @@ onUnmounted(() => {
 .flex-grow {
   flex-grow: 1;
 }
+.el-main{
+  padding: 0;
+}
+
 </style>

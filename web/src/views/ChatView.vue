@@ -51,7 +51,6 @@
   
   <script setup>
   import {ref ,onMounted , reactive  } from 'vue'
-  import router from '../router/index'
   import {useStore} from 'vuex'
     let oneUserName = ref("请选择一位发起聊天")
     let oneUserId = ref(0)
@@ -63,6 +62,7 @@
     let id = sessionStorage.getItem("id") 
     const store = useStore();
     let Socket = null;
+    Socket = new WebSocket(`wss://so.beink.cn/websocket/${id}/${name}`);
     const send = ()=>{
       if(textarea.value==='')return
       if(oneUserName.value==="请选择一位发起聊天")return
@@ -102,9 +102,9 @@
     }
     onMounted(()=>{
       store.commit("up",sessionStorage.getItem("name"))
-      Socket = new WebSocket(`wss://so.beink.cn/websocket/${id}/${name}`);
+      store.commit("upSccket",Socket)
       Socket.onopen = () => {
-        store.commit("updateChatSocket",Socket)
+
       }
       Socket.onmessage = msg => {
         let value = JSON.parse(msg.data) 
@@ -130,11 +130,9 @@
         }
       }
       Socket.onclose = () => {
-          router.push("/")
-        console.log("disconnected!");
+        // console.log("chat 关闭!");
       }
     })
-
   </script>
   
   <style scoped>

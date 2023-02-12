@@ -101,8 +101,8 @@ public class Game extends Thread{
             return a;
         }
         if(aChoice.equals("b")){
-            if(bChoice.equals("j"))return b;
-            return a;
+            if(bChoice.equals("j"))return a;
+            return b;
         }
         if(aChoice.equals("s")){
             if(bChoice.equals("j"))return  b;
@@ -116,6 +116,7 @@ public class Game extends Thread{
         lock.lock();
         try{
             if("all".equals(loser)){
+                System.out.println("平局");
                 aScore++;
                 bScore++;
             }else if(a.equals(loser)){
@@ -131,32 +132,49 @@ public class Game extends Thread{
         if(loser.equals(a)){
             resp.put("my_score",aScore);
             resp.put("ta_score",bScore);
+            resp.put("ta_choice",bChoice);
+            resp.put("my_choice",aChoice);
             GuessServer.sendScoreByName(a,resp);
             resp.put("my_score",bScore);
             resp.put("ta_score",aScore);
+            resp.put("ta_choice",aChoice);
+            resp.put("my_choice",bChoice);
             GuessServer.sendScoreByName(b,resp);
         } else if(loser.equals(b)){
             resp.put("my_score",bScore);
             resp.put("ta_score",aScore);
+            resp.put("ta_choice",aChoice);
+            resp.put("my_choice",bChoice);
             GuessServer.sendScoreByName(b,resp);
             resp.put("my_score",aScore);
             resp.put("ta_score",bScore);
+            resp.put("ta_choice",bChoice);
+            resp.put("my_choice",aChoice);
             GuessServer.sendScoreByName(a,resp);
         }else{
             resp.put("my_score",bScore);
             resp.put("ta_score",aScore);
+            resp.put("ta_choice",aChoice);
+            resp.put("my_choice",bChoice);
             GuessServer.sendScoreByName(b,resp);
             resp.put("my_score",aScore);
             resp.put("ta_score",bScore);
+            resp.put("ta_choice",bChoice);
+            resp.put("my_choice",aChoice);
             GuessServer.sendScoreByName(a,resp);
         }
         aChoice = null;bChoice = null;
-        status = "stop";
     }
 
     @Override
     public void run() {
+        status = "start";
         for (int i=0;i<20;i++){
+            if(status.equals("stop")){
+//                有人异常了
+                sendResult();
+                break;
+            }
             if(aScore>=3||bScore>=3){
                 sendResult();//比赛结束
                 break;
@@ -164,9 +182,14 @@ public class Game extends Thread{
                 if (judge()){//双方正常比赛
                     System.out.println("双方正常比赛");
                     sendScore();
-                }else{//有一方没有做出选择
-                    System.out.println("有一方没有做出选择");
+                    continue;
+                }else{
+                    /**
+                     * 有一方没有没有做出选择 直接结束游戏不惯着
+                      */
                     sendScore();
+                    sendResult();
+                    break;
                 }
             }
         }

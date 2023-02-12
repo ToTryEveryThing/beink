@@ -20,7 +20,6 @@
 
 export default {
     setup(){
-        console.log("score")
     }
 
 }

@@ -40,6 +40,16 @@ const routes = [
     meta: {
       req:false,
     }, 
+     // 独享路由  
+    beforeEnter: (to ,from,next) => {
+        if(localStorage.getItem("jwt")){
+            next()
+        }
+        else{
+            next('404')
+        }
+        
+    }
   },
   {
     path: '/404',

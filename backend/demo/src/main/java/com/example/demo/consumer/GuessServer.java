@@ -26,6 +26,9 @@ public class GuessServer {
     //  线程安全的哈希表
     final public static ConcurrentHashMap<String, GuessServer> user = new ConcurrentHashMap<String, GuessServer>();
     final private static CopyOnWriteArraySet<String> matchpool = new CopyOnWriteArraySet<>();
+    final private  static ConcurrentHashMap<String,String> nameMap = new ConcurrentHashMap<>();
+//    对手的game
+    final private static ConcurrentHashMap<String,Game> userGame = new ConcurrentHashMap<>();
     @OnOpen
     public void onOpen(Session session, @PathParam("name") String name) {
         this.session = session;
@@ -40,6 +43,8 @@ public class GuessServer {
             matchpool.remove(this.name);
         }
     }
+
+
     @OnMessage
     public void onMessage(String message) {
         JSONObject data = JSONObject.parseObject(message);
@@ -97,6 +102,10 @@ public class GuessServer {
             Game game = new Game(a,b);
             user.get(a).game = game;
             user.get(b).game = game;
+            nameMap.put(a,b);
+            nameMap.put(b,a);
+            userGame.put(a,game);
+            userGame.put(b,game);
             sendMessage(a,b);
             sendMessage(b,a);
             game.start();
@@ -112,10 +121,13 @@ public class GuessServer {
                 game.setbChoice(choice);
             }
         }catch(NullPointerException e){
-            JSONObject res = new JSONObject();
-            res.put("status","error");
-            System.out.println(game);
-            sendScoreByName(this.name,res);
+
+            System.out.println("异常了");
+//            只有名字了
+            System.out.println(this.name);
+            System.out.println(this.game);
+            userGame.get(nameMap.get(this.name)).setStatus("stop");
+//            user.get(nameMap.get(this.name)).game.setStatus("stop");
         }
     }
 

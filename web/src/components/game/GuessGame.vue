@@ -15,12 +15,14 @@
                 <el-image style="width: 100px; height: 100px" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" fit="fit" />
                 Name : {{ $store.state.guess.my_name }}
             </el-card>
+            <el-image v-if="$store.state.guess.is_click===false" style="width: 300px; height: 300px" :src="$store.state.guess.my_choice" fit="fit" />
         </el-col>
         <el-col :span="12" class="grid-content bg-blue flex ">
             <el-card shadow="never" :class="{ 'goright': !$store.state.guess.show_match }"   v-if="$store.state.guess.match_status"> 
                 <el-image style="width: 100px; height: 100px" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" fit="fit" />
                 Name : {{ $store.state.guess.ta_name }}
             </el-card>
+            <el-image v-if="$store.state.guess.ta_choice!==''" style="width: 300px; height: 300px" :src="$store.state.guess.ta_choice" fit="fit" />
         </el-col>
       </el-row>
 </template>
@@ -30,6 +32,7 @@ import { onMounted } from 'vue';
 import {useStore} from 'vuex'
 import score from './ScoreView.vue'
 import choose from './ChooseView'
+import {success,warning} from '@/utiles/message'
 export default{
    components:{score,choose},
     setup(){
@@ -37,12 +40,11 @@ export default{
         store.commit("up",sessionStorage.getItem("name"))
         onMounted(()=>{
             let socket = null;
-            console.log("nihao ")
             const socketUrl = `wss://so.beink.cn/GuessWebsocket/${store.state.guess.my_name}`;
             socket = new WebSocket(socketUrl);
             store.commit("updateSocket",socket)
             socket.onopen = () => {
-                console.log("连接")
+                // console.log("连接")
             }
             socket.onmessage = msg => {
                 if(JSON.parse(msg.data).status==="duishou")
@@ -55,19 +57,25 @@ export default{
                     socket.send(JSON.stringify({"event":"error","name":store.state.guess.ta_name}))
                 }
                 else{
-                    console.log(msg,"结束了")
                     setTimeout(()=>{
                         store.commit("logoutt")
                     },2000)
+                    if(store.state.guess.my_score>store.state.guess.ta_score){
+                        success("胜利")
+                    }else if(store.state.guess.my_score<store.state.guess.ta_score){
+                        warning("失败")
+                    }else{
+                        warning("平局")
+                    }
+
                 }
             }
             socket.onerror = () =>{
                 store.commit("logoutt")
-                console.log("error");
             }
             socket.onclose = () => {
                 store.commit("logoutt")
-                console.log("disconnected!");
+                // console.log("guess关闭");
             }
         })
         const match =()=>{ 
