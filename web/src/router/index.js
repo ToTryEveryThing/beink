@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import admin from '../views/AdminView'
-import study from '../views/UtilsView'
+import mainstudy from '../views/study/MainStudy'
+import study from '../components/study/UtilsView'
 import chat from '../views/ChatView'
 import more from '../views/more/MoreView'
 import guess from '../components/game/GuessGame'
@@ -24,10 +25,17 @@ const routes = [
   {
     path:"/study",
     name:'study',
-    component:study,
+    component:mainstudy,
     meta: {
       req:false,
     }, 
+  },
+  {
+    path:"/study/:name/",
+    component:study,
+    meta:{
+      req:false
+    }
   },
   {
     path:"/more",

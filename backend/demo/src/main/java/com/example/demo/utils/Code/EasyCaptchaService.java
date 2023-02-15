@@ -38,6 +38,7 @@ public class EasyCaptchaService {
             }
         }
         //2、获取到Base64编码
+        captchaValue = captchaValue.toUpperCase();//转大写
         String captchaBase64 = captcha.toBase64();
         Map<String,String> result = new HashMap<>(2);
         result.put("code", captchaValue);

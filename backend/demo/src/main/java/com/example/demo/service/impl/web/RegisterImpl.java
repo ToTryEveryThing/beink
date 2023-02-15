@@ -2,7 +2,9 @@ package com.example.demo.service.impl.web;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.controller.common.Result;
+import com.example.demo.mapper.PublicMapper;
 import com.example.demo.mapper.WebMapper;
+import com.example.demo.pojo.Public;
 import com.example.demo.pojo.web;
 import com.example.demo.service.web.RegisterService;
 import com.example.demo.utils.Code.IsCode;
@@ -18,21 +20,17 @@ import java.util.List;
 public class RegisterImpl implements RegisterService {
 
     @Autowired
+    private PublicMapper publicMapper;
+
+    @Autowired
     private WebMapper webMapper;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private redisUtil redisUtil;
-
 
     @Override
-    public Result register(String account, String password, String code) {
-
-        if(!new IsCode().is(code,redisUtil)){
-            return new Result(0,"验证码错误");
-        }
+    public Result register(String account, String password) {
 
         if(account == null){
             return new Result(0,"用户名不能为空");
@@ -66,6 +64,10 @@ public class RegisterImpl implements RegisterService {
          web1.setAccount(account);
          web1.setDate(new Date());
          webMapper.insert(web1);
+         String git  = "[{\"title\":\"你好\",\"name\":1,\"content\":\"## new content\",\"show\":true}]\n" +
+                 "\n";
+         String title = "[\"你好\"]";
+        System.out.println(publicMapper.insert(new Public(account, git,title))+999999);
         System.out.println(new Date());
         return new Result(1,"success");
     }

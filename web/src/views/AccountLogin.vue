@@ -5,10 +5,10 @@
           <el-input autocomplete="off" autofocus="autofocus" maxlength="10" show-word-limit   v-model="account" />
         </el-form-item>
         <el-form-item label="密码"> 
-            <el-input  autocomplete="off"  @keyup.enter="login" show-password type="password" v-model="password" />
+            <el-input  autocomplete="off"   show-password type="password" v-model="password" />
         </el-form-item> 
         <el-form-item label="验证码"> 
-          <el-input  autocomplete="off" style="width:200px"    v-model="code" />
+          <el-input  autocomplete="off" @keyup.enter="login" style="width:200px"   placeholder="注意大小写"  v-model="code" />
           <img width="100" height="40"  @click="captcha" :src="cha"/>
       </el-form-item>
 
@@ -43,7 +43,7 @@ export default {
     const captcha = ()=>{
       $.ajax({
         url:"https://so.beink.cn/captcha/",
-        type:'get',
+        type:'post',
         success(res){
           vue.cha = res
         }
@@ -61,6 +61,7 @@ export default {
               account:account.value,
               password:password.value,
               code:code.value,
+              base64:vue.cha,
               success(){
                   store.dispatch("getinfo",{
                       success(){
@@ -71,8 +72,8 @@ export default {
                       },
                   })
               },
-              error(){
-                error("账号或密码错误")
+              error(res){
+                error(res)
               }
           })
       }

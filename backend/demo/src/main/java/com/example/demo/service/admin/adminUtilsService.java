@@ -7,7 +7,7 @@ import com.example.demo.controller.common.Result;
  * @date 2022/11/26
  */
 public interface adminUtilsService {
-    Result save(String markdown);
-    String show();
-    Result redisShow();
+    Result save(String markdown,String name,String title);
+    Result show(String name);
+    Result showAll();
 }

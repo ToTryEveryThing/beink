@@ -14,6 +14,7 @@ const state = {
     is_login:false,
     role:'',
     localList:JSON.parse(localStorage.getItem('list')) || [],
+    is_author:false,
     list:[
       // 第一个
       {src:'https://images.beink.cn/41ca469687507ff4e7c6a3c0d3b0ff56.jpg'},
@@ -48,7 +49,8 @@ const actions = {
       data:{
           account:value.account,
           password:value.password,
-          code:value.code
+          code:value.code,
+          base64:value.base64
       },
       success(res){
         if(res.msg === "success"){ 
@@ -57,7 +59,10 @@ const actions = {
             context.commit("updateToken",res.token)
             value.success(res)
         }  else{
-            value.error(res.msg)
+          if(res==="error"){
+            value.error("验证码错误")
+          }else
+            value.error("账号或密码错误")
         }
       },
       error(res){
@@ -166,6 +171,14 @@ const mutations = {
   },
   updatePullingInfo(state, pulling_info) {
     state.pulling_info = pulling_info;
+  },
+  textAuthor(state,value){
+    if(state.account===value){
+      state.is_author = true
+    }else{
+      state.is_author = false
+    }
+
   }
 
 

@@ -6,10 +6,10 @@
         <el-input autocomplete="off" autofocus="autofocus" maxlength="10" show-word-limit   v-model="account" />
       </el-form-item>
       <el-form-item label="Password">
-          <el-input  autocomplete="off" @keyup.enter="register"  show-password type="password" v-model="password" />
+          <el-input  autocomplete="off"   show-password type="password" v-model="password" />
       </el-form-item>
       <el-form-item label="验证码"> 
-        <el-input  autocomplete="off" style="width:200px"    v-model="code" />
+        <el-input  autocomplete="off" @keyup.enter="register" style="width:200px"  placeholder="注意大小写"  v-model="code" />
         <img width="100" height="40"  @click="captcha" :src="cha"/>
     </el-form-item>
       {{message}}
@@ -21,9 +21,8 @@
 <script>
 import {ref, onMounted} from 'vue'
 import { reactive, toRefs } from '@vue/reactivity'
-import {error} from '../utiles/message'
+import {error, success} from '../utiles/message'
 import $ from 'jquery'
-import router from '../router/index'
 export default {
   setup(){
     const vue = reactive({
@@ -44,7 +43,7 @@ export default {
     const captcha = ()=>{
       $.ajax({
         url:"https://so.beink.cn/captcha/",
-        type:'get',
+        type:'post',
         success(res){
           vue.cha = res
         }
@@ -57,13 +56,20 @@ export default {
             data:{
                 account:account.value,
                 password:password.value,
-                code:code.value
+                code:code.value,
+                base64:vue.cha
             },
             success(res){
                 if(res.msg === "success"){
+                  success("注册成功")
+                  setTimeout(()=>{
                     vue.nor = true
-                    router.push({name:'login'})
-                }else{
+                  },1500)
+                    
+                }else if(res==="error"){
+                  error("验证码错误")
+                }
+                else{
                     error(res.msg)
                 }
             },

@@ -5,6 +5,7 @@ import com.example.demo.utils.Code.EasyCaptchaService;
 import com.example.demo.utils.redisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
@@ -22,15 +23,11 @@ public class captcha {
     @Autowired
     private redisUtil redisTemplate;
 
-
-    @GetMapping("/captcha/")
+    @PostMapping("/captcha/")
     public String captcha(){
-        Map<String, String> Base = easyCaptchaService.getCaptchaValueAndBase64(CodeTypeEnum.ARITHMETIC);
-        redisTemplate.set(Base.get("code"),Base.get("code"));
+        Map<String, String> Base = easyCaptchaService.getCaptchaValueAndBase64(CodeTypeEnum.SPEC);
+        redisTemplate.set(Base.get("code"),Base.get("base64"));
         redisTemplate.expire(Base.get("code"), 120);
         return Base.get("base64");
     }
-
-
-
 }

@@ -278,7 +278,9 @@ export default {
       }
       const store = useStore();
       onMounted(()=>{
-        $('html').css({'--backColor':'#f7f7f7f'})  
+        document.getElementsByTagName('body')[0].style.backgroundImage = ``
+        $('html').css({'--backColor':''})  
+        $('html').css({'--color':''})
         const jwt = localStorage.getItem("jwt");
         if(jwt){
             store.commit("updateToken",jwt)

@@ -18,11 +18,9 @@ public class LoginController  {
 
     @PostMapping("/user/account/token/")
     public Result getToken(@RequestParam Map<String,String>map){
-
         String account = map.get("account");
         String password = map.get("password");
-        String code = map.get("code");
-        return loginService.getToken(account,password,code);
+        return loginService.getToken(account,password);
 
     }
 

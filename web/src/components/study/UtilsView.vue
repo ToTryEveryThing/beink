@@ -24,14 +24,6 @@
     @tab-change="changeTab"
     class="demo-tabs"
   >
-  <el-tab-pane > 
-    <template #label>
-      <span  @click="goBack">
-        <ArrowLeft style="height:20px;width:20px;     margin-bottom: -5px;" />
-        <HomeFilled style=" margin-bottom: -5px;margin-left:5px;"/>
-      </span>
-    </template>
-  </el-tab-pane>
     <el-tab-pane
       v-for="item in editableTabs"
       :key="item.name"
@@ -39,12 +31,12 @@
       :name="item.name"
     >
     <el-row  justify="space-evenly" v-if="item.show">
-      <el-col :span="1" v-if="$store.state.role==='admin'" class="hidden-xs-only">
+      <el-col :span="1" v-if="$store.state.is_author" class="hidden-xs-only">
         <el-affix   :offset="70">
           <el-button  type="primary"  @click="item.show=false" plain>编辑</el-button>
           <el-button type="success" style="margin-top:10px;" class="fsafs" @click="dialogVisible = true" plain>添加</el-button>
           <el-button  type="danger" style="margin-top:10px;" class="fsafs" @click="removeTab(item.name)" plain>删除</el-button>
-          <el-button link @click="Todark"  style="margin-top:10px;" class="fsafs">
+          <el-button type="info"  plain @click="Todark"  style="margin-top:10px;" class="fsafs">
             <el-icon >
               <Sunny  />
             </el-icon>
@@ -57,9 +49,9 @@
           </a>
         </el-affix>
       </el-col>
-      <el-col  :span="1" v-else>
+      <el-col  :span="1" v-else class="hidden-xs-only">
         <el-affix  :offset="100">
-          <el-button @click="Todark"  style="margin-top:10px;" class="fsafs">
+          <el-button @click="Todark" type="info" style="margin-top:10px;" class="fsafs">
             <el-icon >
               <Sunny  />
             </el-icon>
@@ -112,6 +104,10 @@
   </el-tabs>
 </el-col>
 <div id="hdfhsdfh"></div>
+<el-button v-if="$store.state.is_author&&editableTabs.length===0" 
+ type="danger"
+ @click="dialogVisible = true"
+ >添加</el-button>
 </el-row>
 
 </template>
@@ -120,8 +116,9 @@
 import { nanoid } from 'nanoid'
 import {onMounted, ref,reactive} from 'vue'
 import {useStore } from 'vuex'
-import router from '../router/index'
-import dark from '../utiles/dark'
+import { useRoute } from 'vue-router';
+import router from '../../router/index'
+import dark from '../../utiles/dark'
 import $ from 'jquery'
     // $(function () {
     //     $(window).scroll(function () {
@@ -153,9 +150,11 @@ import $ from 'jquery'
           },
       })
       let preview = ref(null)
-      let tabIndex = 0
+      let tabIndex = 1
       let store = useStore()
       let title = ref('')
+      let AllTitle = ref([])
+      let textName = ref('')
       const editableTabsValue = ref()
       const editableTabs = ref([])
       const dialogVisible = ref(false)
@@ -184,21 +183,34 @@ import $ from 'jquery'
         })
         save()
     }
-    const goBack = ()=>{
-        router.push({name:'main'})
+    const getTitle=()=>{
+      let j = 0
+      // 只要三个
+      editableTabs.value.forEach((i)=>{
+          if(j>=3)return
+          AllTitle.value.unshift(i.title)
+          j++
+        })
     }
     const save = ()=>{
+      getTitle()
       $.ajax({
           url:"https://so.beink.cn/user/admin/git/save/",
           data:{
-              markdown:JSON.stringify(editableTabs.value)
+              markdown:JSON.stringify(editableTabs.value),
+              title:JSON.stringify(AllTitle.value)
           },
           headers:{
                 Authorization:"Bearer " + store.state.token
           },
           type:'post',
-          success(){
+          success(res){
+            if(res.code===1){
               tabIndex = editableTabs.value.length
+            }else{
+              console.log("reeor")
+            }
+            
           },
           error(res){
               console.log(res)
@@ -209,14 +221,22 @@ import $ from 'jquery'
       $.ajax({
             url:"https://so.beink.cn/user/admin/git/show/",
             type:'post',
+            data:{
+              name:textName.value
+            },
             success(res){
               if(res.code===1){
                 res = res.date
-                editableTabs.value = JSON.parse(res)
+                if(res.git==="")
+                editableTabs.value = []
+                else
+                editableTabs.value = JSON.parse(res.git)
+                store.commit("textAuthor",res.name)
                 tabIndex = editableTabs.value.length
                 setTimeout(function(){changeTitle()},1000)
+              }else{
+                router.push("/")
               }
-              
             },
         })
     }
@@ -231,10 +251,12 @@ import $ from 'jquery'
       }
     }
     onMounted(()=>{
+      const route = useRoute()
+      textName.value = route.params.name
       $('html').css({'--backColor':'#f7f7f7f'})  
       document.getElementsByTagName('body')[0].style.backgroundImage 
             = `url("")`   
-      editableTabsValue.value = Number(localStorage.getItem("activeName"))   || 1
+      editableTabsValue.value = 1
       aaa()
       const jwt = localStorage.getItem("jwt");
         if(jwt){
@@ -263,6 +285,7 @@ import $ from 'jquery'
       }
     }
     const changeTitle =()=>{
+      if(editableTabs.value.length===0)return
       const anchors = preview.value[editableTabsValue.value-1].$el.querySelectorAll('h2,h3')
       const titles = Array.from(anchors).filter((title) => !!title.innerText.trim());
       if (!titles.length) {
@@ -278,7 +301,6 @@ import $ from 'jquery'
       }));
     }
    const changeTab = ()=>{
-      localStorage.setItem("activeName",editableTabsValue.value)
       changeTitle()
    }
     return{handleAnchorClick,Todark,
@@ -286,7 +308,7 @@ import $ from 'jquery'
         addTab,removeTab,
         editableTabsValue,
         editableTabs,save,
-        goBack,dialogVisible,changeTab
+        dialogVisible,changeTab
       }
   }
 }

@@ -1,10 +1,9 @@
 package com.example.demo.controller.user;
 
-import com.example.demo.aop.PermissionCheck;
+import com.example.demo.aop.checkRole.PermissionCheck;
 import com.example.demo.controller.common.Result;
 import com.example.demo.service.web.updataService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

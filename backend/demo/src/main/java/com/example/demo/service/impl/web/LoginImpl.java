@@ -23,16 +23,10 @@ public class LoginImpl implements LoginService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private redisUtil redisUtil;
-
 
     @Override
-    public Result getToken(String account, String password, String code) {
+    public Result getToken(String account, String password) {
 
-        if(!new IsCode().is(code,redisUtil)){
-            return new Result(0,"验证码错误");
-        }
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(account,password);

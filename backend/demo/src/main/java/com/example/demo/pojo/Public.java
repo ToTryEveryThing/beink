@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @TableName("public")
 public class Public {
-    private int id;
+    private String name;
+    private String title;
     private String git ;
-    private String backlist;
 }

@@ -1,13 +1,11 @@
 package com.example.demo.controller.admin;
 
-import com.example.demo.aop.PermissionCheck;
+import com.example.demo.aop.checkRole.PermissionCheck;
 import com.example.demo.controller.common.Result;
 import com.example.demo.service.admin.OssService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Map;
 
 /**
  * @author 睡醒继续做梦

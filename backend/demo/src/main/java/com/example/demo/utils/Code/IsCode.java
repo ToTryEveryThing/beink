@@ -11,16 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class IsCode {
 
-
-    public Boolean is(String code,redisUtil redisUtil){
+    public Boolean is(String code,String base,redisUtil redisUtil){
         System.out.println(code+"............");
-        if(code==null||"".equals(code)){
+        System.out.println("hhhhhhhhh");
+        if(code==null||"".equals(code)||base==null||"".equals(base)){
             return false;
         }
         if(redisUtil.get(code)==null){
             return false;
         }
-        if(redisUtil.get(code).equals(code)){
+        if(redisUtil.get(code).equals(base)){
             redisUtil.del(code);
             return true;
         }

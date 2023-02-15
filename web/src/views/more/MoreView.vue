@@ -1,7 +1,4 @@
 <template>
-  <div class="common-layout">
-    <el-container>
-      <el-header>
         <el-menu
           :default-active="activeIndex"
           class="el-menu-demo"
@@ -17,12 +14,8 @@
           <el-menu-item index="/more/chat"><el-icon><ChatDotRound /></el-icon>聊天</el-menu-item>
           <el-menu-item index="/more/guess"><el-icon><User /></el-icon>猜拳</el-menu-item>
         </el-menu>
-      </el-header>
-      <el-main>
-            <router-view/>
-      </el-main>
-    </el-container>
-  </div>
+         <router-view/>
+
 
 </template>
 

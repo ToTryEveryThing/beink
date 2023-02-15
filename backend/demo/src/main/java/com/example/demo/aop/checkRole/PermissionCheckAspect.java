@@ -1,4 +1,4 @@
-package com.example.demo.aop;
+package com.example.demo.aop.checkRole;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.mapper.WebMapper;
@@ -32,7 +32,7 @@ public class PermissionCheckAspect {
     private WebMapper webMapper;
 
     //切入点表达式决定了用注解方式的方法切还是针对某个路径下的所有类和方法进行切，方法必须是返回void类型
-    @Pointcut("@annotation(com.example.demo.aop.PermissionCheck)")
+    @Pointcut("@annotation(com.example.demo.aop.checkRole.PermissionCheck)")
     private void permissionCheckCut(){};
 
     //定义了切面的处理逻辑。即方法上加了@PermissionCheck

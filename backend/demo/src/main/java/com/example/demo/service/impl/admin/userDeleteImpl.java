@@ -22,6 +22,9 @@ public class userDeleteImpl implements userDeleteService {
 
     @Override
     public Result delete(Integer id) {
+
+        if(id==1)return new Result(0,"error");
+
         int res = webmapper.deleteById(id);
         if(res>=1) {
            return new Result(1,"success");
@@ -39,6 +42,7 @@ public class userDeleteImpl implements userDeleteService {
         ArrayList<Integer> list=new ArrayList();
 
         for(int i=0;i<ids.size();i++){
+            if((Integer)ids.get(i)==1)continue;
             list.add((Integer) ids.get(i));
         }
 
