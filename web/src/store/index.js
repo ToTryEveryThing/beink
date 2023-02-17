@@ -4,6 +4,7 @@ import $ from 'jquery'
 import images from './images'
 import study from './study'
 import guess from './guess'
+import discuss from './discuss'
 //存储全局数据
 const state = {
   pulling_info: true,
@@ -202,7 +203,8 @@ export default createStore({
     modules: {
       images:images,
       study:study,
-      guess:guess
+      guess:guess,
+      discuss:discuss
     }
   
 

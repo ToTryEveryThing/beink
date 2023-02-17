@@ -1,4 +1,5 @@
 <template>
+  <DiscussView/>
   <el-row justify="center">
     <el-col :md="18" :xs="24">
   <el-dialog
@@ -20,6 +21,7 @@
     </template>
   </el-dialog>
   <el-tabs 
+  tab-position="top"
     v-model="editableTabsValue"
     @tab-change="changeTab"
     class="demo-tabs"
@@ -32,37 +34,14 @@
     >
     <el-row  justify="space-evenly" v-if="item.show">
       <el-col :span="1" v-if="$store.state.is_author" class="hidden-xs-only">
-        <el-affix   :offset="70">
+        <el-affix position="bottom" :offset="20">
           <el-button  type="primary"  @click="item.show=false" plain>编辑</el-button>
           <el-button type="success" style="margin-top:10px;" class="fsafs" @click="dialogVisible = true" plain>添加</el-button>
           <el-button  type="danger" style="margin-top:10px;" class="fsafs" @click="removeTab(item.name)" plain>删除</el-button>
-          <el-button type="info"  plain @click="Todark"  style="margin-top:10px;" class="fsafs">
-            <el-icon >
-              <Sunny  />
-            </el-icon>
-            <el-icon >
-              <Moon />
-            </el-icon>
-          </el-button>
-          <a  href="javascript:window.scrollTo(0,0)" style="margin-top:10px;" class="fas">
-            <span></span>
-          </a>
         </el-affix>
       </el-col>
       <el-col  :span="1" v-else class="hidden-xs-only">
-        <el-affix  :offset="100">
-          <el-button @click="Todark" type="info" style="margin-top:10px;" class="fsafs">
-            <el-icon >
-              <Sunny  />
-            </el-icon>
-            <el-icon >
-              <Moon />
-            </el-icon>
-          </el-button>
-          <a style="margin-top:10px;" href="javascript:window.scrollTo(0,0)" class="fas">
-            <span></span>
-          </a>
-        </el-affix>
+       
       </el-col>
       <el-col :xs="23" :sm="16">
           <el-card>
@@ -73,9 +52,8 @@
       </el-col>
       <el-col class="hidden-xs-only" :gutter="20" :span="4">
         <el-affix :offset="0">
-          <el-scrollbar height="100vh">
             <el-col :span="12">
-              <el-image style="width: 100px; height: 100px" src="https://cdn.acwing.com/media/user/profile/photo/71127_lg_5c719f083a.png" :fit="fit" /> 
+              <el-image style="width: 100px; height: 100px" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" :fit="fit" /> 
             </el-col>
             <el-col   :span="24">
               <div
@@ -87,8 +65,6 @@
               <a style="cursor: pointer" :id="anchor.id"  class="goto">{{ anchor.title }}</a>
             </div>
             </el-col>
-          </el-scrollbar>
-         
         </el-affix>
       </el-col>
   </el-row>
@@ -109,7 +85,19 @@
  @click="dialogVisible = true"
  >添加</el-button>
 </el-row>
-
+<div class="bottom hidden-xs-only">
+  <el-button type="info"  plain @click="Todark"   style="margin-top:10px;background-color:grey;">
+    <el-icon >
+      <Sunny  />
+    </el-icon>
+    <el-icon >
+      <Moon />
+    </el-icon>
+  </el-button>
+  <a  href="javascript:window.scrollTo(0,0)" style="margin-top:10px;" class="fas">
+    <span></span>
+  </a>
+</div>
 </template>
 
 <script>
@@ -120,6 +108,7 @@ import { useRoute } from 'vue-router';
 import router from '../../router/index'
 import dark from '../../utiles/dark'
 import $ from 'jquery'
+import DiscussView from './DiscussView.vue';
     // $(function () {
     //     $(window).scroll(function () {
     //         if ($(window).scrollTop() > 300) {
@@ -131,6 +120,7 @@ import $ from 'jquery'
     //     });
     // });
   export default{
+  components: { DiscussView },
     setup(){
       const vue = reactive({
           asd : '#hdfhsdfh',
@@ -155,6 +145,7 @@ import $ from 'jquery'
       let title = ref('')
       let AllTitle = ref([])
       let textName = ref('')
+      let AUTHOR = ref("")
       const editableTabsValue = ref()
       const editableTabs = ref([])
       const dialogVisible = ref(false)
@@ -232,8 +223,11 @@ import $ from 'jquery'
                 else
                 editableTabs.value = JSON.parse(res.git)
                 store.commit("textAuthor",res.name)
+
                 tabIndex = editableTabs.value.length
+                AUTHOR.value = res.name
                 setTimeout(function(){changeTitle()},1000)
+                store.commit("updateDiscuss",{index:1,title:editableTabs.value[0].title,name:AUTHOR.value})
               }else{
                 router.push("/")
               }
@@ -300,7 +294,12 @@ import $ from 'jquery'
         id:nanoid()
       }));
     }
-   const changeTab = ()=>{
+   const changeTab = (i)=>{
+    store.commit("updateDiscuss",{
+      index:i,
+      title:editableTabs.value[i-1].title,
+      name:AUTHOR.value.toString()
+    })
       changeTitle()
    }
     return{handleAnchorClick,Todark,
@@ -359,5 +358,10 @@ import $ from 'jquery'
   box-sizing: border-box;
   color:   var(--el-color-primary);
   border-left: #0984e3 solid 3px;
+}
+.bottom{
+  position: fixed;
+  right: 0;
+  bottom: 100px;
 }
 </style>
