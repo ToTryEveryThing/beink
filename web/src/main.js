@@ -70,7 +70,6 @@ for (let iconName in ELIcons) {
 }
 // 全局属性
 app.config.globalProperties.$bus = new  mitt()
-// app.provide('https', 'https://so.beink.cn/')
 app.use(VMdPreview)
 app.use(VueMarkdownEditor)
 app.use(store)

@@ -5,6 +5,7 @@ import images from './images'
 import study from './study'
 import guess from './guess'
 import discuss from './discuss'
+import config from '../utiles/config'
 //存储全局数据
 const state = {
   pulling_info: true,
@@ -45,7 +46,7 @@ const actions = {
   },
   login(context,value){
     $.ajax({
-      url:"https://so.beink.cn/user/account/token/",
+      url:`${config.API_URL}/user/account/token/`,
       type:'post',
       data:{
           account:value.account,
@@ -73,7 +74,7 @@ const actions = {
   },
   getinfo(context,data){
       $.ajax({
-          url:'https://so.beink.cn/user/account/info/',
+          url:`${config.API_URL}/user/account/info/`,
           type:'get',
           headers:{
               Authorization:"Bearer " + context.state.token
@@ -112,7 +113,7 @@ const mutations = {
     localStorage.setItem('list',JSON.stringify(state.localList))
     if(state.is_login===true){
       $.ajax({
-          url:'https://so.beink.cn/user/account/color/',
+          url:`${config.API_URL}/user/account/color/`,
           type:'post',
           headers:{
               Authorization:"Bearer " + state.token
@@ -132,7 +133,7 @@ const mutations = {
     localStorage.setItem('list',JSON.stringify(state.localList))
     if(state.is_login===true){
       $.ajax({
-          url:'https://so.beink.cn/user/account/color/',
+          url:`${config.API_URL}/user/account/color/`,
           type:'post',
           headers:{
               Authorization:"Bearer " + state.token

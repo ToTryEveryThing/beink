@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import config from '@/utiles/config'
 export default {
     state: {
         editableTabs:'',
@@ -6,7 +7,7 @@ export default {
     mutations: {
         show(state){
             $.ajax({
-                url:"https://so.beink.cn/user/admin/git/show/",
+                url:`${config.API_URL}/user/admin/git/show/`,
                 type:'post',
                 data:{
                     name:"admin"

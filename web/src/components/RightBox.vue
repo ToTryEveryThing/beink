@@ -32,13 +32,7 @@
         </el-col>
         <el-divider><el-icon color="#dfd3f4"><MagicStick /></el-icon></el-divider>
         <el-col  :span="24" :gutter="20">
-                <el-row class="hhhhhhhh">
-                    <el-col :span="6" v-for="i in $store.state.study.editableTabs" :key="i.name">
-                        <el-tag   style="cursor: pointer;"  @click="send(i.name)">
-                            {{i.title}}
-                        </el-tag>
-                    </el-col>
-                </el-row>
+               <tab/>
         </el-col>
         <el-divider><el-icon color="#dfd3f4" ><Reading /></el-icon></el-divider>
             <APP/>
@@ -116,19 +110,20 @@
 </template>
 
 <script>
+import config from '../utiles/config'
 import darkClass from '../utiles/dark.js'
 import { mapState ,mapActions } from 'vuex'
 import { ElMessage ,ElNotification  } from 'element-plus'
 import {useStore} from 'vuex'
 import chat from './GoChat.vue'
-import router from '../router/index'
 import login from '../views/AccountLogin'
 import register from '../views/AccountRegister.vue'
 import APP from '../components/AppCURD.vue'
+import tab  from '../components/study/EditablesTabs.vue'
 import $ from 'jquery'
 import {onMounted, ref } from 'vue'
     export default{
-        components:{login ,register ,APP ,chat},
+        components:{login ,register ,APP ,chat, tab},
         setup(){
             const List = ref([])
             const store = useStore()
@@ -214,15 +209,11 @@ import {onMounted, ref } from 'vue'
                 this.store.dispatch("logout")
                 this.open1()
             },
-            send(i){
-                this.$bus.emit('send',i)
-                router.push({name:'study'})
-            },
             change(a,b,c){
                 if(this.store.state.background!=='')return
                 if(this.store.state.is_login===true){
                         $.ajax({
-                            url:'https://so.beink.cn/user/account/color/',
+                            url:`${config.API_URL}/user/account/color/`,
                             type:'post',
                             headers:{
                                 Authorization:"Bearer " + this.store.state.token

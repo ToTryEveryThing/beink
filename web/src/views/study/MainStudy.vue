@@ -38,6 +38,7 @@
 import { onMounted, ref } from 'vue';
 import $ from 'jquery'
 import router from '@/router';
+import config from '@/utiles/config'
 export default{
   setup(){
     let da = ref([])
@@ -46,7 +47,7 @@ export default{
       $('html').css({'--backColor':'#444654'})  
       $('html').css({'--color':''})
       $.ajax({
-            url:"https://so.beink.cn/user/admin/git/showall/",
+            url:`${config.API_URL}/user/admin/git/showall/`,
             type:'post',
             success(res){
               if(res.code===1){

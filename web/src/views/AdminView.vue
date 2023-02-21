@@ -123,6 +123,7 @@ import {onMounted, reactive, toRefs} from 'vue'
 import moment from 'moment/moment'
 import {success,error} from '../utiles/message'
 import XLSX from "xlsx";
+import config from '@/utiles/config'
 // import FileSaver from 'file-saver'
 export default {
     setup(){
@@ -167,7 +168,7 @@ export default {
       const multiple = ()=>{
         if(vue.ids.length!==0)
         $.ajax({
-              url:'https://so.beink.cn/user/admin/multiple/',
+              url:`${config.API_URL}/user/admin/multiple/`,
               type:'post',
               headers:{
                   Authorization:"Bearer " + store.state.token
@@ -190,7 +191,7 @@ export default {
       const updata =()=>{
         vue.dialogVisible = false
         $.ajax({
-              url:'https://so.beink.cn/user/account/updata/',
+              url:`${config.API_URL}/user/account/updata/`,
               type:'post',
               headers:{
                   Authorization:"Bearer " + store.state.token
@@ -221,7 +222,7 @@ export default {
         
           if(f){
             $.ajax({
-              url:'https://so.beink.cn/user/admin/delete/',
+              url:`${config.API_URL}/user/admin/delete/`,
               type:'post',
               headers:{
                   Authorization:"Bearer " + store.state.token
@@ -241,7 +242,7 @@ export default {
       }
       let aaa = ()=>{
           $.ajax({
-            url:'https://so.beink.cn/user/admin/list/',
+            url:`${config.API_URL}/user/admin/list/`,
             type:'post',
             headers:{
                 Authorization:"Bearer " + store.state.token

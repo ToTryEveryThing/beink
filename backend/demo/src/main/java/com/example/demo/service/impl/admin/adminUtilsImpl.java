@@ -31,6 +31,8 @@ public class adminUtilsImpl implements adminUtilsService {
         Public aPublic = new Public();
         aPublic.setGit(markdown);
         aPublic.setName(name);
+        System.out.println(title);
+        if(title.length()<=2)title="";
         aPublic.setTitle(title);
         int update = publicMapper.update(aPublic,q);
         if(update>=1){
@@ -53,6 +55,7 @@ public class adminUtilsImpl implements adminUtilsService {
     @Override
     public Result showAll() {
         QueryWrapper<Public> q = new QueryWrapper<>();
+        q.isNotNull("title");
         q.isNotNull("git");
         List<Public> publics = publicMapper.selectList(q);
         for(Public i : publics){

@@ -58,7 +58,7 @@ public class RegisterImpl implements RegisterService {
         String pass = passwordEncoder.encode(password);
 
          web web1 = new web();
-         web1.setBackimg("6");
+         web1.setBackimg("5");
          web1.setList("[]");
          web1.setPassword(pass);
          web1.setAccount(account);

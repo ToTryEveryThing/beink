@@ -25,6 +25,7 @@ import {onMounted, ref} from 'vue'
 import { reactive, toRefs } from '@vue/reactivity'
 import router from '../router/index'
 import { success, error } from '@/utiles/message'
+import config from '@/utiles/config'
 import $ from 'jquery'
 export default {
   setup(){
@@ -42,7 +43,7 @@ export default {
     
     const captcha = ()=>{
       $.ajax({
-        url:"https://so.beink.cn/captcha/",
+        url:`${config.API_URL}/captcha/`,
         type:'post',
         success(res){
           vue.cha = res

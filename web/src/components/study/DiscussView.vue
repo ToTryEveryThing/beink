@@ -1,5 +1,5 @@
 <template>
-    <el-button type="primary  " class="open" style="margin-left: 16px" @click="drawer = true">
+    <el-button type="primary"  class="open hidden-xs-only" v-if="$store.state.discuss.post_title!==''" style="margin-left: 16px" @click="drawer = true">
         <el-icon><Comment style="width: 1em; height: 1em;"/></el-icon>
     </el-button>
       <el-drawer 
@@ -68,6 +68,7 @@ import { reactive, ref, toRefs } from 'vue'
 import { useStore } from 'vuex'
 import $ from 'jquery'
 import moment from 'moment/moment'
+import config from "@/utiles/config"
 export default {
     setup(){
         const store = useStore()
@@ -80,9 +81,8 @@ export default {
             page:1
         })
         const del=(i)=>{
-            console.log(i)
             $.ajax({
-                url:"https://so.beink.cn/user/discuss/delete/",
+                url:`${config.API_URL}/user/discuss/delete/`,
                 type:'post',
                 headers:{
                     Authorization:"Bearer " + store.state.token
@@ -107,7 +107,7 @@ export default {
         }
         const show=()=>{
             $.ajax({
-                url:"https://so.beink.cn/user/discuss/show/",
+                url:`${config.API_URL}/user/discuss/show/`,
                 type:'post',
                 data:{
                     post_name:store.state.discuss.post_name,
@@ -129,7 +129,7 @@ export default {
         const Reply=()=>{
             if(vue.reply===null||!store.state.is_login)return
             $.ajax({
-                url:"https://so.beink.cn/user/discuss/add/",
+                url:`${config.API_URL}/user/discuss/add/`,
                 type:'post',
                 headers:{
                     Authorization:"Bearer " + store.state.token

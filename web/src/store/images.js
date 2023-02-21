@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import {success , error} from  '../utiles/message'
+import config from '../utiles/config'
 export default {
     state: {
         ImagesList:[]
@@ -7,7 +8,7 @@ export default {
     actions: {
         getList(context){
             $.ajax({
-                url:'https://so.beink.cn/oss/getList/',
+                url:`${config.API_URL}/oss/getList/`,
                 type:'get',
                 success(res){
                     if(res.code===1)
@@ -17,7 +18,7 @@ export default {
         },
         delete(context,value){
             $.ajax({
-                url:'https://so.beink.cn/oss/deleteImage/',
+                url:`${config.API_URL}/oss/deleteImage/`,
                 type:'post',
                 headers:{
                     Authorization:"Bearer " + value.token
@@ -40,7 +41,7 @@ export default {
         },
         upload(context,value){
             $.ajax({
-                url:'https://so.beink.cn/oss/uploadImage/',
+                url:`${config.API_URL}/oss/uploadImage/`,
                 type:'post',
                 data:value.formData,
                 processData: false, // 告诉jQuery不要去处理发送的数据

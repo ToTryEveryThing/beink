@@ -22,6 +22,7 @@
 import {ref, onMounted} from 'vue'
 import { reactive, toRefs } from '@vue/reactivity'
 import {error, success} from '../utiles/message'
+import config from '@/utiles/config'
 import $ from 'jquery'
 export default {
   setup(){
@@ -42,7 +43,7 @@ export default {
     
     const captcha = ()=>{
       $.ajax({
-        url:"https://so.beink.cn/captcha/",
+        url:`${config.API_URL}/captcha/`,
         type:'post',
         success(res){
           vue.cha = res
@@ -51,7 +52,7 @@ export default {
     }
     const register = ()=>{
         $.ajax({
-            url:"https://so.beink.cn/user/account/register/",
+            url:`${config.API_URL}/user/account/register/`,
             type:'post',
             data:{
                 account:account.value,

@@ -107,6 +107,7 @@ import {useStore } from 'vuex'
 import { useRoute } from 'vue-router';
 import router from '../../router/index'
 import dark from '../../utiles/dark'
+import config from '../../utiles/config'
 import $ from 'jquery'
 import DiscussView from './DiscussView.vue';
     // $(function () {
@@ -160,6 +161,7 @@ import DiscussView from './DiscussView.vue';
           editableTabsValue.value = newTabName
           dialogVisible.value  = false
           title.value = ''
+          getTitle()
           save()
     }
     const removeTab = (targetName) => {
@@ -172,9 +174,11 @@ import DiscussView from './DiscussView.vue';
         Tabs.forEach((i,index)=>{
           i.name = index+1
         })
+        getTitle()
         save()
     }
     const getTitle=()=>{
+      AllTitle.value=[]
       let j = 0
       // 只要三个
       editableTabs.value.forEach((i)=>{
@@ -184,9 +188,9 @@ import DiscussView from './DiscussView.vue';
         })
     }
     const save = ()=>{
-      getTitle()
+      console.log(AllTitle.value)
       $.ajax({
-          url:"https://so.beink.cn/user/admin/git/save/",
+          url:`${config.API_URL}/user/admin/git/save/`,
           data:{
               markdown:JSON.stringify(editableTabs.value),
               title:JSON.stringify(AllTitle.value)
@@ -210,7 +214,7 @@ import DiscussView from './DiscussView.vue';
     }
     const aaa = ()=>{
       $.ajax({
-            url:"https://so.beink.cn/user/admin/git/show/",
+            url:`${config.API_URL}/user/admin/git/show/`,
             type:'post',
             data:{
               name:textName.value
@@ -218,8 +222,8 @@ import DiscussView from './DiscussView.vue';
             success(res){
               if(res.code===1){
                 res = res.date
-                if(res.git==="")
-                editableTabs.value = []
+                if(res.git==="")  
+                  editableTabs.value = []
                 else
                 editableTabs.value = JSON.parse(res.git)
                 store.commit("textAuthor",res.name)
