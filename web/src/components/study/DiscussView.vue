@@ -38,9 +38,20 @@
                         <div class="text">
                             <div v-text="i.content"> </div>
                         </div>
-                        <el-button v-if="$store.state.account===i.userName" @click="del(i.id)" class="de" type="danger" text> 
-                            <el-icon><Delete color="grey"/></el-icon>
-                        </el-button>
+
+                        <el-button-group class="de">
+                            <el-button v-if="$store.state.account===i.userName" @click="del(i.id)"  type="danger" text> 
+                                <el-icon><Delete color="grey"/></el-icon>
+                            </el-button>
+                            <el-button  text  @click="up(i.id,i)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                                {{ i.up }}
+                            </el-button>
+                            <!-- <el-button  text >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-down"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
+                                2
+                            </el-button> -->
+                          </el-button-group>
                     </div>
                 </el-card>
                 <el-pagination
@@ -147,9 +158,26 @@ export default {
                 },
             })
         }
+        const up=(i,y)=>{
+            $.ajax({
+                url:`${config.API_URL}/user/up/`,
+                type:'post',
+                headers:{
+                    Authorization:"Bearer " + store.state.token
+                },
+                data:{
+                    article_id:i
+                },
+                success(res){
+                    if(res.code===1){
+                        vue.content[vue.content.indexOf(y)].up++
+                    }
+                },
+            })
+        }
         return{
             ...toRefs(vue),ppage,handleCurrentChange,
-            drawer,show,Reply,del
+            drawer,show,Reply,del,up
         }
     }
 }
@@ -201,5 +229,11 @@ export default {
 
     .el-drawer__header>:first-child{
         flex: 0;
+    }
+    .mo{
+        display: none;
+    }
+    .el-card:hover  .mo{
+        display: block;
     }
 </style>

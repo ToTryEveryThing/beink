@@ -46,6 +46,7 @@ public class DiscussImpl implements DiscussService {
         JSONObject res = new JSONObject();
         q.eq("post_name",postName);
         q.eq("post_index",postIndex);
+        q.orderByDesc("up");
         List<Discuss> discusses = discussMapper.selectPage(page1,q).getRecords();
         res.put("code",1);
         res.put("data",discusses);

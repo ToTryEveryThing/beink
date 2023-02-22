@@ -46,6 +46,10 @@ public class Discuss implements Serializable {
      */
     private String userName;
 
+
+
+    private int up;
+
     /**
      * 评论时间
      */

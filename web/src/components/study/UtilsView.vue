@@ -80,7 +80,7 @@
   </el-tabs>
 </el-col>
 <div id="hdfhsdfh"></div>
-<el-button v-if="$store.state.is_author&&editableTabs.length===0" 
+<el-button v-if="$store.state.is_author&&editableTabs.length===0&&sssss" 
  type="danger"
  @click="dialogVisible = true"
  >添加</el-button>
@@ -126,6 +126,7 @@ import DiscussView from './DiscussView.vue';
       const vue = reactive({
           asd : '#hdfhsdfh',
           titles:[],
+          sssss:false,
           toolbar: {
           back: {
               title: '取消编辑',
@@ -161,7 +162,7 @@ import DiscussView from './DiscussView.vue';
           editableTabsValue.value = newTabName
           dialogVisible.value  = false
           title.value = ''
-          getTitle()
+          // getTitle()
           save()
     }
     const removeTab = (targetName) => {
@@ -174,7 +175,7 @@ import DiscussView from './DiscussView.vue';
         Tabs.forEach((i,index)=>{
           i.name = index+1
         })
-        getTitle()
+        // getTitle()
         save()
     }
     const getTitle=()=>{
@@ -188,7 +189,7 @@ import DiscussView from './DiscussView.vue';
         })
     }
     const save = ()=>{
-      console.log(AllTitle.value)
+      getTitle()
       $.ajax({
           url:`${config.API_URL}/user/admin/git/save/`,
           data:{
@@ -237,6 +238,7 @@ import DiscussView from './DiscussView.vue';
               }
             },
         })
+        vue.sssss = true
     }
     const Todark = ()=>{
       let Class = localStorage.getItem("theme") || "";
