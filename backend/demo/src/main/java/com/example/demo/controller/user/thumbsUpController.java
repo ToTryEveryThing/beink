@@ -2,6 +2,7 @@ package com.example.demo.controller.user;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.aop.limitApi.AccessLimit;
 import com.example.demo.aop.userInfo.UserInfo;
 import com.example.demo.controller.common.Result;
 import com.example.demo.service.impl.web.thumbsUpImpl;
@@ -18,11 +19,13 @@ public class thumbsUpController {
     @Autowired
     private thumbsUpImpl thumbsUp;
 
+    @AccessLimit(seconds = 10,maxCount = 2)
     @PostMapping("/user/up/")
     public Result up(@UserInfo String name,@RequestParam(value = "article_id") Integer articleId){
         return thumbsUp.up(name,articleId);
     }
 
+    @AccessLimit(seconds = 10,maxCount = 2)
     @PostMapping("/user/down/")
     public Result down(@UserInfo String name,@RequestParam(value = "article_id") Integer articleId){
         return thumbsUp.down(name,articleId);

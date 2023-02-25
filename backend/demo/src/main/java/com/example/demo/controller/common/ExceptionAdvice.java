@@ -1,5 +1,6 @@
 package com.example.demo.controller.common;
 
+import com.example.demo.exception.LimitException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -10,9 +11,24 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionAdvice {
 
-//    @ExceptionHandler(Exception.class)
-//    public Result doException(){
-//        System.out.println("exception");
-//        return new Result(0,"异常");
-//    }
+    /**
+     * 限制太频繁
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(LimitException.class)
+    public Result Limit(LimitException e){
+        System.out.println("exception");
+        return new Result(e.getCode(),e.getMessage());
+    }
+
+    /**
+     * 没有自定义的异常
+     * @return
+     */
+    @ExceptionHandler(Exception.class)
+    public Result doException(){
+        System.out.println("exception");
+        return new Result(0,"异常");
+    }
 }

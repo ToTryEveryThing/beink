@@ -1,5 +1,6 @@
 package com.example.demo.controller.user;
 
+import com.example.demo.aop.limitApi.AccessLimit;
 import com.example.demo.controller.common.Result;
 import com.example.demo.service.web.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ public class RegisterController {
     @Autowired
     private RegisterService registerService;
 
+    @AccessLimit(seconds = 60,maxCount = 1)
     @PostMapping("/user/account/register/")
     public Result register(@RequestParam Map<String,String>map){
         String account = map.get("account");
