@@ -5,32 +5,35 @@
       <el-drawer 
       class="main"
       size="450px"
-      @open="show"
       v-model="drawer"
        :show-close="false"
        :lock-scroll="false"
        :with-header="true">
             <template #header>
-
                 <el-row>
                     <el-col :span="8">{{ $store.state.discuss.post_title }}</el-col>
                     <el-col :span="8">
-                        <el-switch
-                            class="switch"
-                            v-model="showDate"
-                            inline-prompt
-                            active-text="是"
-                            inactive-text="否"
-                        />
+                        <el-tooltip content="时间" placement="bottom" effect="light">
+                            <el-switch
+                                class="switch"
+                                v-model="showDate"
+                                inline-prompt
+                                active-text="是"
+                                inactive-text="否"
+                            />
+                          </el-tooltip>
                     </el-col>
                   </el-row>
               </template>
             <el-scrollbar height="85vh" style="margin-top:-30px;">
-                <el-empty description="无人评论" v-if="count===0" />
-                <el-card  v-for="i in content" :key="i" shadow="never" style="margin-top:10px;">  
+                <el-empty description="无人评论" v-if="$store.state.discuss.count===0" />
+                <el-card  v-for="i in $store.state.discuss.content" :key="i" shadow="never" style="margin-top:10px;">  
                     <div class="dis">
                         <div class="name">
-                            <span><el-tag  light v-if="i.userName===i.postName">作者</el-tag>  {{ i.userName }}</span>
+                            <span light v-if="i.userName===i.postName">
+                                <el-tag>{{ i.userName }} </el-tag> 
+                            </span>
+                            <span v-else>{{ i.userName }}</span>
                             <span v-show="showDate">{{ i.date }}</span>
                         </div>
                         <br>
@@ -43,14 +46,14 @@
                             <el-button v-if="$store.state.account===i.userName" @click="del(i.id)"  type="danger" text> 
                                 <el-icon><Delete color="grey"/></el-icon>
                             </el-button>
-                            <el-button  text  @click="up(i.id,i)">
+                            <el-button  text v-if="!$store.state.discuss.discussStatus[i.id]" @click="up(i.id,i)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                                {{ i.up }}
+                                &nbsp;&nbsp;{{ i.up }}
                             </el-button>
-                            <!-- <el-button  text >
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-down"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
-                                2
-                            </el-button> -->
+                            <el-button  text v-else @click="down(i.id,i)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0066ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                                &nbsp;&nbsp;{{ i.up }}
+                            </el-button>
                           </el-button-group>
                     </div>
                 </el-card>
@@ -62,7 +65,7 @@
                     @current-change="handleCurrentChange"
                     @next-click="ppage(1)" @prev-click="ppage(-1)"
                     layout="prev, pager, next"
-                    :total="count"
+                    :total="$store.state.discuss.count"
                     class="mt-4"
                 />
               </el-scrollbar>
@@ -78,7 +81,6 @@
 import { reactive, ref, toRefs } from 'vue'
 import { useStore } from 'vuex'
 import $ from 'jquery'
-import moment from 'moment/moment'
 import config from "@/utiles/config"
 export default {
     setup(){
@@ -86,9 +88,7 @@ export default {
         let drawer = ref(false)
         const vue = reactive({
             reply:'',
-            content:[],
             showDate:false,
-            count:0,
             page:1
         })
         const del=(i)=>{
@@ -117,24 +117,8 @@ export default {
             show()
         }
         const show=()=>{
-            $.ajax({
-                url:`${config.API_URL}/user/discuss/show/`,
-                type:'post',
-                data:{
-                    post_name:store.state.discuss.post_name,
-                    post_index:store.state.discuss.post_index,
-                    page:vue.page
-                },
-                success(res){
-                  if(res.code===1){
-                    vue.count = res.count
-                    vue.content = res.data
-                    vue.content.forEach((i,index)=>{
-                        vue.content[index].date = moment(i.date).format('YYYY-MM-DD HH:mm')
-
-                  })
-                  }
-                },
+            store.commit("showDiscuss",{
+                page:vue.page,
             })
         }
         const Reply=()=>{
@@ -159,6 +143,7 @@ export default {
             })
         }
         const up=(i,y)=>{
+            if(store.state.is_login)
             $.ajax({
                 url:`${config.API_URL}/user/up/`,
                 type:'post',
@@ -170,14 +155,32 @@ export default {
                 },
                 success(res){
                     if(res.code===1){
-                        vue.content[vue.content.indexOf(y)].up++
+                        store.commit("upupupup",{status:true,value:y})
+                    }
+                },
+            })
+        }
+        const down=(i,y)=>{
+            if(store.state.is_login)
+            $.ajax({
+                url:`${config.API_URL}/user/down/`,
+                type:'post',
+                headers:{
+                    Authorization:"Bearer " + store.state.token
+                },
+                data:{
+                    article_id:i
+                },
+                success(res){
+                    if(res.code===1){
+                        store.commit("upupupup",{status:false,value:y})
                     }
                 },
             })
         }
         return{
             ...toRefs(vue),ppage,handleCurrentChange,
-            drawer,show,Reply,del,up
+            drawer,show,Reply,del,up,down
         }
     }
 }

@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ExceptionAdvice {
 
-    @ExceptionHandler(Exception.class)
-    public Result doException(){
-        System.out.println("exception");
-        return new Result(0,"异常");
-    }
+//    @ExceptionHandler(Exception.class)
+//    public Result doException(){
+//        System.out.println("exception");
+//        return new Result(0,"异常");
+//    }
 }
