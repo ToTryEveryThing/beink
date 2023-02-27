@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/admin/git/show/","/user/account/token/",
                         "/user/account/register/","/user/admin/backlist/show/",
                         "/oss/getList/","/redis/","/captcha/","/user/admin/git/showall/",
-                        "/user/discuss/show/")
+                        "/user/discuss/show/","/translate/query/")
                 .permitAll()
                 //只允许本地服务器访问
 //                .hasIpAddress("127.0.0.1")

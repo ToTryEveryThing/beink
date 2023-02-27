@@ -32,7 +32,7 @@ public class DiscussController {
         return discussService.addReply(content,postName,postIndex,userName);
     }
 
-    @AccessLimit(seconds = 10,maxCount = 3)
+    @AccessLimit(seconds = 10,maxCount = 4)
     @PostMapping("/user/discuss/show/")
     public JSONObject show(@RequestParam Map<String ,String> map){
         return discussService.showReply(map.get("post_name"),

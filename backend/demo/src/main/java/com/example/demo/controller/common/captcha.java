@@ -26,10 +26,10 @@ public class captcha {
 
     @AccessLimit(seconds = 5,maxCount = 2)
     @PostMapping("/captcha/")
-    public String captcha(){
+    public Result captcha(){
         Map<String, String> Base = easyCaptchaService.getCaptchaValueAndBase64(CodeTypeEnum.SPEC);
         redisTemplate.set(Base.get("code"),Base.get("base64"));
         redisTemplate.expire(Base.get("code"), 120);
-        return Base.get("base64");
+        return new Result(1,"success",Base.get("base64"));
     }
 }
