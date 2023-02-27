@@ -23,7 +23,6 @@ import router from '@/router';
         url:`${config.API_URL}/user/admin/git/showall/`,
         type:'post',
         success(res){
-            console.log(res)
             if(res.code===1){
             for(let i=0;i<res.date.length;i++){
                 if(res.date[i].name===store.state.account){

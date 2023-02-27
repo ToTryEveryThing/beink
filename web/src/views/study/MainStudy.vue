@@ -3,6 +3,10 @@
     <el-container>
       <el-header  class="header">
         <span class="loader"></span>
+        <el-tooltip content="翻译" placement="top" effect="light">
+          <el-switch v-model="open"  @change="change"/>
+        </el-tooltip>
+
       </el-header>
       <el-main  class="main" >
         <el-row class="row-bg" :span="20" justify="center">
@@ -29,6 +33,15 @@
               </li>
             </ul>
         </el-row>
+        <el-row v-if="open&&true" :gutter="12" justify="space-evenly" class="hidden-xs-only">
+          <el-col :span="16">
+            <el-card shadow="never" class="translate"> 
+              <translate/>  
+            </el-card>  
+          </el-col>
+        </el-row>
+
+        
       </el-main>
     </el-container>
   </div>
@@ -39,9 +52,15 @@ import { onMounted, ref } from 'vue';
 import $ from 'jquery'
 import router from '@/router';
 import config from '@/utiles/config'
+import translate from '@/components/study/BaiduTranslate.vue'
 export default{
+  components:{translate },
   setup(){
     let da = ref([])
+    let open = ref(false)
+    const change = val=>{
+      localStorage.setItem("open",val);
+    }
     onMounted(()=>{
       document.getElementsByTagName('body')[0].style.backgroundImage = ``
       $('html').css({'--backColor':'#444654'})  
@@ -64,7 +83,7 @@ export default{
       router.push(`/study/${i}/`)
     }
     return{
-      da,go
+      da,go,open,change
     }
   }
 }
@@ -230,6 +249,10 @@ export default{
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  .translate{
+    background-color: #373944;
+    border: none;
   }
 
 </style>

@@ -39,6 +39,15 @@
         <el-divider><el-icon color="#dfd3f4" ><Link /></el-icon></el-divider>
             <chat style="text-algin:center;"/>
         <el-divider><el-icon color="#dfd3f4"><ChatDotRound /></el-icon></el-divider>
+        <el-switch
+            v-model="value22"
+            class="ml-2"
+            style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+        /> <el-switch
+            v-model="value11"
+            class="ml-2"
+            style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
+            />
         <el-row justify="space-evenly">
             <el-col :span="12">
                 <el-button type="danger" style="width:100%;" v-if="$store.state.is_login" @click="logout" plain>退出</el-button>
@@ -77,7 +86,6 @@
                     <el-tag >
                         <el-link href="https://wallhaven.cc/" type="primary">图片来源</el-link>
                     </el-tag>
-                    
                 </el-col>
                 <el-col :span="8">
                     <el-button  style="float:right;" size="small" type="danger" @click="close">
@@ -94,7 +102,7 @@
                         fit="fit"
                         style="width:320px;height:200px;"
                         @click="changeBackground('https://images.beink.cn/'+i)"
-                        :src="'https://images.beink.cn/'+i" />
+                        :src="'https://images.beink.cn/'+i" :lazy="true" />
                         <button class="delete" @click="ddd(i)" v-if="$store.state.role==='admin'"></button>
 
                     </div>
@@ -125,6 +133,8 @@ import {onMounted, ref } from 'vue'
     export default{
         components:{login ,register ,APP ,chat, tab},
         setup(){
+            let value11 = ref(true)
+            let value22 = ref(false)
             const List = ref([])
             const store = useStore()
             onMounted(()=>{
@@ -147,8 +157,8 @@ import {onMounted, ref } from 'vue'
             const open2 = () => {
                 ElNotification({
                     title: 'info',
-                    message: "点击右侧图标 以查看更多的功能",
-                    position: 'top-right',
+                    message: "点击上侧图标 以查看更多的功能",
+                    position: 'bottom-right',
                     type: 'info',
                 })
             }
@@ -171,7 +181,7 @@ import {onMounted, ref } from 'vue'
                 })
             }   
             return{
-                List ,ddd,upload,dark
+                List ,ddd,upload,dark,value11,value22
             }
         },
         data(){
@@ -195,7 +205,7 @@ import {onMounted, ref } from 'vue'
             else Time.src = require('@/assets/moon.png')  
             document.getElementsByTagName('body')[0].style.backgroundImage 
             = `url("${this.background}")`
-            let i = this.store.state.backImg||localStorage.getItem("color")||6
+            let i = this.store.state.backImg||localStorage.getItem("color")||5
             $('html').css({'--backColor':this.colorList[i-1].backColor})  
             $('html').css({'--color':this.colorList[i-1].color})
         },

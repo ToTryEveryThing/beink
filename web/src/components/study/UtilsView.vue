@@ -34,10 +34,11 @@
     >
     <el-row  justify="space-evenly" v-if="item.show">
       <el-col :span="1" v-if="$store.state.is_author" class="hidden-xs-only">
-        <el-affix position="bottom" :offset="20">
-          <el-button  type="primary"  @click="item.show=false" plain>编辑</el-button>
-          <el-button type="success" style="margin-top:10px;" class="fsafs" @click="dialogVisible = true" plain>添加</el-button>
-          <el-button  type="danger" style="margin-top:10px;" class="fsafs" @click="removeTab(item.name)" plain>删除</el-button>
+        <el-affix :offset="180">
+          <el-button   circle  type="primary" style="margin-left:10px;margin-top:10px;" @click="item.show=false" ><el-icon ><Edit /></el-icon></el-button>
+          <el-button  circle  type="success" style="margin-top:10px;"   @click="dialogVisible = true" ><el-icon><Plus /></el-icon></el-button>
+          <el-button   circle  type="danger" style="margin-top:10px;"  @click="removeTab(item.name)" ><el-icon><Delete /></el-icon></el-button>
+          <el-button   circle  type="warning" style="margin-top:10px;" @click="GoHome" ><el-icon><House /></el-icon></el-button>
         </el-affix>
       </el-col>
       <el-col  :span="1" v-else class="hidden-xs-only">
@@ -103,7 +104,7 @@
 <script>
 import { nanoid } from 'nanoid'
 import {onMounted, ref,reactive} from 'vue'
-import {useStore } from 'vuex'
+import { useStore } from 'vuex'
 import { useRoute } from 'vue-router';
 import router from '../../router/index'
 import dark from '../../utiles/dark'
@@ -270,6 +271,9 @@ import DiscussView from './DiscussView.vue';
             })
         }
     })
+    const GoHome=()=>{
+      router.push("/")
+    }
     const handleAnchorClick = (anchor)=> {
       $(`${vue.asd}`).removeClass("goto-active")
       $(`#pane-${editableTabsValue.value} #${anchor.id}`).addClass("goto-active")
@@ -314,7 +318,7 @@ import DiscussView from './DiscussView.vue';
         addTab,removeTab,
         editableTabsValue,
         editableTabs,save,
-        dialogVisible,changeTab
+        dialogVisible,changeTab,GoHome
       }
   }
 }
@@ -342,7 +346,7 @@ import DiscussView from './DiscussView.vue';
   border-bottom: 10px solid #409eff;
 }
 .fsafs{
-  margin: 0px;
+  margin: 10px;
 }
 @media only screen and (max-width: 500px) {
 

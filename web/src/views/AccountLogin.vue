@@ -11,7 +11,6 @@
           <el-input  autocomplete="off" @keyup.enter="login" style="width:200px"   placeholder="注意大小写"  v-model="code" />
           <img width="100" height="40"  @click="captcha" :src="cha"/>
       </el-form-item>
-
         {{message}}
         <slot :keyyy="nor"></slot>
           <el-button @click="login"  type="primary">确定</el-button>
@@ -46,7 +45,7 @@ export default {
         url:`${config.API_URL}/captcha/`,
         type:'post',
         success(res){
-          vue.cha = res
+          vue.cha = res.date
         }
       })
     }

@@ -31,7 +31,7 @@ import {reactive,toRefs,onMounted} from 'vue'
                 min: new Date().getMinutes() < 10 ? "0" + new Date().getMinutes() : new Date().getMinutes(),
             })
             onMounted(() => {
-                let i = store.state.backImg||localStorage.getItem("color")||6
+                let i = store.state.backImg||localStorage.getItem("color")||5
                     $('html').css({'--backColor':store.state.colorList[i-1].backColor})  
                     $('html').css({'--color':store.state.colorList[i-1].color})
                 store.commit("show",'')
@@ -66,7 +66,7 @@ import {reactive,toRefs,onMounted} from 'vue'
         display: flex;
         justify-content: center;
         font-size:40px;
-        color:#636e72;
+        color:#ffffff;
         margin-bottom: 20px;
         letter-spacing: 2px;
     }

@@ -17,7 +17,7 @@ $.ajaxSetup({
       let res = JSON.parse(data)
       if(res.code===-1){
         error(res.msg)
-        return null;
+        return res;
       }
     }
     return data
