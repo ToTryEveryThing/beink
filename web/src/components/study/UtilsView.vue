@@ -233,7 +233,7 @@ import DiscussView from './DiscussView.vue';
                 AUTHOR.value = res.name
                 setTimeout(function(){changeTitle()},1000)
                 store.commit("updateDiscuss",{index:1,title:editableTabs.value[0].title,name:AUTHOR.value})
-                store.commit("showDiscuss",{page:1})
+                // store.commit("showDiscuss",{page:1})
               }else{
                 router.push("/")
               }
@@ -310,7 +310,7 @@ import DiscussView from './DiscussView.vue';
       title:editableTabs.value[i-1].title,
       name:AUTHOR.value.toString()
     })
-    store.commit("showDiscuss",{page:1})
+    // store.commit("showDiscuss",{page:1})
       changeTitle()
    }
     return{handleAnchorClick,Todark,

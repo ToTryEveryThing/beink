@@ -32,7 +32,8 @@ public class interceptor extends WebMvcConfigurationSupport {
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(globalInterceptor).addPathPatterns("/user/account/color/",
                 "/user/admin/git/save/","/user/discuss/add/",
-                "/user/discuss/delete/","/user/up/","/user/down/","/user/discussstatus/");
+                "/user/discuss/delete/","/user/up/","/user/down/","/user/discussstatus/",
+                "/user/mailbind/");
         registry.addInterceptor(captchaInterceptor).addPathPatterns("/user/account/token/","/user/account/register/");
         super.addInterceptors(registry);
 

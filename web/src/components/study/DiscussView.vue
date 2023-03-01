@@ -2,9 +2,11 @@
     <el-button type="primary"  class="open hidden-xs-only" v-if="$store.state.discuss.post_title!==''" style="margin-left: 16px" @click="drawer = true">
         <el-icon><Comment style="width: 1em; height: 1em;"/></el-icon>
     </el-button>
+    <!-- <el-backtop :right="100" :bottom="100" /> -->
       <el-drawer 
       class="main"
       size="450px"
+      @open="show"
       v-model="drawer"
        :show-close="false"
        :lock-scroll="false"

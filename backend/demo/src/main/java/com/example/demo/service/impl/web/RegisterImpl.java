@@ -8,6 +8,7 @@ import com.example.demo.pojo.Public;
 import com.example.demo.pojo.web;
 import com.example.demo.service.web.RegisterService;
 import com.example.demo.utils.Code.IsCode;
+import com.example.demo.utils.JwtUtil;
 import com.example.demo.utils.redisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,7 +28,6 @@ public class RegisterImpl implements RegisterService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
 
     @Override
     public Result register(String account, String password) {
@@ -54,9 +54,9 @@ public class RegisterImpl implements RegisterService {
          if(!webs.isEmpty()){
              return new Result(0,"用户名已存在");
          }
-
         String pass = passwordEncoder.encode(password);
 
+        String jwt = JwtUtil.createJWT(account);
          web web1 = new web();
          web1.setBackimg("5");
          web1.setList("[]");
@@ -67,8 +67,8 @@ public class RegisterImpl implements RegisterService {
          String git  = "[{\"title\":\"你好\",\"name\":1,\"content\":\"## new content\",\"show\":true}]\n" +
                  "\n";
          String title = "[\"你好\"]";
-        System.out.println(publicMapper.insert(new Public(account, git,title))+999999);
+        System.out.println(publicMapper.insert(new Public(account, title,git))+999999);
         System.out.println(new Date());
-        return new Result(1,"success");
+        return new Result(1,"success",jwt);
     }
 }

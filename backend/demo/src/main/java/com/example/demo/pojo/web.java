@@ -21,4 +21,6 @@ public class web {
     private String list;
     private Date date;
     private String role;
+
+    private String mail;
 }

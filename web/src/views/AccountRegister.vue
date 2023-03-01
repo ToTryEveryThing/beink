@@ -1,11 +1,11 @@
 <template>
   
-  <el-form  style="margin-top:10vh;" autocomplete="off" label-width="80px"  :label-position="labelPosition">
+  <el-form  style="margin-top:10vh;" v-if="show" autocomplete="off" label-width="80px"  :label-position="labelPosition">
     <h1>Register</h1>
-      <el-form-item label="Name" >
+      <el-form-item label="用户名" >
         <el-input autocomplete="off" autofocus="autofocus" maxlength="10" show-word-limit   v-model="account" />
       </el-form-item>
-      <el-form-item label="Password">
+      <el-form-item label="密码">
           <el-input  autocomplete="off"   show-password type="password" v-model="password" />
       </el-form-item>
       <el-form-item label="验证码"> 
@@ -16,6 +16,28 @@
       <slot :keyyy="nor"></slot>
         <el-button @click="register" type="primary">注册</el-button>
   </el-form>
+
+  <el-form  style="margin-top:10vh;" v-else autocomplete="off" label-width="80px"  :label-position="labelPosition">
+    <h1>绑个邮箱吧</h1>
+    <!-- <el-tag>跳过</el-tag> -->
+      <el-form-item label="邮箱" >
+        <el-input autocomplete="off"  v-model="mail" >
+        </el-input>
+      </el-form-item>
+      <el-form-item label="代码" >
+        <el-input autocomplete="off"  v-model="Code" >
+        </el-input>
+      </el-form-item>
+      <slot :keyyy="nor"></slot>
+      <el-form-item >
+        <el-tag @click="pass">跳过</el-tag>
+        <el-button class="btnnn" v-if="click_if"  @click="gomail" style="width:100px;">{{messages}}</el-button>
+        <el-button class="btnnn"  v-else @click="gomail" disabled style="width:100px;">{{ time }}</el-button>
+        <el-button  style="width:100px;"  @click="goBind" type="primary">绑定</el-button>
+      </el-form-item>
+      
+  </el-form>
+
 </template>
 
 <script>
@@ -31,7 +53,13 @@ export default {
       visible :true,
       labelPosition :'right',
       nor:false,
+      show:true,
       cha:'',
+      mail:'',
+      Code:'',
+      messages:'获取代码',
+      click_if:true,
+      time:300
     })
     let account = ref('')
     let password = ref('')
@@ -40,7 +68,6 @@ export default {
     onMounted(()=>{
       captcha()
     })
-    
     const captcha = ()=>{
       $.ajax({
         url:`${config.API_URL}/captcha/`,
@@ -49,6 +76,76 @@ export default {
           vue.cha = res.date
         }
       })
+    }
+    var f
+    let jwt = ref("")
+    const pass  =()=>{
+      vue.nor = true
+    }
+    const hh=()=>{
+      vue.click_if = false
+      vue.time = 300
+      f = setInterval(() => {
+        if (vue.time > 0) {
+          vue.time--
+        } else {
+          clearInterval()
+          vue.click_if = true
+        }
+      }, 1000)
+
+    }
+    const gomail = ()=>{
+      if(vue.mail==="")return 
+      hh()
+      $.ajax({
+            url:`${config.API_URL}/user/mail/`,
+            type:'post',
+            headers:{
+              Authorization:"Bearer " + jwt.value
+            },
+            data:{
+              to:vue.mail
+            },
+            success(res){
+               if(res===true)
+                success("发送成功")
+              else 
+                error("发送失败,稍后再试")
+            },
+            error(){
+              error("error")
+            }
+        })
+    }
+    const goBind=()=>{
+      if(vue.mail===""||vue.Code==="")return 
+      $.ajax({
+            url:`${config.API_URL}/user/mailbind/`,
+            type:'post',
+            headers:{
+              Authorization:"Bearer " + jwt.value
+            },
+            data:{
+              mail:vue.mail,
+              code:vue.Code
+            },
+            success(res){
+              if(res.code===0){
+                error(res.msg)
+              }else{
+                success("绑定成功")
+                clearInterval(f)
+                setTimeout(() => {
+                  vue.nor = true
+                }, 1500);
+                location.reload();
+              }
+            },
+            error(){
+              error("error")
+            }
+        })
     }
     const register = ()=>{
         $.ajax({
@@ -63,10 +160,9 @@ export default {
             success(res){
                 if(res.msg === "success"){
                   success("注册成功")
-                  setTimeout(()=>{
-                    vue.nor = true
-                  },1500)
-                    
+                  vue.show = false
+                  localStorage.setItem("jwt",res.date)
+                  jwt.value = res.date
                 }else if(res==="error"){
                   error("验证码错误")
                 }
@@ -80,9 +176,9 @@ export default {
         code,
         captcha,
         ...toRefs(vue),
-        account,
-        password,
-        message,register
+        account,pass,
+        password,goBind,
+        message,register,gomail
       }
   }
 }
