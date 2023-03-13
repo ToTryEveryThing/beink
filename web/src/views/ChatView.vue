@@ -24,9 +24,9 @@
                 <div class="oneUser">{{ oneUserName }}</div>
                 <el-divider />
                 <el-scrollbar height="60vh" id="srcoll" always class="scroll">
-                  <div class="fu"  v-for="j in withContext.context" :key="j.author">
-                    <div v-if="j.author==='wo'" class="wo" >{{j.context }}</div> 
-                    <div v-if="j.author==='ta'" id="ta" class="ta">{{j.context }}</div> 
+                  <div class="fu"  v-for="j in TTT" :key="j.id">
+                    <div v-if="j.from===oneUserName" class="ta" >{{j.content }}</div> 
+                    <div v-else id="wo" class="wo">{{j.content }}</div> 
                   </div>
                   <div id="bottom"></div>
                 </el-scrollbar>
@@ -50,55 +50,73 @@
   </template>
   
   <script setup>
-  import {ref ,onMounted , reactive  } from 'vue'
+  import {ref ,onMounted   } from 'vue'
   import {useStore} from 'vuex'
+  import $ from 'jquery'
+  import config from '@/utiles/config'
     let oneUserName = ref("请选择一位发起聊天")
     let oneUserId = ref(0)
     let textarea = ref("")
     let userList = ref([])
-    let withContext = ref([{}])
-    let context = reactive([])
+    let TTT = ref([])
     let name = sessionStorage.getItem("name")
     let id = sessionStorage.getItem("id") 
     const store = useStore();
     let Socket = null;
-    Socket = new WebSocket(`wss://so.beink.cn/websocket/${id}/${name}`);
+    Socket = new WebSocket(`wss://so.beink.cn/websocket/${id}/${name}/${"Bearer " + localStorage.getItem("jwt")}`);
+    // 发送信息
     const send = ()=>{
       if(textarea.value==='')return
       if(oneUserName.value==="请选择一位发起聊天")return
       if(oneUserId.value===0)return
       Socket.send(JSON.stringify({id:oneUserId.value,message:textarea.value}));
-      withContext.value.context.push({author:'wo',context:textarea.value})
+      TTT.value.push(
+        {
+          id:new Date(),
+          from:name,
+          to:oneUserName.value,
+          content:textarea.value,
+          date:new Date()
+        }
+      )
       textarea.value = ''
       setTimeout(function(){
         document.getElementById("bottom").scrollIntoView(false);
       },200)
+      // fresh()
     }
-    const createContext = (name)=>{
-       let f = false
-       let x = 0
-        for(let i=0;i<context.length;i++){
-          if(context[i].name===name){
-            f = true
-            x = i;
-          }
-        }
-        if(f)return x;
-        else{
-          context.push({"name":name,"context":[]})
-          return context.length-1
-        }
-    }
+    // 所有人
     const changeStatus = (id,status)=>{
       userList.value[id].status = status
     }
+    // 选择人
     const choice = (item)=>{
+      if(item.name===oneUserName.value)return 
+      TTT.value = []
       oneUserName.value = item.name
       oneUserId.value = item.id
-      let x = createContext(item.name)
       changeStatus(oneUserId.value,"false")
-      withContext.value = context[x]
-      document.getElementById("bottom").scrollIntoView(false);
+      fresh()
+      setTimeout(function(){
+        document.getElementById("bottom").scrollIntoView(false);
+      },50)
+    }
+    // 刷新内容
+    const fresh = ()=>{
+      // console.log("我他妈刷新了")
+      $.ajax({
+            url:`${config.API_URL}/user/chat/content/`,
+            type:'post',
+            headers:{
+              Authorization:"Bearer " + localStorage.getItem("jwt")
+            },
+            data:{
+              to:oneUserName.value
+            },
+            success(res){
+              TTT.value = res.date
+            } 
+        })
     }
     onMounted(()=>{
       store.commit("up",sessionStorage.getItem("name"))
@@ -106,31 +124,38 @@
       Socket.onopen = () => {
 
       }
+      // 接受信息
       Socket.onmessage = msg => {
-        let value = JSON.parse(msg.data) 
+        let value = JSON.parse(msg.data)
         if(value.author==='All'){
           userList.value = value.message
           // 如果某个人退出了 给他删掉
         }else{
           //收到某人的信息
-          let x = createContext(value.author)
-          context[x].context.push({author:'ta',context:value.message})
-          // 如果正在和当前人通信 即可加入到withContext
+          // 如果正在和当前人通信 即可加入到TTT 不用刷新了
           // 否则 不加   进行提示
-          if(value.author===oneUserName.value){
-            withContext.value = context[x]
-            setTimeout(function(){
-              document.getElementById("bottom").scrollIntoView(false);
-            },200)
-            
+          if(value.author===oneUserName.value && value.author!==name){
+            TTT.value.push({
+              id:new Date(),
+              from:value.author,
+              to:name,
+              content:value.message,
+              date:new Date()
+            })
           }else{
             // 进行提示
+            if(value.author!==name)
             changeStatus(value.to,"true")
           }
         }
+        setTimeout(function(){
+        document.getElementById("bottom").scrollIntoView(false);
+      },50)
+
       }
       Socket.onclose = () => {
         // console.log("chat 关闭!");
+        
       }
     })
   </script>

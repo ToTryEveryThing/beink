@@ -1,12 +1,18 @@
 package com.example.demo.consumer;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.mapper.ChatMapper;
+import com.example.demo.pojo.Chat;
+import com.example.demo.service.impl.web.chatImpl;
+import com.example.demo.utils.IdandName;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -15,19 +21,33 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2023/1/8
  */
 @Component
-@ServerEndpoint("/websocket/{id}/{name}")  // 注意不要以'/'结尾
+@ServerEndpoint("/websocket/{id}/{name}/{token}")  // 注意不要以'/'结尾
 public class WebSocketServer {
 
     private String name;
     private Integer id;
+
+    public static ChatMapper chatMapper;
+
+    @Autowired
+    public void setChatMapper(ChatMapper chatMapper){
+        WebSocketServer.chatMapper = chatMapper;
+    }
+
     //  一个连接就是一个session
     private Session session = null;
     //  线程安全的哈希表
     private static ConcurrentHashMap<Integer,WebSocketServer> user = new ConcurrentHashMap<>();
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("id") String id,
-                       @PathParam("name") String name) {
+    public void onOpen(Session session,
+                       @PathParam("id") String id,
+                       @PathParam("name") String name,
+                       @PathParam("token") String token) throws Exception {
+        if(!new IdandName().user(token,name)){
+            this.onClose();
+            return ;
+        }
         this.session = session;
         Integer userId = Integer.parseInt(id);
         this.id = userId;
@@ -57,7 +77,6 @@ public class WebSocketServer {
     public void onError(Session session, Throwable error) {
         error.printStackTrace();
     }
-
     /**
      * 发送给指定id
      * @param userId
@@ -65,12 +84,16 @@ public class WebSocketServer {
      */
     public  void sendMessageByUser(Integer userId, String message) {
 //
+        String from = this.name;
+        String to = user.get(userId).name;
         JSONObject resp = new JSONObject();
         Session newSession = null;
         if(user.get(userId)==null){
             System.out.println("用户不存在");
             userId = this.id;
             message = "目标用户已下线";
+//            不在线就不要发送信息了
+            return ;
         }
         resp.put("author",this.name);
         resp.put("message",message);
@@ -79,6 +102,10 @@ public class WebSocketServer {
         synchronized (newSession){
             try{
                 newSession.getBasicRemote().sendText(String.valueOf(resp));
+                System.out.println(from  + "to ..." +  to +"    " + message);
+//                加入数据库
+                chatMapper.insert(new Chat(5,from,to,message,new Date()));
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

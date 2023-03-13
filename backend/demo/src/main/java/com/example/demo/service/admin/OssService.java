@@ -38,6 +38,7 @@ public class OssService {
     private AliossConfig aliossConfig;
 
     public Result uploadObject(MultipartFile file) throws IOException {
+        String objectName = "background/";
         String originalFilename = file.getOriginalFilename();
         OSS  os = new OSSClientBuilder().build(
                 aliossConfig.getEndpoint(),
@@ -45,6 +46,7 @@ public class OssService {
                 aliossConfig.getAccessKeySecert());
         os.putObject(
                 aliossConfig.getBucket(),
+//                "background/" + originalFilename,
                 originalFilename,
                 file.getInputStream()
         );

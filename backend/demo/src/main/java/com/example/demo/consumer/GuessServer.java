@@ -2,6 +2,7 @@ package com.example.demo.consumer;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.consumer.utils.Game;
+import com.example.demo.utils.IdandName;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -17,7 +18,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
  * @date 2023/2/9
  */
 @Component
-@ServerEndpoint("/GuessWebsocket/{name}")  // 注意不要以'/'结尾
+@ServerEndpoint("/GuessWebsocket/{name}/{token}")  // 注意不要以'/'结尾
 public class GuessServer {
 
     private String name;
@@ -30,7 +31,12 @@ public class GuessServer {
 //    对手的game
     final private static ConcurrentHashMap<String,Game> userGame = new ConcurrentHashMap<>();
     @OnOpen
-    public void onOpen(Session session, @PathParam("name") String name) {
+    public void onOpen(Session session, @PathParam("name") String name,
+                       @PathParam("token") String token) throws Exception {
+        if(!new IdandName().user(token,name)){
+            this.onClose();
+            return ;
+        }
         this.session = session;
         this.name = name;
         user.put(name,this);

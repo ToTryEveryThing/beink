@@ -78,7 +78,7 @@
             <li style="display:none;" v-if="hh.keyyy===true?(dialogRegister=false,dialogLogin=true):dialogRegister=true"></li>
         </register>
     </el-dialog>
-    <el-dialog style="padding:0;" width="55%" :show-close="false"   :draggable="true" v-model="dialogBack" >
+    <el-dialog style="padding:0;" width="55%" :show-close="false"  :draggable="true" v-model="dialogBack" >
         <template #header="{close}">
             <el-row justify="space-between">
                 <el-col :span="8">
@@ -94,8 +94,14 @@
                 </el-col>
               </el-row>
           </template>
-          <el-scrollbar height="420px">
-          <ul class="ul">
+          <el-scrollbar height="420px"  v-loading="loading">
+            <ul class="ul">
+                <li v-if="$store.state.role==='admin'">
+                    <div class="upload">
+                            <input  type="file" style="width:318px;height:148px;" id="XXX"/>
+                            <el-button @click="upload" style="width:318px;height:50px;">提交</el-button>
+                    </div>
+                </li>
                 <li v-for="i in $store.state.images.ImagesList" :key="i">
                     <div class="load">
                         <el-image  class="imagss"
@@ -107,13 +113,8 @@
 
                     </div>
                 </li>
-                <li v-if="$store.state.role==='admin'">
-                    <div class="upload">
-                            <input  type="file" style="width:318px;height:148px;" id="XXX"/>
-                            <el-button @click="upload" style="width:318px;height:50px;">提交</el-button>
-                    </div>
-                </li>
-        </ul></el-scrollbar>
+            </ul>
+        </el-scrollbar>
     </el-dialog>
 </template>
 
@@ -136,6 +137,7 @@ import {onMounted, ref } from 'vue'
             let value11 = ref(true)
             let value22 = ref(false)
             const List = ref([])
+            let loading = ref(false)
             const store = useStore()
             onMounted(()=>{
                 store.dispatch("getList")
@@ -168,9 +170,16 @@ import {onMounted, ref } from 'vue'
                 var formData = new FormData(); 
                 //表单可以增加数据 如下
 		        formData.append('file', e.files[0]); //传给后端的路径
+                loading.value = true
                 store.dispatch("upload",{
                     token:store.state.token,
                     formData:formData,
+                    success(){
+                       console.log("lllll")
+                        loading.value = false
+                        document.getElementById('XXX').value=''
+                        
+                    }
                 })
             }
             const ddd = (i)=>{
@@ -181,7 +190,7 @@ import {onMounted, ref } from 'vue'
                 })
             }   
             return{
-                List ,ddd,upload,dark,value11,value22
+                List ,ddd,upload,dark,value11,value22,loading
             }
         },
         data(){

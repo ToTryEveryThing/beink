@@ -22,7 +22,6 @@
 import {useStore} from 'vuex'
 import {onMounted, ref} from 'vue'
 import { reactive, toRefs } from '@vue/reactivity'
-import router from '../router/index'
 import { success, error } from '@/utiles/message'
 import config from '@/utiles/config'
 import $ from 'jquery'
@@ -68,7 +67,6 @@ export default {
                         vue.nor = true
                         success("登录成功")
                         sessionStorage.setItem("name",store.state.account)
-                        router.push({name:'main'})
                       },
                   })
               },

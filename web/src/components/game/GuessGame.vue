@@ -40,7 +40,7 @@ export default{
         store.commit("up",sessionStorage.getItem("name"))
         onMounted(()=>{
             let socket = null;
-            const socketUrl = `wss://so.beink.cn/GuessWebsocket/${store.state.guess.my_name}`;
+            const socketUrl = `wss://so.beink.cn/GuessWebsocket/${store.state.guess.my_name}/${"Bearer " + localStorage.getItem("jwt")}`;
             socket = new WebSocket(socketUrl);
             store.commit("updateSocket",socket)
             socket.onopen = () => {

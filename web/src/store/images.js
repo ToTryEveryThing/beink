@@ -56,13 +56,14 @@ export default {
                     }else{
                         error("上传失败")
                     }
-                    
-                   
+                    value.success()
                 },
                 error(){
                     error("上传失败")
+                    value.success()
                 }    
             })
+            
         }
     },
     mutations: {
