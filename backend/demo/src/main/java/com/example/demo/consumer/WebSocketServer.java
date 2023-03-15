@@ -84,17 +84,28 @@ public class WebSocketServer {
      */
     public  void sendMessageByUser(Integer userId, String message) {
 //
-        String from = this.name;
-        String to = user.get(userId).name;
         JSONObject resp = new JSONObject();
         Session newSession = null;
+//        用户已下线
         if(user.get(userId)==null){
             System.out.println("用户不存在");
             userId = this.id;
             message = "目标用户已下线";
+            resp.put("author","oneself");
+            resp.put("message",message);
+            newSession = this.session;
+            synchronized (newSession){
+                try{
+                    newSession.getBasicRemote().sendText(String.valueOf(resp));
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
 //            不在线就不要发送信息了
             return ;
         }
+        String from = this.name;
+        String to = user.get(userId).name;
         resp.put("author",this.name);
         resp.put("message",message);
         resp.put("to",this.id);

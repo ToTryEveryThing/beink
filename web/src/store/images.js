@@ -10,9 +10,13 @@ export default {
             $.ajax({
                 url:`${config.API_URL}/oss/getList/`,
                 type:'get',
+                data:{
+                    keyPrefix:"background"
+                },
                 success(res){
                     if(res.code===1)
                     context.commit("getList",res.date);
+                    console.log(res)
                 },
              })
         },
@@ -25,6 +29,7 @@ export default {
                 },
                 data:{
                     url:value.url,
+                    keyPrefix:"background"
                 },
                 success(res){
                     if(res.code===1){

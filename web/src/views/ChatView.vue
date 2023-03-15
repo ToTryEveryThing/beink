@@ -53,6 +53,7 @@
   import {ref ,onMounted   } from 'vue'
   import {useStore} from 'vuex'
   import $ from 'jquery'
+  import {warning} from '@/utiles/message'
   import config from '@/utiles/config'
     let oneUserName = ref("请选择一位发起聊天")
     let oneUserId = ref(0)
@@ -97,9 +98,6 @@
       oneUserId.value = item.id
       changeStatus(oneUserId.value,"false")
       fresh()
-      setTimeout(function(){
-        document.getElementById("bottom").scrollIntoView(false);
-      },50)
     }
     // 刷新内容
     const fresh = ()=>{
@@ -115,6 +113,9 @@
             },
             success(res){
               TTT.value = res.date
+              setTimeout(function(){
+                document.getElementById("bottom").scrollIntoView(false);
+              },100)
             } 
         })
     }
@@ -130,7 +131,15 @@
         if(value.author==='All'){
           userList.value = value.message
           // 如果某个人退出了 给他删掉
-        }else{
+        }
+        else if(value.author==='oneself'){
+          // 目标用户已下线
+          // alert("666")
+          oneUserName.value = "请选择一位发起聊天"
+          TTT.value = []
+          warning(value.message)
+        } 
+        else{
           //收到某人的信息
           // 如果正在和当前人通信 即可加入到TTT 不用刷新了
           // 否则 不加   进行提示

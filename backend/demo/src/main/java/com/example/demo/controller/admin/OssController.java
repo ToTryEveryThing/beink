@@ -21,8 +21,8 @@ public class OssController {
 //+
     @PermissionCheck
     @PostMapping("uploadImage/")
-    public Result upload(MultipartFile file) throws Exception {
-        return ossService.uploadObject(file);
+    public Result upload(MultipartFile file,@RequestParam("keyPrefix") String keyPrefix) throws Exception {
+        return ossService.uploadObject(file,keyPrefix);
     }
 
 //    @GetMapping("/getToken/")
@@ -31,14 +31,15 @@ public class OssController {
 //    }
 //
     @GetMapping("/getList/")
-    public Result GetList(){
-        return ossService.redisList();
+    public Result GetList(@RequestParam("keyPrefix") String keyPrefix){
+        return ossService.redisList(keyPrefix);
     }
 //+
     @PostMapping("/deleteImage/")
     @PermissionCheck
-    public Result deleteImage (@RequestParam(value = "url",required = false) String url) {
-         return ossService.deleteObject(url);
+    public Result deleteImage (@RequestParam(value = "url",required = false) String url,
+                               @RequestParam("keyPrefix") String keyPrefix) {
+         return ossService.deleteObject(url,keyPrefix);
     }
 
 }

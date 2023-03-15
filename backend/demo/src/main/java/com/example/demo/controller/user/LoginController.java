@@ -16,7 +16,7 @@ public class LoginController  {
     @Autowired
     private LoginService loginService;
 
-    @AccessLimit(seconds = 60,maxCount = 1)
+    @AccessLimit(seconds = 60,maxCount = 3)
     @PostMapping("/user/account/token/")
     public Result getToken(@RequestParam Map<String,String>map){
         String account = map.get("account");

@@ -16,7 +16,7 @@ public class RegisterController {
     @Autowired
     private RegisterService registerService;
 
-    @AccessLimit(seconds = 60,maxCount = 1)
+    @AccessLimit(seconds = 60,maxCount = 3)
     @PostMapping("/user/account/register/")
     public Result register(@RequestParam Map<String,String>map){
         String account = map.get("account");

@@ -28,6 +28,7 @@ public class chatImpl implements chatService {
         QueryWrapper<Chat> q = new QueryWrapper<>();
         q.eq("`from`",from).eq("`to`",to).or().eq("`from`",to).eq("`to`",from);
         List<Chat> chats = chatMapper.selectList(q);
+        System.out.println(chats);
         return new Result(1,"success",chats);
     }
 }

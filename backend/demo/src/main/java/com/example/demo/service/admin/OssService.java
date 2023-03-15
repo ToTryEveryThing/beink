@@ -37,8 +37,8 @@ public class OssService {
     @Autowired
     private AliossConfig aliossConfig;
 
-    public Result uploadObject(MultipartFile file) throws IOException {
-        String objectName = "background/";
+    public Result uploadObject(MultipartFile file,String keyPrefix) throws IOException {
+        String objectName = keyPrefix + "/";
         String originalFilename = file.getOriginalFilename();
         OSS  os = new OSSClientBuilder().build(
                 aliossConfig.getEndpoint(),
@@ -46,12 +46,12 @@ public class OssService {
                 aliossConfig.getAccessKeySecert());
         os.putObject(
                 aliossConfig.getBucket(),
-//                "background/" + originalFilename,
-                originalFilename,
+                objectName + originalFilename,
+//                originalFilename,
                 file.getInputStream()
         );
         os.shutdown();
-        return new Result(1,"success",getList());
+        return new Result(1,"success",getList(keyPrefix));
 
     }
 
@@ -84,7 +84,7 @@ public class OssService {
                 .build();
     }
 
-    public List getList(){
+    public List getList(String keyPrefix){
         System.out.println("我是一");
         OSS ossClient = new OSSClientBuilder().build(aliossConfig.getEndpoint()
                 ,aliossConfig.getAccessKeyId()
@@ -92,7 +92,7 @@ public class OssService {
 
         try {
             // 列举文件。如果不设置keyPrefix，则列举存储空间下的所有文件。如果设置keyPrefix，则列举包含指定前缀的文件。
-            ObjectListing objectListing = ossClient.listObjects(aliossConfig.getBucket());
+            ObjectListing objectListing = ossClient.listObjects(aliossConfig.getBucket(),keyPrefix);
             List<OSSObjectSummary> sums = objectListing.getObjectSummaries();
             ArrayList<String> list = new ArrayList<>();
             for (OSSObjectSummary s : sums) {
@@ -118,15 +118,15 @@ public class OssService {
         return null;
     }
 
-    public Result redisList(){
+    public Result redisList(String keyPrefix){
         if(redisUtil.get("oss")==null){
-            redisUtil.set("oss",this.getList());
+            redisUtil.set("oss",this.getList(keyPrefix));
         }
         return new Result(1,"success",redisUtil.get("oss"));
 
     }
 
-    public Result deleteObject(String s){
+    public Result deleteObject(String s, String keyPrefix){
         OSS ossClient = new OSSClientBuilder().build(
                  aliossConfig.getEndpoint()
                 ,aliossConfig.getAccessKeyId()
@@ -134,7 +134,7 @@ public class OssService {
         try {
             // 删除文件或目录。如果要删除目录，目录必须为空。
             ossClient.deleteObject(aliossConfig.getBucket(), s);
-            return new Result(1,"success",getList());
+            return new Result(1,"success",getList(keyPrefix));
         } catch (OSSException oe) {
             System.out.println("Caught an OSSException, which means your request made it to OSS, "
                     + "but was rejected with an error response for some reason.");
