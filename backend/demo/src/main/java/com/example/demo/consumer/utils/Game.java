@@ -2,13 +2,18 @@ package com.example.demo.consumer.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.consumer.GuessServer;
+import com.example.demo.service.impl.web.PlayListImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author 睡醒继续做梦
  * @date 2023/2/10
  */
+
 public class Game extends Thread{
 
     private  String a;
@@ -163,6 +168,8 @@ public class Game extends Thread{
             resp.put("my_choice",aChoice);
             GuessServer.sendScoreByName(a,resp);
         }
+        System.out.println(aScore + "   " + bScore);
+        System.out.println(a + "    " + b);
         aChoice = null;bChoice = null;
     }
 

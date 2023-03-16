@@ -75,6 +75,8 @@
     right-toolbar="preview toc sync-scroll fullscreen"
     :toolbar="vue.toolbar"
     @save="item.show=true,save()" 
+    :disabled-menus="[]"
+    @upload-image="handleUploadImage"
     >
   </v-md-editor>
     </el-tab-pane>
@@ -105,6 +107,7 @@
 import { nanoid } from 'nanoid'
 import {onMounted, ref,reactive} from 'vue'
 import { useStore } from 'vuex'
+import { warning } from '@/utiles/message';
 import { useRoute } from 'vue-router';
 import router from '../../router/index'
 import dark from '../../utiles/dark'
@@ -178,6 +181,34 @@ import DiscussView from './DiscussView.vue';
         })
         // getTitle()
         save()
+    }
+    const handleUploadImage = (event, insertImage, files) =>{
+      console.log(nanoid())
+      if(store.state.role==="use"){
+        warning("没有权限")
+        return 
+      }
+      let e = files[0]
+      let id = nanoid()
+      let nname = e.name
+      var newFile = new File([e] ,id + nname.substr(nname.indexOf("."))  , { type: e.type });
+      // console.log(newFile)
+      // 拿到 files 之后上传到文件服务器，然后向编辑框中插入对应的内容
+            var formData = new FormData(); 
+		        formData.append('file', newFile); 
+            formData.append("keyPrefix","study")
+            store.dispatch("upload",{
+                token:store.state.token,
+                formData:formData,
+                success(){
+                  insertImage({
+                    url: 'https://images.beink.cn/'+"study/" + id + nname.substr(nname.indexOf(".")),
+                    desc: 'study',
+                    // width: 'auto',
+                    // height: 'auto',
+                  });
+                }
+            })
     }
     const getTitle=()=>{
       AllTitle.value=[]
@@ -313,7 +344,7 @@ import DiscussView from './DiscussView.vue';
     // store.commit("showDiscuss",{page:1})
       changeTitle()
    }
-    return{handleAnchorClick,Todark,
+    return{handleAnchorClick,Todark,handleUploadImage,
       title,vue,preview,
         addTab,removeTab,
         editableTabsValue,

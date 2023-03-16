@@ -12,9 +12,6 @@ import com.example.demo.service.web.thumbsUp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 @Service
 public class thumbsUpImpl implements thumbsUp {

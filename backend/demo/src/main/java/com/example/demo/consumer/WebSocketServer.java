@@ -3,7 +3,6 @@ package com.example.demo.consumer;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.mapper.ChatMapper;
 import com.example.demo.pojo.Chat;
-import com.example.demo.service.impl.web.chatImpl;
 import com.example.demo.utils.IdandName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

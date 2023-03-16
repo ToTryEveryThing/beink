@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -47,6 +48,7 @@ public class Chat implements Serializable {
     /**
      * 
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     @TableField("date")
     private Date date;
 

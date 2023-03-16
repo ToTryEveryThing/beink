@@ -1,5 +1,5 @@
 <template>
-    <div style="padding-top:15vh" class="time">
+    <div style="padding-top:15vh" :class="[$store.state.background===''?'time1':'time2']">
         {{hour}}:{{min}}
     </div>
     <ToSearch></ToSearch>
@@ -62,11 +62,19 @@ import {reactive,toRefs,onMounted} from 'vue'
 </script>
 
 <style scoped>
-    .time{
+    .time2{
         display: flex;
         justify-content: center;
         font-size:40px;
         color:#ffffff;
+        margin-bottom: 20px;
+        letter-spacing: 2px;
+    }
+    .time1{
+        display: flex;
+        justify-content: center;
+        font-size:40px;
+        color:grey;
         margin-bottom: 20px;
         letter-spacing: 2px;
     }

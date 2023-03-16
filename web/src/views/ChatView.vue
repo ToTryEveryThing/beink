@@ -5,17 +5,21 @@
         <el-row>
           <el-col :sm="5" :xs="7">
             <el-card shadow="never">
-              <li>在线用户 我：<el-tag>{{ name  }}</el-tag></li> 
+              <li>我：<el-tag>{{ name  }}</el-tag>
+                <el-switch v-model="value1" style="float:right;"/>
+              </li> 
               <el-scrollbar  >
                 <el-divider ><el-icon><User /></el-icon></el-divider>
-                <li class="user"  @click="choice(item)" v-for="item in userList" :key="item">
-                  <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"/> 
-                  <!-- 新消息 -->
-                  <el-badge :is-dot="item.status==='true'">
-                    <span>{{ item.name }}</span>
-                  </el-badge>
-                  <el-divider />
-                </li>
+                <ul id="myList">
+                  <li class="user"  @click="choice(item)" v-for="item in userList" :key="item">
+                    <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"/> 
+                    <!-- 新消息 -->
+                    <el-badge :is-dot="item.status==='true'">
+                      <span>{{ item.name }}</span>
+                    </el-badge>
+                    <el-divider />
+                  </li>
+                </ul>
               </el-scrollbar>
             </el-card>
           </el-col>
@@ -25,8 +29,15 @@
                 <el-divider />
                 <el-scrollbar height="60vh" id="srcoll" always class="scroll">
                   <div class="fu"  v-for="j in TTT" :key="j.id">
-                    <div v-if="j.from===oneUserName" class="ta" >{{j.content }}</div> 
-                    <div v-else id="wo" class="wo">{{j.content }}</div> 
+                    <div v-if="j.from===oneUserName" class="ta" >
+                      {{j.content }}
+                    </div> 
+                    <div v-else id="wo" class="wo">
+                      {{j.content }}
+                    </div> 
+                    <el-divider v-if="value1" >
+                      {{ j.date }}
+                    </el-divider>
                   </div>
                   <div id="bottom"></div>
                 </el-scrollbar>
@@ -50,6 +61,7 @@
   </template>
   
   <script setup>
+  import moment from 'moment/moment'
   import {ref ,onMounted   } from 'vue'
   import {useStore} from 'vuex'
   import $ from 'jquery'
@@ -60,6 +72,7 @@
     let textarea = ref("")
     let userList = ref([])
     let TTT = ref([])
+    let value1 = ref(false)
     let name = sessionStorage.getItem("name")
     let id = sessionStorage.getItem("id") 
     const store = useStore();
@@ -77,7 +90,7 @@
           from:name,
           to:oneUserName.value,
           content:textarea.value,
-          date:new Date()
+          date:moment(new Date()). utcOffset( 480). format( 'YYYY-MM-DD HH:mm:ss')
         }
       )
       textarea.value = ''
@@ -116,6 +129,9 @@
               setTimeout(function(){
                 document.getElementById("bottom").scrollIntoView(false);
               },100)
+              for (let i in TTT.value){
+                TTT.value[i].date = moment(TTT.value[i].date).add(8, 'hours').format( 'YYYY-MM-DD HH:mm:ss')
+              }
             } 
         })
     }
@@ -160,7 +176,6 @@
         setTimeout(function(){
         document.getElementById("bottom").scrollIntoView(false);
       },50)
-
       }
       Socket.onclose = () => {
         // console.log("chat 关闭!");
@@ -184,7 +199,7 @@
     }
     .wo{
       position: absolute;
-      right: 0;
+      right: 0px;
       border-radius: 3px;
       color:black;
       background-color:#67c23a;
@@ -199,6 +214,9 @@
     }
     .user{
       cursor: pointer;
+    }
+    #myList li.selected {
+      background-color: #292020;
     }
     .scroll >>> .el-scrollbar__view{
   

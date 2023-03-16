@@ -16,7 +16,6 @@ export default {
                 success(res){
                     if(res.code===1)
                     context.commit("getList",res.date);
-                    console.log(res)
                 },
              })
         },

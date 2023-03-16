@@ -5,20 +5,14 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.controller.common.Result;
-import com.example.demo.mapper.DiscussMapper;
 import com.example.demo.mapper.PublicMapper;
-import com.example.demo.mapper.UpMapper;
 import com.example.demo.mapper.WebMapper;
-import com.example.demo.pojo.Discuss;
 import com.example.demo.pojo.Public;
-import com.example.demo.pojo.ThumbsUp;
-import com.example.demo.pojo.web;
 import com.example.demo.service.admin.userDeleteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 @Service

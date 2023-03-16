@@ -51,6 +51,9 @@ public class OssService {
                 file.getInputStream()
         );
         os.shutdown();
+        if(keyPrefix.equals("study")) {
+            return new Result(1, "success");
+        }
         return new Result(1,"success",getList(keyPrefix));
 
     }
