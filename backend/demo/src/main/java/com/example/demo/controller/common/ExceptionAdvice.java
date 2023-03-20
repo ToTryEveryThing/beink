@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @author 睡醒继续做梦
  * @date 2023/2/2
  */
-//@RestControllerAdvice
+@RestControllerAdvice
 public class ExceptionAdvice {
 
     /**

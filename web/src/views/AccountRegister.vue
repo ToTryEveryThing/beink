@@ -10,7 +10,7 @@
       </el-form-item>
       <el-form-item label="验证码"> 
         <el-input  autocomplete="off" @keyup.enter="register" style="width:200px"  placeholder="注意大小写"  v-model="code" />
-        <img width="100" height="40"  @click="captcha" :src="cha"/>
+        <img width="100" height="40" alt="点击获得" @click="captcha" :src="cha"/>
     </el-form-item>
       {{message}}
       <slot :keyyy="nor"></slot>
@@ -66,7 +66,7 @@ export default {
     let message = ref('')
     let code = ref('')
     onMounted(()=>{
-      captcha()
+      // captcha()
     })
     const captcha = ()=>{
       $.ajax({

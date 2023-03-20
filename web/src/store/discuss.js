@@ -37,6 +37,7 @@ export default {
                     page:value.page
                 },
                 success(res){
+                    console.log(res)
                   if(res.code===1){
                     state.discussId = []
                     state.count = res.count

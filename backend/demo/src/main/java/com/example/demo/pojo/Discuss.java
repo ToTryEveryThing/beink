@@ -1,9 +1,7 @@
 package com.example.demo.pojo;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -55,8 +53,9 @@ public class Discuss implements Serializable {
      */
     private Date date;
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
+    @Version
+    @TableField("version")
+    private int  Version;
 
 
     public Discuss(String content, String postName, String postIndex, String userName,Date data) {

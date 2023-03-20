@@ -236,7 +236,7 @@ import DiscussView from './DiscussView.vue';
             if(res.code===1){
               tabIndex = editableTabs.value.length
             }else{
-              console.log("reeor")
+              console.log(res)
             }
             
           },

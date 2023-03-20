@@ -9,7 +9,7 @@
         </el-form-item> 
         <el-form-item label="验证码"> 
           <el-input  autocomplete="off" @keyup.enter="login" style="width:200px"   placeholder="注意大小写"  v-model="code" />
-          <img width="100" height="40"  @click="captcha" :src="cha"/>
+          <img width="100" height="40"  alt="点击获得" @click="captcha" :src="cha"/>
       </el-form-item>
         {{message}}
         <slot :keyyy="nor"></slot>
@@ -25,6 +25,7 @@ import { reactive, toRefs } from '@vue/reactivity'
 import { success, error } from '@/utiles/message'
 import config from '@/utiles/config'
 import $ from 'jquery'
+import router from '../router/index'
 export default {
   setup(){
     const vue = reactive({
@@ -36,7 +37,7 @@ export default {
       cha:''
     })
     onMounted(()=>{
-      captcha()
+      // captcha()
     })
     
     const captcha = ()=>{
@@ -67,10 +68,12 @@ export default {
                         vue.nor = true
                         success("登录成功")
                         sessionStorage.setItem("name",store.state.account)
+                        router.push("/")
                       },
                   })
               },
               error(res){
+                console.log(res)
                 error(res)
               }
           })

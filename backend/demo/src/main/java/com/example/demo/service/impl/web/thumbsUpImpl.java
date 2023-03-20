@@ -45,7 +45,13 @@ public class thumbsUpImpl implements thumbsUp {
         }
         Discuss discuss = discussMapper.selectById(articleId);
         discuss.setUp(discuss.getUp()+1);
-        discussMapper.updateById(discuss);
+        int i = discussMapper.updateById(discuss);
+//        并发 再次修改
+        if(i==0){
+            discuss = discussMapper.selectById(articleId);
+            discuss.setUp(discuss.getUp()+1);
+            discussMapper.updateById(discuss);
+        }
         if(insert>=1)return new Result(1,"success");
         return new Result(0,"error");
     }
@@ -64,7 +70,13 @@ public class thumbsUpImpl implements thumbsUp {
         Discuss discuss = discussMapper.selectById(articleId);
         int sum =discuss.getUp();
         discuss.setUp(sum-1);
-        discussMapper.updateById(discuss);
+        int i = discussMapper.updateById(discuss);
+//        并发 再次修改
+        if(i==0){
+            sum =discuss.getUp();
+            discuss.setUp(sum-1);
+            discussMapper.updateById(discuss);
+        }
         return new Result(1,"success");
     }
 

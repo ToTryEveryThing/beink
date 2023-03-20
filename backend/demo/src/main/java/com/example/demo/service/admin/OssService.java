@@ -51,9 +51,6 @@ public class OssService {
                 file.getInputStream()
         );
         os.shutdown();
-        if(keyPrefix.equals("study")) {
-            return new Result(1, "success");
-        }
         return new Result(1,"success",getList(keyPrefix));
 
     }
@@ -102,7 +99,10 @@ public class OssService {
 //                System.out.println("\t" + s.getKey());
                 list.add(s.getKey());
             }
-            redisUtil.set("oss",list);
+            if(keyPrefix.equals("background"))
+                redisUtil.set("oss_background",list);
+            if(keyPrefix.equals("study"))
+                redisUtil.set("oss_study",list);
             return list;
         } catch (OSSException oe) {
             System.out.println("Caught an OSSException, which means your request made it to OSS, "
@@ -122,11 +122,17 @@ public class OssService {
     }
 
     public Result redisList(String keyPrefix){
-        if(redisUtil.get("oss")==null){
-            redisUtil.set("oss",this.getList(keyPrefix));
+        if(keyPrefix.equals("study")){
+            if(redisUtil.get("oss_study")==null)
+                return new Result(1,"success",this.getList(keyPrefix));
+            return new Result(1,"success",redisUtil.get("oss_study"));
         }
-        return new Result(1,"success",redisUtil.get("oss"));
-
+        if(keyPrefix.equals("background")){
+            if(redisUtil.get("oss_background")==null)
+                return new Result(1,"success",this.getList(keyPrefix));
+            return new Result(1,"success",redisUtil.get("oss_background"));
+        }
+        return new Result(1,"success",redisUtil.get("oss_background"));
     }
 
     public Result deleteObject(String s, String keyPrefix){

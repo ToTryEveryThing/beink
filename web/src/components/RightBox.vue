@@ -39,15 +39,8 @@
         <el-divider><el-icon color="#dfd3f4" ><Link /></el-icon></el-divider>
             <chat style="text-algin:center;"/>
         <el-divider><el-icon color="#dfd3f4"><ChatDotRound /></el-icon></el-divider>
-        <el-switch
-            v-model="value22"
-            class="ml-2"
-            style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
-        /> <el-switch
-            v-model="value11"
-            class="ml-2"
-            style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
-            />
+        <el-button @click="drawer = false"><el-icon><ArrowRightBold /></el-icon></el-button>
+        <el-divider border-style="dashed"></el-divider>
         <el-row justify="space-evenly">
             <el-col :span="12">
                 <el-button type="danger" style="width:100%;" v-if="$store.state.is_login" @click="logout" plain>退出</el-button>
@@ -86,6 +79,14 @@
                     <el-tag >
                         <el-link href="https://wallhaven.cc/" type="primary">图片来源</el-link>
                     </el-tag>
+                    <el-select v-if=" $store.state.role==='admin' " v-model="value" @change="CChange" placeholder="Select" size="small">
+                        <el-option
+                          v-for="item in options"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        />
+                      </el-select>
                 </el-col>
                 <el-col :span="8">
                     <el-button  style="float:right;" size="small" type="danger" @click="close">
@@ -130,7 +131,7 @@ import register from '../views/AccountRegister.vue'
 import APP from '../components/AppCURD.vue'
 import tab  from '../components/study/EditablesTabs.vue'
 import $ from 'jquery'
-import {onMounted, ref } from 'vue'
+import {onMounted, reactive, ref, toRefs } from 'vue'
     export default{
         components:{login ,register ,APP ,chat, tab},
         setup(){
@@ -139,8 +140,21 @@ import {onMounted, ref } from 'vue'
             const List = ref([])
             let loading = ref(false)
             const store = useStore()
+            const vue = reactive({
+                 options : [
+                    {
+                        value: 'background',
+                        label: 'background',
+                    },
+                    {
+                        value: 'study',
+                        label: 'study',
+                    },
+                    ],
+                value:''
+            })
             onMounted(()=>{
-                store.dispatch("getList")
+                store.dispatch("getList",{keyPrefix:"background"})
                 if(localStorage.getItem("info")===null){
                     open2()
                     localStorage.setItem("info","info")
@@ -163,6 +177,9 @@ import {onMounted, ref } from 'vue'
                     position: 'bottom-right',
                     type: 'info',
                 })
+            }
+            const CChange = (val)=>{
+                store.dispatch("getList",{keyPrefix:val})
             }
             const upload = ()=>{
                 let e = document.getElementById('XXX')
@@ -191,7 +208,7 @@ import {onMounted, ref } from 'vue'
                 })
             }   
             return{
-                List ,ddd,upload,dark,value11,value22,loading
+                List ,ddd,upload,dark,value11,value22,loading,...toRefs(vue),CChange
             }
         },
         data(){

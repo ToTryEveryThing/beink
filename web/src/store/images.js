@@ -6,12 +6,12 @@ export default {
         ImagesList:[]
     },
     actions: {
-        getList(context){
+        getList(context,value){
             $.ajax({
                 url:`${config.API_URL}/oss/getList/`,
                 type:'get',
                 data:{
-                    keyPrefix:"background"
+                    keyPrefix:value.keyPrefix
                 },
                 success(res){
                     if(res.code===1)

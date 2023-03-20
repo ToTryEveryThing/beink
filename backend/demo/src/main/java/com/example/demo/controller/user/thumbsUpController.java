@@ -19,13 +19,13 @@ public class thumbsUpController {
     @Autowired
     private thumbsUpImpl thumbsUp;
 
-    @AccessLimit(seconds = 10,maxCount = 2)
+    @AccessLimit(seconds = 10,maxCount = 3)
     @PostMapping("/user/up/")
     public Result up(@UserInfo String name,@RequestParam(value = "article_id") Integer articleId){
         return thumbsUp.up(name,articleId);
     }
 
-    @AccessLimit(seconds = 10,maxCount = 2)
+    @AccessLimit(seconds = 10,maxCount = 3)
     @PostMapping("/user/down/")
     public Result down(@UserInfo String name,@RequestParam(value = "article_id") Integer articleId){
         return thumbsUp.down(name,articleId);

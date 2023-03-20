@@ -5,6 +5,7 @@ import study from '../components/study/UtilsView'
 import chat from '../views/ChatView'
 import more from '../views/more/MoreView'
 import guess from '../components/game/GuessGame'
+import login from '../views/AccountLogin'
 const routes = [ 
   {
     path:'/',
@@ -12,6 +13,7 @@ const routes = [
     component:()=>import ("../views/MainM.vue"),
     meta: {
       req:false,
+      login:true
     }, 
   },
   {
@@ -20,6 +22,7 @@ const routes = [
     component:admin,
     meta: {
       req:true,
+      login:true
     }, 
   },
   {
@@ -28,13 +31,24 @@ const routes = [
     component:mainstudy,
     meta: {
       req:false,
+      login:true
+    }, 
+  },
+  {
+    path:"/login",
+    name:'login',
+    component:login,
+    meta: {
+      req:false,
+      login:false
     }, 
   },
   {
     path:"/study/:name/",
     component:study,
     meta:{
-      req:false
+      req:false,
+      login:true
     }
   },
   {
@@ -47,6 +61,7 @@ const routes = [
     ],
     meta: {
       req:false,
+      login:true
     }, 
      // 独享路由  
     beforeEnter: (to ,from,next) => {
@@ -65,6 +80,7 @@ const routes = [
     component: () => import("../components/NotFound.vue"),
     meta: {
       req:false,
+      login:true
     }, 
   },
   {
@@ -80,6 +96,14 @@ const router = createRouter({
 
 
 router.beforeEach((to,from,next)=>{
+    if(to.meta.login){
+      if(localStorage.getItem("jwt")){
+        next()
+      }else{
+        next("/login")
+      }
+
+    }
     if(to.meta.req){
         if(sessionStorage.getItem("role")==="admin" && localStorage.getItem("jwt")){
           next()
