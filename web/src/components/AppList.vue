@@ -57,7 +57,7 @@
                     {href:'https://www.bilibili.com/',icon:'#icon-bilibili',name:'bilibil'},
                 ],
                 list2:[
-                    {href:'https://cn.vuejs.org/guide/introduction.html',icon:'#icon-Vue',name:'Vue'},
+                    {href:'http://blog.beink.cn/',icon:'#icon-tanchishedazuozhan',name:'Snake'},
                     {href:'/study',icon:'#icon-biji',name:'study'},
                     {href:'https://www.w3school.com.cn/index.html',icon:'#icon-w3school',name:'w3school'}
                 ]

@@ -57,6 +57,7 @@ export default {
       let code = ref('')
       
       const login = function(){
+          if(account.value!==""&&password.value!==""&&code.value!=="")
           store.dispatch("login",{
               account:account.value,
               password:password.value,
@@ -73,7 +74,6 @@ export default {
                   })
               },
               error(res){
-                console.log(res)
                 error(res)
               }
           })

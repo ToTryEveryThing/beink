@@ -6,6 +6,7 @@ import chat from '../views/ChatView'
 import more from '../views/more/MoreView'
 import guess from '../components/game/GuessGame'
 import login from '../views/AccountLogin'
+import snake from '@/components/game/SnakeGame'
 const routes = [ 
   {
     path:'/',
@@ -57,7 +58,8 @@ const routes = [
     component:more,
     children:[
       {path:'guess',component:guess},
-      {path:'chat',component:chat}
+      {path:'chat',component:chat},
+      {path:'snake',component: snake}
     ],
     meta: {
       req:false,

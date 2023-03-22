@@ -21,7 +21,6 @@ public class IsCode {
             return false;
         }
         if(redisUtil.get(code).equals(base)){
-            redisUtil.del(code);
             return true;
         }
         return false;

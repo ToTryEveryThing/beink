@@ -67,8 +67,8 @@ const actions = {
             value.error("账号或密码错误")
         }
       },
-      error(res){
-          value.error(res)
+      error(){
+          value.error("请检查验证码")
       }
   })
   },

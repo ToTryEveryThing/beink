@@ -21,7 +21,7 @@
     </template>
   </el-dialog>
   <el-tabs 
-  tab-position="top"
+    tab-position="top"
     v-model="editableTabsValue"
     @tab-change="changeTab"
     class="demo-tabs"
@@ -262,9 +262,14 @@ import DiscussView from './DiscussView.vue';
                 store.commit("textAuthor",res.name)
                 tabIndex = editableTabs.value.length
                 AUTHOR.value = res.name
-                setTimeout(function(){changeTitle()},1000)
                 store.commit("updateDiscuss",{index:1,title:editableTabs.value[0].title,name:AUTHOR.value})
                 // store.commit("showDiscuss",{page:1})
+                
+                let article_id = parseInt(localStorage.getItem("article_id"))
+                if(editableTabs.value.length < article_id)
+                  article_id = 1
+                editableTabsValue.value = article_id
+                changeTab(article_id)
               }else{
                 router.push("/")
               }
@@ -320,7 +325,7 @@ import DiscussView from './DiscussView.vue';
       }
     }
     const changeTitle =()=>{
-      if(editableTabs.value.length===0)return
+      if(editableTabs.value==false || preview.value== null)return
       const anchors = preview.value[editableTabsValue.value-1].$el.querySelectorAll('h2,h3')
       const titles = Array.from(anchors).filter((title) => !!title.innerText.trim());
       if (!titles.length) {
@@ -336,13 +341,17 @@ import DiscussView from './DiscussView.vue';
       }));
     }
    const changeTab = (i)=>{
-    store.commit("updateDiscuss",{
+    if(editableTabs.value != false){
+      localStorage.setItem("article_id",i)
+      store.commit("updateDiscuss",{
       index:i,
       title:editableTabs.value[i-1].title,
       name:AUTHOR.value.toString()
     })
     // store.commit("showDiscuss",{page:1})
       changeTitle()
+    }
+   
    }
     return{handleAnchorClick,Todark,handleUploadImage,
       title,vue,preview,

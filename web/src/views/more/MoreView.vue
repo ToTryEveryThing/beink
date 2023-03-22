@@ -13,6 +13,7 @@
           <div class="flex-grow" />
           <el-menu-item index="/more/chat"><el-icon><ChatDotRound /></el-icon>聊天</el-menu-item>
           <el-menu-item index="/more/guess"><el-icon><User /></el-icon>猜拳</el-menu-item>
+          <el-menu-item index="/more/snake"><el-icon><User /></el-icon>Snake</el-menu-item>
         </el-menu>
          <router-view/>
 
@@ -21,7 +22,7 @@
 
 <script  setup>
 import $ from 'jquery'
-import { ref , onUnmounted} from 'vue'
+import { ref , onUnmounted, onMounted} from 'vue'
 import {useStore} from 'vuex'
 const store = useStore()
 document.getElementsByTagName('body')[0].style.backgroundImage = ``
@@ -30,7 +31,11 @@ $('html').css({'--backColor':''})
 $('html').css({'--color':''})
 const handleSelect = (key) => {
   activeIndex.value = key
+  localStorage.setItem("menu",key)
 }
+onMounted(()=>{
+  handleSelect(localStorage.getItem("menu") || "/more/chat" )
+})
 onUnmounted(() => {
   
   store.commit("closeWebSocket")
