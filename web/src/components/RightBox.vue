@@ -89,6 +89,7 @@
                       </el-select>
                 </el-col>
                 <el-col :span="8">
+                    <input  type="file"  v-if="$store.state.role==='admin'"  @change="previewImage"  id="XXX"/>
                     <el-button  style="float:right;" size="small" type="danger" @click="close">
                         关闭
                       </el-button>
@@ -97,10 +98,17 @@
           </template>
           <el-scrollbar height="420px"  v-loading="loading">
             <ul class="ul">
-                <li v-if="$store.state.role==='admin'">
-                    <div class="upload">
-                            <input  type="file" style="width:318px;height:148px;" id="XXX"/>
-                            <el-button @click="upload" style="width:318px;height:50px;">提交</el-button>
+                <li v-if="PreviewImage!==''">
+                    <div class="load">
+                        <el-tooltip content="点击上传" placement="top">
+                            <el-image  class="PreviewImage"
+                                fit="fit"
+                                style="width:320px;height:200px;"
+                                :src="PreviewImage"
+                                @click="upload"
+                            />
+                        </el-tooltip>
+                        <el-button   class="PrevieSumbit" style="width:318px;height:50px;">提交</el-button>
                     </div>
                 </li>
                 <li v-for="i in $store.state.images.ImagesList" :key="i">
@@ -139,6 +147,7 @@ import {onMounted, reactive, ref, toRefs } from 'vue'
             let value22 = ref(false)
             const List = ref([])
             let loading = ref(false)
+            let PreviewImage = ref("")
             const store = useStore()
             const vue = reactive({
                  options : [
@@ -181,6 +190,21 @@ import {onMounted, reactive, ref, toRefs } from 'vue'
             const CChange = (val)=>{
                 store.dispatch("getList",{keyPrefix:val})
             }
+            const previewImage = (event)=>{
+                console.log(event)
+                const file = event.target.files[0];
+                    // 判断是否是图片类型
+                if (file.type.startsWith('image/')) {
+                    // 创建 FileReader 对象
+                    const reader = new FileReader();
+                    // 读取图片文件
+                    reader.readAsDataURL(file);
+                    console.log(reader.result)
+                    reader.onload = () => {
+                        PreviewImage.value = reader.result;
+                    }
+                }
+            }
             const upload = ()=>{
                 let e = document.getElementById('XXX')
                 if(e.value=='')return
@@ -196,6 +220,7 @@ import {onMounted, reactive, ref, toRefs } from 'vue'
                        console.log("lllll")
                         loading.value = false
                         document.getElementById('XXX').value=''
+                        PreviewImage.value = ''
                         
                     }
                 })
@@ -208,7 +233,8 @@ import {onMounted, reactive, ref, toRefs } from 'vue'
                 })
             }   
             return{
-                List ,ddd,upload,dark,value11,value22,loading,...toRefs(vue),CChange
+                List ,ddd,upload,dark,value11,value22,loading,...toRefs(vue),CChange,
+                previewImage,PreviewImage
             }
         },
         data(){
@@ -310,13 +336,15 @@ import {onMounted, reactive, ref, toRefs } from 'vue'
         padding: 0;
         margin: 0;
     }
-    body{
-        background-size:100% 100%;
-        background-size:cover;
-        height: 100%;
-        background-attachment: fixed;
-        background-repeat: no-repeat;
+    html,
+    body {
+      height: 100%;
     }
+    body {
+        background-size: cover; /* 等比例缩放填充整个背景 */
+        background-repeat: no-repeat; /* 不重复 */
+        background-position: center center; /* 居中显示 */
+      }
     #time{
         position: absolute;
         right: 0;
@@ -381,6 +409,14 @@ import {onMounted, reactive, ref, toRefs } from 'vue'
     .hhhhhhhh{
         display: flex;
         justify-content: space-around;
+    }
+    .PreviewImage{
+        z-index: 996669;
+        position: absolute;
+    }
+    .PrevieSumbit{
+        position: relative;
+        z-index: 9999;
     }
     
 </style>

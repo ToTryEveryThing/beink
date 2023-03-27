@@ -1,10 +1,15 @@
 <template>
-    <el-row class="hhhhhhhh">
-        <el-col :span="6" v-for="i in tabs.title"  :key="i.name">
+    <el-row class="hhhhhhhh" v-if="tabs.title">
+        <el-col   :span="6" v-for="i in tabs.title"  :key="i.name">
             <el-tag  style="cursor: pointer;"  @click="send(tabs.name)">
                 {{ i }}
             </el-tag>
         </el-col>
+    </el-row>
+    <el-row v-else>
+        <el-button @click="send($store.state.account)">
+            去添加
+        </el-button>
     </el-row>
 </template>
 
@@ -24,15 +29,15 @@ import router from '@/router';
         type:'post',
         success(res){
             if(res.code===1){
-            for(let i=0;i<res.date.length;i++){
-                if(res.date[i].name===store.state.account){
-                    if(res.date[i].title.length===0){
-                        break 
+                for(let i=0;i<res.date.length;i++){
+                    if(res.date[i].name===store.state.account){
+                        if(res.date[i].title.length===0){
+                            break 
+                        }
+                        tabs.value = {"name":res.date[i].name,"title":JSON.parse(res.date[i].title)}
                     }
-                    tabs.value = {"name":res.date[i].name,"title":JSON.parse(res.date[i].title)}
                 }
-            }
-            }     
+            }    
         },
     })
 </script>

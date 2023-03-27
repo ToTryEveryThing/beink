@@ -83,7 +83,8 @@
   </el-tabs>
 </el-col>
 <div id="hdfhsdfh"></div>
-<el-button v-if="$store.state.is_author&&editableTabs.length===0&&sssss" 
+{{ sssss }}
+<el-button v-if="$store.state.is_author&&vue.sssss" 
  type="danger"
  @click="dialogVisible = true"
  >添加</el-button>
@@ -114,16 +115,7 @@ import dark from '../../utiles/dark'
 import config from '../../utiles/config'
 import $ from 'jquery'
 import DiscussView from './DiscussView.vue';
-    // $(function () {
-    //     $(window).scroll(function () {
-    //         if ($(window).scrollTop() > 300) {
-    //             $(".fas").fadeIn(50);
-    //         }
-    //         else {
-    //             $(".fas").fadeOut(50);
-    //         }
-    //     });
-    // });
+
   export default{
   components: { DiscussView },
     setup(){
@@ -156,7 +148,9 @@ import DiscussView from './DiscussView.vue';
       const editableTabs = ref([])
       const dialogVisible = ref(false)
     const addTab = () => {
-          const newTabName = ++tabIndex
+          let newTabName = ++tabIndex
+          if(vue.sssss)newTabName = 1
+          if(title.value==='')return 
           editableTabs.value.push({
               title: title.value,
               name: newTabName,
@@ -166,6 +160,7 @@ import DiscussView from './DiscussView.vue';
           editableTabsValue.value = newTabName
           dialogVisible.value  = false
           title.value = ''
+          vue.sssss = false
           // getTitle()
           save()
     }
@@ -183,7 +178,6 @@ import DiscussView from './DiscussView.vue';
         save()
     }
     const handleUploadImage = (event, insertImage, files) =>{
-      console.log(nanoid())
       if(store.state.role==="use"){
         warning("没有权限")
         return 
@@ -255,16 +249,20 @@ import DiscussView from './DiscussView.vue';
             success(res){
               if(res.code===1){
                 res = res.date
+                if(res.git==="[]"){
+                  store.commit("textAuthor",res.name)
+                  vue.sssss = true
+                  return
+                }
                 if(res.git==="")  
                   editableTabs.value = []
                 else
                 editableTabs.value = JSON.parse(res.git)
-                store.commit("textAuthor",res.name)
                 tabIndex = editableTabs.value.length
                 AUTHOR.value = res.name
                 store.commit("updateDiscuss",{index:1,title:editableTabs.value[0].title,name:AUTHOR.value})
                 // store.commit("showDiscuss",{page:1})
-                
+                store.commit("textAuthor",res.name)
                 let article_id = parseInt(localStorage.getItem("article_id"))
                 if(editableTabs.value.length < article_id)
                   article_id = 1
@@ -275,7 +273,6 @@ import DiscussView from './DiscussView.vue';
               }
             },
         })
-        vue.sssss = true
     }
     const Todark = ()=>{
       let Class = localStorage.getItem("theme") || "";

@@ -19,7 +19,7 @@ const state = {
     is_author:false,
     list:[
       // 第一个
-      {src:'https://images.beink.cn/background/168917.webp'},
+      {src:'https://images.beink.cn/background/wallhaven-5gwvz5_1920x1080.png'},
       {src:'https://images.beink.cn/background/wallhaven-5gyg37.jpg'},
       {src:'https://images.beink.cn/background/wallhaven-rr2yow_1920x929.png'},
     ],
