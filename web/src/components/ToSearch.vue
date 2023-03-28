@@ -126,7 +126,7 @@ export default{
     color:#2f3542;
     text-indent: 10px;
     transition: .3s;
-    background-color: #e2e2e294;
+    background-color: white;
     box-shadow: 2px 2px 20px#8a858560;
   }
   .input1 input:hover{
