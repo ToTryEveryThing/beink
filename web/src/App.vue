@@ -3,10 +3,9 @@
 </template>
 
 <script setup >
-import darkClass from './utiles/dark'
-darkClass(localStorage.getItem("theme"))
+  import darkClass from './utiles/dark'
+  darkClass(localStorage.getItem("theme"))
 </script>
-
 <style>
   a{
     text-decoration: none;

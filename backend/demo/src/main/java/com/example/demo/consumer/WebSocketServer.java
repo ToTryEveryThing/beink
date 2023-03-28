@@ -45,6 +45,7 @@ public class WebSocketServer {
                        @PathParam("token") String token) throws Exception {
         if(!new IdandName().user(token,name)){
             this.onClose();
+            System.out.println("给你关掉");
             return ;
         }
         this.session = session;
@@ -52,6 +53,7 @@ public class WebSocketServer {
         this.id = userId;
         this.name = name;
         user.put(userId,this);
+        System.out.println(user.size() + "??????????????????????");
         sendAllMessage();
     }
 
@@ -64,9 +66,20 @@ public class WebSocketServer {
     }
 
     @OnMessage
-    public void onMessage(String message, Session session) {
+    public void onMessage(String message, Session session){
+        System.out.println("message = " + message);
+        if(message.equals("all")){
+            System.out.println(message);
+            sendAllMessage();
+            System.out.println(message);
+            return  ;
+        }
         JSONObject data = JSONObject.parseObject(message);
-        System.out.println(data);
+//        广播
+        if(data.getString("about").equals("all")&&"admin".equals(this.name)){
+            sendAllMessage(data.getString("msg"));
+            return ;
+        }
         sendMessageByUser(data.getInteger("id"),data.getString("message"));
         // 从Client接收消息
 
@@ -137,10 +150,36 @@ public class WebSocketServer {
             res.put(String.valueOf(value.id),map);
         });
         resp.put("message",res);
+        System.out.println(user.size() + "///////////////////////////////");
+//        System.out.println(this.name);
+        System.out.println("到这了吗");
         user.forEach((key,value)->{
+            System.out.println(value.session + "..................");
             synchronized (value.session){
                 try{
                     value.session.getBasicRemote().sendText(String.valueOf(resp));
+                    System.out.println("发送信息了");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+    }
+
+    public static void sendAllMessage(String message) {
+        JSONObject resp = new JSONObject();
+        resp.put("author","about");
+        resp.put("message",message);
+        System.out.println(user.size() + "///////////////////////////////");
+//        System.out.println(this.name);
+        System.out.println("到这了吗");
+        user.forEach((key,value)->{
+            System.out.println(value.session + "..................");
+            synchronized (value.session){
+                try{
+                    value.session.getBasicRemote().sendText(String.valueOf(resp));
+                    System.out.println("发送信息了");
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

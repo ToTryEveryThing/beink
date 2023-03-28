@@ -22,9 +22,7 @@
 
 <script  setup>
 import $ from 'jquery'
-import { ref , onUnmounted, onMounted} from 'vue'
-import {useStore} from 'vuex'
-const store = useStore()
+import { ref , onMounted} from 'vue'
 document.getElementsByTagName('body')[0].style.backgroundImage = ``
 const activeIndex = ref("/more/chat")
 $('html').css({'--backColor':''})  
@@ -35,11 +33,6 @@ const handleSelect = (key) => {
 }
 onMounted(()=>{
   handleSelect(localStorage.getItem("menu") || "/more/chat" )
-})
-onUnmounted(() => {
-  
-  store.commit("closeWebSocket")
-
 })
 </script>
 

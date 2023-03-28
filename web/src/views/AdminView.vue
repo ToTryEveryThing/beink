@@ -8,15 +8,24 @@
         class="el-menu-vertical-demo"
         @open="handleOpen"
         @close="handleClose"
+        router
       >
-        <el-menu-item index="1">
-            <el-icon><location /></el-icon>
+      <el-menu-item index="/">
+        <el-icon><House /></el-icon>
+        <span>main</span>
+    </el-menu-item>
+        <el-menu-item index="/admin/userlist">
+          <el-icon><User /></el-icon>
             <span>用户列表</span>
         </el-menu-item>
+        <el-menu-item index="/admin/broadcast">
+          <el-icon><Connection /></el-icon>
+          <span>广播</span>
+      </el-menu-item>
       </el-menu>
         </el-aside>
         <el-main>
-          <UserList/>
+          <router-view/>
         </el-main>
       </el-container>
     </el-container>
@@ -24,9 +33,9 @@
 </template>
 
 <script>
-import UserList from '@/components/admin/UserList.vue'
+
 export default {
-  components: { UserList },
+
 
 }
 </script>

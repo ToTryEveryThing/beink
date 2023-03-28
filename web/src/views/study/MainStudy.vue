@@ -49,6 +49,7 @@
 
 <script >
 import { onMounted, ref } from 'vue';
+import { useStore } from 'vuex';
 import $ from 'jquery'
 import router from '@/router';
 import config from '@/utiles/config'
@@ -56,6 +57,7 @@ import translate from '@/components/study/BaiduTranslate.vue'
 export default{
   components:{translate },
   setup(){
+    const store = useStore()
     let da = ref([])
     let open = ref(false)
     const change = val=>{
@@ -79,6 +81,11 @@ export default{
             },
         })
     })
+    store.dispatch("connectToWebSocket", {
+    id: localStorage.getItem("id"),
+    name: localStorage.getItem("name"),
+    token: localStorage.getItem("jwt"),
+});
     const go=(i)=>{
       router.push(`/study/${i}/`)
     }

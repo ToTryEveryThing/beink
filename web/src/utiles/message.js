@@ -1,4 +1,5 @@
 import { ElMessage } from 'element-plus'
+import { ElNotification } from 'element-plus'
 const message = (i) => {
     ElMessage({
       message: i,
@@ -26,6 +27,15 @@ const error = (i) => {
     })
 }
 
+const open2 = (i) => {
+  ElNotification({
+    title: '通知',
+    message: i,
+    duration: 5000,
+  })
+}
 
-export {message,success,warning,error}
+
+
+export {message,success,warning,error,open2}
 

@@ -7,6 +7,8 @@ import more from '../views/more/MoreView'
 import guess from '../components/game/GuessGame'
 import login from '../views/AccountLogin'
 import snake from '@/components/game/SnakeGame'
+import userlist from '@/components/admin/UserList'
+import broadcast from '@/components/admin/BroadCast'
 const routes = [ 
   {
     path:'/',
@@ -21,6 +23,10 @@ const routes = [
     path:"/admin",
     name:'admin',
     component:admin,
+    children:[
+      {path:'userlist',component:userlist},
+      {path:'broadcast',component:broadcast},
+    ],
     meta: {
       req:true,
       login:true

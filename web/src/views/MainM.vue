@@ -52,6 +52,11 @@ import {reactive,toRefs,onMounted} from 'vue'
                     vue.min = new Date().getMinutes() < 10 ? "0" + new Date().getMinutes() : new Date().getMinutes()
                 }
                 setInterval(time,1000)
+                store.dispatch("connectToWebSocket", {
+                    id: localStorage.getItem("id"),
+                    name: localStorage.getItem("name"),
+                    token: localStorage.getItem("jwt"),
+                });
             })
             return {
                 ...toRefs(vue)

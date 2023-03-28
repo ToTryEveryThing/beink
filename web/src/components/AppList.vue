@@ -11,6 +11,14 @@
             </li>
         </ul>
         <ul>
+            <li>
+                <router-link to="/study">
+                    <svg aria-hidden="true">
+                        <use xlink:href="#icon-biji"></use>
+                    </svg>
+                    <p>study</p>
+                </router-link>
+            </li>
             <li v-for="i in list2" :key="i.name">
                 <a rel="nofollow" :href="i.href" target="_self">
                     <svg aria-hidden="true">
@@ -31,6 +39,15 @@
                     <p>{{i.name}}</p>
                 </a>
             </li>
+            <li>
+                <router-link to="/study">
+                    <svg aria-hidden="true">
+                        <use xlink:href="#icon-biji"></use>
+                    </svg>
+                    <p>study</p>
+                </router-link>
+            </li>
+            
             <li v-for="i in list1" :key="i.name">
                 <a rel="nofollow" :href="i.href" target="_self">
                     <svg aria-hidden="true">
@@ -58,7 +75,7 @@
                 ],
                 list2:[
                     {href:'http://blog.beink.cn/',icon:'#icon-tanchishedazuozhan',name:'Snake'},
-                    {href:'/study',icon:'#icon-biji',name:'study'},
+                    // {href:'/study',icon:'#icon-biji',name:'study'},
                     {href:'https://www.w3school.com.cn/index.html',icon:'#icon-w3school',name:'w3school'}
                 ]
             })

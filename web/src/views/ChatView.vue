@@ -59,11 +59,12 @@
       </el-col>
     </el-row>
   </template>
-  
+
   <script setup>
   import moment from 'moment/moment'
-  import {ref ,onMounted   } from 'vue'
+  import {onMounted, ref } from 'vue'
   import {useStore} from 'vuex'
+  import { open2 } from '@/utiles/message';
   import $ from 'jquery'
   import {warning} from '@/utiles/message'
   import config from '@/utiles/config'
@@ -74,16 +75,12 @@
     let TTT = ref([])
     let value1 = ref(false)
     let name = sessionStorage.getItem("name")
-    let id = sessionStorage.getItem("id") 
-    const store = useStore();
-    let Socket = null;
-    Socket = new WebSocket(`wss://so.beink.cn/websocket/${id}/${name}/${"Bearer " + localStorage.getItem("jwt")}`);
-    // 发送信息
+    const store = useStore()
     const send = ()=>{
       if(textarea.value==='')return
       if(oneUserName.value==="请选择一位发起聊天")return
       if(oneUserId.value===0)return
-      Socket.send(JSON.stringify({id:oneUserId.value,message:textarea.value}));
+      store.state.socket.socket.send(JSON.stringify({about:"single",id:oneUserId.value,message:textarea.value}));
       TTT.value.push(
         {
           id:new Date(),
@@ -136,13 +133,15 @@
         })
     }
     onMounted(()=>{
-      store.commit("up",sessionStorage.getItem("name"))
-      store.commit("upSccket",Socket)
-      Socket.onopen = () => {
-
-      }
-      // 接受信息
-      Socket.onmessage = msg => {
+      store.dispatch("connectToWebSocket", {
+                    id: localStorage.getItem("id"),
+                    name: localStorage.getItem("name"),
+                    token: localStorage.getItem("jwt"),
+        });
+        setTimeout(() => {
+          store.state.socket.socket.send("all");
+          store.commit("up",sessionStorage.getItem("name"))
+          store.state.socket.socket.onmessage = msg => {
         let value = JSON.parse(msg.data)
         if(value.author==='All'){
           userList.value = value.message
@@ -155,6 +154,9 @@
           TTT.value = []
           warning(value.message)
         } 
+        else if(value.author==="about"){
+          open2(value.message)
+        }
         else{
           //收到某人的信息
           // 如果正在和当前人通信 即可加入到TTT 不用刷新了
@@ -176,12 +178,10 @@
         setTimeout(function(){
         document.getElementById("bottom").scrollIntoView(false);
       },50)
-      }
-      Socket.onclose = () => {
-        // console.log("chat 关闭!");
-        
-      }
+          }
+        }, 1000);
     })
+
   </script>
   
   <style scoped>

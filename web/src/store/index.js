@@ -6,6 +6,8 @@ import study from './study'
 import guess from './guess'
 import discuss from './discuss'
 import config from '../utiles/config'
+import socket from './webSocket'
+
 //存储全局数据
 const state = {
   pulling_info: true,
@@ -149,7 +151,8 @@ const mutations = {
   updateUser(state,value){
     state.id = value.id
     state.account = value.account
-    sessionStorage.setItem("id",value.id)
+    localStorage.setItem("id",value.id)
+    localStorage.setItem("name",value.account)
     state.is_login = value.is_login
     state.backImg = value.backImg
     state.role = value.role
@@ -205,7 +208,8 @@ export default createStore({
       images:images,
       study:study,
       guess:guess,
-      discuss:discuss
+      discuss:discuss,
+      socket
     }
   
 
