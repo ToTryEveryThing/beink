@@ -13,7 +13,7 @@ public class ExceptionAdvice {
 
     /**
      * 限制太频繁
-     * @param e
+     * @parame
      * @return
      */
     @ExceptionHandler(LimitException.class)

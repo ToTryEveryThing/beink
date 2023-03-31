@@ -1,93 +1,89 @@
 <template>
   <DiscussView/>
-  <el-row justify="center">
+  <el-row justify="center" style="margin-top:20px;">
     <el-col :md="18" :xs="24">
-  <el-dialog
-    v-model="dialogVisible"
-    title="添加"
-    width="30%"
-    :before-close="handleClose"
-  >
-  <el-input v-model="title" placeholder="Please input">
-    <template #prepend>Title :</template>
-  </el-input>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="addTab(editableTabsValue)">
-          确认
-        </el-button>
-      </span>
-    </template>
-  </el-dialog>
-  <el-tabs 
-    tab-position="top"
-    v-model="editableTabsValue"
-    @tab-change="changeTab"
-    class="demo-tabs"
-  >
-    <el-tab-pane
-      v-for="item in editableTabs"
-      :key="item.name"
-      :label="item.title"
-      :name="item.name"
-    >
-    <el-row  justify="space-evenly" v-if="item.show">
-      <el-col :span="1" v-if="$store.state.is_author" class="hidden-xs-only">
+    <el-row  justify="space-evenly">
+      <el-col :span="1" class="hidden-xs-only">
         <el-affix :offset="180">
-          <el-button   circle  type="primary" style="margin-left:10px;margin-top:10px;" @click="item.show=false" ><el-icon ><Edit /></el-icon></el-button>
-          <el-button  circle  type="success" style="margin-top:10px;"   @click="dialogVisible = true" ><el-icon><Plus /></el-icon></el-button>
-          <el-button   circle  type="danger" style="margin-top:10px;"  @click="removeTab(item.name)" ><el-icon><Delete /></el-icon></el-button>
-          <el-button   circle  type="warning" style="margin-top:10px;" @click="GoHome" ><el-icon><House /></el-icon></el-button>
+          <el-badge :value="TEXT.up" :max="9999" class="item">
+            <el-button   style="margin-top:10px;"  >
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+            </el-button>
+          </el-badge>
+          <el-badge :value="TEXT.views" :max="9999" class="item">
+            <el-button  style="margin-top:10px;"   >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            </el-button>
+          </el-badge>
+          <el-button   style="margin-top:10px;" @click="GoHome" >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          </el-button>
         </el-affix>
-      </el-col>
-      <el-col  :span="1" v-else class="hidden-xs-only">
-       
       </el-col>
       <el-col :xs="23" :sm="16">
           <el-card>
               <el-col :span="24">
-                  <v-md-preview ref="preview" id="preview" class="dark" :text="item.content"></v-md-preview >
+                  <v-md-preview ref="preview" id="preview" class="dark" :text="TEXT.content"></v-md-preview >
               </el-col>
           </el-card>
       </el-col>
-      <el-col class="hidden-xs-only" :gutter="20" :span="4">
-        <el-affix :offset="0">
-            <el-col :span="12">
-              <el-image style="width: 100px; height: 100px" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png" :fit="fit" /> 
-            </el-col>
-            <el-col   :span="24">
-              <div
-              style="position:relative;"
-              v-for="anchor in vue.titles" :key="anchor.title"
-              :style="{ padding: `0px 0 10px ${anchor.indent * 20}px` ,color:'#3eaf7c'}"
-              @click="handleAnchorClick(anchor)"
-            >
-              <a style="cursor: pointer" :id="anchor.id"  class="goto">{{ anchor.title }}</a>
+      <!-- 目录 -->
+      <el-col class="hidden-xs-only" :gutter="20" :span="5">
+          <el-affix :offset="20">
+            <el-card shadow="always"> 
+              <template #header>
+                <div class="card-header">
+                  <span>
+                    {{ TEXT.title }}
+                  </span>
+                </div>
+              </template>
+            <el-scrollbar height="300px" always="true">
+              <el-col   :span="24">
+                <div
+                style="position:relative;"
+                v-for="anchor in vue.titles" :key="anchor.title"
+                :style="{ padding: `0px 0 10px ${anchor.indent * 20}px` ,color:'#3eaf7c'}"
+                @click="handleAnchorClick(anchor)"
+              >
+                <a style="cursor: pointer" :id="anchor.id"  class="goto">{{ anchor.title }}</a>
+              </div>
+              </el-col>
+          </el-scrollbar>
+        </el-card>
+        <el-card shadow="always" style="margin-top:20px;"> 
+          <template #header>
+            <div class="card-header">
+              <span>所有文章</span>
             </div>
-            </el-col>
+          </template>
+        <el-scrollbar height="300px" always="true">
+          <el-col   :span="24">
+            <li v-for="i in allTe" class="gogog" @click="gogogogogogo(i.id)" :key="i.id">
+              <el-card shadow="always">
+                {{ i.title }}
+                <el-row>
+                  <el-col :span="6">
+                    <el-statistic title="Up" :value="i.up" />
+                  </el-col>
+                  <el-col :span="6">
+                    <el-statistic title="Views" :value="i.views" />
+                  </el-col>
+                  <el-col :span="6">
+                    <el-statistic title="Discuss" :value="i.discuss">
+                    </el-statistic>
+                  </el-col>
+              </el-row>
+            </el-card>
+            </li>
+          </el-col>
+      </el-scrollbar>
+    </el-card>
         </el-affix>
       </el-col>
   </el-row>
-    <v-md-editor  v-if="!item.show" v-model="item.content" 
-    height="850px"
-    left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code | save back" 
-    right-toolbar="preview toc sync-scroll fullscreen"
-    :toolbar="vue.toolbar"
-    @save="item.show=true,save()" 
-    :disabled-menus="[]"
-    @upload-image="handleUploadImage"
-    >
-  </v-md-editor>
-    </el-tab-pane>
-  </el-tabs>
 </el-col>
 <div id="hdfhsdfh"></div>
-{{ sssss }}
-<el-button v-if="$store.state.is_author&&vue.sssss" 
- type="danger"
- @click="dialogVisible = true"
- >添加</el-button>
 </el-row>
 <div class="bottom hidden-xs-only">
   <el-button type="info"  plain @click="Todark"   style="margin-top:10px;background-color:grey;">
@@ -115,68 +111,20 @@ import dark from '../../utiles/dark'
 import config from '../../utiles/config'
 import $ from 'jquery'
 import DiscussView from './DiscussView.vue';
-
   export default{
   components: { DiscussView },
     setup(){
       const vue = reactive({
           asd : '#hdfhsdfh',
           titles:[],
-          sssss:false,
-          toolbar: {
-          back: {
-              title: '取消编辑',
-              icon: 'v-md-icon-undo',
-              action() {
-                const tabs = editableTabs.value
-                tabs.forEach((i)=>{
-                  if(i.name===editableTabsValue.value)
-                  i.show = true
-                })
-              },
-          },
-          },
       })
       let preview = ref(null)
-      let tabIndex = 1
       let store = useStore()
       let title = ref('')
-      let AllTitle = ref([])
+      let TEXT = ref([])
+      let allTe = ref({})
       let textName = ref('')
-      let AUTHOR = ref("")
-      const editableTabsValue = ref()
-      const editableTabs = ref([])
       const dialogVisible = ref(false)
-    const addTab = () => {
-          let newTabName = ++tabIndex
-          if(vue.sssss)newTabName = 1
-          if(title.value==='')return 
-          editableTabs.value.push({
-              title: title.value,
-              name: newTabName,
-              content: `# New Tab content about ${title.value}`,
-              show:true
-          })
-          editableTabsValue.value = newTabName
-          dialogVisible.value  = false
-          title.value = ''
-          vue.sssss = false
-          // getTitle()
-          save()
-    }
-    const removeTab = (targetName) => {
-        let f = confirm("确定吗")
-        if(!f)return 
-        const tabs = editableTabs.value
-        editableTabsValue.value = targetName - 1 || 1
-        editableTabs.value = tabs.filter((tab) => tab.name !== targetName)
-        const Tabs = editableTabs.value
-        Tabs.forEach((i,index)=>{
-          i.name = index+1
-        })
-        // getTitle()
-        save()
-    }
     const handleUploadImage = (event, insertImage, files) =>{
       if(store.state.role==="use"){
         warning("没有权限")
@@ -204,74 +152,59 @@ import DiscussView from './DiscussView.vue';
                 }
             })
     }
-    const getTitle=()=>{
-      AllTitle.value=[]
-      let j = 0
-      // 只要三个
-      editableTabs.value.forEach((i)=>{
-          if(j>=3)return
-          AllTitle.value.unshift(i.title)
-          j++
-        })
-    }
-    const save = ()=>{
-      getTitle()
-      $.ajax({
-          url:`${config.API_URL}/user/admin/git/save/`,
-          data:{
-              markdown:JSON.stringify(editableTabs.value),
-              title:JSON.stringify(AllTitle.value)
-          },
-          headers:{
-                Authorization:"Bearer " + store.state.token
-          },
-          type:'post',
-          success(res){
-            if(res.code===1){
-              tabIndex = editableTabs.value.length
-            }else{
-              console.log(res)
-            }
-            
-          },
-          error(res){
-              console.log(res)
-          }
-      })
+    const toc = ()=>{
+      console.log(preview.value)
+      const anchors = preview.value.$el.querySelectorAll('h2,h3')
+      const titles = Array.from(anchors).filter((title) => !!title.innerText.trim());
+      const hTags = Array.from(new Set(titles.map((title) => title.tagName))).sort();
+      vue.titles = titles.map((el) => ({
+        title: el.innerText,
+        lineIndex: el.getAttribute('data-v-md-line'),
+        indent: hTags.indexOf(el.tagName),
+        id:nanoid()
+      }));
+      console.log(vue.titles)
     }
     const aaa = ()=>{
       $.ajax({
-            url:`${config.API_URL}/user/admin/git/show/`,
+            url:`${config.API_URL}/user/article/showbyid/`,
             type:'post',
             data:{
-              name:textName.value
+              id:textName.value
             },
             success(res){
               if(res.code===1){
-                res = res.date
-                if(res.git==="[]"){
-                  store.commit("textAuthor",res.name)
-                  vue.sssss = true
-                  return
-                }
-                if(res.git==="")  
-                  editableTabs.value = []
-                else
-                editableTabs.value = JSON.parse(res.git)
-                tabIndex = editableTabs.value.length
-                AUTHOR.value = res.name
-                store.commit("updateDiscuss",{index:1,title:editableTabs.value[0].title,name:AUTHOR.value})
-                // store.commit("showDiscuss",{page:1})
-                store.commit("textAuthor",res.name)
-                let article_id = parseInt(localStorage.getItem("article_id"))
-                if(editableTabs.value.length < article_id)
-                  article_id = 1
-                editableTabsValue.value = article_id
-                changeTab(article_id)
-              }else{
+                console.log("666")
+                TEXT.value = res.date
+                store.commit("updateDiscuss",{
+                  index:textName.value,
+                  author:TEXT.value.post
+                })
+                setTimeout(()=>{
+                  toc()
+                },100)
+                showOne()
+              }else if(res.date==='')router.push("/")
+              else{
                 router.push("/")
               }
+            },error(){
+              router.push("/")
+            }
+        })
+    }
+    const showOne = ()=>{
+      $.ajax({
+            url:`${config.API_URL}/user/article/showone/`,
+            type:'post',
+            data:{
+              post:TEXT.value.post
             },
+            success(res){
+              if(res.code===1){
+                allTe.value = res.date
+              }
+            }
         })
     }
     const Todark = ()=>{
@@ -284,14 +217,18 @@ import DiscussView from './DiscussView.vue';
           localStorage.setItem("theme","dark")
       }
     }
+    const gogogogogogo = i =>{
+      if(i===textName.value)return 
+      textName.value = i
+      aaa()
+    }
     onMounted(()=>{
       const route = useRoute()
-      textName.value = route.params.name
+      textName.value = route.params.id
       $('html').css({'--backColor':'#f7f7f7f'})  
       document.getElementsByTagName('body')[0].style.backgroundImage 
-            = `url("")`   
-      editableTabsValue.value = 1
-      aaa()
+            = `url("")` 
+      aaa()  
       const jwt = localStorage.getItem("jwt");
         if(jwt){
             store.commit("updateToken",jwt)
@@ -309,53 +246,21 @@ import DiscussView from './DiscussView.vue';
     }
     const handleAnchorClick = (anchor)=> {
       $(`${vue.asd}`).removeClass("goto-active")
-      $(`#pane-${editableTabsValue.value} #${anchor.id}`).addClass("goto-active")
-      vue.asd = `#pane-${editableTabsValue.value} #${anchor.id}`
+      $(`#pane- #${anchor.id}`).addClass("goto-active")
+      vue.asd = `#pane- #${anchor.id}`
       const { lineIndex } = anchor;
-      const heading = preview.value[editableTabsValue.value-1].$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
+      const heading = preview.value.$el.querySelector(`[data-v-md-line="${lineIndex}"]`);
       if (heading) {
-        preview.value[editableTabsValue.value-1].scrollToTarget({
+        preview.value.scrollToTarget({
           target: heading,
           scrollContainer: window,
           top: 60,
         });
       }
     }
-    const changeTitle =()=>{
-      if(editableTabs.value==false || preview.value== null)return
-      const anchors = preview.value[editableTabsValue.value-1].$el.querySelectorAll('h2,h3')
-      const titles = Array.from(anchors).filter((title) => !!title.innerText.trim());
-      if (!titles.length) {
-        vue.titles = [];
-        return;
-      }
-      const hTags = Array.from(new Set(titles.map((title) => title.tagName))).sort();
-      vue.titles = titles.map((el) => ({
-        title: el.innerText,
-        lineIndex: el.getAttribute('data-v-md-line'),
-        indent: hTags.indexOf(el.tagName),
-        id:nanoid()
-      }));
-    }
-   const changeTab = (i)=>{
-    if(editableTabs.value != false){
-      localStorage.setItem("article_id",i)
-      store.commit("updateDiscuss",{
-      index:i,
-      title:editableTabs.value[i-1].title,
-      name:AUTHOR.value.toString()
-    })
-    // store.commit("showDiscuss",{page:1})
-      changeTitle()
-    }
-   
-   }
     return{handleAnchorClick,Todark,handleUploadImage,
-      title,vue,preview,
-        addTab,removeTab,
-        editableTabsValue,
-        editableTabs,save,
-        dialogVisible,changeTab,GoHome
+      title,vue,preview,allTe,
+        dialogVisible,GoHome,TEXT,gogogogogogo
       }
   }
 }
@@ -411,5 +316,16 @@ import DiscussView from './DiscussView.vue';
   position: fixed;
   right: 0;
   bottom: 100px;
+}
+.gogog{
+  margin-bottom: 20px;
+  height: 100px;
+  list-style: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.item{
+  height: 50px;
 }
 </style>

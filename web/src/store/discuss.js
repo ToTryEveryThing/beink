@@ -4,8 +4,7 @@ import moment from 'moment/moment'
 export default {
     state: {
         post_index:1,
-        post_name:'',
-        post_title:'',
+        article_author:'',
         content:[],
         count:0,
         discussStatus:[],
@@ -15,8 +14,7 @@ export default {
     mutations: {
         updateDiscuss(state,value){
             state.post_index = value.index
-            state.post_name = value.name
-            state.post_title = value.title
+            state.article_author = value.author
         },
         upupupup(state,value){
             if(value.status){
@@ -32,8 +30,7 @@ export default {
                 url:`${config.API_URL}/user/discuss/show/`,
                 type:'post',
                 data:{
-                    post_name:state.post_name,
-                    post_index:state.post_index,
+                    article_id:state.post_index,
                     page:value.page
                 },
                 success(res){

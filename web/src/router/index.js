@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import admin from '../views/AdminView'
-import mainstudy from '../views/study/MainStudy'
-import study from '../components/study/UtilsView'
+import Mainarticle from '../views/study/MainStudy'
+import article from '../components/study/UtilsView'
 import chat from '../views/ChatView'
 import more from '../views/more/MoreView'
 import guess from '../components/game/GuessGame'
@@ -9,6 +9,7 @@ import login from '../views/AccountLogin'
 import snake from '@/components/game/SnakeGame'
 import userlist from '@/components/admin/UserList'
 import broadcast from '@/components/admin/BroadCast'
+import me from '@/components/study/MyArticle'
 const routes = [ 
   {
     path:'/',
@@ -33,9 +34,9 @@ const routes = [
     }, 
   },
   {
-    path:"/study",
-    name:'study',
-    component:mainstudy,
+    path:"/article",
+    name:'article',
+    component:Mainarticle,
     meta: {
       req:false,
       login:true
@@ -51,8 +52,16 @@ const routes = [
     }, 
   },
   {
-    path:"/study/:name/",
-    component:study,
+    path:"/article/:id/",
+    component:article,
+    meta:{
+      req:false,
+      login:true
+    }
+  },
+  {
+    path:"/article/me/",
+    component:me,
     meta:{
       req:false,
       login:true

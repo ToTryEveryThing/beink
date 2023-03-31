@@ -23,20 +23,19 @@ public class DiscussController {
     @Autowired
     private DiscussService discussService;
 
-    @AccessLimit(seconds = 10,maxCount = 1)
+    @AccessLimit(seconds = 60*60,maxCount = 50)
     @PostMapping("/user/discuss/add/")
     public Result add(@UserInfo String userName, @RequestParam Map<String ,String> map){
         String content = map.get("content");
-        String postName = map.get("post_name");
-        String postIndex = map.get("post_index");
-        return discussService.addReply(content,postName,postIndex,userName);
+        Integer articleId = Integer.valueOf(map.get("article_id"));
+        return discussService.addReply(content,articleId,userName);
     }
 
-    @AccessLimit(seconds = 10,maxCount = 4)
+    @AccessLimit(seconds = 60*60,maxCount = 50)
     @PostMapping("/user/discuss/show/")
     public JSONObject show(@RequestParam Map<String ,String> map){
-        return discussService.showReply(map.get("post_name"),
-                map.get("post_index"), Integer.valueOf(map.get("page")));
+        return discussService.showReply(Integer.valueOf(map.get("article_id")),
+                Integer.valueOf(map.get("page")));
     }
 
     @PostMapping("/user/discuss/delete/")

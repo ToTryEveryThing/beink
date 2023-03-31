@@ -29,15 +29,11 @@ public class Discuss implements Serializable {
      */
     private String content;
 
-    /**
-     * 评论所属的文章的作者
-     */
-    private String postName;
 
     /**
-     * 作者文章的index
+     * 作者文章的id
      */
-    private String postIndex;
+    private Integer articleId;
 
     /**
      * 发表评论的用户名
@@ -57,12 +53,10 @@ public class Discuss implements Serializable {
     @TableField("version")
     private int  Version;
 
-
-    public Discuss(String content, String postName, String postIndex, String userName,Date data) {
+    public Discuss(String content, Integer articleId, String userName, Date date) {
         this.content = content;
-        this.postName = postName;
-        this.postIndex = postIndex;
-        this.userName = userName;
-        this.date = data;
+        this.userName =userName;
+        this.articleId = articleId;
+        this.date = date;
     }
 }

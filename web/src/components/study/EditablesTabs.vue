@@ -22,7 +22,7 @@ import router from '@/router';
     const store = useStore()
     let tabs = ref({})
     const send=(i)=>{
-        router.push(`/study/${i}/`)
+        router.push(`/article/${i}/`)
     }
     $.ajax({
         url:`${config.API_URL}/user/admin/git/showall/`,

@@ -1,12 +1,7 @@
 <template>
           <el-card shadow="never">
             <el-row >
-              <el-col :span="4">
-                <el-col :span="24"  >
-                    <el-image  style="width: 100px; height: 100px" src="https://cdn.acwing.com/media/user/profile/photo/71127_lg_5c719f083a.png" :fit="fit" />
-                  </el-col>
-              </el-col>
-              <el-col :span="20" >
+              <el-col :span="24" >
                 <el-col :span="24">
                   <el-card shadow="never">
                     <el-row>
@@ -132,6 +127,7 @@
           isAdmin:false,
           ids:[]
         }) 
+        console.log("list")
         const editUser = (i)=>{
           vue.dialogVisible = true
           vue.index = i

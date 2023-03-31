@@ -19,14 +19,13 @@ import java.util.ArrayList;
 @RestController
 public class InitController {
 
-
-
     @AccessLimit(seconds = 10,maxCount = 2)
     @GetMapping ("/redis/")
     public Result index(){
         ArrayList<String> list = new ArrayList<>();
         list.add("hello worlod");
         list.add("世界 你好");
+        System.out.println("错错错");
         int i = 1;
         System.out.println(i++);
         return new Result(100,"你好",list);

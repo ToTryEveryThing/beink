@@ -12,11 +12,11 @@
         </ul>
         <ul>
             <li>
-                <router-link to="/study">
+                <router-link to="/article">
                     <svg aria-hidden="true">
                         <use xlink:href="#icon-biji"></use>
                     </svg>
-                    <p>study</p>
+                    <p>article</p>
                 </router-link>
             </li>
             <li v-for="i in list2" :key="i.name">
@@ -40,11 +40,11 @@
                 </a>
             </li>
             <li>
-                <router-link to="/study">
+                <router-link to="/article">
                     <svg aria-hidden="true">
                         <use xlink:href="#icon-biji"></use>
                     </svg>
-                    <p>study</p>
+                    <p>article</p>
                 </router-link>
             </li>
             

@@ -32,18 +32,16 @@
                 <el-card  v-for="i in $store.state.discuss.content" :key="i" shadow="never" style="margin-top:10px;">  
                     <div class="dis">
                         <div class="name">
-                            <span light v-if="i.userName===i.postName">
+                            <span light v-if="i.userName===$store.state.discuss.article_author">
                                 <el-tag>{{ i.userName }} </el-tag> 
                             </span>
                             <span v-else>{{ i.userName }}</span>
                             <span v-show="showDate">{{ i.date }}</span>
                         </div>
                         <br>
-                        
                         <div class="text">
                             <div v-text="i.content"> </div>
                         </div>
-
                         <el-button-group class="de">
                             <el-button v-if="$store.state.account===i.userName" @click="del(i.id)"  type="danger" text> 
                                 <el-icon><Delete color="grey"/></el-icon>
@@ -133,8 +131,7 @@ export default {
                 },
                 data:{
                     content:vue.reply,
-                    post_name:store.state.discuss.post_name,
-                    post_index:store.state.discuss.post_index
+                    article_id:store.state.discuss.post_index
                 },
                 success(res){
                   if(res.code===1){

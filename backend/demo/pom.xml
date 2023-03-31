@@ -15,6 +15,12 @@
     </properties>
 
     <dependencies>
+<!--        热加载-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-devtools</artifactId>-->
+<!--            <optional>true</optional>-->
+<!--        </dependency>-->
 
 <!--        限制访问-->
         <dependency>
@@ -187,18 +193,18 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <!--使用热部署出现中文乱码解决方案-->
-                <configuration>
-                    <fork>true</fork>
-                    <!--增加jvm参数-->
-                    <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
-                    <!--指定入口类-->
-                    <mainClass>com.example.demo.DemoApplication</mainClass>
-                </configuration>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--                &lt;!&ndash;使用热部署出现中文乱码解决方案&ndash;&gt;-->
+<!--                <configuration>-->
+<!--                    <fork>true</fork>-->
+<!--                    &lt;!&ndash;增加jvm参数&ndash;&gt;-->
+<!--                    <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>-->
+<!--                    &lt;!&ndash;指定入口类&ndash;&gt;-->
+<!--                    <mainClass>com.example.demo.DemoApplication</mainClass>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 

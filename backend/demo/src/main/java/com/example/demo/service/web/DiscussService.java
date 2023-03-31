@@ -8,9 +8,9 @@ import com.example.demo.controller.common.Result;
  * @date 2023/2/16
  */
 public interface DiscussService {
-    public Result addReply(String content,String postName,
-                           String postIndex,String userName);
-    public JSONObject showReply(String postName, String postIndex, Integer page);
+    public Result addReply(String content,
+                           Integer articleId, String userName);
+    public JSONObject showReply(Integer articleId, Integer page);
 
     public Result delReply(String userName, Integer id);
 }

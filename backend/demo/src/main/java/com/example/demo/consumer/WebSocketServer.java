@@ -82,7 +82,6 @@ public class WebSocketServer {
         }
         sendMessageByUser(data.getInteger("id"),data.getString("message"));
         // 从Client接收消息
-
     }
 
     @OnError

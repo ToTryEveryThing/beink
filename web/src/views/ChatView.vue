@@ -1,7 +1,7 @@
 <template>
     <el-row class="row-bg" justify="space-evenly">
       <el-col :span="24">
-        <el-card shadow="never" body-style="padding:0;">
+        <el-card>
         <el-row>
           <el-col :sm="5" :xs="7">
             <el-card shadow="never">
