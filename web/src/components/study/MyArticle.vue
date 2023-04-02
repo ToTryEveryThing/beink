@@ -6,7 +6,11 @@
                     <el-card shadow="hover" style="margin-top:20px;" > 
                         <template #header>
                             <div class="card-header">
-                              <span>{{ i.title }}</span>
+                              <span>
+                                <el-button text type="info" bg>
+                                    {{ i.title }}
+                                </el-button>
+                              </span>
                               <el-button-group class="ml-4">
                                 <el-button type="primary" @click="view(i.id)" >
                                     <el-icon><View /></el-icon>
@@ -44,7 +48,6 @@
             <template #prepend>标题</template>
         </el-input>
         <v-md-editor  v-if="editShow" v-model="editContent" 
-            height="800px"
             left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code | save back" 
             right-toolbar="preview toc sync-scroll fullscreen"
             :toolbar="toolbar"
@@ -77,6 +80,7 @@ export default {
                 icon: 'v-md-icon-undo',
                 action() {
                     vue.editShow = false
+                    vue.ad = false
                 },
             },
           },

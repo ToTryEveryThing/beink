@@ -29,10 +29,10 @@
                 <el-divider />
                 <el-scrollbar height="60vh" id="srcoll" always class="scroll">
                   <div class="fu"  v-for="j in TTT" :key="j.id">
-                    <div v-if="j.from===oneUserName" class="ta" >
+                    <div v-if="j.from===oneUserName" class="ta animate__animated animate__backInLeft animate__faster" >
                       {{j.content }}
                     </div> 
-                    <div v-else id="wo" class="wo">
+                    <div v-else id="wo" class="wo animate__animated animate__backInRight animate__faster">
                       {{j.content }}
                     </div> 
                     <el-divider v-if="value1" >
@@ -221,5 +221,4 @@
     .scroll >>> .el-scrollbar__view{
   
     }
-
   </style>

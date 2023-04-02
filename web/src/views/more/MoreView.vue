@@ -15,7 +15,7 @@
           <el-menu-item index="/more/guess"><el-icon><User /></el-icon>猜拳</el-menu-item>
           <el-menu-item index="/more/snake"><el-icon><User /></el-icon>Snake</el-menu-item>
         </el-menu>
-         <router-view/>
+         <router-view />
 
 
 </template>

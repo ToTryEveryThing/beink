@@ -2,9 +2,7 @@ package com.example.demo.service.impl.utils;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.mapper.WebMapper;
-
-import com.example.demo.pojo.web;
-import com.example.demo.service.impl.utils.UserDetailsImpl;
+import com.example.demo.pojo.user.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

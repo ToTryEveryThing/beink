@@ -44,7 +44,7 @@ public class articleController {
         return article.delete(id, name);
     }
 
-    @AccessLimit(seconds = 60*60,maxCount = 100)
+    @AccessLimit(seconds = 60*60,maxCount = 1000000)
     @PostMapping("/user/article/showbyid/")
     public Result showbyid(@RequestParam Integer id){
         return article.showbyid(id);

@@ -2,7 +2,7 @@ package com.example.demo.config.filter;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.mapper.WebMapper;
-import com.example.demo.pojo.web;
+import com.example.demo.pojo.user.web;
 import com.example.demo.service.impl.utils.UserDetailsImpl;
 import com.example.demo.utils.JwtUtil;
 import io.jsonwebtoken.Claims;

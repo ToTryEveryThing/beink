@@ -3,7 +3,7 @@ package com.example.demo.service.impl.admin;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.controller.common.Result;
 import com.example.demo.mapper.PublicMapper;
-import com.example.demo.pojo.Public;
+import com.example.demo.pojo.article.Public;
 import com.example.demo.service.admin.adminUtilsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

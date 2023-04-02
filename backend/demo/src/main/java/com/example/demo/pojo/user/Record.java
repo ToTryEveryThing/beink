@@ -1,4 +1,4 @@
-package com.example.demo.pojo;
+package com.example.demo.pojo.user;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -20,6 +20,6 @@ public class Record {
     private String account;
     private Date date;
     private String backimg;
+    private String mail;
     private String role;
-
 }

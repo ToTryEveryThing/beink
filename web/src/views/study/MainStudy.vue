@@ -82,7 +82,6 @@ export default{
             type:'post',
             success(res){
               if(res.code===1){
-                console.log(res)
                 da.value = res.date
               }
                 

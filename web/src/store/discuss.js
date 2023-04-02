@@ -3,8 +3,11 @@ import config from '../utiles/config'
 import moment from 'moment/moment'
 export default {
     state: {
-        post_index:1,
+        post_index:1,//文章id
         article_author:'',
+        article_title:'',
+        up_status:0,
+        all_up:0,
         content:[],
         count:0,
         discussStatus:[],
@@ -15,6 +18,8 @@ export default {
         updateDiscuss(state,value){
             state.post_index = value.index
             state.article_author = value.author
+            state.article_title = value.title
+            state.all_up = value.all_up
         },
         upupupup(state,value){
             if(value.status){
@@ -34,7 +39,6 @@ export default {
                     page:value.page
                 },
                 success(res){
-                    console.log(res)
                   if(res.code===1){
                     state.discussId = []
                     state.count = res.count
@@ -61,11 +65,49 @@ export default {
 
                 },
             })
+        },
+        changeUp(state){
+            $.ajax({
+                url:`${config.API_URL}/user/article/up/`,
+                type:'post',
+                headers:{
+                    Authorization:"Bearer " + localStorage.getItem("jwt")
+                },
+                data:{
+                   articleId:state.post_index,
+                   status:state.up_status === 1 ? 0 : 1
+                },
+                success(){
+                    state.up_status = state.up_status === 1 ? 0 : 1
+                    state.all_up = state.all_up + ( state.up_status === 1 ? 1 : -1 )
+                },
+            })
+        },
+        getStatus(state){
+            $.ajax({
+                url:`${config.API_URL}/user/article/upstatus/`,
+                type:'post',
+                headers:{
+                    Authorization:"Bearer " + localStorage.getItem("jwt")
+                },
+                data:{
+                   articleId:state.post_index,
+                   userName:localStorage.getItem("name")
+                },
+                success(res){
+                    state.up_status = JSON.parse(res.date)
+                },
+            })
         }
     },
     // 异步
     actions: {
-       
+        changeUp(content){
+            content.commit("changeUp")
+        },
+        getStatus(content){
+            content.commit("getStatus")
+        }
     },
 
 }

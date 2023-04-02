@@ -1,7 +1,7 @@
 package com.example.demo.service.impl.utils;
 
 
-import com.example.demo.pojo.web;
+import com.example.demo.pojo.user.web;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

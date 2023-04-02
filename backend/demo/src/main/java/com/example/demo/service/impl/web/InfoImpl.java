@@ -1,7 +1,7 @@
 package com.example.demo.service.impl.web;
 
 import com.example.demo.controller.common.Result;
-import com.example.demo.pojo.web;
+import com.example.demo.pojo.user.web;
 import com.example.demo.service.impl.utils.UserDetailsImpl;
 import com.example.demo.service.web.InfoService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -6,8 +6,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.controller.common.Result;
 import com.example.demo.mapper.DiscussMapper;
 import com.example.demo.mapper.UpMapper;
-import com.example.demo.pojo.Discuss;
-import com.example.demo.pojo.ThumbsUp;
+import com.example.demo.pojo.article.Discuss;
+import com.example.demo.pojo.article.ThumbsUp;
 import com.example.demo.service.web.thumbsUp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -99,4 +99,6 @@ public class thumbsUpImpl implements thumbsUp {
         }
         return res;
     }
+
+
 }

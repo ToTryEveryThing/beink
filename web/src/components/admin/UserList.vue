@@ -29,13 +29,14 @@
                       <el-table-column type="selection" width="55" />
                       <el-table-column   prop="id" label="ID" />
                       <el-table-column prop="account" label="Name"  />
-                      <el-table-column  label="Role"   >
+                      <el-table-column  label="Role"  >
                         <template #default="scope">
                               <el-tag v-if="scope.row.role==='admin'">{{ scope.row.role }}</el-tag>
                               <el-tag type="info" v-else>{{ scope.row.role }}</el-tag>
                         </template>
                       </el-table-column>>
                       <el-table-column prop="backimg" label="Img"  />
+                      <el-table-column prop="mail" label="Email"  />
                       <el-table-column  prop="date" label="Date"   />
                       <el-table-column label="Operations" fixed="right" width="150">
                         <template #default="scope">
@@ -253,7 +254,7 @@
                 }
                 vue.loading = false
                 vue.table = vue.tableData
-  
+                console.log(res)
               },error(res){
                 console.log(res)
               }

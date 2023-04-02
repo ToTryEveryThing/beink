@@ -11,21 +11,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 public class thumbsUpController {
 
     @Autowired
     private thumbsUpImpl thumbsUp;
 
-    @AccessLimit(seconds = 10,maxCount = 3)
+    @AccessLimit(seconds = 60*60,maxCount = 60)
     @PostMapping("/user/up/")
     public Result up(@UserInfo String name,@RequestParam(value = "article_id") Integer articleId){
         return thumbsUp.up(name,articleId);
     }
 
-    @AccessLimit(seconds = 10,maxCount = 3)
+    @AccessLimit(seconds = 60*60,maxCount = 60)
     @PostMapping("/user/down/")
     public Result down(@UserInfo String name,@RequestParam(value = "article_id") Integer articleId){
         return thumbsUp.down(name,articleId);

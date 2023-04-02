@@ -3,7 +3,7 @@ package com.example.demo.service.impl.web;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.controller.common.Result;
 import com.example.demo.mapper.WebMapper;
-import com.example.demo.pojo.web;
+import com.example.demo.pojo.user.web;
 import com.example.demo.service.web.mailBox;
 import com.example.demo.utils.redisUtil;
 import org.springframework.beans.factory.annotation.Autowired;

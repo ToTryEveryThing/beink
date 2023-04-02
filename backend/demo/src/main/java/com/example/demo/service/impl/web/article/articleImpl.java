@@ -55,6 +55,9 @@ public class articleImpl implements articleService {
         article article = articleMapper.selectById(id);
         article.setViews(article.getViews()+1);
         articleMapper.updateById(article);
+//        UpdateWrapper<article> updateWrapper = new UpdateWrapper<>();
+//        updateWrapper.setSql("up = up + 1").eq("id",21);
+//        System.out.println(articleMapper.update(null, updateWrapper));
         System.out.println("article = " + article + "00000000000000000000000000000000000000000000000000000");
         return new Result(1,"success",article);
     }

@@ -1,18 +1,15 @@
 package com.example.demo.service.impl.web;
 
 import com.example.demo.controller.common.Result;
-import com.example.demo.pojo.web;
+import com.example.demo.pojo.user.web;
 import com.example.demo.service.impl.utils.UserDetailsImpl;
 import com.example.demo.service.web.LoginService;
-import com.example.demo.utils.Code.IsCode;
 import com.example.demo.utils.JwtUtil;
-import com.example.demo.utils.redisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-
 
 import java.util.HashMap;
 import java.util.Map;

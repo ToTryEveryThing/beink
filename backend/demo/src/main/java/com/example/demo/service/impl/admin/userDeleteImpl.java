@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.controller.common.Result;
 import com.example.demo.mapper.PublicMapper;
 import com.example.demo.mapper.WebMapper;
-import com.example.demo.pojo.Public;
+import com.example.demo.pojo.article.Public;
 import com.example.demo.service.admin.userDeleteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

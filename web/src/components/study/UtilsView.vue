@@ -5,10 +5,12 @@
     <el-row  justify="space-evenly">
       <el-col :span="1" class="hidden-xs-only">
         <el-affix :offset="180">
-          <el-badge :value="TEXT.up" :max="9999" class="item">
-            <el-button   style="margin-top:10px;"  >
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-            </el-button>
+          <el-badge :value="$store.state.discuss.all_up" :max="9999" class="item">
+            <!-- {{ $store.state.discuss.up_status }} -->
+            <el-button  @click="changeup"  style="margin-top:10px;"  >
+                <svg v-if="$store.state.discuss.up_status===0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                <svg v-else  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#409eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+              </el-button>
           </el-badge>
           <el-badge :value="TEXT.views" :max="9999" class="item">
             <el-button  style="margin-top:10px;"   >
@@ -153,7 +155,6 @@ import DiscussView from './DiscussView.vue';
             })
     }
     const toc = ()=>{
-      console.log(preview.value)
       const anchors = preview.value.$el.querySelectorAll('h2,h3')
       const titles = Array.from(anchors).filter((title) => !!title.innerText.trim());
       const hTags = Array.from(new Set(titles.map((title) => title.tagName))).sort();
@@ -163,7 +164,6 @@ import DiscussView from './DiscussView.vue';
         indent: hTags.indexOf(el.tagName),
         id:nanoid()
       }));
-      console.log(vue.titles)
     }
     const aaa = ()=>{
       $.ajax({
@@ -174,16 +174,18 @@ import DiscussView from './DiscussView.vue';
             },
             success(res){
               if(res.code===1){
-                console.log("666")
                 TEXT.value = res.date
                 store.commit("updateDiscuss",{
                   index:textName.value,
-                  author:TEXT.value.post
+                  author:TEXT.value.post,
+                  title:TEXT.value.title,
+                  all_up:TEXT.value.up
                 })
                 setTimeout(()=>{
                   toc()
                 },100)
                 showOne()
+                store.dispatch("getStatus")
               }else if(res.date==='')router.push("/")
               else{
                 router.push("/")
@@ -244,6 +246,9 @@ import DiscussView from './DiscussView.vue';
     const GoHome=()=>{
       router.push("/")
     }
+    const changeup = ()=>{
+      store.dispatch("changeUp")
+    }
     const handleAnchorClick = (anchor)=> {
       $(`${vue.asd}`).removeClass("goto-active")
       $(`#pane- #${anchor.id}`).addClass("goto-active")
@@ -259,7 +264,7 @@ import DiscussView from './DiscussView.vue';
       }
     }
     return{handleAnchorClick,Todark,handleUploadImage,
-      title,vue,preview,allTe,
+      title,vue,preview,allTe,changeup,
         dialogVisible,GoHome,TEXT,gogogogogogo
       }
   }
