@@ -7,18 +7,21 @@
         <el-affix :offset="180">
           <el-badge :value="$store.state.discuss.all_up" :max="9999" class="item">
             <!-- {{ $store.state.discuss.up_status }} -->
-            <el-button  @click="changeup"  style="margin-top:10px;"  >
+            <el-button text @click="changeup"  style="margin-top:10px;"  >
                 <svg v-if="$store.state.discuss.up_status===0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
                 <svg v-else  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#409eff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
               </el-button>
           </el-badge>
           <el-badge :value="TEXT.views" :max="9999" class="item">
-            <el-button  style="margin-top:10px;"   >
+            <el-button text style="margin-top:10px;"   >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
             </el-button>
           </el-badge>
-          <el-button   style="margin-top:10px;" @click="GoHome" >
+          <el-button text  style="margin-top:10px;" @click="GoHome" >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          </el-button>
+          <el-button text @click="alert('66')" v-if="$store.state.discuss.article_author===$store.state.account" style="margin-top:20px;margin-left:0" >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
           </el-button>
         </el-affix>
       </el-col>
@@ -40,7 +43,7 @@
                   </span>
                 </div>
               </template>
-            <el-scrollbar height="300px" always="true">
+            <el-scrollbar :height="vue.height" always="true">
               <el-col   :span="24">
                 <div
                 style="position:relative;"
@@ -59,10 +62,10 @@
               <span>所有文章</span>
             </div>
           </template>
-        <el-scrollbar height="300px" always="true">
+        <el-scrollbar height="400px" always="true">
           <el-col   :span="24">
             <li v-for="i in allTe" class="gogog" @click="gogogogogogo(i.id)" :key="i.id">
-              <el-card shadow="always">
+              <el-card shadow="hover">
                 {{ i.title }}
                 <el-row>
                   <el-col :span="6">
@@ -106,7 +109,6 @@
 import { nanoid } from 'nanoid'
 import {onMounted, ref,reactive} from 'vue'
 import { useStore } from 'vuex'
-import { warning } from '@/utiles/message';
 import { useRoute } from 'vue-router';
 import router from '../../router/index'
 import dark from '../../utiles/dark'
@@ -119,6 +121,7 @@ import DiscussView from './DiscussView.vue';
       const vue = reactive({
           asd : '#hdfhsdfh',
           titles:[],
+          height:300
       })
       let preview = ref(null)
       let store = useStore()
@@ -127,33 +130,6 @@ import DiscussView from './DiscussView.vue';
       let allTe = ref({})
       let textName = ref('')
       const dialogVisible = ref(false)
-    const handleUploadImage = (event, insertImage, files) =>{
-      if(store.state.role==="use"){
-        warning("没有权限")
-        return 
-      }
-      let e = files[0]
-      let id = nanoid()
-      let nname = e.name
-      var newFile = new File([e] ,id + nname.substr(nname.indexOf("."))  , { type: e.type });
-      // console.log(newFile)
-      // 拿到 files 之后上传到文件服务器，然后向编辑框中插入对应的内容
-            var formData = new FormData(); 
-		        formData.append('file', newFile); 
-            formData.append("keyPrefix","study")
-            store.dispatch("upload",{
-                token:store.state.token,
-                formData:formData,
-                success(){
-                  insertImage({
-                    url: 'https://images.beink.cn/'+"study/" + id + nname.substr(nname.indexOf(".")),
-                    desc: 'study',
-                    // width: 'auto',
-                    // height: 'auto',
-                  });
-                }
-            })
-    }
     const toc = ()=>{
       const anchors = preview.value.$el.querySelectorAll('h2,h3')
       const titles = Array.from(anchors).filter((title) => !!title.innerText.trim());
@@ -164,6 +140,12 @@ import DiscussView from './DiscussView.vue';
         indent: hTags.indexOf(el.tagName),
         id:nanoid()
       }));
+      console.log(vue.titles.length)
+      if(vue.titles.length>=10){
+        vue.height = 300
+      }else{
+        vue.height = 35 * vue.titles.length
+      }
     }
     const aaa = ()=>{
       $.ajax({
@@ -263,7 +245,7 @@ import DiscussView from './DiscussView.vue';
         });
       }
     }
-    return{handleAnchorClick,Todark,handleUploadImage,
+    return{handleAnchorClick,Todark,
       title,vue,preview,allTe,changeup,
         dialogVisible,GoHome,TEXT,gogogogogogo
       }

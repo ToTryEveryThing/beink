@@ -53,6 +53,7 @@
             :toolbar="toolbar"
             @save="save()" 
             :disabled-menus="[]"
+            @upload-image="handleUploadImage"
         />
     </el-row>
     <div  @click="adddd" class="addd" v-if="!editShow">
@@ -62,13 +63,16 @@
 </template>
 
 <script>
+import { nanoid } from 'nanoid'
 import { onMounted, reactive, toRefs } from 'vue';
 import config from '@/utiles/config';
-import { success } from '@/utiles/message';
+import { useStore } from 'vuex'
+import { success, warning } from '@/utiles/message';
 import $ from 'jquery';
 import router from '@/router';
 export default {
     setup(props){
+        const store = useStore()
         const vue = reactive({
             content:props.content,
             title:'',
@@ -164,9 +168,7 @@ export default {
         const  save = ()=>{
             if(vue.ad){
                 ADD()
-                console.log("66666666666666666666")
                 return
-
             }
             $.ajax({
                 url:`${config.API_URL}/user/article/edit/`,
@@ -201,6 +203,33 @@ export default {
         const view = i =>{
             router.push(`/article/${i}/`)
         }
+        const handleUploadImage = (event, insertImage, files) =>{
+            if(store.state.role==="use"){
+                warning("没有权限")
+                return 
+            }
+            let e = files[0]
+            let id = nanoid()
+            let nname = e.name
+            var newFile = new File([e] ,id + nname.substr(nname.indexOf("."))  , { type: e.type });
+            // console.log(newFile)
+            // 拿到 files 之后上传到文件服务器，然后向编辑框中插入对应的内容
+                    var formData = new FormData(); 
+                        formData.append('file', newFile); 
+                    formData.append("keyPrefix","study")
+                    store.dispatch("upload",{
+                        token:store.state.token,
+                        formData:formData,
+                        success(){
+                        insertImage({
+                            url: 'https://images.beink.cn/'+"study/" + id + nname.substr(nname.indexOf(".")),
+                            desc: 'study',
+                            // width: 'auto',
+                            // height: 'auto',
+                        });
+                        }
+                    })
+        }
         const adddd = ()=>{
             vue.ad = true
             vue.add = true
@@ -209,7 +238,7 @@ export default {
             vue.editContent = ''
         }
         return {
-            ...toRefs(vue),view,
+            ...toRefs(vue),view,handleUploadImage,
             Delete,Edit,save,adddd
         }
     }

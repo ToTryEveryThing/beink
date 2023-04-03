@@ -1,45 +1,17 @@
 <template>
-    <el-row class="hhhhhhhh" v-if="tabs.title">
-        <el-col   :span="6" v-for="i in tabs.title"  :key="i.name">
-            <el-tag  style="cursor: pointer;"  @click="send(tabs.name)">
-                {{ i }}
-            </el-tag>
-        </el-col>
-    </el-row>
-    <el-row v-else>
-        <el-button @click="send($store.state.account)">
-            去添加
-        </el-button>
-    </el-row>
+    <el-button @click="go" text>
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+        编辑我的文章
+    </el-button>
 </template>
 
 <script setup>
-import { ref } from '@vue/reactivity'
-import config from '@/utiles/config' 
-import $ from 'jquery'
-import {useStore} from 'vuex'
+// import {useStore} from 'vuex'
 import router from '@/router';
-    const store = useStore()
-    let tabs = ref({})
-    const send=(i)=>{
-        router.push(`/article/${i}/`)
-    }
-    $.ajax({
-        url:`${config.API_URL}/user/admin/git/showall/`,
-        type:'post',
-        success(res){
-            if(res.code===1){
-                for(let i=0;i<res.date.length;i++){
-                    if(res.date[i].name===store.state.account){
-                        if(res.date[i].title.length===0){
-                            break 
-                        }
-                        tabs.value = {"name":res.date[i].name,"title":JSON.parse(res.date[i].title)}
-                    }
-                }
-            }    
-        },
-    })
+ const go = ()=>{
+    router.push("/article/me/")
+ }
+
 </script>
 
 <style scoped>

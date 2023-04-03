@@ -58,6 +58,7 @@ export default {
                         },
                         success(res){
                           state.discussStatus = res
+
                         },
                     })
                     
