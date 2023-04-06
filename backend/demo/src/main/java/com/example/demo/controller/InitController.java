@@ -2,9 +2,15 @@ package com.example.demo.controller;
 
 import com.example.demo.aop.limitApi.AccessLimit;
 import com.example.demo.controller.common.Result;
+import com.example.demo.utils.redisUtil;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 
 
@@ -15,16 +21,28 @@ import java.util.ArrayList;
 @RestController
 public class InitController {
 
-    @AccessLimit(seconds = 10,maxCount = 2)
+    @Resource
+    private redisUtil redisUtil;
+
+    @Autowired
+    RedissonClient redissonClient;
+
+
     @GetMapping ("/redis/")
     public Result index(){
-        ArrayList<String> list = new ArrayList<>();
-        list.add("hello worlod");
-        list.add("世界 你好");
-        System.out.println("错错错");
-        int i = 1;
-        System.out.println(i++);
-        return new Result(100,"你好",list);
+
+        RLock key1 = redissonClient.getLock("66666");
+
+        key1.lock();
+        try{
+            Integer  key = (Integer) redisUtil.get("key");
+        redisUtil.set("key",key - 1);
+//            redisUtil.incr("key",1);
+            System.out.println(key - 1);
+        }finally {
+            key1.unlock();
+        }
+        return null;
     }
 
 }

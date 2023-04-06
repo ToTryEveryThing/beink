@@ -17,10 +17,10 @@
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
             </el-button>
           </el-badge>
-          <el-button text  style="margin-top:10px;" @click="GoHome" >
+          <el-button text  style="margin-top:10px;" @click="GoHome('/')" >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
           </el-button>
-          <el-button text @click="alert('66')" v-if="$store.state.discuss.article_author===$store.state.account" style="margin-top:20px;margin-left:0" >
+          <el-button text @click="GoHome('/article/me/')" v-if="$store.state.discuss.article_author===$store.state.account" style="margin-top:20px;margin-left:0" >
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
           </el-button>
         </el-affix>
@@ -170,10 +170,10 @@ import DiscussView from './DiscussView.vue';
                 store.dispatch("getStatus")
               }else if(res.date==='')router.push("/")
               else{
-                router.push("/")
+                router.push("/article")
               }
             },error(){
-              router.push("/")
+              router.push("/article")
             }
         })
     }
@@ -225,8 +225,8 @@ import DiscussView from './DiscussView.vue';
             })
         }
     })
-    const GoHome=()=>{
-      router.push("/")
+    const GoHome=i=>{
+      router.push(i)
     }
     const changeup = ()=>{
       store.dispatch("changeUp")

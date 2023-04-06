@@ -1,4 +1,4 @@
-package com.example.demo.service.web;
+package com.example.demo.service.web.user;
 
 import com.example.demo.controller.common.Result;
 

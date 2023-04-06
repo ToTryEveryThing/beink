@@ -1,14 +1,14 @@
-package com.example.demo.service.impl.web;
+package com.example.demo.service.impl.web.article;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.controller.common.Result;
-import com.example.demo.mapper.DiscussMapper;
-import com.example.demo.mapper.UpMapper;
+import com.example.demo.mapper.article.DiscussMapper;
+import com.example.demo.mapper.article.UpMapper;
 import com.example.demo.pojo.article.Discuss;
 import com.example.demo.pojo.article.ThumbsUp;
-import com.example.demo.service.web.thumbsUp;
+import com.example.demo.service.web.article.thumbsUp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -94,8 +94,7 @@ public class thumbsUpImpl implements thumbsUp {
             ThumbsUp thumbsUp = upMapper.selectOne(q);
             if(thumbsUp==null){
                 res.put(String.valueOf(id),false);
-            }else
-            res.put(String.valueOf(thumbsUp.getArticleId()),thumbsUp.getStatus());
+            }else res.put(String.valueOf(thumbsUp.getArticleId()),thumbsUp.getStatus());
         }
         return res;
     }

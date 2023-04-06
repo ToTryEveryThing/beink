@@ -111,8 +111,8 @@
                         <el-button   class="PrevieSumbit" style="width:318px;height:50px;">提交</el-button>
                     </div>
                 </li>
-                <li v-for="i in $store.state.images.ImagesList" :key="i">
-                    <div class="load">
+                <li v-for="i in $store.state.images.ImagesList" :key="i" >
+                    <div class="load ">
                         <el-image  class="imagss"
                         fit="fit"
                         style="width:320px;height:200px;"

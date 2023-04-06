@@ -1,4 +1,4 @@
-package com.example.demo.service.web;
+package com.example.demo.service.web.article;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.controller.common.Result;

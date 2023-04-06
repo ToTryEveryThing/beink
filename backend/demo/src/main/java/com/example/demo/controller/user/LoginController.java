@@ -2,7 +2,7 @@ package com.example.demo.controller.user;
 
 import com.example.demo.aop.limitApi.AccessLimit;
 import com.example.demo.controller.common.Result;
-import com.example.demo.service.web.LoginService;
+import com.example.demo.service.web.user.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;

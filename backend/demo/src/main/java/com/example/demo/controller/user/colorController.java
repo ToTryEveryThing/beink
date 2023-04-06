@@ -3,7 +3,7 @@ package com.example.demo.controller.user;
 import com.example.demo.aop.limitApi.AccessLimit;
 import com.example.demo.aop.userInfo.UserInfo;
 import com.example.demo.controller.common.Result;
-import com.example.demo.service.web.colorService;
+import com.example.demo.service.web.user.colorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;

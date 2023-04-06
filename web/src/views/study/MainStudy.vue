@@ -6,14 +6,14 @@
         <el-tooltip content="翻译" placement="top" effect="light">
           <el-switch v-model="open"  @change="change"/>
         </el-tooltip>
-        <el-button  @click="go('me')" style="float:right;">
+        <el-button v-if="$store.state.is_login"  @click="go('me')" style="float:right;">
           我的文章
         </el-button>
       </el-header>
       <el-main  class="main" >
         <el-row class="row-bg" :span="20" justify="center">
             <ul>
-              <li v-for="i in da" :key="i.name">
+              <li v-for="i in da" :key="i.name"  class="animate__animated  animate__fadeIn"> 
                 <div class="card">
                   <div class="card-top">
                       <p class="card__title">{{i.title}}</p>

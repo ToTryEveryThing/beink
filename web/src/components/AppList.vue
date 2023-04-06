@@ -65,7 +65,6 @@
     import {reactive,toRefs} from 'vue'
     export default{
         setup(){
-
             const vue = reactive({
                 list1:[
                     {href:'https://fanyi.baidu.com/?aldtype=16047#auto/zh',icon:'#icon-fanyi',name:'翻译'},
@@ -74,7 +73,7 @@
                     {href:'https://www.bilibili.com/',icon:'#icon-bilibili',name:'bilibil'},
                 ],
                 list2:[
-                    {href:'http://blog.beink.cn/',icon:'#icon-tanchishedazuozhan',name:'Snake'},
+                    {href:'http://8.130.99.166/',icon:'#icon-tanchishedazuozhan',name:'Snake'},
                     // {href:'/study',icon:'#icon-biji',name:'study'},
                     {href:'https://www.w3school.com.cn/index.html',icon:'#icon-w3school',name:'w3school'}
                 ]

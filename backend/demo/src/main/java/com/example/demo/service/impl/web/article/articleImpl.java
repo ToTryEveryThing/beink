@@ -5,6 +5,8 @@ import com.example.demo.controller.common.Result;
 import com.example.demo.mapper.article.ArticleMapper;
 import com.example.demo.pojo.article.article;
 import com.example.demo.service.web.article.articleService;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +21,15 @@ import java.util.List;
 public class articleImpl implements articleService {
 
     @Autowired
+    RedissonClient redissonClient;
+
+
+    @Autowired
     private ArticleMapper articleMapper;
 
     @Override
     public Result add(String content, String name, String title) {
-        int insert = articleMapper.insert(new article(0, name, title, content, 0,0 ,0, new Date()));
+        int insert = articleMapper.insert(new article(0, name, title, content, 0,0 ,0, new Date(),0));
         if(insert>=1)
             return new Result(1,"success");
         return new Result(0,"error");
@@ -50,21 +56,26 @@ public class articleImpl implements articleService {
         return new Result(0,"error");
     }
 
+
     @Override
     public Result showbyid(Integer id) {
-        article article = articleMapper.selectById(id);
-        article.setViews(article.getViews()+1);
-        articleMapper.updateById(article);
-//        UpdateWrapper<article> updateWrapper = new UpdateWrapper<>();
-//        updateWrapper.setSql("up = up + 1").eq("id",21);
-//        System.out.println(articleMapper.update(null, updateWrapper));
-        System.out.println("article = " + article + "00000000000000000000000000000000000000000000000000000");
-        return new Result(1,"success",article);
+        RLock lock = redissonClient.getLock(String.valueOf(id));
+        lock.lock();
+        try{
+            article article = articleMapper.selectById(id);
+            article.setViews(article.getViews()+1);
+            int i = articleMapper.updateById(article);
+            return new Result(1,"success",article);
+        }finally {
+            lock.unlock();
+        }
     }
 
     @Override
     public Result showall() {
-        List<article> articles = articleMapper.selectList(null);
+        QueryWrapper<article> q = new QueryWrapper<>();
+        q.orderByDesc("up");
+        List<article> articles = articleMapper.selectList(q);
         return new Result(1, "success", articles);
     }
 

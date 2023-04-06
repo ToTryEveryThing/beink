@@ -2,6 +2,7 @@ package com.example.demo.pojo.article;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.Version;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,4 +27,7 @@ public class article {
 
     private Integer discuss;
     private Date time;
+
+    @Version
+    private Integer  version;
 }

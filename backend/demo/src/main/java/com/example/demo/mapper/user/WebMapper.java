@@ -1,4 +1,4 @@
-package com.example.demo.mapper;
+package com.example.demo.mapper.user;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.demo.pojo.user.web;

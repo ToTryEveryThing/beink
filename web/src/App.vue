@@ -3,8 +3,20 @@
 </template>
 
 <script setup >
+import {useStore} from 'vuex'
   import darkClass from './utiles/dark'
   darkClass(localStorage.getItem("theme"))
+  const store = useStore()
+  const jwt = localStorage.getItem("jwt");
+  if(jwt){
+      store.commit("updateToken",jwt)
+      store.dispatch("getinfo",{
+          success(){
+          },
+          error(){
+          }
+      })
+  }
 </script>
 <style>
   a{

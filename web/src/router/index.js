@@ -119,7 +119,6 @@ router.beforeEach((to,from,next)=>{
       }else{
         next("/login")
       }
-
     }
     if(to.meta.req){
         if(sessionStorage.getItem("role")==="admin" && localStorage.getItem("jwt")){

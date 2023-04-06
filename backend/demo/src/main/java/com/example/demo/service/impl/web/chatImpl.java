@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.controller.common.Result;
 import com.example.demo.mapper.ChatMapper;
 import com.example.demo.pojo.Chat;
-import com.example.demo.service.web.chatService;
+import com.example.demo.service.web.user.chatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,9 +1,9 @@
-package com.example.demo.service.impl.web;
+package com.example.demo.service.impl.web.user;
 
 import com.example.demo.controller.common.Result;
 import com.example.demo.pojo.user.web;
 import com.example.demo.service.impl.utils.UserDetailsImpl;
-import com.example.demo.service.web.InfoService;
+import com.example.demo.service.web.user.InfoService;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;

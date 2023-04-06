@@ -2,7 +2,7 @@
     <el-row justify="center">
         <el-col :span="18" v-if="!editShow">
             <el-row :gutter="20">
-                <el-col :span="12"  v-for="i  in content" :key="i.id">
+                <el-col :span="12"  v-for="i  in content" :key="i.id" class="animate__animated  animate__fadeIn" >
                     <el-card shadow="hover" style="margin-top:20px;" > 
                         <template #header>
                             <div class="card-header">
@@ -48,6 +48,8 @@
             <template #prepend>标题</template>
         </el-input>
         <v-md-editor  v-if="editShow" v-model="editContent" 
+            height="800px"
+            :default-show-toc="true"
             left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code | save back" 
             right-toolbar="preview toc sync-scroll fullscreen"
             :toolbar="toolbar"

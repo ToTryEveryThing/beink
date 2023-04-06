@@ -1,14 +1,14 @@
-package com.example.demo.service.impl.web;
+package com.example.demo.service.impl.web.article;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.demo.controller.common.Result;
-import com.example.demo.mapper.DiscussMapper;
+import com.example.demo.mapper.article.DiscussMapper;
 import com.example.demo.mapper.article.ArticleMapper;
 import com.example.demo.pojo.article.Discuss;
 import com.example.demo.pojo.article.article;
-import com.example.demo.service.web.DiscussService;
+import com.example.demo.service.web.article.DiscussService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

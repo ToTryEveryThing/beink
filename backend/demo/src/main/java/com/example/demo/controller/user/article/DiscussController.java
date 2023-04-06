@@ -1,15 +1,16 @@
-package com.example.demo.controller.user;
+package com.example.demo.controller.user.article;
+
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.aop.limitApi.AccessLimit;
 import com.example.demo.aop.userInfo.UserInfo;
 import com.example.demo.controller.common.Result;
-import com.example.demo.service.web.DiscussService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.demo.service.web.article.DiscussService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -20,7 +21,7 @@ import java.util.Map;
 public class DiscussController {
 
 
-    @Autowired
+    @Resource
     private DiscussService discussService;
 
     @AccessLimit(seconds = 60*60,maxCount = 50)

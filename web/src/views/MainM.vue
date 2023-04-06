@@ -15,7 +15,7 @@
 
 <script>
 import {useStore} from 'vuex'
-import router from '../router/index'
+// import router from '../router/index'
 import LocalStorage from '../components/LocalStorage.vue';
 import ToSearch from '../components/ToSearch.vue';
 import RightBox from '../components/RightBox.vue';
@@ -35,17 +35,17 @@ import {reactive,toRefs,onMounted} from 'vue'
                     $('html').css({'--backColor':store.state.colorList[i-1].backColor})  
                     $('html').css({'--color':store.state.colorList[i-1].color})
                 store.commit("show",'')
-                const jwt = localStorage.getItem("jwt");
-                if(jwt){
-                    store.commit("updateToken",jwt)
-                    store.dispatch("getinfo",{
-                        success(){
-                            router.push({ name: "main" });
-                        },
-                        error(){
-                        }
-                    })
-                }
+                // const jwt = localStorage.getItem("jwt");
+                // if(jwt){
+                //     store.commit("updateToken",jwt)
+                //     store.dispatch("getinfo",{
+                //         success(){
+                //             router.push({ name: "main" });
+                //         },
+                //         error(){
+                //         }
+                //     })
+                // }
                 time
                 function time(){
                     vue.hour = new Date().getHours()

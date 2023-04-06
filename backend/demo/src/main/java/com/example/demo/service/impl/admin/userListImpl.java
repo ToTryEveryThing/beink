@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.mapper.RecordMapper;
+import com.example.demo.mapper.user.RecordMapper;
 import com.example.demo.pojo.user.Record;
 import com.example.demo.service.admin.userListService;
 import org.springframework.beans.factory.annotation.Autowired;

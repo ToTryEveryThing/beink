@@ -1,9 +1,9 @@
-package com.example.demo.service.impl.web;
+package com.example.demo.service.impl.web.user;
 
 import com.example.demo.controller.common.Result;
 import com.example.demo.pojo.user.web;
 import com.example.demo.service.impl.utils.UserDetailsImpl;
-import com.example.demo.service.web.LoginService;
+import com.example.demo.service.web.user.LoginService;
 import com.example.demo.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
