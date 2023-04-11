@@ -160,7 +160,7 @@ import {onMounted, reactive, ref, toRefs } from 'vue'
                         label: 'study',
                     },
                     ],
-                value:''
+                value:'background'
             })
             onMounted(()=>{
                 store.dispatch("getList",{keyPrefix:"background"})
@@ -226,6 +226,7 @@ import {onMounted, reactive, ref, toRefs } from 'vue'
                 })
             }
             const ddd = (i)=>{
+                console.log(vue.value)
                 store.dispatch("delete",{
                     url:i,
                     keyPrefix:vue.value,

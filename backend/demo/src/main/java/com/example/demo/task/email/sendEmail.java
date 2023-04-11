@@ -11,20 +11,20 @@ import javax.annotation.Resource;
  * @author 睡醒继续做梦
  * @date 2023/4/4 17:52
  */
-@Configuration
+//@Configuration
 //@EnableScheduling
 public class sendEmail {
 
-    @Resource
-    private MailService mailService;
+//    @Resource
+//    private MailService mailService;
 
-    @Scheduled(fixedRate = 1000*1,initialDelay = 1000*1)
+//    @Scheduled(fixedRate = 1000*1,initialDelay = 1000*1)
     public void sendEmail (){
         System.out.println("我是一");
 //        mailService.sendSimpleMail("849299509@qq.com","4656555");
     }
 
-    @Scheduled(fixedRate = 1000*3,initialDelay = 1000*3)
+//    @Scheduled(fixedRate = 1000*3,initialDelay = 1000*3)
     public void rerer (){
         System.out.println("我是二");
 //        mailService.sendSimpleMail("849299509@qq.com","4656555");

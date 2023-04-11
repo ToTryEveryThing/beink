@@ -5,6 +5,7 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.OSSObjectSummary;
 import com.aliyun.oss.model.ObjectListing;
+import com.aliyun.oss.model.VoidResult;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.auth.sts.AssumeRoleRequest;
 import com.aliyuncs.auth.sts.AssumeRoleResponse;
@@ -21,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static com.example.demo.constants.radis.redisConstants.*;
 
@@ -53,7 +55,8 @@ public class OssService {
                 file.getInputStream()
         );
         os.shutdown();
-        return new Result(1,"success",getList(keyPrefix));
+        redisUtil.sSet(REDIS_OSS + keyPrefix, objectName + originalFilename);
+        return new Result(1,"success",redisUtil.sGet(REDIS_OSS + keyPrefix));
 
     }
 
@@ -86,7 +89,7 @@ public class OssService {
                 .build();
     }
 
-    public List getList(String keyPrefix){
+    public void getList(String keyPrefix){
         System.out.println("我是一");
         OSS ossClient = new OSSClientBuilder().build(aliossConfig.getEndpoint()
                 ,aliossConfig.getAccessKeyId()
@@ -98,10 +101,9 @@ public class OssService {
             ArrayList<String> list = new ArrayList<>();
             for (OSSObjectSummary s : sums) {
 //                System.out.println("\t" + s.getKey());
-                list.add(s.getKey());
+//                list.add(s.getKey());
+                redisUtil.sSet(REDIS_OSS + keyPrefix, s.getKey());
             }
-            redisUtil.set(REDIS_OSS + keyPrefix, list);
-            return list;
         } catch (OSSException oe) {
             System.out.println("Caught an OSSException, which means your request made it to OSS, "
                     + "but was rejected with an error response for some reason.");
@@ -116,13 +118,15 @@ public class OssService {
                 ossClient.shutdown();
             }
         }
-        return null;
     }
 
     public Result redisList(String keyPrefix){
+        System.out.println("!!!!!!!!!!!!!!!!!!!");
         if(redisUtil.hasKey(REDIS_OSS + keyPrefix))
-            return new Result(1,"success",redisUtil.get(REDIS_OSS + keyPrefix));
-        return new Result(1,"success",this.getList(keyPrefix));
+            return new Result(1,"success",redisUtil.sGet(REDIS_OSS + keyPrefix));
+        System.out.println("???????????????????");
+        this.getList(keyPrefix);
+        return new Result(1,"success",redisUtil.sGet(REDIS_OSS + keyPrefix));
     }
 
     public Result deleteObject(String s, String keyPrefix){
@@ -132,10 +136,11 @@ public class OssService {
                 ,aliossConfig.getAccessKeySecert());
         try {
             // 删除文件或目录。如果要删除目录，目录必须为空。
-            System.out.println("应该到这里了");
-            System.out.println(s + "  " + keyPrefix);
+//            删除的返回值是什么？
+//            不太安全
             ossClient.deleteObject(aliossConfig.getBucket(), s);
-            return new Result(1,"success",getList(keyPrefix));
+            long l = redisUtil.setRemove(REDIS_OSS + keyPrefix, s);
+            return new Result(1,"success",redisUtil.sGet(REDIS_OSS + keyPrefix));
         } catch (OSSException oe) {
             System.out.println("Caught an OSSException, which means your request made it to OSS, "
                     + "but was rejected with an error response for some reason.");

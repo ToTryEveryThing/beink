@@ -7,4 +7,5 @@ package com.example.demo.constants.radis;
 public class redisConstants {
     public static final String  REDIS_ACCESS = "access:";
     public static final String  REDIS_OSS = "oss:";
+    public static final String REDIS_CAPTCHA = "captcha";
 }

@@ -46,6 +46,17 @@ public class MailService {
         javaMailSender.send(msg);
         return "true";
     }
+//    更新发送邮件 redis_oss
+    public void sendRedisOss(String to){
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setFrom("totryeverything@qq.com");
+        msg.setTo(to);
+        msg.setSubject("redis_oss更新了");
+        msg.setText("");
+        javaMailSender.send(msg);
+    }
+
+
     //   发送带附件的邮件
     public void sendFailMail(String from,String to,
                              String subject,String content,
