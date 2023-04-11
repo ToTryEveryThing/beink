@@ -1,4 +1,9 @@
 <template>
+    <el-dialog v-model="chat"  center :show-close="false">
+        <template >
+          </template>
+        <chat/>
+      </el-dialog>
     <div class="open" v-if="$store.state.background===''">
         <ul>
             <li v-for="i in list1" :key="i.name">
@@ -11,6 +16,14 @@
             </li>
         </ul>
         <ul>
+            <li @click="chat = true">
+                <a href="javascript:void(0);" >
+                    <svg aria-hidden="true">
+                        <use xlink:href="#icon-globalDiscussion"></use>
+                    </svg>
+                     <p>聊天</p>    
+                </a>    
+            </li>
             <li>
                 <router-link to="/article">
                     <svg aria-hidden="true">
@@ -31,6 +44,14 @@
     </div>
     <div v-else class="openhh">
         <ul>
+            <li @click="chat = true">
+                <a href="javascript:void(0);" >
+                    <svg aria-hidden="true">
+                        <use xlink:href="#icon-globalDiscussion"></use>
+                    </svg>
+                     <p>chat</p>    
+                </a>    
+            </li>
             <li v-for="i in list2" :key="i.name">
                 <a rel="nofollow" :href="i.href" target="_self">
                     <svg aria-hidden="true">
@@ -63,9 +84,12 @@
 
 <script>
     import {reactive,toRefs} from 'vue'
+    import chat from '@/views/ChatView.vue'
     export default{
+        components:{chat},
         setup(){
             const vue = reactive({
+                chat:false,
                 list1:[
                     {href:'https://fanyi.baidu.com/?aldtype=16047#auto/zh',icon:'#icon-fanyi',name:'翻译'},
                     {href:'https://www.aliyundrive.com/drive',icon:'#icon-wangpan',name:'网盘'},
@@ -74,8 +98,7 @@
                 ],
                 list2:[
                     {href:'http://8.130.99.166/',icon:'#icon-tanchishedazuozhan',name:'Snake'},
-                    // {href:'/study',icon:'#icon-biji',name:'study'},
-                    {href:'https://www.w3school.com.cn/index.html',icon:'#icon-w3school',name:'w3school'}
+                    // {href:'https://www.w3school.com.cn/index.html',icon:'#icon-w3school',name:'w3school'}
                 ]
             })
             return {
@@ -94,7 +117,7 @@
         text-decoration: none;
     }
     .open{
-        margin-top: 80px;
+        margin-top: 15vh;
         display: flex;
         flex-direction: column;
         align-items: center;

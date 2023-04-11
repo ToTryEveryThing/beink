@@ -1,39 +1,41 @@
 <template>
     <el-row class="row-bg" justify="space-evenly">
       <el-col :span="24">
-        <el-card>
         <el-row>
           <el-col :sm="5" :xs="7">
-            <el-card shadow="never">
-              <li>我：<el-tag>{{ name  }}</el-tag>
+            <el-card shadow="never" body-style="padding:20px 0">
                 <el-switch v-model="value1" style="float:right;"/>
-              </li> 
-              <el-scrollbar  >
+              <!-- <el-scrollbar > -->
                 <el-divider ><el-icon><User /></el-icon></el-divider>
                 <ul id="myList">
-                  <li class="user"  @click="choice(item)" v-for="item in userList" :key="item">
+                  <li class="user animate__animated animate__zoomIn animate__faster"  @click="choice(item)" v-for="item in userList" :key="item">
+                    <el-divider border-style="dashed"/>
                     <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"/> 
                     <!-- 新消息 -->
                     <el-badge :is-dot="item.status==='true'">
-                      <span>{{ item.name }}</span>
+                      <el-tag v-if="item.name===name">
+                        <span>{{ item.name }}</span>
+                      </el-tag>
+                      <span v-else>{{ item.name }}</span>
+                      
                     </el-badge>
-                    <el-divider />
+                    <el-divider border-style="dashed"/>
                   </li>
                 </ul>
-              </el-scrollbar>
+              <!-- </el-scrollbar> -->
             </el-card>
           </el-col>
           <el-col :sm="19" :xs="17">
             <el-card  shadow="never">
                 <div class="oneUser">{{ oneUserName }}</div>
                 <el-divider />
-                <el-scrollbar height="60vh" id="srcoll" always class="scroll">
+                <el-scrollbar height="35vh" id="srcoll" always class="scroll">
                   <div class="fu"  v-for="j in TTT" :key="j.id">
                     <div v-if="j.from===oneUserName" class="ta animate__animated animate__backInLeft animate__faster" >
-                      {{j.content }}
+                      {{ j.content }}
                     </div> 
                     <div v-else id="wo" class="wo animate__animated animate__backInRight animate__faster">
-                      {{j.content }}
+                      {{ j.content }}
                     </div> 
                     <el-divider v-if="value1" >
                       {{ j.date }}
@@ -43,7 +45,7 @@
                 </el-scrollbar>
                 <el-divider />
                 <el-input
-                  maxlength="100"
+                  maxlength="20"
                   show-word-limit
                   v-model="textarea"
                   :rows="4"
@@ -55,7 +57,6 @@
             </el-card>
           </el-col>
         </el-row>
-        </el-card>
       </el-col>
     </el-row>
   </template>
@@ -185,6 +186,10 @@
   </script>
   
   <style scoped>
+    .row-bg{
+      margin-top: -30px;
+
+    }
     li{
       list-style: none;
   
@@ -214,9 +219,10 @@
     }
     .user{
       cursor: pointer;
+      transition: .2s;
     }
-    #myList li.selected {
-      background-color: #292020;
+    ul li:hover{
+      background-color: rgba(65, 65, 65, 0.1);
     }
     .scroll >>> .el-scrollbar__view{
   

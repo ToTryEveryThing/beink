@@ -1,11 +1,10 @@
 package com.example.demo.controller.common;
 
-import com.example.demo.aop.limitApi.AccessLimit;
+import com.example.demo.config.aop.limitApi.AccessLimit;
 import com.example.demo.utils.Code.CodeTypeEnum;
 import com.example.demo.utils.Code.EasyCaptchaService;
 import com.example.demo.utils.redisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 

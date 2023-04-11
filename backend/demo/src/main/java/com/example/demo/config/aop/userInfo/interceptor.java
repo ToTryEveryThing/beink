@@ -1,6 +1,6 @@
-package com.example.demo.aop.userInfo;
+package com.example.demo.config.aop.userInfo;
 
-import com.example.demo.aop.captcha.captchaInterceptor;
+import com.example.demo.config.aop.captcha.captchaInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

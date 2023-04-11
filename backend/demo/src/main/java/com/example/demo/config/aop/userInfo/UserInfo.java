@@ -1,4 +1,4 @@
-package com.example.demo.aop.userInfo;
+package com.example.demo.config.aop.userInfo;
 
 import java.lang.annotation.*;
 

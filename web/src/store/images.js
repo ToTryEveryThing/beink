@@ -28,7 +28,7 @@ export default {
                 },
                 data:{
                     url:value.url,
-                    keyPrefix:"background"
+                    keyPrefix:value.keyPrefix
                 },
                 success(res){
                     if(res.code===1){

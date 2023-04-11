@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import admin from '../views/AdminView'
 import Mainarticle from '../views/study/MainStudy'
 import article from '../components/study/UtilsView'
-import chat from '../views/ChatView'
 import more from '../views/more/MoreView'
 import guess from '../components/game/GuessGame'
 import login from '../views/AccountLogin'
@@ -73,7 +72,6 @@ const routes = [
     component:more,
     children:[
       {path:'guess',component:guess},
-      {path:'chat',component:chat},
       {path:'snake',component: snake}
     ],
     meta: {

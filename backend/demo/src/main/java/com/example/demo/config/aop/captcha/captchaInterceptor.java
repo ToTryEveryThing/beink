@@ -1,4 +1,4 @@
-package com.example.demo.aop.captcha;
+package com.example.demo.config.aop.captcha;
 
 import com.example.demo.utils.Code.IsCode;
 import com.example.demo.utils.redisUtil;

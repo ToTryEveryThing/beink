@@ -1,4 +1,4 @@
-package com.example.demo.aop.checkRole;
+package com.example.demo.config.aop.checkRole;
 
 import java.lang.annotation.*;
 

@@ -18,10 +18,10 @@ export default {
             };
             socket.onmessage = msg =>{
               console.log("9999")
-                    let value = JSON.parse(msg.data)
-                    if(value.author==='about'){
-                      open2(value.message)
-                    }
+              let value = JSON.parse(msg.data)
+              if(value.author==='about'){
+                open2(value.message)
+              }
             }
             return socket;
           },

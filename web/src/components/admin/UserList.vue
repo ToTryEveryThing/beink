@@ -23,7 +23,8 @@
                       </el-col>
                       <el-button @click="excel"  type="primary">导出</el-button>
                     </el-row>
-                    <el-table :data="tableData" stripe border
+                    <el-table 
+                    :data="tableData" stripe border
                     @selection-change="handleSelectionChange"
                      >
                       <el-table-column type="selection" width="55" />

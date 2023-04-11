@@ -1,4 +1,4 @@
-package com.example.demo.scheduled.email;
+package com.example.demo.task.email;
 
 import com.example.demo.service.impl.utils.MailService;
 import org.springframework.context.annotation.Configuration;

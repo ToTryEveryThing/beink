@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author 睡醒继续做梦
@@ -19,8 +20,19 @@ public class Result {
     String msg;
     Object date;
 
-    public Result(Integer code, String msg) {
+    public Result(Integer code, String msg){
         this.code = code;
         this.msg = msg;
     }
+
+
+    public static Result ok(Integer code) {
+        return new Result(code, "success", null);
+    }
+
+    public static Result fail(Integer code){
+        return new Result(code, "errot", null);
+    }
 }
+
+

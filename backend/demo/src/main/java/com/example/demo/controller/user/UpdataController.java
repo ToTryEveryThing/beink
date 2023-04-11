@@ -1,6 +1,6 @@
 package com.example.demo.controller.user;
 
-import com.example.demo.aop.checkRole.PermissionCheck;
+import com.example.demo.config.aop.checkRole.PermissionCheck;
 import com.example.demo.controller.common.Result;
 import com.example.demo.service.web.updataService;
 import org.springframework.beans.factory.annotation.Autowired;

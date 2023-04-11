@@ -1,4 +1,4 @@
-package com.example.demo.aop.limitApi;
+package com.example.demo.config.aop.limitApi;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

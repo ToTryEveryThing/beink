@@ -1,4 +1,4 @@
-package com.example.demo.aop.userInfo;
+package com.example.demo.config.aop.userInfo;
 
 import com.example.demo.utils.JwtUtil;
 import org.springframework.stereotype.Component;

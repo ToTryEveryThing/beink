@@ -48,7 +48,7 @@
             <template #prepend>标题</template>
         </el-input>
         <v-md-editor  v-if="editShow" v-model="editContent" 
-            height="800px"
+            :height="editorHeight"
             :default-show-toc="true"
             left-toolbar="undo redo clear | h bold italic strikethrough quote | ul ol table hr | link image code | save back" 
             right-toolbar="preview toc sync-scroll fullscreen"
@@ -77,6 +77,7 @@ export default {
         const store = useStore()
         const vue = reactive({
             content:props.content,
+            editorHeight:"500px",
             title:'',
             ad:false,
             all:[],
@@ -137,6 +138,7 @@ export default {
             vue.title = i.title
             vue.all = i
             vue.editShow = true
+            vue.editorHeight = document.body.clientHeight  + "px"
         }
         const changeContent = i =>{
             // let filteredKeys = keysArray.filter(key => key.length > 5);

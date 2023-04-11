@@ -228,6 +228,7 @@ import {onMounted, reactive, ref, toRefs } from 'vue'
             const ddd = (i)=>{
                 store.dispatch("delete",{
                     url:i,
+                    keyPrefix:vue.value,
                     account:store.state.account,
                     token:store.state.token,
                 })

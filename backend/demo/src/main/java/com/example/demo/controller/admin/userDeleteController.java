@@ -1,7 +1,7 @@
 package com.example.demo.controller.admin;
 
 
-import com.example.demo.aop.checkRole.PermissionCheck;
+import com.example.demo.config.aop.checkRole.PermissionCheck;
 import com.example.demo.controller.common.Result;
 import com.example.demo.service.admin.userDeleteService;
 import org.springframework.beans.factory.annotation.Autowired;

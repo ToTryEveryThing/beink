@@ -1,6 +1,6 @@
 package com.example.demo.controller.user;
 
-import com.example.demo.aop.limitApi.AccessLimit;
+import com.example.demo.config.aop.limitApi.AccessLimit;
 import com.example.demo.service.impl.utils.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

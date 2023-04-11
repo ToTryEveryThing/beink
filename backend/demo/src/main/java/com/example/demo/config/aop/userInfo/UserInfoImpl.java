@@ -1,4 +1,4 @@
-package com.example.demo.aop.userInfo;
+package com.example.demo.config.aop.userInfo;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;

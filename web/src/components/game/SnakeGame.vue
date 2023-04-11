@@ -1,5 +1,5 @@
 <template>
-    <iframe src="http://blog.beink.cn/" width="100%" height="900"
+    <iframe  src="https://chromedino.com/joker/"  width="100%" height="900"
         sandbox="allow-same-origin allow-top-navigation allow-forms allow-scripts allow-popups">
     </iframe>
 </template>

@@ -1,4 +1,4 @@
-package com.example.demo.aop.limitApi;
+package com.example.demo.config.aop.limitApi;
 
 import com.example.demo.exception.LimitException;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -12,6 +12,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.TimeUnit;
+
+import static com.example.demo.constants.radis.redisConstants.REDIS_ACCESS;
 
 @Component
 @Aspect
@@ -30,7 +32,7 @@ public class AccessLimitImpl {
         int maxCount = accessLimit.maxCount();
 
         // 拼接 Redis 键名
-        String key = "access:" + ip;
+        String key = REDIS_ACCESS + ip;
 
         // 获取 Redis 中存储的当前访问次数
         Integer count = (Integer) redisTemplate.opsForValue().get(key);

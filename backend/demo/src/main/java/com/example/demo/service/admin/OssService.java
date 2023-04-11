@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.demo.constants.radis.redisConstants.*;
+
 /**
  * @author 睡醒继续做梦
  * @date 2022/12/20
@@ -89,7 +91,6 @@ public class OssService {
         OSS ossClient = new OSSClientBuilder().build(aliossConfig.getEndpoint()
                 ,aliossConfig.getAccessKeyId()
                 ,aliossConfig.getAccessKeySecert());
-
         try {
             // 列举文件。如果不设置keyPrefix，则列举存储空间下的所有文件。如果设置keyPrefix，则列举包含指定前缀的文件。
             ObjectListing objectListing = ossClient.listObjects(aliossConfig.getBucket(),keyPrefix);
@@ -99,10 +100,7 @@ public class OssService {
 //                System.out.println("\t" + s.getKey());
                 list.add(s.getKey());
             }
-            if(keyPrefix.equals("background"))
-                redisUtil.set("oss_background",list);
-            if(keyPrefix.equals("study"))
-                redisUtil.set("oss_study",list);
+            redisUtil.set(REDIS_OSS + keyPrefix, list);
             return list;
         } catch (OSSException oe) {
             System.out.println("Caught an OSSException, which means your request made it to OSS, "
@@ -122,17 +120,9 @@ public class OssService {
     }
 
     public Result redisList(String keyPrefix){
-        if(keyPrefix.equals("study")){
-            if(redisUtil.get("oss_study")==null)
-                return new Result(1,"success",this.getList(keyPrefix));
-            return new Result(1,"success",redisUtil.get("oss_study"));
-        }
-        if(keyPrefix.equals("background")){
-            if(redisUtil.get("oss_background")==null)
-                return new Result(1,"success",this.getList(keyPrefix));
-            return new Result(1,"success",redisUtil.get("oss_background"));
-        }
-        return new Result(1,"success",redisUtil.get("oss_background"));
+        if(redisUtil.hasKey(REDIS_OSS + keyPrefix))
+            return new Result(1,"success",redisUtil.get(REDIS_OSS + keyPrefix));
+        return new Result(1,"success",this.getList(keyPrefix));
     }
 
     public Result deleteObject(String s, String keyPrefix){
@@ -142,6 +132,8 @@ public class OssService {
                 ,aliossConfig.getAccessKeySecert());
         try {
             // 删除文件或目录。如果要删除目录，目录必须为空。
+            System.out.println("应该到这里了");
+            System.out.println(s + "  " + keyPrefix);
             ossClient.deleteObject(aliossConfig.getBucket(), s);
             return new Result(1,"success",getList(keyPrefix));
         } catch (OSSException oe) {
