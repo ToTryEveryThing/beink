@@ -17,14 +17,12 @@ public class userDeleteController {
     private userDeleteService userDeleteService;
 //+
     @PostMapping("/user/admin/delete/")
-    @PermissionCheck
     public Result delete(@RequestParam Map<String , String> map) {
         int id = Integer.parseInt(map.get("id"));
         return userDeleteService.delete(id);
     }
 
     @PostMapping("/user/admin/multiple/")
-    @PermissionCheck
     public Result DeleteMultiple(@RequestParam String ids){
         System.out.println(ids);
         return userDeleteService.deleteMultiple(ids);

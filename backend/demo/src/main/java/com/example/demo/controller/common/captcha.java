@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
+import static com.example.demo.constants.radis.redisConstants.REDIS_CAPTCHA;
+
 /**
  * @author 睡醒继续做梦
  * @date 2023/2/11
@@ -27,8 +29,8 @@ public class captcha {
     @PostMapping("/captcha/")
     public Result captcha(){
         Map<String, String> Base = easyCaptchaService.getCaptchaValueAndBase64(CodeTypeEnum.SPEC);
-        redisTemplate.set(Base.get("code"),Base.get("base64"));
-        redisTemplate.expire(Base.get("code"), 120);
+        redisTemplate.set(REDIS_CAPTCHA + Base.get("code"),Base.get("base64"));
+        redisTemplate.expire(REDIS_CAPTCHA + Base.get("code"), 120);
         return new Result(1,"success",Base.get("base64"));
     }
 }

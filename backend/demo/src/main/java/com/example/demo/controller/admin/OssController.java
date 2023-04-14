@@ -12,15 +12,13 @@ import org.springframework.web.multipart.MultipartFile;
  * @date 2022/12/20
  */
 @RestController
-@RequestMapping("/oss")
 public class OssController {
 
     @Autowired
     private OssService ossService;
 
 //+
-    @PermissionCheck
-    @PostMapping("uploadImage/")
+    @PostMapping("/admin/oss/uploadImage/")
     public Result upload(MultipartFile file,@RequestParam("keyPrefix") String keyPrefix) throws Exception {
         return ossService.uploadObject(file,keyPrefix);
     }
@@ -30,13 +28,12 @@ public class OssController {
 //        return ossService.getToken();
 //    }
 //
-    @GetMapping("/getList/")
+    @GetMapping("/oss/getList/")
     public Result GetList(@RequestParam("keyPrefix") String keyPrefix){
         return ossService.redisList(keyPrefix);
     }
 //+
-    @PostMapping("/deleteImage/")
-    @PermissionCheck
+    @PostMapping("/admin/oss/deleteImage/")
     public Result deleteImage (@RequestParam(value = "url",required = false) String url,
                                @RequestParam("keyPrefix") String keyPrefix) {
          return ossService.deleteObject(url,keyPrefix);

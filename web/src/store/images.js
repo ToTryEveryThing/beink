@@ -21,7 +21,7 @@ export default {
         },
         delete(context,value){
             $.ajax({
-                url:`${config.API_URL}/oss/deleteImage/`,
+                url:`${config.API_URL}/admin/oss/deleteImage/`,
                 type:'post',
                 headers:{
                     Authorization:"Bearer " + value.token
@@ -45,7 +45,7 @@ export default {
         },
         upload(context,value){
             $.ajax({
-                url:`${config.API_URL}/oss/uploadImage/`,
+                url:`${config.API_URL}/admin/oss/uploadImage/`,
                 type:'post',
                 data:value.formData,
                 processData: false, // 告诉jQuery不要去处理发送的数据

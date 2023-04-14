@@ -1,9 +1,12 @@
 package com.example.demo.service.impl.web.user;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.controller.common.Result;
+import com.example.demo.mapper.user.WebMapper;
 import com.example.demo.pojo.user.web;
-import com.example.demo.service.impl.utils.UserDetailsImpl;
+import com.example.demo.service.impl.utils.LoginUser;
 import com.example.demo.service.web.user.InfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -13,15 +16,22 @@ import java.util.Map;
 
 @Service
 public class InfoImpl implements InfoService {
+
+    @Autowired
+    WebMapper webMapper;
+
     @Override
     public Result getinfo() {
 
         UsernamePasswordAuthenticationToken authentication =
                 (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
 
-        UserDetailsImpl loginUser = (UserDetailsImpl) authentication.getPrincipal();
+        String username = String.valueOf(authentication.getPrincipal());
 
-        web web = loginUser.getWeb();
+
+        QueryWrapper<web> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("account",username);
+        web web = webMapper.selectOne(queryWrapper);
 
 
         Map<String,String> map = new HashMap<>();

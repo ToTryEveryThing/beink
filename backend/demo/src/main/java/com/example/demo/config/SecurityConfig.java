@@ -2,8 +2,11 @@ package com.example.demo.config;
 
 
 import com.example.demo.config.filter.JwtAuthenticationTokenFilter;
+import com.example.demo.service.impl.utils.UserDetailServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,12 +20,21 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.example.demo.constants.controller.controller.patterns;
+
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)//开启全局的细粒度方法级别权限控制功能
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+
+    @Autowired
+    private UserDetailServiceImpl DetailService;
+
 
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -36,24 +48,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(DetailService);
+    }
+
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http
+                .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-//                公开的链接
-                .antMatchers("/user/admin/git/show/","/user/account/token/",
-                        "/user/account/register/","/user/admin/backlist/show/",
-                        "/oss/getList/","/redis/","/captcha/","/user/admin/git/showall/",
-                        "/user/discuss/show/","/translate/query/","/user/article/showbyid/",
-                        "/user/article/showall/","/user/article/showone/")
-                .permitAll()
-                //只允许本地服务器访问
-//                .hasIpAddress("127.0.0.1")
-                .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .anyRequest().authenticated();
-
+                    .antMatchers(patterns).permitAll()
+                    .antMatchers("/**/admin/**/").hasRole("admin")
+                    //.anonymous()匿名访问  登录状态下 不能访问
+                    .antMatchers(HttpMethod.OPTIONS).permitAll()
+                    .anyRequest().authenticated();
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
+//        跨域
+        http.cors();
+
     }
 
     @Override

@@ -2,9 +2,7 @@ package com.example.demo.service.impl.web.user;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.controller.common.Result;
-import com.example.demo.mapper.article.PublicMapper;
 import com.example.demo.mapper.user.WebMapper;
-import com.example.demo.pojo.article.Public;
 import com.example.demo.pojo.user.web;
 import com.example.demo.service.web.user.RegisterService;
 import com.example.demo.utils.JwtUtil;
@@ -23,8 +21,6 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class RegisterImpl implements RegisterService {
 
-    @Autowired
-    private PublicMapper publicMapper;
 
     @Autowired
     private WebMapper webMapper;
@@ -82,7 +78,7 @@ public class RegisterImpl implements RegisterService {
             }
             String pass = passwordEncoder.encode(password);
 
-            String jwt = JwtUtil.createJWT(account);
+            String jwt = JwtUtil.createJWT(account, "user");
             web web1 = new web();
             web1.setBackimg("5");
             web1.setList("[]");
@@ -90,10 +86,6 @@ public class RegisterImpl implements RegisterService {
             web1.setAccount(account);
             web1.setDate(new Date());
             webMapper.insert(web1);
-            String git  = "[{\"title\":\"你好\",\"name\":1,\"content\":\"## new content\",\"show\":true}]\n" +
-                    "\n";
-            String title = "[\"你好\"]";
-            System.out.println(publicMapper.insert(new Public(account, title,git))+999999);
             System.out.println(new Date());
             if(value.equals(v.get(key).toString())){
                 stringRedisTemplate.delete(key);
@@ -132,7 +124,7 @@ public class RegisterImpl implements RegisterService {
         }
         String pass = passwordEncoder.encode(password);
 
-        String jwt = JwtUtil.createJWT(account);
+        String jwt = JwtUtil.createJWT(account, "user");
         web web1 = new web();
         web1.setBackimg("5");
         web1.setList("[]");
@@ -140,10 +132,6 @@ public class RegisterImpl implements RegisterService {
         web1.setAccount(account);
         web1.setDate(new Date());
         webMapper.insert(web1);
-        String git  = "[{\"title\":\"你好\",\"name\":1,\"content\":\"## new content\",\"show\":true}]\n" +
-                "\n";
-        String title = "[\"你好\"]";
-        System.out.println(publicMapper.insert(new Public(account, title,git))+999999);
         System.out.println(new Date());
         return new Result(1,"success",jwt);
     }

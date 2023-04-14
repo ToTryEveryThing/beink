@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
  */
 
 @Configuration
-@EnableScheduling
+//@EnableScheduling
 public class getOSS {
 
     @Autowired

@@ -1,9 +1,8 @@
 package com.example.demo;
 
-import jdk.nashorn.internal.runtime.regexp.joni.Config;
-import org.redisson.Redisson;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
 

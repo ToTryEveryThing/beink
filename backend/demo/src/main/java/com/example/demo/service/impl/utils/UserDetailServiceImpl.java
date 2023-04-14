@@ -1,6 +1,6 @@
 package com.example.demo.service.impl.utils;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.demo.mapper.user.WebMapper;
 import com.example.demo.pojo.user.web;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,22 +9,33 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+
+/**
+ *
+ */
 @Service
-public class DetailService implements UserDetailsService {
+public class UserDetailServiceImpl implements UserDetailsService {
 
     @Autowired
     private WebMapper webMapper;
 
+
     @Override
     public UserDetails loadUserByUsername(String account) throws UsernameNotFoundException {
-        QueryWrapper<web> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("account",account);
-        web web = webMapper.selectOne(queryWrapper);
-
+        LambdaQueryWrapper<web> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(web::getAccount,account);
+        web  web = webMapper.selectOne(queryWrapper);
         if(web == null){
             throw new RuntimeException("用户不存在");
         }
-//There is no PasswordEncoder mapped for the id "null" 密码没有加密 在密码前加{noop}
-        return new UserDetailsImpl(web);
+
+        ArrayList<String> list = new ArrayList<>();
+        list.add(web.getRole());
+
+        return new LoginUser(web, list);
     }
+
 }

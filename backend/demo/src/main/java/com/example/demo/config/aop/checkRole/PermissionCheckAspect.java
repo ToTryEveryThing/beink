@@ -49,27 +49,16 @@ public class PermissionCheckAspect {
         MethodSignature methodSignature = (MethodSignature)signature;
         Method targetMethod = methodSignature.getMethod();
         if(targetMethod.isAnnotationPresent(PermissionCheck.class)){
-            //获取方法上注解中表明的权限
-//            PermissionCheck permission = (PermissionCheck)targetMethod.getAnnotation(PermissionCheck.class);
-//            String role = permission.role();
-//            log.info("当前接口请求的用户角色role:{}",role);
-//            String[] roles = role.split(",");//接口允许的角色
-//            List<String> list = Arrays.asList(roles);
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
             String authorization = request.getHeader("Authorization").substring(7);
-            String userInfo =new JwtUtil().parseJWT(authorization).getSubject();
-            //查询权限
-            QueryWrapper<web> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("account",userInfo);
-            web user = webMapper.selectOne(queryWrapper);
-            userInfo = user.getRole();
-
-            if(userInfo.equals("admin")){
+            Object role = new JwtUtil().parseJWT(authorization).get("role");
+            if(role.equals("admin")){
                 log.info("AOP权限角色校验通过，进入业务层处理！");
                 //3.执行业务逻辑，放行
                 return pjp.proceed();
             }else{
                 //如果没有权限,抛出异常,由Spring框架捕获,跳转到错误页面
+
                 System.out.println("权限不通过");
             }
 

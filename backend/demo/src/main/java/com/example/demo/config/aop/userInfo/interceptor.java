@@ -9,6 +9,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 
 import java.util.List;
 
+import static com.example.demo.constants.controller.controller.CAPTCHA;
+import static com.example.demo.constants.controller.controller.USER_INFO;
+
 /**
  * @author 睡醒继续做梦
  * @date 2023/2/5
@@ -31,12 +34,8 @@ public class interceptor extends WebMvcConfigurationSupport {
 
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(globalInterceptor).addPathPatterns("/user/account/color/",
-                "/user/admin/git/save/","/user/discuss/add/",
-                "/user/discuss/delete/","/user/up/","/user/down/","/user/discussstatus/",
-                "/user/mailbind/","/user/chat/content/","/user/article/delete/","/user/article/edit/",
-                "/user/article/add/","/user/article/up/");
-        registry.addInterceptor(captchaInterceptor).addPathPatterns("/user/account/token/","/user/account/register/");
+        registry.addInterceptor(globalInterceptor).addPathPatterns(USER_INFO);
+//        registry.addInterceptor(captchaInterceptor).addPathPatterns(CAPTCHA);
         super.addInterceptors(registry);
 
     }

@@ -5,9 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.controller.common.Result;
-import com.example.demo.mapper.article.PublicMapper;
 import com.example.demo.mapper.user.WebMapper;
-import com.example.demo.pojo.article.Public;
 import com.example.demo.service.admin.userDeleteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +16,6 @@ import java.util.ArrayList;
 @Service
 public class userDeleteImpl implements userDeleteService {
 
-    @Autowired
-    private PublicMapper publicMapper;
 
     @Autowired
     private WebMapper webmapper;
@@ -30,12 +26,7 @@ public class userDeleteImpl implements userDeleteService {
         if(id==1)return new Result(0,"error");
         String name = webmapper.selectById(id).getAccount();
         int res = webmapper.deleteById(id);
-//删除文章
-        QueryWrapper<Public> publicQueryWrapper = new QueryWrapper<>();
-        publicQueryWrapper.eq("name",name);
-        int delete2 = publicMapper.delete(publicQueryWrapper);
-
-        if(res + delete2 >= 1) {
+        if(res  >= 1) {
            return new Result(1,"success");
         }
         else return new Result(0,"error");

@@ -1,5 +1,6 @@
 package com.example.demo.controller.user.article;
 
+import com.example.demo.config.aop.checkRole.PermissionCheck;
 import com.example.demo.config.aop.limitApi.AccessLimit;
 import com.example.demo.config.aop.userInfo.UserInfo;
 import com.example.demo.controller.common.Result;

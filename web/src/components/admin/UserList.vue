@@ -192,12 +192,12 @@
                     id:vue.tableData[vue.index].id,
                     account:vue.tableData[vue.index].account,
                     backimg:vue.tableData[vue.index].backimg,
-                    role:vue.isAdmin === true ? "admin" : "use",
+                    role:vue.isAdmin === true ? "admin" : "user",
                 },
                 success(res){
                   if(res.code===1){
                     success("修改成功")
-                    vue.tableData[vue.index].role = vue.isAdmin === true ? "admin" : "use"
+                    vue.tableData[vue.index].role = vue.isAdmin === true ? "admin" : "user"
                   }else{
                     error("修改失败")
                   }
