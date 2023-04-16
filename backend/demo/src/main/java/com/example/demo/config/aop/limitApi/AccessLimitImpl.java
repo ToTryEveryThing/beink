@@ -1,6 +1,6 @@
 package com.example.demo.config.aop.limitApi;
 
-import com.example.demo.exception.LimitException;
+import com.example.demo.exception.controllerException.LimitException;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;

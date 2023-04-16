@@ -1,17 +1,24 @@
 package com.example.demo.service.impl.web.article;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.controller.common.Result;
 import com.example.demo.mapper.article.ArticleMapper;
 import com.example.demo.pojo.article.article;
 import com.example.demo.service.web.article.articleService;
+import com.example.demo.utils.redisUtil;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+
+import static com.example.demo.config.RabbitmqConfig.ARTICLE_DIRECT_ROUTE;
+import static com.example.demo.config.RabbitmqConfig.EXCHANGE_NAME;
+import static com.example.demo.constants.radis.redisConstants.REDIS_ARTICLE;
 
 /***
  * @author 睡醒继续做梦
@@ -23,6 +30,8 @@ public class articleImpl implements articleService {
     @Autowired
     RedissonClient redissonClient;
 
+    @Autowired
+    redisUtil redisUtil;
 
     @Autowired
     private ArticleMapper articleMapper;
@@ -51,8 +60,10 @@ public class articleImpl implements articleService {
     @Override
     public Result delete(Integer id, String name) {
         int i = articleMapper.deleteById(id);
-        if(i>=1)
+        if(i>=1){
+            redisUtil.hdel(REDIS_ARTICLE, id);
             return new Result(1,"success");
+        }
         return new Result(0,"error");
     }
 
@@ -62,10 +73,21 @@ public class articleImpl implements articleService {
         RLock lock = redissonClient.getLock(String.valueOf(id));
         lock.lock();
         try{
-            article article = articleMapper.selectById(id);
-            article.setViews(article.getViews()+1);
-            int i = articleMapper.updateById(article);
-            return new Result(1,"success",article);
+            if(redisUtil.hHasKey(REDIS_ARTICLE, String.valueOf(id))){
+                article article = (article) redisUtil.hget(REDIS_ARTICLE, String.valueOf(id));
+                article.setViews(article.getViews()+1);
+                articleMapper.updateById(article);
+                System.out.println("redis");
+                redisUtil.hset(REDIS_ARTICLE, String.valueOf(id), article);
+                return new Result(1,"success",article);
+            }else{
+                article article = articleMapper.selectById(id);
+                article.setViews(article.getViews()+1);
+                articleMapper.updateById(article);
+                System.out.println("mysql");
+                redisUtil.hset(REDIS_ARTICLE, String.valueOf(id), article);
+                return new Result(1,"success", article);
+            }
         }finally {
             lock.unlock();
         }

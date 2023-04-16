@@ -13,14 +13,16 @@ $.ajaxSetup({
   dataFilter: function(data, type) {
     // 对返回的数据进行过滤处理
     if (type === 'json') {
-      if(data==="error"){
-        return "";
-      }
       let res = JSON.parse(data)
       if(res.code===-1){
         error(res.msg)
         return res;
       }
+      // }else if(res.code===401){
+      //   // 认证失败处理器
+      //   error(res.msg)
+      //   return res;
+      // }
     }
     return data
   },

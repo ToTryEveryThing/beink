@@ -22,4 +22,5 @@ public class web {
     private String role;
 
     private String mail;
+    private Boolean enable;
 }

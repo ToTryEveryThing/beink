@@ -20,7 +20,6 @@ import java.util.List;
  * @author 睡醒继续做梦
  * @date 2023/4/14 11:32
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 @NoArgsConstructor
 public class LoginUser implements UserDetails , Serializable {
@@ -59,6 +58,7 @@ public class LoginUser implements UserDetails , Serializable {
         return web.getAccount();
     }
 
+    //todo 一系列都试试
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -76,6 +76,6 @@ public class LoginUser implements UserDetails , Serializable {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return web.getEnable();
     }
 }

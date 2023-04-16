@@ -4,6 +4,7 @@ import com.example.demo.controller.common.Result;
 import com.example.demo.pojo.user.web;
 import com.example.demo.service.impl.utils.LoginUser;
 import com.example.demo.service.web.user.LoginService;
+import com.example.demo.utils.Code.IsCode;
 import com.example.demo.utils.JwtUtil;
 import com.example.demo.utils.redisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.demo.constants.radis.redisConstants.REDIS_JWT_TTL;
-import static com.example.demo.constants.radis.redisConstants.REDIS_TOKEN;
+import static com.example.demo.constants.radis.redisConstants.*;
 
 @Service
 public class LoginImpl implements LoginService {
@@ -29,15 +30,19 @@ public class LoginImpl implements LoginService {
     redisUtil redisUtil;
 
 
-
-
     @Override
-    public Result getToken(String account, String password) {
+    public Result getToken(String account, String password, String code, String base64) {
 
         /***
          * 调用 UserDetailServiceImpl
          * 进行认证
          */
+
+        Boolean f = new IsCode().is(REDIS_CAPTCHA + code,base64,redisUtil);
+        if(!f){
+           return new Result(0,"验证码错误");
+        }
+
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(account,password,new ArrayList<>());
 
@@ -52,7 +57,8 @@ public class LoginImpl implements LoginService {
 
         map.put("token",jwt);
 
-        //TODO 序列化 出问题了！！！！！
+        System.out.println("web.getEnable() = " + web.getEnable());
+
         redisUtil.set(REDIS_TOKEN + account, jwt, REDIS_JWT_TTL);
 
         return new Result(1,"success",map);

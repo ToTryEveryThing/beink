@@ -1,6 +1,5 @@
 package com.example.demo.config.aop.userInfo;
 
-import com.example.demo.config.aop.captcha.captchaInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -23,8 +22,6 @@ public class interceptor extends WebMvcConfigurationSupport {
     @Autowired
     private GlobalInterceptor globalInterceptor;
 
-    @Autowired
-    private captchaInterceptor captchaInterceptor;
 
 
     @Override
@@ -35,7 +32,6 @@ public class interceptor extends WebMvcConfigurationSupport {
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(globalInterceptor).addPathPatterns(USER_INFO);
-//        registry.addInterceptor(captchaInterceptor).addPathPatterns(CAPTCHA);
         super.addInterceptors(registry);
 
     }

@@ -26,7 +26,8 @@ public class UpdataController {
         String account = map.get("account");
         String backimg = map.get("backimg");
         String role = map.get("role");
-        return updataService.Updata(id,account,backimg,role);
+        Boolean enable = Boolean.valueOf(map.get("enable"));
+        return updataService.Updata(id,account,backimg,role,enable);
     }
 
 }

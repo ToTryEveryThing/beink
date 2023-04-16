@@ -2,6 +2,8 @@ package com.example.demo.config;
 
 
 import com.example.demo.config.filter.JwtAuthenticationTokenFilter;
+import com.example.demo.exception.filterController.AccessDeniedHandlerImpl;
+import com.example.demo.exception.filterController.AuthenticationEntryImpl;
 import com.example.demo.service.impl.utils.UserDetailServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +32,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailServiceImpl DetailService;
+
+    @Autowired
+    AuthenticationEntryImpl authenticationEntry;
+
+    @Autowired
+    AccessDeniedHandlerImpl accessDeniedHandler;
 
 
     @Autowired
@@ -61,14 +69,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers(patterns).permitAll()
                     .antMatchers("/**/admin/**/").hasRole("admin")
+                    .antMatchers("/admin/test/").hasRole("admin")
                     //.anonymous()匿名访问  登录状态下 不能访问
                     .antMatchers(HttpMethod.OPTIONS).permitAll()
                     .anyRequest().authenticated();
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
+        //        http.exceptionHandling()
+//                .authenticationEntryPoint(authenticationEntry)//认证失败处理器
+//                .accessDeniedHandler(accessDeniedHandler);//权限不足处理器
 //        跨域
         http.cors();
-
     }
 
     @Override

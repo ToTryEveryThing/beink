@@ -22,4 +22,5 @@ public class Record {
     private String backimg;
     private String mail;
     private String role;
+    private Boolean enable;
 }

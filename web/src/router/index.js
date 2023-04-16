@@ -9,6 +9,7 @@ import snake from '@/components/game/SnakeGame'
 import userlist from '@/components/admin/UserList'
 import broadcast from '@/components/admin/BroadCast'
 import me from '@/components/study/MyArticle'
+
 const routes = [ 
   {
     path:'/',

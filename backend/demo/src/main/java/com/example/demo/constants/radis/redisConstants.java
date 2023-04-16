@@ -10,4 +10,5 @@ public class redisConstants {
     public static final String REDIS_CAPTCHA = "captcha:";
     public static final String REDIS_TOKEN = "Token:";
     public static final long REDIS_JWT_TTL = 60 * 60 * 1000L * 24 * 7;  // 有效期7天
+    public static final String REDIS_ARTICLE = "article";
 }

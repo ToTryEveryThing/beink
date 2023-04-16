@@ -1,5 +1,6 @@
 //引入vuex
 import { createStore  } from 'vuex'
+import { error } from '@/utiles/message'
 import $ from 'jquery'
 import images from './images'
 import study from './study'
@@ -57,20 +58,20 @@ const actions = {
           base64:value.base64
       },
       success(res){
+        console.log(res)
         if(res.msg === "success"){ 
             res  = res.date 
             localStorage.setItem("jwt",res.token)
             context.commit("updateToken",res.token)
             value.success(res)
-        }  else{
-          if(res==="error"){
-            value.error("验证码错误")
-          }else
-            value.error("账号或密码错误")
+        }else if(res.code === 401){
+          // 认证失败处理器
+          value.error(res.msg)
+        } else{
+            value.error(res.msg)
         }
       },
       error(){
-          value.error("请检查验证码")
       }
   })
   },
@@ -82,6 +83,7 @@ const actions = {
               Authorization:"Bearer " + context.state.token
           },
           success(res){
+            console.log("gggg",res)
               if(res.msg == "success"){
                 res = res.date
                   context.commit("updateUser",{
@@ -90,11 +92,13 @@ const actions = {
                   }); 
                   data.success(res);
               }else{
-                data.success(res.date);
+                error(res.msg)
+                localStorage.removeItem("jwt")
               }   
           },
           error(res){
-              data.error(res)
+            error(res.date.msg)
+            localStorage.removeItem("jwt")
           }
       })
   },

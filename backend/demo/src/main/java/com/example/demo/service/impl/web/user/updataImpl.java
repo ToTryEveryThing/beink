@@ -25,17 +25,19 @@ public class updataImpl implements updataService {
     redisUtil redisUtil;
 
     @Override
-    public Result Updata(int id, String account, String backimg, String role) {
+    public Result Updata(int id, String account, String backimg, String role,Boolean isEnabled) {
         web web = new web();
         web.setAccount(account);
         web.setBackimg(backimg);
         web.setRole(role);
+        web.setEnable(isEnabled);
+        System.out.println(web);
         UpdateWrapper<web> q = new UpdateWrapper<>();
         q.eq("id",id);
 //        不屑password 不被修改
         int update = webMapper.update(web, q);
         if(update>=1){
-            redisUtil.del(REDIS_TOKEN + account);
+            if(!isEnabled) redisUtil.del(REDIS_TOKEN + account);
             return new Result(1,"true");
         }else return new Result(0,"false");
     }

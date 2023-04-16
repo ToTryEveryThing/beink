@@ -36,6 +36,12 @@
                               <el-tag type="info" v-else>{{ scope.row.role }}</el-tag>
                         </template>
                       </el-table-column>>
+                      <el-table-column  label="Enable"  >
+                        <template #default="scope">
+                              <el-tag type="success" v-if="scope.row.enable"> 是 </el-tag>
+                              <el-tag type="info" v-else>否 </el-tag>
+                        </template>
+                      </el-table-column>>
                       <el-table-column prop="backimg" label="Img"  />
                       <el-table-column prop="mail" label="Email"  />
                       <el-table-column  prop="date" label="Date"   />
@@ -62,6 +68,7 @@
               </el-col>
             </el-row>
           </el-card>
+          <!-- 编辑 -->
     <el-dialog
       v-model="dialogVisible"
       title="Edit"
@@ -76,6 +83,12 @@
           inline-prompt
           active-text="是"
           inactive-text="否"
+        />
+        <el-tag>启用</el-tag>
+        <el-switch
+          v-model="enable"
+          inline-prompt
+          style="--el-switch-on-color: #13ce66; --el-switch-off-color: #ff4949"
         />
         <el-input  type="text" disabled v-model="tableData[index].id">
           <template #prepend>ID</template>
@@ -127,12 +140,14 @@
           count:'',
           page :1,
           isAdmin:false,
+          enable:false,
           ids:[]
         }) 
         console.log("list")
         const editUser = (i)=>{
           vue.dialogVisible = true
           vue.index = i
+          vue.enable = vue.tableData[i].enable 
           vue.isAdmin = vue.tableData[i].role === "admin" ? true : false 
         }
         const excel = ()=>{
@@ -182,6 +197,7 @@
         }
         const updata =()=>{
           vue.dialogVisible = false
+          console.log(vue.enable)
           $.ajax({
                 url:`${config.API_URL}/user/account/updata/`,
                 type:'post',
@@ -193,11 +209,13 @@
                     account:vue.tableData[vue.index].account,
                     backimg:vue.tableData[vue.index].backimg,
                     role:vue.isAdmin === true ? "admin" : "user",
+                    enable: vue.enable
                 },
                 success(res){
                   if(res.code===1){
                     success("修改成功")
                     vue.tableData[vue.index].role = vue.isAdmin === true ? "admin" : "user"
+                    vue.tableData[vue.index].enable = vue.enable
                   }else{
                     error("修改失败")
                   }

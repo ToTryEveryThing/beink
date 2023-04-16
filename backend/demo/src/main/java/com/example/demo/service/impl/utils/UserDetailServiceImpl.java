@@ -29,9 +29,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
         queryWrapper.eq(web::getAccount,account);
         web  web = webMapper.selectOne(queryWrapper);
         if(web == null){
+            System.out.println("6666666666666666用户不存在");
             throw new RuntimeException("用户不存在");
         }
-
         ArrayList<String> list = new ArrayList<>();
         list.add(web.getRole());
 
