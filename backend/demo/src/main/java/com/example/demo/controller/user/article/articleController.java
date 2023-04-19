@@ -33,9 +33,10 @@ public class articleController {
                        @UserInfo String name,
                        @RequestParam String post,
                        @RequestParam String content,
-                       @RequestParam String title){
+                       @RequestParam String title,
+                       @RequestParam Boolean show){
         if(!post.equals(name))return new Result(0,"error");
-        return article.edit(id, name, post, content, title);
+        return article.edit(id, name, post, content, title, show);
     }
 
     @PostMapping("/user/article/delete/")

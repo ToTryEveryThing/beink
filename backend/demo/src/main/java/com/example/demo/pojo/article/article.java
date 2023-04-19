@@ -28,6 +28,8 @@ public class article {
     private Integer discuss;
     private Date time;
 
+    private Boolean isshow;
+
     @Version
     private Integer  version;
 }

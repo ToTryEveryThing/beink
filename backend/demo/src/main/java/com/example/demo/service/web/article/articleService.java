@@ -16,7 +16,8 @@ public interface articleService {
                   String name,
                   String post,
                   String content,
-                  String title);
+                  String title,
+                  Boolean show);
 
      Result delete( Integer id, String name);
 

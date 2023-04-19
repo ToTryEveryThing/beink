@@ -55,14 +55,14 @@ public class ExceptionAdvice {
     }
 
     /**
-     * 用户被锁了
+     * 账号被停用
      * @param e
      * @return
      */
     @ExceptionHandler(DisabledException.class)
     public Result disabled(DisabledException e){
         System.out.println("用户不可用");
-        return new Result(401,"账户不可用");
+        return new Result(401,"账号被停用");
     }
 
 

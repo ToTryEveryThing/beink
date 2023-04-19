@@ -46,6 +46,7 @@
         </el-col>
         <el-input v-if="editShow" v-model="title">
             <template #prepend>标题</template>
+            <template #append><el-switch v-model="isshow" /></template>
         </el-input>
         <v-md-editor  v-if="editShow" v-model="editContent" 
             :height="editorHeight"
@@ -80,6 +81,7 @@ export default {
             editorHeight:"500px",
             title:'',
             ad:false,
+            isshow:false,
             all:[],
             toolbar: {
             back: {
@@ -139,6 +141,8 @@ export default {
             vue.all = i
             vue.editShow = true
             vue.editorHeight = document.body.clientHeight  + "px"
+            vue.isshow = i.isshow
+            console.log(vue.isshow)
         }
         const changeContent = i =>{
             // let filteredKeys = keysArray.filter(key => key.length > 5);
@@ -184,7 +188,8 @@ export default {
                     id:vue.all.id,
                     post:vue.all.post,
                     content:vue.editContent,
-                    title:vue.title
+                    title:vue.title,
+                    show:vue.isshow
                 },
                 success(res){
                     if(res.code===1)

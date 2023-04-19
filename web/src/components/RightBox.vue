@@ -40,6 +40,8 @@
             <chat style="text-algin:center;"/>
         <el-divider><el-icon color="#dfd3f4"><ChatDotRound /></el-icon></el-divider>
         <el-button @click="drawer = false"><el-icon><ArrowRightBold /></el-icon></el-button>
+        <el-switch v-model="$store.state.show1"></el-switch>
+        <el-switch v-model="$store.state.show2"></el-switch>
         <el-divider border-style="dashed"></el-divider>
         <el-row justify="space-evenly">
             <el-col :span="12">

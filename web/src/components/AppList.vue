@@ -117,14 +117,19 @@
         text-decoration: none;
     }
     .open{
-        margin-top: 15vh;
+        position: absolute;
+        bottom: 30vh;
+        left: 50%;
+        transform: translate(-50%);
         display: flex;
         flex-direction: column;
         align-items: center;
     }
     .openhh{
-        margin-top: 30vh;
-        display: flex;
+        position: absolute;
+        bottom: 20vh;
+        left: 50%;
+        transform: translate(-50%);
         flex-direction: column;
         align-items: center;
     }
@@ -227,7 +232,7 @@
     }
     @media only screen and (max-width: 410px) {
         .openhh{
-            margin-top: 5vh;
+            bottom: 1vh;
         }
         
       }

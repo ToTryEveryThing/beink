@@ -38,22 +38,26 @@ public class articleImpl implements articleService {
 
     @Override
     public Result add(String content, String name, String title) {
-        int insert = articleMapper.insert(new article(0, name, title, content, 0,0 ,0, new Date(),0));
+        int insert = articleMapper.insert(new article(0, name, title, content, 0,0 ,0, new Date(),true,0));
         if(insert>=1)
             return new Result(1,"success");
         return new Result(0,"error");
     }
 
     @Override
-    public Result edit(Integer id, String name, String post, String content, String title) {
+    public Result edit(Integer id, String name, String post, String content, String title, Boolean show) {
         article article = new article();
         article.setContent(content);
         article.setTitle(title);
         article.setPost(name);
         article.setId(id);
+        article.setIsshow(show);
         int i = articleMapper.updateById(article);
-        if(i>=1)
+        if(i>=1){
+            redisUtil.hset(REDIS_ARTICLE, String.valueOf(id), articleMapper.selectById(id));
             return new Result(1,"success");
+        }
+
         return new Result(0,"error");
     }
 
@@ -61,7 +65,7 @@ public class articleImpl implements articleService {
     public Result delete(Integer id, String name) {
         int i = articleMapper.deleteById(id);
         if(i>=1){
-            redisUtil.hdel(REDIS_ARTICLE, id);
+            redisUtil.hdel(REDIS_ARTICLE, id.toString());
             return new Result(1,"success");
         }
         return new Result(0,"error");
@@ -73,8 +77,15 @@ public class articleImpl implements articleService {
         RLock lock = redissonClient.getLock(String.valueOf(id));
         lock.lock();
         try{
+            /**
+             * 先更新数据库，再删除缓存，等下次，访问时，再次更新缓存
+             *
+             */
+            // TODO 先删缓存，再更新数据库
             if(redisUtil.hHasKey(REDIS_ARTICLE, String.valueOf(id))){
                 article article = (article) redisUtil.hget(REDIS_ARTICLE, String.valueOf(id));
+                System.out.println("fsdfsfffffffffffffffffffffffffffffffffffff");
+                System.out.println(article);
                 article.setViews(article.getViews()+1);
                 articleMapper.updateById(article);
                 System.out.println("redis");
@@ -96,6 +107,7 @@ public class articleImpl implements articleService {
     @Override
     public Result showall() {
         QueryWrapper<article> q = new QueryWrapper<>();
+//        q.eq("isshow",true);
         q.orderByDesc("up");
         List<article> articles = articleMapper.selectList(q);
         return new Result(1, "success", articles);
@@ -104,6 +116,7 @@ public class articleImpl implements articleService {
     @Override
     public Result showone(String post) {
         QueryWrapper<article> q = new QueryWrapper<>();
+//        q.eq("isshow",true);
         q.eq("post",post);
         List<article> articles = articleMapper.selectList(q);
         return new Result(1,"success",articles);

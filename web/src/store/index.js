@@ -35,7 +35,9 @@ const state = {
       {id:6,backColor:'#202123',color:'#262727'},
     ],
     background:JSON.parse(localStorage.getItem('background')) || '',
-    backgroundColor:'rgba(19, 206, 102, 0.8)'
+    backgroundColor:'rgba(19, 206, 102, 0.8)',
+    show1:true,
+    show2:true
 }
 //响应组件中的动作
 const actions = {

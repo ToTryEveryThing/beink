@@ -65,7 +65,7 @@
         <el-scrollbar height="400px" always="true">
           <el-col   :span="24">
             <li v-for="i in allTe" class="gogog" @click="gogogogogogo(i.id)" :key="i.id">
-              <el-card shadow="hover">
+              <el-card shadow="hover" >
                 {{ i.title }}
                 <el-row>
                   <el-col :span="6">
@@ -186,7 +186,8 @@ import DiscussView from './DiscussView.vue';
             },
             success(res){
               if(res.code===1){
-                allTe.value = res.date
+                allTe.value = res.date.filter(i => i.isshow==true || i.post===store.state.account)
+                console.log(res)
               }
             }
         })

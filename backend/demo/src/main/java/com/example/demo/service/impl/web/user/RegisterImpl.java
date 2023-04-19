@@ -5,7 +5,9 @@ import com.example.demo.controller.common.Result;
 import com.example.demo.mapper.user.WebMapper;
 import com.example.demo.pojo.user.web;
 import com.example.demo.service.web.user.RegisterService;
+import com.example.demo.utils.Code.IsCode;
 import com.example.demo.utils.JwtUtil;
+import com.example.demo.utils.redisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -18,12 +20,17 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import static com.example.demo.constants.radis.redisConstants.REDIS_CAPTCHA;
+
 @Service
 public class RegisterImpl implements RegisterService {
 
 
     @Autowired
     private WebMapper webMapper;
+
+    @Autowired
+    private redisUtil redisUtil;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -98,7 +105,12 @@ public class RegisterImpl implements RegisterService {
 
 
     @Override
-    public Result register(String account, String password) {
+    public Result register(String account, String password, String code, String base64) {
+
+        Boolean f = new IsCode().is(REDIS_CAPTCHA + code,base64,redisUtil);
+        if(!f){
+            return new Result(0,"验证码错误");
+        }
 
         if(account == null){
             return new Result(0,"用户名不能为空");
