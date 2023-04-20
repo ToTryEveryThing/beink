@@ -1,6 +1,9 @@
 package com.example.demo.service.web.article;
 
-import com.example.demo.controller.common.Result;
+import com.example.demo.controller.common.ApiResponse;
+import com.example.demo.pojo.article.article;
+
+import java.util.List;
 
 /***
  * @author 睡醒继续做梦
@@ -8,22 +11,22 @@ import com.example.demo.controller.common.Result;
  */
 public interface articleService {
 
-     Result add( String content,
-                 String name,
-                 String title);
+     ApiResponse<Void> add(String content,
+                           String name,
+                           String title);
 
-     Result edit( Integer id,
-                  String name,
-                  String post,
-                  String content,
-                  String title,
-                  Boolean show);
+     ApiResponse<Void> edit(Integer id,
+                            String name,
+                            String post,
+                            String content,
+                            String title,
+                            Boolean show);
 
-     Result delete( Integer id, String name);
+     ApiResponse<Void> delete(Integer id, String name);
 
-     Result showbyid( Integer id);
+     ApiResponse<article> showbyid(Integer id);
 
-     Result showall();
+     ApiResponse<List<article>> showall();
 
-    Result showone(String post);
+    ApiResponse<List<article>> showone(String post);
 }

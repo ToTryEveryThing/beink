@@ -3,7 +3,7 @@ package com.example.demo.service.impl.web.article;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.example.demo.controller.common.Result;
+import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.mapper.article.DiscussMapper;
 import com.example.demo.mapper.article.ArticleMapper;
 import com.example.demo.pojo.article.Discuss;
@@ -30,9 +30,9 @@ public class DiscussImpl implements DiscussService {
 
 
     @Override
-    public Result addReply(String content,
-                           Integer articleId,
-                           String userName) {
+    public ApiResponse<Void> addReply(String content,
+                                      Integer articleId,
+                                      String userName) {
 
         Discuss discuss = new Discuss(content,articleId, userName, new Date());
         article article = articleMapper.selectById(articleId);
@@ -40,9 +40,9 @@ public class DiscussImpl implements DiscussService {
         articleMapper.updateById(article);
         int insert = discussMapper.insert(discuss);
         if(insert>=1)
-            return new Result(1,"success");
+            return ApiResponse.success();
 
-        return new Result(0,"error");
+        return ApiResponse.error(0, "回复失败");
     }
 
     @Override
@@ -53,19 +53,19 @@ public class DiscussImpl implements DiscussService {
         JSONObject res = new JSONObject();
         q.orderByDesc("up");
         List<Discuss> discusses = discussMapper.selectPage(page1,q).getRecords();
-        res.put("code",1);
+        res.put("code",200);
         res.put("data",discusses);
         res.put("count",discussMapper.selectCount(q));
         return res;
     }
 
     @Override
-    public Result delReply(String userName, Integer id) {
+    public ApiResponse<Void> delReply(String userName, Integer id) {
         QueryWrapper<Discuss> q = new QueryWrapper<>();
         q.eq("user_name",userName);
         q.eq("id",id);
         int res = discussMapper.delete(q);
-        if(res>=1) return new Result(1,"success");
-        return new Result(0,"error");
+        if(res>=1) ApiResponse.success();
+        return ApiResponse.error(0, "删除失败");
     }
 }

@@ -1,9 +1,7 @@
 package com.example.demo.service.web.user;
 
-import com.example.demo.controller.common.Result;
-
-import java.util.Map;
+import com.example.demo.controller.common.ApiResponse;
 
 public interface colorService {
-    Result setColor(String account, String color, String list);
+    ApiResponse<Void> setColor(String account, String color, String list);
 }

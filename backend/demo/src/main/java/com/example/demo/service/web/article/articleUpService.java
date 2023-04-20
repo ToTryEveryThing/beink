@@ -1,6 +1,6 @@
 package com.example.demo.service.web.article;
 
-import com.example.demo.controller.common.Result;
+import com.example.demo.controller.common.ApiResponse;
 
 /***
  * @author 睡醒继续做梦
@@ -8,8 +8,8 @@ import com.example.demo.controller.common.Result;
  */
 public interface articleUpService {
 
-    Result changeUp(String userName, Integer articleId, Integer status);
+    ApiResponse<Void> changeUp(String userName, Integer articleId, Integer status);
 
-    Result getStatus(Integer articleId, String userName);
+    ApiResponse<Integer> getStatus(Integer articleId, String userName);
 
 }

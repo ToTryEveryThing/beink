@@ -1,6 +1,6 @@
 package com.example.demo.service.impl.web.user;
 
-import com.example.demo.controller.common.Result;
+import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.pojo.user.web;
 import com.example.demo.service.impl.utils.LoginUser;
 import com.example.demo.service.web.user.LoginService;
@@ -13,7 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +30,7 @@ public class LoginImpl implements LoginService {
 
 
     @Override
-    public Result getToken(String account, String password, String code, String base64) {
+    public ApiResponse<Map<String, String>> getToken(String account, String password, String code, String base64) {
 
         /***
          * 调用 UserDetailServiceImpl
@@ -40,7 +39,7 @@ public class LoginImpl implements LoginService {
 
         Boolean f = new IsCode().is(REDIS_CAPTCHA + code,base64,redisUtil);
         if(!f){
-           return new Result(0,"验证码错误");
+           return ApiResponse.error(0,"验证码错误");
         }
 
         UsernamePasswordAuthenticationToken authenticationToken =
@@ -61,6 +60,6 @@ public class LoginImpl implements LoginService {
 
         redisUtil.set(REDIS_TOKEN + account, jwt, REDIS_JWT_TTL);
 
-        return new Result(1,"success",map);
+        return ApiResponse.success(map);
     }
 }

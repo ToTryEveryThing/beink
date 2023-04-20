@@ -1,7 +1,7 @@
 package com.example.demo.controller.user;
 
 import com.example.demo.config.aop.checkRole.PermissionCheck;
-import com.example.demo.controller.common.Result;
+import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.service.web.updataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +21,7 @@ public class UpdataController {
 
     @PermissionCheck
     @PostMapping("/user/account/updata/")
-    public Result updata(@RequestParam Map<String,String> map){
+    public ApiResponse<String> updata(@RequestParam Map<String,String> map){
         int id = Integer.parseInt(map.get("id"));
         String account = map.get("account");
         String backimg = map.get("backimg");

@@ -102,7 +102,7 @@ export default {
                    id:i
                 },
                 success(res){
-                 if(res.code===1){
+                 if(res.code===200){
                     show()
                  }
                 },
@@ -134,7 +134,7 @@ export default {
                     article_id:store.state.discuss.post_index
                 },
                 success(res){
-                  if(res.code===1){
+                  if(res.code===200){
                     show()
                     vue.reply = ''
                   }
@@ -153,7 +153,7 @@ export default {
                     article_id:i
                 },
                 success(res){
-                    if(res.code===1){
+                    if(res.code===200){
                         store.commit("upupupup",{status:true,value:y})
                     }
                 },
@@ -171,7 +171,7 @@ export default {
                     article_id:i
                 },
                 success(res){
-                    if(res.code===1){
+                    if(res.code===200){
                         store.commit("upupupup",{status:false,value:y})
                     }
                 },

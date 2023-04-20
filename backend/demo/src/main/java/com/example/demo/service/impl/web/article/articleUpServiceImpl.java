@@ -3,7 +3,7 @@ package com.example.demo.service.impl.web.article;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.example.demo.controller.common.Result;
+import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.mapper.article.ArticleMapper;
 import com.example.demo.mapper.article.ArticleUpMapper;
 import com.example.demo.pojo.article.article;
@@ -29,7 +29,7 @@ public class articleUpServiceImpl implements articleUpService {
 
 
     @Override
-    public Result changeUp(String userName, Integer articleId, Integer status) {
+    public ApiResponse<Void> changeUp(String userName, Integer articleId, Integer status) {
         UpdateWrapper<article> q = new UpdateWrapper<>();
         LambdaUpdateWrapper<articleUp> qq = new LambdaUpdateWrapper<>();
         QueryWrapper<articleUp> aaaa = new QueryWrapper<>();
@@ -52,18 +52,18 @@ public class articleUpServiceImpl implements articleUpService {
             articleUp.setUserName(userName);
             articleUpMapper.insert(articleUp);
         }
-        return new Result(1,"success");
+        return ApiResponse.success();
 
     }
 
     @Override
-    public Result getStatus(Integer articleId, String userName) {
+    public ApiResponse<Integer> getStatus(Integer articleId, String userName) {
         QueryWrapper<articleUp> objectQueryWrapper = new QueryWrapper<>();
         objectQueryWrapper.eq("article_id",articleId)
                             .eq("user_name",userName);
         if(articleUpMapper.selectOne(objectQueryWrapper)!=null){
-            return new Result(1,"success",articleUpMapper.selectOne(objectQueryWrapper).getStatus());
+            return ApiResponse.success(articleUpMapper.selectOne(objectQueryWrapper).getStatus());
         }
-        return new Result(1,"success",0);
+        return ApiResponse.success(0);
     }
 }

@@ -1,7 +1,7 @@
 package com.example.demo.service.impl.web.user;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
-import com.example.demo.controller.common.Result;
+import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.mapper.user.WebMapper;
 import com.example.demo.pojo.user.web;
 import com.example.demo.service.web.updataService;
@@ -25,7 +25,7 @@ public class updataImpl implements updataService {
     redisUtil redisUtil;
 
     @Override
-    public Result Updata(int id, String account, String backimg, String role,Boolean isEnabled) {
+    public ApiResponse<String> Updata(int id, String account, String backimg, String role, Boolean isEnabled) {
         web web = new web();
         web.setAccount(account);
         web.setBackimg(backimg);
@@ -38,7 +38,7 @@ public class updataImpl implements updataService {
         int update = webMapper.update(web, q);
         if(update>=1){
             if(!isEnabled) redisUtil.del(REDIS_TOKEN + account);
-            return new Result(1,"true");
-        }else return new Result(0,"false");
+            return ApiResponse.success("true");
+        }else return ApiResponse.error(0,"false");
     }
 }

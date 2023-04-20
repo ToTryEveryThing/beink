@@ -3,7 +3,7 @@ package com.example.demo.service.impl.web.article;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.demo.controller.common.Result;
+import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.mapper.article.DiscussMapper;
 import com.example.demo.mapper.article.UpMapper;
 import com.example.demo.pojo.article.Discuss;
@@ -23,7 +23,7 @@ public class thumbsUpImpl implements thumbsUp {
     private DiscussMapper discussMapper;
 
     @Override
-    public Result up(String userName, Integer articleId) {
+    public ApiResponse<Void> up(String userName, Integer articleId) {
         int insert;
         QueryWrapper<ThumbsUp> q = new QueryWrapper<>();
         q.eq("user_name",userName);
@@ -32,7 +32,7 @@ public class thumbsUpImpl implements thumbsUp {
 //        存在
         if(thumbsUp1!=null){
             Boolean f = thumbsUp1.getStatus();
-            if(f) return new Result(0,"error");
+            if(f) return ApiResponse.error(0,"error");
             thumbsUp1.setStatus(true);
             insert = upMapper.update(thumbsUp1,q);
         }else{
@@ -52,18 +52,18 @@ public class thumbsUpImpl implements thumbsUp {
             discuss.setUp(discuss.getUp()+1);
             discussMapper.updateById(discuss);
         }
-        if(insert>=1)return new Result(1,"success");
-        return new Result(0,"error");
+        if(insert>=1)return ApiResponse.success();
+        return ApiResponse.error(0,"error");
     }
 
     @Override
-    public Result down(String userName, Integer articleId) {
+    public ApiResponse<Void> down(String userName, Integer articleId) {
         QueryWrapper<ThumbsUp> q = new QueryWrapper<>();
         q.eq("user_name",userName);
         q.eq("article_id",articleId);
         ThumbsUp thumbsUp = upMapper.selectOne(q);
         if(!thumbsUp.getStatus()){
-            return new Result(0,"error");
+            return ApiResponse.error(0,"error");
         }
         thumbsUp.setStatus(false);
         upMapper.update(thumbsUp,q);
@@ -77,7 +77,7 @@ public class thumbsUpImpl implements thumbsUp {
             discuss.setUp(sum-1);
             discussMapper.updateById(discuss);
         }
-        return new Result(1,"success");
+        return ApiResponse.success();
     }
 
     @Override

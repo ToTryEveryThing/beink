@@ -81,8 +81,8 @@ export default{
             url:`${config.API_URL}/user/article/showall/`,
             type:'post',
             success(res){
-              if(res.code===1){
-                da.value = res.date
+              if(res.code===200){
+                da.value = res.data
               }
               console.log(res)
             },

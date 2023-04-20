@@ -1,6 +1,6 @@
 package com.example.demo.service.web;
 
-import com.example.demo.controller.common.Result;
+import com.example.demo.controller.common.ApiResponse;
 
 /***
  * @author 睡醒继续做梦
@@ -8,7 +8,7 @@ import com.example.demo.controller.common.Result;
  */
 public interface mailBox {
 
-    public Result bind(String account, String mail, String code);
+    public ApiResponse<Void> bind(String account, String mail, String code);
 
 
 }

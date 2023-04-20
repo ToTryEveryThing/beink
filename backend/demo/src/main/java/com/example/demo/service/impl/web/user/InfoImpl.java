@@ -1,10 +1,9 @@
 package com.example.demo.service.impl.web.user;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.demo.controller.common.Result;
+import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.mapper.user.WebMapper;
 import com.example.demo.pojo.user.web;
-import com.example.demo.service.impl.utils.LoginUser;
 import com.example.demo.service.web.user.InfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,7 +20,7 @@ public class InfoImpl implements InfoService {
     WebMapper webMapper;
 
     @Override
-    public Result getinfo() {
+    public ApiResponse<Map<String, String>> getinfo() {
 
         UsernamePasswordAuthenticationToken authentication =
                 (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
@@ -41,7 +40,7 @@ public class InfoImpl implements InfoService {
         map.put("backImg",web.getBackimg());
         map.put("listlist",web.getList());
         map.put("role",web.getRole());
-        return new Result(1,"success",map);
+        return ApiResponse.success(map);
 
 
     }

@@ -155,8 +155,8 @@ import DiscussView from './DiscussView.vue';
               id:textName.value
             },
             success(res){
-              if(res.code===1){
-                TEXT.value = res.date
+              if(res.code===200){
+                TEXT.value = res.data
                 store.commit("updateDiscuss",{
                   index:textName.value,
                   author:TEXT.value.post,
@@ -185,8 +185,8 @@ import DiscussView from './DiscussView.vue';
               post:TEXT.value.post
             },
             success(res){
-              if(res.code===1){
-                allTe.value = res.date.filter(i => i.isshow==true || i.post===store.state.account)
+              if(res.code===200){
+                allTe.value = res.data.filter(i => i.isshow==true || i.post===store.state.account)
                 console.log(res)
               }
             }

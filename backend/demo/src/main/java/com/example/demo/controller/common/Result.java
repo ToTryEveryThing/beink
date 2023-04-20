@@ -4,9 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author 睡醒继续做梦
  * @date 2023/2/2
@@ -18,20 +15,19 @@ public class Result {
 //    1 成功  0 失败
     Integer code;
     String msg;
-    Object date;
+    Object data;
 
     public Result(Integer code, String msg){
         this.code = code;
         this.msg = msg;
     }
 
-
-    public static Result ok(Integer code) {
-        return new Result(code, "success", null);
+    public static Result OK(Integer code, String msg, Object data) {
+        return new Result(code, msg, data);
     }
 
-    public static Result fail(Integer code){
-        return new Result(code, "errot", null);
+    public static Result FAIL(Integer code, String msg){
+        return new Result(code, msg, null);
     }
 }
 

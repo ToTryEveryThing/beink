@@ -4,7 +4,7 @@ package com.example.demo.controller.user.article;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.config.aop.limitApi.AccessLimit;
 import com.example.demo.config.aop.userInfo.UserInfo;
-import com.example.demo.controller.common.Result;
+import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.service.impl.web.article.thumbsUpImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,13 +19,13 @@ public class thumbsUpController {
 
     @AccessLimit(seconds = 60*60,maxCount = 60)
     @PostMapping("/user/up/")
-    public Result up(@UserInfo String name,@RequestParam(value = "article_id") Integer articleId){
+    public ApiResponse<Void> up(@UserInfo String name, @RequestParam(value = "article_id") Integer articleId){
         return thumbsUp.up(name,articleId);
     }
 
     @AccessLimit(seconds = 60*60,maxCount = 60)
     @PostMapping("/user/down/")
-    public Result down(@UserInfo String name,@RequestParam(value = "article_id") Integer articleId){
+    public ApiResponse<Void> down(@UserInfo String name, @RequestParam(value = "article_id") Integer articleId){
         return thumbsUp.down(name,articleId);
     }
 

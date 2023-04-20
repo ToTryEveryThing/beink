@@ -104,8 +104,8 @@ export default {
                     post:localStorage.getItem("name")
                 },
                 success(res){
-                    if(res.code===1){
-                        vue.content = res.date
+                    if(res.code===200){
+                        vue.content = res.data
                     }
                 }
             })
@@ -126,7 +126,7 @@ export default {
                     post:i.post,
                 },
                 success(res){
-                    if(res.code===1)
+                    if(res.code===200)
                     {
                         success("删除成功")
                         vue.editShow = false
@@ -163,7 +163,7 @@ export default {
                     title:vue.title
                 },
                 success(res){
-                    if(res.code===1)
+                    if(res.code===200)
                     {
                         success("添加成功")
                         vue.editShow = false
@@ -192,7 +192,7 @@ export default {
                     show:vue.isshow
                 },
                 success(res){
-                    if(res.code===1)
+                    if(res.code===200)
                     {
                         success("修改成功")
                         vue.editShow = false

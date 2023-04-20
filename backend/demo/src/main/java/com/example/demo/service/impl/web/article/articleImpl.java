@@ -1,23 +1,19 @@
 package com.example.demo.service.impl.web.article;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.demo.controller.common.Result;
+import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.mapper.article.ArticleMapper;
 import com.example.demo.pojo.article.article;
 import com.example.demo.service.web.article.articleService;
 import com.example.demo.utils.redisUtil;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
-import static com.example.demo.config.RabbitmqConfig.ARTICLE_DIRECT_ROUTE;
-import static com.example.demo.config.RabbitmqConfig.EXCHANGE_NAME;
 import static com.example.demo.constants.radis.redisConstants.REDIS_ARTICLE;
 
 /***
@@ -37,15 +33,15 @@ public class articleImpl implements articleService {
     private ArticleMapper articleMapper;
 
     @Override
-    public Result add(String content, String name, String title) {
+    public ApiResponse<Void> add(String content, String name, String title) {
         int insert = articleMapper.insert(new article(0, name, title, content, 0,0 ,0, new Date(),true,0));
         if(insert>=1)
-            return new Result(1,"success");
-        return new Result(0,"error");
+            return ApiResponse.success();
+        return  ApiResponse.error(0,"添加失败");
     }
 
     @Override
-    public Result edit(Integer id, String name, String post, String content, String title, Boolean show) {
+    public ApiResponse<Void> edit(Integer id, String name, String post, String content, String title, Boolean show) {
         article article = new article();
         article.setContent(content);
         article.setTitle(title);
@@ -55,25 +51,25 @@ public class articleImpl implements articleService {
         int i = articleMapper.updateById(article);
         if(i>=1){
             redisUtil.hset(REDIS_ARTICLE, String.valueOf(id), articleMapper.selectById(id));
-            return new Result(1,"success");
+            return ApiResponse.success();
         }
 
-        return new Result(0,"error");
+        return ApiResponse.error(0,"编辑失败");
     }
 
     @Override
-    public Result delete(Integer id, String name) {
+    public ApiResponse<Void> delete(Integer id, String name) {
         int i = articleMapper.deleteById(id);
         if(i>=1){
             redisUtil.hdel(REDIS_ARTICLE, id.toString());
-            return new Result(1,"success");
+            return ApiResponse.success();
         }
-        return new Result(0,"error");
+        return ApiResponse.error(0,"删除失败");
     }
 
 
     @Override
-    public Result showbyid(Integer id) {
+    public ApiResponse<article> showbyid(Integer id) {
         RLock lock = redissonClient.getLock(String.valueOf(id));
         lock.lock();
         try{
@@ -90,14 +86,14 @@ public class articleImpl implements articleService {
                 articleMapper.updateById(article);
                 System.out.println("redis");
                 redisUtil.hset(REDIS_ARTICLE, String.valueOf(id), article);
-                return new Result(1,"success",article);
+                return ApiResponse.success(article);
             }else{
                 article article = articleMapper.selectById(id);
                 article.setViews(article.getViews()+1);
                 articleMapper.updateById(article);
                 System.out.println("mysql");
                 redisUtil.hset(REDIS_ARTICLE, String.valueOf(id), article);
-                return new Result(1,"success", article);
+                return ApiResponse.success(article);
             }
         }finally {
             lock.unlock();
@@ -105,20 +101,20 @@ public class articleImpl implements articleService {
     }
 
     @Override
-    public Result showall() {
+    public ApiResponse<List<article>> showall() {
         QueryWrapper<article> q = new QueryWrapper<>();
 //        q.eq("isshow",true);
         q.orderByDesc("up");
         List<article> articles = articleMapper.selectList(q);
-        return new Result(1, "success", articles);
+        return ApiResponse.success(articles);
     }
 
     @Override
-    public Result showone(String post) {
+    public ApiResponse<List<article>> showone(String post) {
         QueryWrapper<article> q = new QueryWrapper<>();
 //        q.eq("isshow",true);
         q.eq("post",post);
         List<article> articles = articleMapper.selectList(q);
-        return new Result(1,"success",articles);
+        return ApiResponse.success(articles);
     }
 }
