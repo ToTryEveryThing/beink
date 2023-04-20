@@ -73,7 +73,7 @@ export default {
         url:`${config.API_URL}/captcha/`,
         type:'post',
         success(res){
-          vue.cha = res.date
+          vue.cha = res.data
         }
       })
     }
@@ -158,13 +158,11 @@ export default {
                 base64:vue.cha
             },
             success(res){
-                if(res.msg === "success"){
-                  success("注册成功")
+                if(res.code === 200){
+                  success(res.message)
                   vue.show = false
-                  localStorage.setItem("jwt",res.date)
-                  jwt.value = res.date
-                }else if(res==="error"){
-                  error("验证码错误")
+                  localStorage.setItem("jwt",res.data)
+                  jwt.value = res.data
                 }
                 else{
                     error(res.msg)

@@ -45,7 +45,7 @@ export default {
         url:`${config.API_URL}/captcha/`,
         type:'post',
         success(res){
-          vue.cha = res.date
+          vue.cha = res.data
         }
       })
     }

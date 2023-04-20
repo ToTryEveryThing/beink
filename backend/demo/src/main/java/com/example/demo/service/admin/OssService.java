@@ -5,13 +5,13 @@ import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.OSSObjectSummary;
 import com.aliyun.oss.model.ObjectListing;
-import com.aliyun.oss.model.VoidResult;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.auth.sts.AssumeRoleRequest;
 import com.aliyuncs.auth.sts.AssumeRoleResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.example.demo.config.AliossConfig;
+import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.controller.common.Result;
 import com.example.demo.utils.redisUtil;
 import com.example.demo.pojo.OssTokenVo;
@@ -41,7 +41,7 @@ public class OssService {
     @Autowired
     private AliossConfig aliossConfig;
 
-    public Result uploadObject(MultipartFile file,String keyPrefix) throws IOException {
+    public ApiResponse<Set<Object>> uploadObject(MultipartFile file, String keyPrefix) throws IOException {
         String objectName = keyPrefix + "/";
         String originalFilename = file.getOriginalFilename();
         OSS  os = new OSSClientBuilder().build(
@@ -56,7 +56,7 @@ public class OssService {
         );
         os.shutdown();
         redisUtil.sSet(REDIS_OSS + keyPrefix, objectName + originalFilename);
-        return new Result(1,"success",redisUtil.sGet(REDIS_OSS + keyPrefix));
+        return ApiResponse.success(redisUtil.sGet(REDIS_OSS + keyPrefix));
 
     }
 
@@ -120,16 +120,16 @@ public class OssService {
         }
     }
 
-    public Result redisList(String keyPrefix){
+    public ApiResponse<Set<Object>> redisList(String keyPrefix){
         System.out.println("!!!!!!!!!!!!!!!!!!!");
         if(redisUtil.hasKey(REDIS_OSS + keyPrefix))
-            return new Result(1,"success",redisUtil.sGet(REDIS_OSS + keyPrefix));
+            return ApiResponse.success(redisUtil.sGet(REDIS_OSS + keyPrefix));
         System.out.println("???????????????????");
         this.getList(keyPrefix);
-        return new Result(1,"success",redisUtil.sGet(REDIS_OSS + keyPrefix));
+        return ApiResponse.success(redisUtil.sGet(REDIS_OSS + keyPrefix));
     }
 
-    public Result deleteObject(String s, String keyPrefix){
+    public ApiResponse<Set<Object>> deleteObject(String s, String keyPrefix){
         OSS ossClient = new OSSClientBuilder().build(
                  aliossConfig.getEndpoint()
                 ,aliossConfig.getAccessKeyId()
@@ -140,7 +140,7 @@ public class OssService {
 //            不太安全
             ossClient.deleteObject(aliossConfig.getBucket(), s);
             long l = redisUtil.setRemove(REDIS_OSS + keyPrefix, s);
-            return new Result(1,"success",redisUtil.sGet(REDIS_OSS + keyPrefix));
+            return ApiResponse.success(redisUtil.sGet(REDIS_OSS + keyPrefix));
         } catch (OSSException oe) {
             System.out.println("Caught an OSSException, which means your request made it to OSS, "
                     + "but was rejected with an error response for some reason.");
@@ -153,6 +153,6 @@ public class OssService {
                 ossClient.shutdown();
             }
         }
-        return new Result(0,"error");
+        return ApiResponse.error(0,"删除失败");
     }
 }

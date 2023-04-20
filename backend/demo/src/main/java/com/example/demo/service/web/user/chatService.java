@@ -1,6 +1,9 @@
 package com.example.demo.service.web.user;
 
-import com.example.demo.controller.common.Result;
+import com.example.demo.controller.common.ApiResponse;
+import com.example.demo.pojo.Chat;
+
+import java.util.List;
 
 /***
  * @author 睡醒继续做梦
@@ -8,6 +11,6 @@ import com.example.demo.controller.common.Result;
  */
 public interface chatService {
 
-    public Result select(String from, String to);
+    public ApiResponse<List<Chat>> select(String from, String to);
 
 }

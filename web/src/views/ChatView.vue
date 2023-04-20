@@ -123,7 +123,7 @@
               to:oneUserName.value
             },
             success(res){
-              TTT.value = res.date
+              TTT.value = res.data
               setTimeout(function(){
                 document.getElementById("bottom").scrollIntoView(false);
               },100)

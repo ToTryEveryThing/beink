@@ -3,12 +3,6 @@
     <el-container>
       <el-header  class="header">
         <span class="loader"></span>
-        <el-tooltip content="翻译" placement="top" effect="light">
-          <el-switch v-model="open"  @change="change"/>
-        </el-tooltip>
-        <el-button v-if="$store.state.is_login"  @click="go('me')" style="float:right;">
-          我的文章
-        </el-button>
       </el-header>
       <el-main  class="main" >
         <el-row class="row-bg" :span="20" justify="center">
@@ -20,7 +14,6 @@
                       <div >
                         {{ i.name }}
                         <el-divider border-style="dashed" />
-                          
                       </div>
                   </div>
                   <div  >
@@ -45,13 +38,6 @@
               </li>
             </ul>
         </el-row>
-        <el-row v-if="open&&true" :gutter="12" justify="space-evenly" class="hidden-xs-only">
-          <el-col :span="16">
-            <el-card shadow="never" class="translate"> 
-              <translate/>  
-            </el-card>  
-          </el-col>
-        </el-row>
       </el-main>
     </el-container>
   </div>
@@ -63,9 +49,7 @@ import { useStore } from 'vuex';
 import $ from 'jquery'
 import router from '@/router';
 import config from '@/utiles/config'
-import translate from '@/components/study/BaiduTranslate.vue'
 export default{
-  components:{translate },
   setup(){
     const store = useStore()
     let da = ref([])
@@ -81,8 +65,8 @@ export default{
             url:`${config.API_URL}/user/article/showall/`,
             type:'post',
             success(res){
-              if(res.code===1){
-                da.value = res.date
+              if(res.code===200){
+                da.value = res.data
               }
               console.log(res)
             },
@@ -228,6 +212,7 @@ export default{
   .card .card__btns {
     display: flex;
     gap: 0.6rem;
+    bottom: 0;
   }
   
   .card button {

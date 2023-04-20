@@ -1,6 +1,7 @@
 package com.example.demo.service.impl.web.user;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.controller.common.Result;
 import com.example.demo.mapper.user.WebMapper;
 import com.example.demo.pojo.user.web;
@@ -105,34 +106,34 @@ public class RegisterImpl implements RegisterService {
 
 
     @Override
-    public Result register(String account, String password, String code, String base64) {
+    public ApiResponse<String> register(String account, String password, String code, String base64) {
 
         Boolean f = new IsCode().is(REDIS_CAPTCHA + code,base64,redisUtil);
         if(!f){
-            return new Result(0,"验证码错误");
+            return ApiResponse.error(0,"验证码错误");
         }
 
         if(account == null){
-            return new Result(0,"用户名不能为空");
+            return ApiResponse.error(0,"用户名不能为空");
         }
         if(password.length() == 0){
-            return new Result(0,"密码不能为空");
+            return ApiResponse.error(0,"密码不能为空");
         }
 
         account = account.trim();
         if(account.length()==0){
-            return new Result(0,"用户名不能为空");
+            return ApiResponse.error(0,"用户名不能为空");
         }
 
         if(password.length()>50){
-            return new Result(0,"密码长度不能超过50");
+            return ApiResponse.error(0,"密码长度不能超过50");
         }
 
         QueryWrapper<web> queryWrapper = new QueryWrapper<web>();
         queryWrapper.eq("account",account);
         List<web> webs =  webMapper.selectList(queryWrapper);
         if(!webs.isEmpty()){
-            return new Result(0,"用户名已存在");
+            return ApiResponse.error(0,"用户名已存在");
         }
         String pass = passwordEncoder.encode(password);
 
@@ -145,7 +146,7 @@ public class RegisterImpl implements RegisterService {
         web1.setDate(new Date());
         webMapper.insert(web1);
         System.out.println(new Date());
-        return new Result(1,"success",jwt);
+        return ApiResponse.success(jwt);
     }
 
 

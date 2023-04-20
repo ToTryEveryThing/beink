@@ -35,55 +35,66 @@
       <!-- 目录 -->
       <el-col class="hidden-xs-only" :gutter="20" :span="5">
           <el-affix :offset="20">
-            <el-card shadow="always"> 
+            <el-card shadow="always">
               <template #header>
                 <div class="card-header">
                   <span>
-                    {{ TEXT.title }}
+                    作者
                   </span>
                 </div>
               </template>
-            <el-scrollbar :height="vue.height" always="true">
+              <el-avatar @click="gogogogog" class="author" size="50" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
+              {{ TEXT.post }}
+            </el-card>
+            <el-card shadow="always" style="margin-top:20px;"> 
+                  <template #header>
+                    <div class="card-header">
+                      <span>
+                        {{ TEXT.title }}
+                      </span>
+                    </div>
+                  </template>
+                <el-scrollbar :height="vue.height" always="true">
+                  <el-col :span="24">
+                    <div
+                    style="position:relative;"
+                    v-for="anchor in vue.titles" :key="anchor.title"
+                    :style="{ padding: `0px 0 10px ${anchor.indent * 20}px` ,color:'#3eaf7c'}"
+                    @click="handleAnchorClick(anchor)"
+                  >
+                    <a style="cursor: pointer" :id="anchor.id"  class="goto">{{ anchor.title }}</a>
+                  </div>
+                  </el-col>
+              </el-scrollbar>
+            </el-card>
+            <el-card shadow="always" style="margin-top:20px;"> 
+              <template #header>
+                <div class="card-header">
+                  <span>所有文章</span>
+                </div>
+              </template>
+            <el-scrollbar height="400px" always="true">
               <el-col   :span="24">
-                <div
-                style="position:relative;"
-                v-for="anchor in vue.titles" :key="anchor.title"
-                :style="{ padding: `0px 0 10px ${anchor.indent * 20}px` ,color:'#3eaf7c'}"
-                @click="handleAnchorClick(anchor)"
-              >
-                <a style="cursor: pointer" :id="anchor.id"  class="goto">{{ anchor.title }}</a>
-              </div>
-              </el-col>
-          </el-scrollbar>
-        </el-card>
-        <el-card shadow="always" style="margin-top:20px;"> 
-          <template #header>
-            <div class="card-header">
-              <span>所有文章</span>
-            </div>
-          </template>
-        <el-scrollbar height="400px" always="true">
-          <el-col   :span="24">
-            <li v-for="i in allTe" class="gogog" @click="gogogogogogo(i.id)" :key="i.id">
-              <el-card shadow="hover" >
-                {{ i.title }}
-                <el-row>
-                  <el-col :span="6">
-                    <el-statistic title="Up" :value="i.up" />
-                  </el-col>
-                  <el-col :span="6">
-                    <el-statistic title="Views" :value="i.views" />
-                  </el-col>
-                  <el-col :span="6">
-                    <el-statistic title="Discuss" :value="i.discuss">
-                    </el-statistic>
-                  </el-col>
-              </el-row>
+                <li v-for="i in allTe" class="gogog" @click="gogogogogogo(i.id)" :key="i.id">
+                  <el-card shadow="hover" >
+                    {{ i.title }}
+                    <el-row>
+                      <el-col :span="6">
+                        <el-statistic title="Up" :value="i.up" />
+                      </el-col>
+                      <el-col :span="6">
+                        <el-statistic title="Views" :value="i.views" />
+                      </el-col>
+                      <el-col :span="6">
+                        <el-statistic title="Discuss" :value="i.discuss">
+                        </el-statistic>
+                      </el-col>
+                  </el-row>
             </el-card>
             </li>
           </el-col>
       </el-scrollbar>
-    </el-card>
+            </el-card>
         </el-affix>
       </el-col>
   </el-row>
@@ -155,8 +166,9 @@ import DiscussView from './DiscussView.vue';
               id:textName.value
             },
             success(res){
-              if(res.code===1){
-                TEXT.value = res.date
+              if(res.code===200){
+                console.log(res.data)
+                TEXT.value = res.data
                 store.commit("updateDiscuss",{
                   index:textName.value,
                   author:TEXT.value.post,
@@ -177,6 +189,11 @@ import DiscussView from './DiscussView.vue';
             }
         })
     }
+
+    const gogogogog = ()=>{
+      router.push(`/author/${TEXT.value.post}/`)
+    }
+
     const showOne = ()=>{
       $.ajax({
             url:`${config.API_URL}/user/article/showone/`,
@@ -185,8 +202,8 @@ import DiscussView from './DiscussView.vue';
               post:TEXT.value.post
             },
             success(res){
-              if(res.code===1){
-                allTe.value = res.date.filter(i => i.isshow==true || i.post===store.state.account)
+              if(res.code===200){
+                allTe.value = res.data.filter(i => i.isshow==true || i.post===store.state.account)
                 console.log(res)
               }
             }
@@ -248,13 +265,16 @@ import DiscussView from './DiscussView.vue';
     }
     return{handleAnchorClick,Todark,
       title,vue,preview,allTe,changeup,
-        dialogVisible,GoHome,TEXT,gogogogogogo
+        dialogVisible,GoHome,TEXT,gogogogogogo,gogogogog
       }
   }
 }
 </script>
 
 <style scoped>
+.author{
+  cursor: pointer;
+}
 .fas{
   position: absolute;
   margin-left: 7px;

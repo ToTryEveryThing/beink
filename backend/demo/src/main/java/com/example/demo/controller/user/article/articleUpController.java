@@ -1,7 +1,7 @@
 package com.example.demo.controller.user.article;
 
 import com.example.demo.config.aop.userInfo.UserInfo;
-import com.example.demo.controller.common.Result;
+import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.service.web.article.articleUpService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,16 +20,16 @@ public class articleUpController {
     private articleUpService articleUpService;
 
     @PostMapping("/user/article/up/")
-    public Result  up(@UserInfo String name,
-                      @RequestParam Integer articleId,
-                      @RequestParam Integer status){
+    public ApiResponse<Void> up(@UserInfo String name,
+                                @RequestParam Integer articleId,
+                                @RequestParam Integer status){
         return articleUpService.changeUp(name, articleId, status);
     }
 
 
     @PostMapping("/user/article/upstatus/")
-    public Result status(@RequestParam Integer articleId,
-                          @RequestParam String  userName){
+    public ApiResponse<Integer> status(@RequestParam Integer articleId,
+                                       @RequestParam String  userName){
 
         return articleUpService.getStatus(articleId, userName);
     }

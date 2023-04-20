@@ -28,9 +28,9 @@ public class ExceptionAdvice {
      * @return
      */
     @ExceptionHandler(LimitException.class)
-    public Result Limit(LimitException e){
+    public ApiResponse<Void> Limit(LimitException e){
         System.out.println("访问频率异常");
-        return new Result(e.getCode(),e.getMessage());
+        return ApiResponse.error(e.getCode(),e.getMessage());
     }
 
     /**
@@ -39,9 +39,9 @@ public class ExceptionAdvice {
      * @return
      */
     @ExceptionHandler(TokenException.class)
-    public Result token(TokenException e){
+    public ApiResponse<Void> token(TokenException e){
         System.out.println("token异常");
-        return new Result(e.getCode(), e.getMessage());
+        return ApiResponse.error(e.getCode(), e.getMessage());
     }
 
     /**
@@ -49,9 +49,9 @@ public class ExceptionAdvice {
      * @return
      */
     @ExceptionHandler(Exception.class)
-    public Result doException(Exception e){
+    public ApiResponse<Void> doException(Exception e){
         System.out.println(e);
-        return new Result(0,e.getMessage());
+        return ApiResponse.error(0,e.getMessage());
     }
 
     /**
@@ -60,9 +60,9 @@ public class ExceptionAdvice {
      * @return
      */
     @ExceptionHandler(DisabledException.class)
-    public Result disabled(DisabledException e){
+    public ApiResponse<Void> disabled(DisabledException e){
         System.out.println("用户不可用");
-        return new Result(401,"账号被停用");
+        return ApiResponse.error(0,"账号被停用");
     }
 
 
@@ -72,9 +72,9 @@ public class ExceptionAdvice {
      * @return
      */
     @ExceptionHandler(BadCredentialsException.class)
-    public Result passwdWrong(BadCredentialsException e){
+    public ApiResponse<Void> passwdWrong(BadCredentialsException e){
         System.out.println("密码错误");
-        return new Result(401,"密码错误");
+        return ApiResponse.error(0, "密码错误");
     }
 
 

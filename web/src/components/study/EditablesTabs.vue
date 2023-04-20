@@ -9,7 +9,7 @@
 // import {useStore} from 'vuex'
 import router from '@/router';
  const go = ()=>{
-    router.push("/article/me/")
+    router.push(`/author/${localStorage.getItem("name")}/`)
  }
 
 </script>

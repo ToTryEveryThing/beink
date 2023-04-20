@@ -15,14 +15,9 @@ $.ajaxSetup({
     if (type === 'json') {
       let res = JSON.parse(data)
       if(res.code===-1){
-        error(res.msg)
+        error(res.message)
         return res;
       }
-      // }else if(res.code===401){
-      //   // 认证失败处理器
-      //   error(res.msg)
-      //   return res;
-      // }
     }
     return data
   },

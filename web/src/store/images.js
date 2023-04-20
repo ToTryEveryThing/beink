@@ -14,8 +14,8 @@ export default {
                     keyPrefix:value.keyPrefix
                 },
                 success(res){
-                    if(res.code===1)
-                    context.commit("getList",res.date);
+                    if(res.code===200)
+                    context.commit("getList",res.data);
                 },
              })
         },
@@ -31,11 +31,11 @@ export default {
                     keyPrefix:value.keyPrefix
                 },
                 success(res){
-                    if(res.code===1){
-                        context.commit("getList",res.date)
-                        success("删除成功")
+                    if(res.code===200){
+                        context.commit("getList",res.data)
+                        success(res.message)
                     }else{
-                        error("删除失败") 
+                        error(res.message) 
                     }
                 },
                 error(){
@@ -54,11 +54,11 @@ export default {
                     Authorization:"Bearer " + value.token
                 },
                 success(res){
-                    if(res.code===1){
-                        context.commit("getList",res.date)
-                        success("上传成功")
+                    if(res.code===200){
+                        context.commit("getList",res.data)
+                        success(res.message)
                     }else{
-                        error("上传失败")
+                        error(res.message)
                     }
                     value.success()
                 },

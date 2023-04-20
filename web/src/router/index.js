@@ -60,7 +60,7 @@ const routes = [
     }
   },
   {
-    path:"/article/me/",
+    path:"/author/:name/",
     component:me,
     meta:{
       req:false,

@@ -184,11 +184,11 @@
                     ids:JSON.stringify({ids:JSON.stringify(vue.ids)})
                 },
                 success(res){
-                    if(res.code===1){
-                      success("删除成功")
+                    if(res.code===200){
+                      success(res.message)
                       aaa()
                     }else{
-                      error("删除出错")
+                      error(res.message)
                     }
                 },error(){
                   error("删除出错")
@@ -212,12 +212,12 @@
                     enable: vue.enable
                 },
                 success(res){
-                  if(res.code===1){
-                    success("修改成功")
+                  if(res.code===200){
+                    success(res.message)
                     vue.tableData[vue.index].role = vue.isAdmin === true ? "admin" : "user"
                     vue.tableData[vue.index].enable = vue.enable
                   }else{
-                    error("修改失败")
+                    error(res.message)
                   }
                 },error(){
                   error("error")
@@ -242,10 +242,10 @@
                     account:store.state.account
                 },
                 success(res){
-                  if(res.msg==="success")
+                  if(res.code===200)
                     aaa()
                 },error(res){
-                  console.log(res)
+                  console.log(res.message)
                 }
             })
             }

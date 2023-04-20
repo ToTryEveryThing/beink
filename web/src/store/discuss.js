@@ -39,7 +39,7 @@ export default {
                     page:value.page
                 },
                 success(res){
-                  if(res.code===1){
+                  if(res.code===200){
                     state.discussId = []
                     state.count = res.count
                     state.content = res.data
@@ -96,7 +96,7 @@ export default {
                    userName:localStorage.getItem("name")
                 },
                 success(res){
-                    state.up_status = JSON.parse(res.date)
+                    state.up_status = JSON.parse(res.data)
                 },
             })
         }

@@ -1,14 +1,17 @@
 package com.example.demo.controller.user.article;
 
-import com.example.demo.config.aop.checkRole.PermissionCheck;
 import com.example.demo.config.aop.limitApi.AccessLimit;
 import com.example.demo.config.aop.userInfo.UserInfo;
+import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.controller.common.Result;
+import com.example.demo.pojo.article.article;
 import com.example.demo.service.impl.web.article.articleImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /***
  * @author 睡醒继续做梦
@@ -19,50 +22,51 @@ import org.springframework.web.bind.annotation.RestController;
 public class articleController {
 
     @Autowired
-    private articleImpl article;
+    private articleImpl articleImpl;
 
     @PostMapping("/user/article/add/")
-    public Result add(@RequestParam String content,
-                      @UserInfo String name,
-                      @RequestParam String title){
-        return article.add(content, name, title);
+    public ApiResponse<Void> add(@RequestParam String content,
+                                 @UserInfo String name,
+                                 @RequestParam String title){
+        return articleImpl.add(content, name, title);
     }
 
     @PostMapping("/user/article/edit/")
-    public Result edit(@RequestParam Integer id,
-                       @UserInfo String name,
-                       @RequestParam String post,
-                       @RequestParam String content,
-                       @RequestParam String title,
-                       @RequestParam Boolean show){
-        if(!post.equals(name))return new Result(0,"error");
-        return article.edit(id, name, post, content, title, show);
+    public ApiResponse<Void> edit(@RequestParam Integer id,
+                                  @UserInfo String name,
+                                  @RequestParam String post,
+                                  @RequestParam String content,
+                                  @RequestParam String title,
+                                  @RequestParam Boolean show){
+        if(!post.equals(name))return ApiResponse.error(0,"error");
+        return articleImpl.edit(id, name, post, content, title, show);
     }
 
     @PostMapping("/user/article/delete/")
-    public Result delete(@RequestParam Integer id, @UserInfo String name,
-                         @RequestParam String post){
-        if(!post.equals(name))return new Result(0,"error");
-        return article.delete(id, name);
+    public ApiResponse<Void> delete(@RequestParam Integer id, @UserInfo String name,
+                                    @RequestParam String post){
+        if(!post.equals(name))return  ApiResponse.error(0,"error");
+        return articleImpl.delete(id, name);
     }
 
     @AccessLimit(seconds = 60*60,maxCount = 1000000)
     @PostMapping("/user/article/showbyid/")
-    public Result showbyid(@RequestParam Integer id){
-        return article.showbyid(id);
+    public ApiResponse<article> showbyid(@RequestParam Integer id){
+        return articleImpl.showbyid(id);
     }
 
 
     @PostMapping("/user/article/showall/")
-    public Result showall(){
-        return article.showall();
+    public ApiResponse<List<article>> showall(){
+        return articleImpl.showall();
     }
 
 
     @PostMapping("/user/article/showone/")
-    public Result showone(@RequestParam String post){
-        return article.showone(post);
+    public ApiResponse<List<article>> showone(@RequestParam String post){
+        return articleImpl.showone(post);
     }
+
 
 
 

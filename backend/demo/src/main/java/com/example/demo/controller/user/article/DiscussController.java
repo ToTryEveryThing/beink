@@ -4,7 +4,7 @@ package com.example.demo.controller.user.article;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.config.aop.limitApi.AccessLimit;
 import com.example.demo.config.aop.userInfo.UserInfo;
-import com.example.demo.controller.common.Result;
+import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.service.web.article.DiscussService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +26,7 @@ public class DiscussController {
 
     @AccessLimit(seconds = 60*60,maxCount = 50)
     @PostMapping("/user/discuss/add/")
-    public Result add(@UserInfo String userName, @RequestParam Map<String ,String> map){
+    public ApiResponse<Void> add(@UserInfo String userName, @RequestParam Map<String ,String> map){
         String content = map.get("content");
         Integer articleId = Integer.valueOf(map.get("article_id"));
         return discussService.addReply(content,articleId,userName);
@@ -40,7 +40,7 @@ public class DiscussController {
     }
 
     @PostMapping("/user/discuss/delete/")
-    public Result del(@UserInfo String userName,Integer id){
+    public ApiResponse<Void> del(@UserInfo String userName, Integer id){
         return discussService.delReply(userName,id);
     }
 

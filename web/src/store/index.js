@@ -61,16 +61,13 @@ const actions = {
       },
       success(res){
         console.log(res)
-        if(res.msg === "success"){ 
-            res  = res.date 
+        if(res.code === 200){ 
+            res  = res.data
             localStorage.setItem("jwt",res.token)
             context.commit("updateToken",res.token)
             value.success(res)
-        }else if(res.code === 401){
-          // 认证失败处理器
-          value.error(res.msg)
-        } else{
-            value.error(res.msg)
+        }else{
+            value.error(res.message)
         }
       },
       error(){
@@ -86,20 +83,20 @@ const actions = {
           },
           success(res){
             console.log("gggg",res)
-              if(res.msg == "success"){
-                res = res.date
+              if(res.code == 200){
+                res = res.data
                   context.commit("updateUser",{
                     ...res,
                     is_login : true, 
                   }); 
                   data.success(res);
               }else{
-                error(res.msg)
+                error(res.message)
                 localStorage.removeItem("jwt")
               }   
           },
           error(res){
-            error(res.date.msg)
+            error(res.data.message)
             localStorage.removeItem("jwt")
           }
       })

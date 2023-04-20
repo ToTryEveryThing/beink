@@ -3,8 +3,7 @@ package com.example.demo.service.impl.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.demo.controller.common.Result;
+import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.mapper.user.WebMapper;
 import com.example.demo.service.admin.userDeleteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +20,19 @@ public class userDeleteImpl implements userDeleteService {
     private WebMapper webmapper;
 
     @Override
-    public Result delete(Integer id) {
+    public ApiResponse<Void> delete(Integer id) {
 
-        if(id==1)return new Result(0,"error");
+        if(id==1)return ApiResponse.error(0,"error");
         String name = webmapper.selectById(id).getAccount();
         int res = webmapper.deleteById(id);
         if(res  >= 1) {
-           return new Result(1,"success");
+           return ApiResponse.success();
         }
-        else return new Result(0,"error");
+        else return ApiResponse.error(0,"error");
     }
 
     @Override
-    public Result deleteMultiple(String s) {
+    public ApiResponse<Void> deleteMultiple(String s) {
 
         JSONObject data = JSONObject.parseObject(s);
 
@@ -48,9 +47,9 @@ public class userDeleteImpl implements userDeleteService {
 
         int i = webmapper.deleteBatchIds(list);
         if(i==ids.size()){
-            return new Result(1,"删除完成");
+            return ApiResponse.success();
         }
-        return new Result(0,"删除出错");
+        return ApiResponse.error(0,"删除出错");
 
     }
 }
