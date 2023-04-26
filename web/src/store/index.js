@@ -1,6 +1,6 @@
 //引入vuex
 import { createStore  } from 'vuex'
-import { error } from '@/utiles/message'
+import { error, warning } from '@/utiles/message'
 import $ from 'jquery'
 import images from './images'
 import study from './study'
@@ -152,6 +152,8 @@ const mutations = {
     }
   },
   updateUser(state,value){
+    if(value.email === null)warning("有空绑个邮箱吧")
+    // console.log("你知道我的邮箱吗？？？",value.email)
     state.id = value.id
     state.account = value.account
     localStorage.setItem("id",value.id)

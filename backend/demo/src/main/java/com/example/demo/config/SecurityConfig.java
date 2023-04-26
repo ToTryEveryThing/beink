@@ -69,7 +69,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                     .antMatchers(patterns).permitAll()
                     .antMatchers("/**/admin/**/").hasRole("admin")
-                    .antMatchers("/admin/test/").hasRole("admin")
                     //.anonymous()匿名访问  登录状态下 不能访问
                     .antMatchers(HttpMethod.OPTIONS).permitAll()
                     .anyRequest().authenticated();

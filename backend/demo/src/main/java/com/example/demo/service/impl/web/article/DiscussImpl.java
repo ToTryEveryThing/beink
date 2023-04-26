@@ -64,8 +64,11 @@ public class DiscussImpl implements DiscussService {
         QueryWrapper<Discuss> q = new QueryWrapper<>();
         q.eq("user_name",userName);
         q.eq("id",id);
+        System.out.println("userName = " + userName);
+        System.out.println("id = " + id);
         int res = discussMapper.delete(q);
-        if(res>=1) ApiResponse.success();
+        System.out.println("res = " + res);
+        if(res>=1) return ApiResponse.success();
         return ApiResponse.error(0, "删除失败");
     }
 }

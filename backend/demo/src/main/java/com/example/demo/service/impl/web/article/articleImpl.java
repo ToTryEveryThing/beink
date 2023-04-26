@@ -80,7 +80,7 @@ public class articleImpl implements articleService {
             // TODO 先删缓存，再更新数据库
             if(redisUtil.hHasKey(REDIS_ARTICLE, String.valueOf(id))){
                 article article = (article) redisUtil.hget(REDIS_ARTICLE, String.valueOf(id));
-                System.out.println("fsdfsfffffffffffffffffffffffffffffffffffff");
+//                System.out.println("fsdfsfffffffffffffffffffffffffffffffffffff");
                 System.out.println(article);
                 article.setViews(article.getViews()+1);
                 articleMapper.updateById(article);

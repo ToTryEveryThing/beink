@@ -39,6 +39,7 @@ public class InfoImpl implements InfoService {
         map.put("password",web.getPassword());
         map.put("backImg",web.getBackimg());
         map.put("listlist",web.getList());
+        map.put("email", web.getMail());
         map.put("role",web.getRole());
         return ApiResponse.success(map);
 

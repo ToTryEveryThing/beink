@@ -47,7 +47,6 @@ public class LoginUser implements UserDetails , Serializable {
         return auth;
     }
 
-
     @Override
     public String getPassword() {
         return web.getPassword();

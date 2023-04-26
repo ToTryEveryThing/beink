@@ -79,6 +79,7 @@
 
 <script>
 import { reactive, ref, toRefs } from 'vue'
+import { error } from '@/utiles/message'
 import { useStore } from 'vuex'
 import $ from 'jquery'
 import config from "@/utiles/config"
@@ -104,6 +105,9 @@ export default {
                 success(res){
                  if(res.code===200){
                     show()
+                 }
+                 else{
+                    error(res.message)
                  }
                 },
             })

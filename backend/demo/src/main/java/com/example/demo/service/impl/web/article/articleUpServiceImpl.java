@@ -1,5 +1,6 @@
 package com.example.demo.service.impl.web.article;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -9,9 +10,13 @@ import com.example.demo.mapper.article.ArticleUpMapper;
 import com.example.demo.pojo.article.article;
 import com.example.demo.pojo.article.articleUp;
 import com.example.demo.service.web.article.articleUpService;
+import com.example.demo.utils.redisUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+
+import static com.example.demo.constants.radis.redisConstants.REDIS_ARTICLE;
 
 /***
  * @author 睡醒继续做梦
@@ -27,6 +32,9 @@ public class articleUpServiceImpl implements articleUpService {
     @Resource
     ArticleMapper articleMapper;
 
+    @Autowired
+    redisUtil redisUtil;
+
 
     @Override
     public ApiResponse<Void> changeUp(String userName, Integer articleId, Integer status) {
@@ -39,18 +47,20 @@ public class articleUpServiceImpl implements articleUpService {
             q.setSql("up = up - 1").eq("id",articleId);
         }
         articleMapper.update(null, q);
-
         aaaa.eq("article_id",articleId);
         if(articleUpMapper.selectOne(aaaa)!=null){
             qq.eq(articleUp::getArticleId, articleId);
             qq.set(articleUp::getStatus,status);
             articleUpMapper.update(null,qq);
         } else{
+            //TODO 点赞后离开 并没有将此数据存入rerdis
+            // 导致文章点数量异常
             articleUp articleUp = new articleUp();
             articleUp.setArticleId(articleId);
             articleUp.setStatus(status);
             articleUp.setUserName(userName);
             articleUpMapper.insert(articleUp);
+
         }
         return ApiResponse.success();
 

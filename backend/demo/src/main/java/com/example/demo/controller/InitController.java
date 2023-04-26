@@ -1,19 +1,23 @@
 package com.example.demo.controller;
 
-import com.example.demo.controller.common.Result;
-import com.example.demo.utils.redisUtil;
+
+import com.example.demo.mapper.article.ArticleMapper;
+import com.example.demo.mapper.article.ArticleUpMapper;
+import com.example.demo.pojo.article.article;
+import com.example.demo.pojo.article.articleUp;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RLock;
+
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 
@@ -28,6 +32,13 @@ public class InitController {
 
     @Autowired
     RedissonClient redissonClient;
+
+    @Autowired
+    ArticleMapper articleMapper;
+
+    @Autowired
+    ArticleUpMapper articleUpMapper;
+
 
 
     @GetMapping ("/redis/")
@@ -56,19 +67,19 @@ public class InitController {
     }
 
 
-    @GetMapping("/admin/test/")
-    public String  hhhh(){
-        log.info("访问/admin/test接口");
-        System.out.println("我他妈进来了");
-        return "admin";
-    }
+    @Transactional
+    @GetMapping("/jjjjj/osss/")
+    public void  testt(){
+        article article = new article();
+        article.setId(47);
+        article.setUp(400);
+        int i1 = articleMapper.updateById(article);
+        System.out.println("i1 = " + i1);
+        int i = articleUpMapper.updateById(new articleUp(11, 12, "455", 5550));
+        System.out.println("i = " + i);
 
+//        throw  new RuntimeException("gsdg");
 
-    @GetMapping("/test/test/")
-    public String  testt(){
-        log.info("访问/admin/test接口");
-        System.out.println("我他妈进来了");
-        return "test";
     }
 
 

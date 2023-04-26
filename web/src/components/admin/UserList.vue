@@ -133,6 +133,7 @@
       setup(){
         const vue = reactive({
           tableData:[],
+          downloadData:[],
           loading:false,
           dialogVisible :false,
           index:0,
@@ -150,9 +151,9 @@
           vue.enable = vue.tableData[i].enable 
           vue.isAdmin = vue.tableData[i].role === "admin" ? true : false 
         }
+
         const excel = ()=>{
-          // console.log(vue.tableData)
-          const ws = XLSX.utils.json_to_sheet(vue.tableData)//此处tableData.value为表格的数据
+          const ws = XLSX.utils.json_to_sheet(vue.downloadData)//此处tableData.value为表格的数据
           const wb = XLSX.utils.book_new()
           XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
           const binaryData = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
@@ -167,10 +168,12 @@
           link.click();
         }
         const handleSelectionChange = (i)=>{
+          vue.downloadData = i
           vue.ids = []
           i.forEach(y => {
             vue.ids.unshift(y.id)
           });
+          console.log(vue.ids)
         }
         const multiple = ()=>{
           if(vue.ids.length!==0)
@@ -263,9 +266,9 @@
               },
               success(res){
                 if(res.code===0){
+                  error("获取失败")
                   return 
                 }
-                console.log(res)
                 vue.count = res.count
                 vue.tableData = res.records
                 for (let i in vue.tableData){
@@ -273,9 +276,8 @@
                 }
                 vue.loading = false
                 vue.table = vue.tableData
-                console.log(res)
-              },error(res){
-                console.log(res)
+              },error(){
+                error("获取失败")
               }
           })
         }

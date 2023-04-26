@@ -24,6 +24,7 @@ public class thumbsUpImpl implements thumbsUp {
 
     @Override
     public ApiResponse<Void> up(String userName, Integer articleId) {
+        System.out.println("userName + articleId = " + userName + articleId);
         int insert;
         QueryWrapper<ThumbsUp> q = new QueryWrapper<>();
         q.eq("user_name",userName);
@@ -42,6 +43,7 @@ public class thumbsUpImpl implements thumbsUp {
             thumbsUp.setUserName(userName);
             thumbsUp.setCount(1);
             insert = upMapper.insert(thumbsUp);
+            System.out.println("insert = " + insert);
         }
         Discuss discuss = discussMapper.selectById(articleId);
         discuss.setUp(discuss.getUp()+1);
@@ -82,6 +84,8 @@ public class thumbsUpImpl implements thumbsUp {
 
     @Override
     public JSONObject discussStatus(String userName,String ids) {
+        System.out.println("userName = " + userName);
+        System.out.println("ids = " + ids);
         JSONObject data = JSONObject.parseObject(ids);
         JSONObject res = new JSONObject();
         JSONArray hh = data.getJSONArray("ids");
@@ -91,6 +95,7 @@ public class thumbsUpImpl implements thumbsUp {
             QueryWrapper<ThumbsUp> q = new QueryWrapper<>();
             Integer id = (Integer) hh.get(i);
             q.eq("article_id",id);
+            q.eq("user_name", userName);
             ThumbsUp thumbsUp = upMapper.selectOne(q);
             if(thumbsUp==null){
                 res.put(String.valueOf(id),false);
