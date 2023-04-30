@@ -23,7 +23,6 @@ public class userDeleteImpl implements userDeleteService {
     public ApiResponse<Void> delete(Integer id) {
 
         if(id==1)return ApiResponse.error(0,"error");
-        String name = webmapper.selectById(id).getAccount();
         int res = webmapper.deleteById(id);
         if(res  >= 1) {
            return ApiResponse.success();

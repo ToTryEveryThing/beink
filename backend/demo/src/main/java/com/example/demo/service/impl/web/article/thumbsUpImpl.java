@@ -101,6 +101,7 @@ public class thumbsUpImpl implements thumbsUp {
                 res.put(String.valueOf(id),false);
             }else res.put(String.valueOf(thumbsUp.getArticleId()),thumbsUp.getStatus());
         }
+        res.put("code", 200);
         return res;
     }
 

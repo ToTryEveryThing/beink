@@ -21,6 +21,10 @@
           <el-menu-item index="/admin/broadcast">
             <el-icon><Connection /></el-icon>
             <span>广播</span>
+          </el-menu-item>
+          <el-menu-item index="/admin/log">
+            <el-icon><Guide /></el-icon>
+            <span>日志</span>
         </el-menu-item>
         </el-menu>
       </el-aside>
@@ -32,9 +36,9 @@
           </el-radio-group>
         </el-header>
         <el-main style="padding:0;">
-          <keep-alive>
-            <router-view ></router-view>
-         </keep-alive>
+            <keep-alive>
+              <router-view ></router-view>
+          </keep-alive>
         </el-main>
       </el-container>
     </el-container>

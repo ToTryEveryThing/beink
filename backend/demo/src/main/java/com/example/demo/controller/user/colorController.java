@@ -1,6 +1,7 @@
 package com.example.demo.controller.user;
 
 import com.example.demo.config.aop.limitApi.AccessLimit;
+import com.example.demo.config.aop.operationLog.MyLog;
 import com.example.demo.config.aop.userInfo.UserInfo;
 import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.service.web.user.colorService;
@@ -19,6 +20,7 @@ public class colorController {
 
     @AccessLimit(seconds = 10,maxCount = 3)
     @PostMapping("/user/account/color/")
+    @MyLog
     public ApiResponse<Void> setColor(@UserInfo String account, @RequestParam Map<String,String>map){
         String color = map.get("backImg");
         String list = map.get("list");

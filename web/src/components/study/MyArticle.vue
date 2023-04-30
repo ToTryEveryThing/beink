@@ -94,7 +94,7 @@ export default {
             isisALL:false,
             name:'',
             content:[],
-            editorHeight:"500px",
+            editorHeight:"900px",
             title:'',
             ad:false,
             isshow:false,
@@ -133,6 +133,8 @@ export default {
             setTimeout(()=>{
             vue.isisALL = (store.state.account===vue.name)
             },1000)
+            // vue.editorHeight = document.body.clientHeight  + "px"
+            // console.log(vue.editorHeight)
         })
         const Delete = i =>{
             if(confirm("确定吗"))
@@ -161,7 +163,6 @@ export default {
             vue.title = i.title
             vue.all = i
             vue.editShow = true
-            vue.editorHeight = document.body.clientHeight  + "px"
             vue.isshow = i.isshow
             console.log(vue.isshow)
         }

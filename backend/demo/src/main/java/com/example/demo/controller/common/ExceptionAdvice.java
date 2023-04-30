@@ -1,5 +1,6 @@
 package com.example.demo.controller.common;
 
+import com.example.demo.config.aop.operationLog.MyLog;
 import com.example.demo.exception.controllerException.LimitException;
 import com.example.demo.exception.controllerException.TokenException;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,7 @@ public class ExceptionAdvice {
      * @parame
      * @return
      */
+    @MyLog
     @ExceptionHandler(LimitException.class)
     public ApiResponse<Void> Limit(LimitException e){
         System.out.println("访问频率异常");
@@ -38,6 +40,7 @@ public class ExceptionAdvice {
      * @param e
      * @return
      */
+    @MyLog
     @ExceptionHandler(TokenException.class)
     public ApiResponse<Void> token(TokenException e){
         System.out.println("token异常");
@@ -48,6 +51,7 @@ public class ExceptionAdvice {
      * 没有自定义的异常
      * @return
      */
+    @MyLog
     @ExceptionHandler(Exception.class)
     public ApiResponse<Void> doException(Exception e){
         System.out.println(e);
@@ -59,6 +63,7 @@ public class ExceptionAdvice {
      * @param e
      * @return
      */
+    @MyLog
     @ExceptionHandler(DisabledException.class)
     public ApiResponse<Void> disabled(DisabledException e){
         System.out.println("用户不可用");
@@ -71,6 +76,7 @@ public class ExceptionAdvice {
      * @param e
      * @return
      */
+    @MyLog
     @ExceptionHandler(BadCredentialsException.class)
     public ApiResponse<Void> passwdWrong(BadCredentialsException e){
         System.out.println("密码错误");

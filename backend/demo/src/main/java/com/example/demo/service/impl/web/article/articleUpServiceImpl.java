@@ -53,7 +53,7 @@ public class articleUpServiceImpl implements articleUpService {
             qq.set(articleUp::getStatus,status);
             articleUpMapper.update(null,qq);
         } else{
-            //TODO 点赞后离开 并没有将此数据存入rerdis
+            //TODO 点赞后离开 并没有将此数据存入redis
             // 导致文章点数量异常
             articleUp articleUp = new articleUp();
             articleUp.setArticleId(articleId);

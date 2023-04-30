@@ -1,6 +1,7 @@
 package com.example.demo.controller.user;
 
 import com.example.demo.config.aop.limitApi.AccessLimit;
+import com.example.demo.config.aop.operationLog.MyLog;
 import com.example.demo.service.impl.utils.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ public class MailController {
 
     @AccessLimit(seconds = 120, maxCount = 2)
     @PostMapping("/user/mail/")
+    @MyLog
     public String mail(@RequestParam String to){
          return mailService.sendSimpleMail(to,"4656555");
     }

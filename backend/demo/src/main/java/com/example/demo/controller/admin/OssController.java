@@ -1,5 +1,6 @@
 package com.example.demo.controller.admin;
 
+import com.example.demo.config.aop.operationLog.MyLog;
 import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.controller.common.Result;
 import com.example.demo.service.admin.OssService;
@@ -20,6 +21,7 @@ public class OssController {
     private OssService ossService;
 
 //+
+    @MyLog
     @PostMapping("/admin/oss/uploadImage/")
     public ApiResponse<Set<Object>> upload(MultipartFile file, @RequestParam("keyPrefix") String keyPrefix) throws Exception {
         return ossService.uploadObject(file,keyPrefix);
@@ -36,6 +38,7 @@ public class OssController {
     }
 //+
     @PostMapping("/admin/oss/deleteImage/")
+    @MyLog
     public ApiResponse<Set<Object>> deleteImage (@RequestParam(value = "url",required = false) String url,
                                @RequestParam("keyPrefix") String keyPrefix) {
          return ossService.deleteObject(url,keyPrefix);

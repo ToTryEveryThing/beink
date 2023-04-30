@@ -9,6 +9,7 @@ import snake from '@/components/game/SnakeGame'
 import userlist from '@/components/admin/UserList'
 import broadcast from '@/components/admin/BroadCast'
 import me from '@/components/study/MyArticle'
+import log from '@/components/admin/OperationLog'
 
 const routes = [ 
   {
@@ -25,8 +26,9 @@ const routes = [
     name:'admin',
     component:admin,
     children:[
-      {path:'userlist',component:userlist},
-      {path:'broadcast',component:broadcast},
+      {path:'userlist', component:userlist},
+      {path:'broadcast', component:broadcast},
+      {path:'log', component:log}
     ],
     meta: {
       req:true,

@@ -34,6 +34,7 @@ public class InfoImpl implements InfoService {
 
 
         Map<String,String> map = new HashMap<>();
+        map.put("code", "200");
         map.put("id",String.valueOf(web.getId()));
         map.put("account",web.getAccount());
         map.put("password",web.getPassword());

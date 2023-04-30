@@ -1,6 +1,7 @@
 package com.example.demo.controller.user.article;
 
 import com.example.demo.config.aop.limitApi.AccessLimit;
+import com.example.demo.config.aop.operationLog.MyLog;
 import com.example.demo.config.aop.userInfo.UserInfo;
 import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.controller.common.Result;
@@ -25,6 +26,7 @@ public class articleController {
     private articleImpl articleImpl;
 
     @PostMapping("/user/article/add/")
+    @MyLog
     public ApiResponse<Void> add(@RequestParam String content,
                                  @UserInfo String name,
                                  @RequestParam String title){
@@ -32,6 +34,7 @@ public class articleController {
     }
 
     @PostMapping("/user/article/edit/")
+    @MyLog
     public ApiResponse<Void> edit(@RequestParam Integer id,
                                   @UserInfo String name,
                                   @RequestParam String post,
@@ -43,6 +46,7 @@ public class articleController {
     }
 
     @PostMapping("/user/article/delete/")
+    @MyLog
     public ApiResponse<Void> delete(@RequestParam Integer id, @UserInfo String name,
                                     @RequestParam String post){
         if(!post.equals(name))return  ApiResponse.error(0,"error");

@@ -2,6 +2,7 @@ package com.example.demo.controller.admin;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.config.aop.checkRole.PermissionCheck;
+import com.example.demo.config.aop.operationLog.MyLog;
 import com.example.demo.service.admin.userListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -16,6 +17,7 @@ public class userListController {
 
     @Autowired
     private userListService userListService;
+
 
     @PostMapping("/user/admin/list/")
     public JSONObject list(@RequestParam Map<String ,String >map){

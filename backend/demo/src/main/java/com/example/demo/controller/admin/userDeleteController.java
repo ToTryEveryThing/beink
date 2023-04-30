@@ -1,6 +1,7 @@
 package com.example.demo.controller.admin;
 
 
+import com.example.demo.config.aop.operationLog.MyLog;
 import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.controller.common.Result;
 import com.example.demo.service.admin.userDeleteService;
@@ -17,12 +18,14 @@ public class userDeleteController {
     private userDeleteService userDeleteService;
 //+
     @PostMapping("/user/admin/delete/")
+    @MyLog
     public ApiResponse<Void> delete(@RequestParam Map<String , String> map) {
         int id = Integer.parseInt(map.get("id"));
         return userDeleteService.delete(id);
     }
 
     @PostMapping("/user/admin/multiple/")
+    @MyLog
     public ApiResponse<Void> DeleteMultiple(@RequestParam String ids){
         System.out.println(ids);
         return userDeleteService.deleteMultiple(ids);

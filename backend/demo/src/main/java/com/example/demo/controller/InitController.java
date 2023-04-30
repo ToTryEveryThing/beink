@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.config.aop.operationLog.MyLog;
 import com.example.demo.mapper.article.ArticleMapper;
 import com.example.demo.mapper.article.ArticleUpMapper;
 import com.example.demo.pojo.article.article;
@@ -39,8 +40,6 @@ public class InitController {
     @Autowired
     ArticleUpMapper articleUpMapper;
 
-
-
     @GetMapping ("/redis/")
     public String  index(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -65,23 +64,5 @@ public class InitController {
             return null;
         }
     }
-
-
-    @Transactional
-    @GetMapping("/jjjjj/osss/")
-    public void  testt(){
-        article article = new article();
-        article.setId(47);
-        article.setUp(400);
-        int i1 = articleMapper.updateById(article);
-        System.out.println("i1 = " + i1);
-        int i = articleUpMapper.updateById(new articleUp(11, 12, "455", 5550));
-        System.out.println("i = " + i);
-
-//        throw  new RuntimeException("gsdg");
-
-    }
-
-
 
 }

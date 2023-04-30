@@ -1,5 +1,6 @@
 package com.example.demo.controller.user;
 
+import com.example.demo.config.aop.operationLog.MyLog;
 import com.example.demo.config.aop.userInfo.UserInfo;
 import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.controller.common.Result;
@@ -23,6 +24,7 @@ public class ChangePasswordController {
 
 
     @PostMapping("/user/account/changpasswd/")
+    @MyLog
     public ApiResponse<Void> changeps(@UserInfo String name,
                                       @RequestParam String Old,
                                       @RequestParam String New){

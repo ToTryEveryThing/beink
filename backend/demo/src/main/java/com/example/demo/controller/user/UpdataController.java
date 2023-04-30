@@ -1,6 +1,7 @@
 package com.example.demo.controller.user;
 
 import com.example.demo.config.aop.checkRole.PermissionCheck;
+import com.example.demo.config.aop.operationLog.MyLog;
 import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.service.web.updataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ public class UpdataController {
 
     @PermissionCheck
     @PostMapping("/user/account/updata/")
+    @MyLog
     public ApiResponse<String> updata(@RequestParam Map<String,String> map){
         int id = Integer.parseInt(map.get("id"));
         String account = map.get("account");

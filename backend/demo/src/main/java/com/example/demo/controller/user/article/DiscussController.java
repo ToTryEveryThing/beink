@@ -3,6 +3,7 @@ package com.example.demo.controller.user.article;
 
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.config.aop.limitApi.AccessLimit;
+import com.example.demo.config.aop.operationLog.MyLog;
 import com.example.demo.config.aop.userInfo.UserInfo;
 import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.service.web.article.DiscussService;
@@ -26,6 +27,7 @@ public class DiscussController {
 
     @AccessLimit(seconds = 60*60,maxCount = 50)
     @PostMapping("/user/discuss/add/")
+    @MyLog
     public ApiResponse<Void> add(@UserInfo String userName, @RequestParam Map<String ,String> map){
         String content = map.get("content");
         Integer articleId = Integer.valueOf(map.get("article_id"));
@@ -40,6 +42,7 @@ public class DiscussController {
     }
 
     @PostMapping("/user/discuss/delete/")
+    @MyLog
     public ApiResponse<Void> del(@UserInfo String userName, Integer id){
         return discussService.delReply(userName,id);
     }
