@@ -126,6 +126,7 @@ import dark from '../../utiles/dark'
 import config from '../../utiles/config'
 import $ from 'jquery'
 import DiscussView from './DiscussView.vue';
+import { warning } from '@/utiles/message';
   export default{
   components: { DiscussView },
     setup(){
@@ -151,7 +152,6 @@ import DiscussView from './DiscussView.vue';
         indent: hTags.indexOf(el.tagName),
         id:nanoid()
       }));
-      console.log(vue.titles.length)
       if(vue.titles.length>=10){
         vue.height = 300
       }else{
@@ -167,7 +167,6 @@ import DiscussView from './DiscussView.vue';
             },
             success(res){
               if(res.code===200){
-                console.log(res.data)
                 TEXT.value = res.data
                 store.commit("updateDiscuss",{
                   index:textName.value,
@@ -204,7 +203,6 @@ import DiscussView from './DiscussView.vue';
             success(res){
               if(res.code===200){
                 allTe.value = res.data.filter(i => i.isshow==true || i.post===store.state.account)
-                console.log(res)
               }
             }
         })
@@ -247,7 +245,9 @@ import DiscussView from './DiscussView.vue';
       router.push(i)
     }
     const changeup = ()=>{
-      store.dispatch("changeUp")
+      if(store.state.is_login)
+        store.dispatch("changeUp")
+      else warning("请登录后操作")
     }
     const handleAnchorClick = (anchor)=> {
       $(`${vue.asd}`).removeClass("goto-active")

@@ -4,7 +4,7 @@
       <el-table-column prop="id" label="ID" width="180" />
       <el-table-column prop="username" label="Name" width="180" />
       <el-table-column prop="method" label="Method" />
-      <el-table-column prop="params" label="Params" />
+      <!-- <el-table-column prop="params" label="Params" /> -->
       <el-table-column prop="ip" label="IP" />
       <el-table-column prop="createDate" label="createDate" />
       <el-table-column prop="result" label="Result" />
@@ -20,6 +20,37 @@
       layout="prev, pager, next"
       :total="total"
     />
+    <table border="1">
+      <tr>
+        <td>username</td>
+        <td>result</td>
+        <td>ip</td>
+        <td>url</td>
+      </tr>
+      <tr>
+        <td>
+          <li v-for="(value,key) in username"  :key="key">
+            {{ key }} -- {{ value }}次
+          </li>
+        </td>
+        <td>
+          <li v-for="(value,key) in result"  :key="key">
+            {{ key }} -- {{ value }}次
+          </li>
+        </td>
+        <td>
+          <li v-for="(value,key) in ip"  :key="key">
+            {{ key }} -- {{ value }}次
+          </li>
+        </td>
+        <td>
+          <li v-for="(value,key) in url"  :key="key">
+            {{ key }} -- {{ value }}次
+          </li>
+        </td>
+      </tr>
+      </table>
+    
   </el-card>
 </template>
 
@@ -37,7 +68,11 @@ export default{
     const vue = reactive({
       table:[],
       total:0,
-      page:1
+      page:1,
+      username:{},
+      result:{},
+      ip:{},
+      url:{}
     })
     const show = ()=>{
       $.ajax({
@@ -54,10 +89,13 @@ export default{
               console.log(res)
               vue.total = res.count
               vue.table = res.data
+              vue.username = res.group[0]
+              vue.result = res.group[1];
+              vue.ip = res.group[2]
+              vue.url = res.group[3]
               for (let i in vue.table){
                   vue.table[i].createDate = moment(vue.table[i].createDate).utcOffset(480).format('YYYY-MM-DD  HH:mm:ss')
               }
-              console.log(vue.table)
             }
           }
       })
@@ -102,5 +140,7 @@ export default{
 </script>
 
 <style>
-
+li{
+  list-style: none;
+}
 </style>

@@ -2,6 +2,7 @@ import { ElMessage } from 'element-plus'
 import { ElNotification } from 'element-plus'
 const message = (i) => {
     ElMessage({
+      grouping: true,
       message: i,
     })
 }
@@ -9,6 +10,7 @@ const message = (i) => {
 const success = (i) => {
     ElMessage({
       message: i,
+      grouping: true,
       type: 'success',
     })
 }
@@ -16,6 +18,7 @@ const success = (i) => {
 const warning = (i) => {
     ElMessage({
       message: i,
+      grouping: true,
       type: 'warning',
     })
 }
@@ -23,6 +26,7 @@ const warning = (i) => {
 const error = (i) => {
     ElMessage({
       message: i,
+      grouping: true,
       type: 'error',
     })
 }
@@ -31,7 +35,7 @@ const open2 = (i) => {
   ElNotification({
     title: '通知',
     message: i,
-    duration: 5000,
+    duration: 0,
   })
 }
 

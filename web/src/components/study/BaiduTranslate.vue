@@ -57,7 +57,6 @@ export default {
                     to:TO.value
                 },
                 success(res){
-                    console.log(res)
                     result.value = res.trans_result[0].dst
                     loading.value = false
                 },

@@ -8,9 +8,15 @@
 </template>
 
 <script setup>
+import { useStore } from 'vuex';
 import router from '../router/index'
+import { warning } from '@/utiles/message';
+const store = useStore()
 const chat=()=>{
-    router.push("/more/guess")
+    if(store.state.is_login===true)
+      router.push("/more/guess")
+    else
+      warning("请登录后操作")
 }
 </script>
 

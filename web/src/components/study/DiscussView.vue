@@ -79,7 +79,7 @@
 
 <script>
 import { reactive, ref, toRefs } from 'vue'
-import { error } from '@/utiles/message'
+import { error , warning} from '@/utiles/message'
 import { useStore } from 'vuex'
 import $ from 'jquery'
 import config from "@/utiles/config"
@@ -126,6 +126,10 @@ export default {
             })
         }
         const Reply=()=>{
+            if(!store.state.is_login){
+                warning("请登录后操作")
+                return 
+            }
             if(vue.reply===null||!store.state.is_login)return
             $.ajax({
                 url:`${config.API_URL}/user/discuss/add/`,
@@ -146,7 +150,10 @@ export default {
             })
         }
         const up=(i,y)=>{
-            if(store.state.is_login)
+            if(!store.state.is_login){
+                warning("请登录后操作")
+                return 
+            }
             $.ajax({
                 url:`${config.API_URL}/user/up/`,
                 type:'post',
@@ -164,7 +171,10 @@ export default {
             })
         }
         const down=(i,y)=>{
-            if(store.state.is_login)
+            if(!store.state.is_login){
+                warning("请登录后操作")
+                return 
+            }
             $.ajax({
                 url:`${config.API_URL}/user/down/`,
                 type:'post',

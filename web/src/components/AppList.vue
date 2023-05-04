@@ -1,7 +1,7 @@
 <template>
     <el-dialog v-model="chat"  center :show-close="false">
         <template >
-          </template>
+        </template>
         <chat/>
       </el-dialog>
     <div class="open" v-if="$store.state.background===''">
@@ -16,7 +16,7 @@
             </li>
         </ul>
         <ul>
-            <li @click="chat = true">
+            <li @click="showChat">
                 <a href="javascript:void(0);" >
                     <svg aria-hidden="true">
                         <use xlink:href="#icon-globalDiscussion"></use>
@@ -84,10 +84,13 @@
 
 <script>
     import {reactive,toRefs} from 'vue'
+    import { useStore } from 'vuex'
+    import { warning } from '@/utiles/message'
     import chat from '@/views/ChatView.vue'
     export default{
         components:{chat},
         setup(){
+            const store = useStore()
             const vue = reactive({
                 chat:false,
                 list1:[
@@ -101,8 +104,18 @@
                     // {href:'https://www.w3school.com.cn/index.html',icon:'#icon-w3school',name:'w3school'}
                 ]
             })
+            
+            const showChat = ()=>{
+                if(store.state.is_login){
+                    vue.chat = true
+                }else{
+                    warning("请登录后操作")
+                }
+            }
+
             return {
-                ...toRefs(vue)
+                ...toRefs(vue),
+                showChat
             }
         }
     }

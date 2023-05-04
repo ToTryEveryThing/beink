@@ -114,13 +114,13 @@ const router = createRouter({
 
 
 router.beforeEach((to,from,next)=>{
-    if(to.meta.login){
-      if(localStorage.getItem("jwt")){
-        next()
-      }else{
-        next("/login")
-      }
-    }
+    // if(to.meta.login){
+    //   if(localStorage.getItem("jwt")){
+    //     next()
+    //   }else{
+    //     next("/login")
+    //   }
+    // }
     if(to.meta.req){
         if(sessionStorage.getItem("role")==="admin" && localStorage.getItem("jwt")){
           next()

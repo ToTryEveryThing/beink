@@ -33,6 +33,6 @@ public class captcha {
         Map<String, String> Base = easyCaptchaService.getCaptchaValueAndBase64(CodeTypeEnum.SPEC);
         redisTemplate.set(REDIS_CAPTCHA + Base.get("code"),Base.get("base64"));
         redisTemplate.expire(REDIS_CAPTCHA + Base.get("code"), 120);
-        return new Result(1,"success",Base.get("base64"));
+        return new Result(200,"success",Base.get("base64"));
     }
 }

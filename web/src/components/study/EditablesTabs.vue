@@ -7,9 +7,14 @@
 
 <script setup>
 // import {useStore} from 'vuex'
+import { useStore } from 'vuex';
 import router from '@/router';
+import { warning } from '@/utiles/message';
+const store = useStore()
  const go = ()=>{
+    if(store.state.is_login)
     router.push(`/author/${localStorage.getItem("name")}/`)
+    else warning("请登录后操作")
  }
 
 </script>

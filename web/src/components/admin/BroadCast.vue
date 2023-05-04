@@ -28,7 +28,6 @@
 import { ref, onMounted } from 'vue';
 import {useStore } from 'vuex'
 let msg = ref("")
-console.log("cast")
 const percentage2 = ref(0)
 const store = useStore();
 store.dispatch("connectToWebSocket", {

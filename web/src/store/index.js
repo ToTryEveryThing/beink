@@ -1,6 +1,6 @@
 //引入vuex
 import { createStore  } from 'vuex'
-import { error, warning } from '@/utiles/message'
+import { error } from '@/utiles/message'
 import $ from 'jquery'
 import images from './images'
 import study from './study'
@@ -60,7 +60,6 @@ const actions = {
           base64:value.base64
       },
       success(res){
-        console.log(res)
         if(res.code === 200){ 
             res  = res.data
             localStorage.setItem("jwt",res.token)
@@ -82,7 +81,6 @@ const actions = {
               Authorization:"Bearer " + context.state.token
           },
           success(res){
-            console.log("gggg",res)
               if(res.code == 200){
                 res = res.data
                   context.commit("updateUser",{
@@ -152,7 +150,7 @@ const mutations = {
     }
   },
   updateUser(state,value){
-    if(value.email === null)warning("有空绑个邮箱吧")
+    // if(value.email === null)warning("有空绑个邮箱吧")
     // console.log("你知道我的邮箱吗？？？",value.email)
     state.id = value.id
     state.account = value.account

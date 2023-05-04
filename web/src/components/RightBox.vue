@@ -184,8 +184,9 @@ import {onMounted, reactive, ref, toRefs } from 'vue'
             const open2 = () => {
                 ElNotification({
                     title: 'info',
-                    message: "点击上侧图标 以查看更多的功能",
+                    message: "点击太阳/月亮图标 以查看更多的功能",
                     position: 'bottom-right',
+                    duration:0,
                     type: 'info',
                 })
             }
@@ -193,7 +194,6 @@ import {onMounted, reactive, ref, toRefs } from 'vue'
                 store.dispatch("getList",{keyPrefix:val})
             }
             const previewImage = (event)=>{
-                console.log(event)
                 const file = event.target.files[0];
                     // 判断是否是图片类型
                 if (file.type.startsWith('image/')) {
@@ -201,7 +201,6 @@ import {onMounted, reactive, ref, toRefs } from 'vue'
                     const reader = new FileReader();
                     // 读取图片文件
                     reader.readAsDataURL(file);
-                    console.log(reader.result)
                     reader.onload = () => {
                         PreviewImage.value = reader.result;
                     }
@@ -219,7 +218,6 @@ import {onMounted, reactive, ref, toRefs } from 'vue'
                     token:store.state.token,
                     formData:formData,
                     success(){
-                       console.log("lllll")
                         loading.value = false
                         document.getElementById('XXX').value=''
                         PreviewImage.value = ''
@@ -228,7 +226,6 @@ import {onMounted, reactive, ref, toRefs } from 'vue'
                 })
             }
             const ddd = (i)=>{
-                console.log(vue.value)
                 store.dispatch("delete",{
                     url:i,
                     keyPrefix:vue.value,

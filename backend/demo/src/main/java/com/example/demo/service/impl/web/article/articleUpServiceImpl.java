@@ -13,6 +13,7 @@ import com.example.demo.service.web.article.articleUpService;
 import com.example.demo.utils.redisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -37,7 +38,9 @@ public class articleUpServiceImpl implements articleUpService {
 
 
     @Override
+    @Transactional
     public ApiResponse<Void> changeUp(String userName, Integer articleId, Integer status) {
+
         UpdateWrapper<article> q = new UpdateWrapper<>();
         LambdaUpdateWrapper<articleUp> qq = new LambdaUpdateWrapper<>();
         QueryWrapper<articleUp> aaaa = new QueryWrapper<>();
@@ -46,12 +49,17 @@ public class articleUpServiceImpl implements articleUpService {
         }else{
             q.setSql("up = up - 1").eq("id",articleId);
         }
-        articleMapper.update(null, q);
+        int update = articleMapper.update(null, q);
+        System.out.println("gasgsgasgwsegwgeagw" + update);
         aaaa.eq("article_id",articleId);
+        aaaa.eq("user_name", userName);
         if(articleUpMapper.selectOne(aaaa)!=null){
             qq.eq(articleUp::getArticleId, articleId);
             qq.set(articleUp::getStatus,status);
             articleUpMapper.update(null,qq);
+            //TODO 简单存一下吧
+            article article = articleMapper.selectById(articleId);
+            redisUtil.hset(REDIS_ARTICLE, String.valueOf(articleId), article);
         } else{
             //TODO 点赞后离开 并没有将此数据存入redis
             // 导致文章点数量异常
@@ -60,6 +68,10 @@ public class articleUpServiceImpl implements articleUpService {
             articleUp.setStatus(status);
             articleUp.setUserName(userName);
             articleUpMapper.insert(articleUp);
+
+            //TODO 简单存一下吧
+            article article = articleMapper.selectById(articleId);
+            redisUtil.hset(REDIS_ARTICLE, String.valueOf(articleId), article);
 
         }
         return ApiResponse.success();

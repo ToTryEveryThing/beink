@@ -16,7 +16,6 @@ const actions = {
     hh(context,value){
       //context 上下文 
       // value 接受的数据
-      console.log('我是actions 我响应了')
       //开始操作数据
       context.commit('HH',value)
     }

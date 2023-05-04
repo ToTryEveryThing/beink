@@ -91,13 +91,15 @@ public class MyLogAspect {
             log1.setIp(getRequestIp()); //请求ip
             log1.setUrl(request.getRequestURI()); // 请求URI
             //TODO  有的参数很长 会异常 先不管
-            Object[] args = joinPoint.getArgs();
-            System.out.println("全是参数");
-            for (Object i : args){
-                System.out.println(i);
-            }
-            if(sss.equals("getToken")||sss.equals("register"))log1.setParams("");
-            else log1.setParams(Arrays.asList(joinPoint.getArgs()).toString());//请求参数
+            // TODO 不放参数了
+//            Object[] args = joinPoint.getArgs();
+//            System.out.println("全是参数");
+//            for (Object i : args){
+//                System.out.println(i);
+//            }
+//            if(sss.equals("getToken")||sss.equals("register"))log1.setParams("");
+//            else log1.setParams(Arrays.asList(joinPoint.getArgs()).toString());//请求参数
+                log1.setParams("");
             System.out.println("请求方法为：" + methodName);
             System.out.println("请求返回内容为：" + result);
             System.out.println(result.toString());

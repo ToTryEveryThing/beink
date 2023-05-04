@@ -164,12 +164,10 @@ export default {
             vue.all = i
             vue.editShow = true
             vue.isshow = i.isshow
-            console.log(vue.isshow)
         }
         const changeContent = i =>{
             // let filteredKeys = keysArray.filter(key => key.length > 5);
             vue.content = vue.content.filter(key=>key!=i)
-            console.log(vue.content)
         }
         const ADD = ()=>{
             if(vue.title==='')return 
@@ -218,10 +216,8 @@ export default {
                     {
                         success("修改成功")
                         vue.editShow = false
-                        console.log(vue.all)
                         for(let i=0;i<vue.content.length;i++){
                             if(vue.content[i].id===vue.all.id){
-                                console.log("一样呀",vue.content[i].id)
                                 vue.content[i].title = vue.title
                                 vue.content[i].content = vue.editContent
                                 break

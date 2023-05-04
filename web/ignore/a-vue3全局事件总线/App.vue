@@ -20,14 +20,12 @@
         methods: {
             hh(){
                 alert("hh")
-                console.log('gg')
             }
         },
         mounted(){
             // 接受事件
             this.$bus.on('myself',data=>{
                 this.name = data
-                console.log(data)
             })
         }
     }

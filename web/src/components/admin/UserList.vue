@@ -144,7 +144,6 @@
           enable:false,
           ids:[]
         }) 
-        console.log("list")
         const editUser = (i)=>{
           vue.dialogVisible = true
           vue.index = i
@@ -173,7 +172,6 @@
           i.forEach(y => {
             vue.ids.unshift(y.id)
           });
-          console.log(vue.ids)
         }
         const multiple = ()=>{
           if(vue.ids.length!==0)
@@ -200,7 +198,6 @@
         }
         const updata =()=>{
           vue.dialogVisible = false
-          console.log(vue.enable)
           $.ajax({
                 url:`${config.API_URL}/user/account/updata/`,
                 type:'post',

@@ -68,7 +68,6 @@ export default{
               if(res.code===200){
                 da.value = res.data
               }
-              console.log(res)
             },
         })
     })
