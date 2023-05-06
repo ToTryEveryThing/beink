@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import static com.example.demo.constants.radis.redisConstants.REDIS_CAPTCHA;
+import static com.example.demo.constants.radis.redisConstants.*;
 
 @Service
 public class RegisterImpl implements RegisterService {
@@ -146,6 +146,7 @@ public class RegisterImpl implements RegisterService {
         web1.setDate(new Date());
         webMapper.insert(web1);
         System.out.println(new Date());
+        redisUtil.set(REDIS_TOKEN + account, jwt, REDIS_JWT_TTL);
         return ApiResponse.success(jwt);
     }
 

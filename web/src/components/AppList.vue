@@ -44,7 +44,7 @@
     </div>
     <div v-else class="openhh">
         <ul>
-            <li @click="chat = true">
+            <li @click="showChat">
                 <a href="javascript:void(0);" >
                     <svg aria-hidden="true">
                         <use xlink:href="#icon-globalDiscussion"></use>

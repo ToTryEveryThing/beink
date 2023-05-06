@@ -1,5 +1,6 @@
 package com.example.demo.service.impl.utils;
 
+import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.utils.redisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -32,9 +33,9 @@ public class MailService {
 
     //    抄送（CC），用户给收件人发出邮件的同时把该邮件抄送给另外的人，在这种抄送方式中，“收件人”知道发件人把该邮件抄送给了另外哪些人。
 //    发送者 收件人  抄送人 主题 内容
-    public String sendSimpleMail(String to,
-                               String content){
-        if(!validate(to))return "false";
+    public ApiResponse sendSimpleMail(String to,
+                                      String content){
+        if(!validate(to))return ApiResponse.error(0,"false");
         String code = this.code();
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom("totryeverything@qq.com");
@@ -44,7 +45,7 @@ public class MailService {
         redisUtil.set(to,code);
         redisUtil.expire(to,300);
         javaMailSender.send(msg);
-        return "true";
+        return ApiResponse.success();
     }
 //    更新发送邮件 redis_oss
     public void sendRedisOss(String to){

@@ -42,3 +42,13 @@ module.exports = {
       ]
   }
 }
+
+const TerserPlugin = require('terser-webpack-plugin')
+
+// module.exports 中配置，可加参数，详见github文档或百度
+configureWebpack: config => {
+  if (process.env.NODE_ENV === 'production') {
+    config.plugins.push(new TerserPlugin())
+  }
+}
+

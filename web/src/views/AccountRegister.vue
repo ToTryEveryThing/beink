@@ -1,6 +1,6 @@
 <template>
   
-  <el-form  style="margin-top:10vh;" v-if="show" autocomplete="off" label-width="80px"  :label-position="labelPosition">
+  <el-form  style="margin-top:-40px;" v-if="show" autocomplete="off" label-width="60px"  :label-position="labelPosition">
     <h1>Register</h1>
       <el-form-item label="用户名" >
         <el-input autocomplete="off" autofocus="autofocus" maxlength="10" show-word-limit   v-model="account" />
@@ -17,7 +17,7 @@
         <el-button @click="register" type="primary">注册</el-button>
   </el-form>
 
-  <el-form  style="margin-top:10vh;" v-else autocomplete="off" label-width="80px"  :label-position="labelPosition">
+  <el-form  style="margin-top:-40px;" v-else autocomplete="off" label-width="80px"  :label-position="labelPosition">
     <h1>绑个邮箱吧</h1>
     <!-- <el-tag>跳过</el-tag> -->
       <el-form-item label="邮箱" >
@@ -25,16 +25,27 @@
         </el-input>
       </el-form-item>
       <el-form-item label="代码" >
-        <el-input autocomplete="off"  v-model="Code" >
+        <el-input autocomplete="off"  v-model.number="Code" >
         </el-input>
       </el-form-item>
       <slot :keyyy="nor"></slot>
-      <el-form-item >
-        <el-tag @click="pass">跳过</el-tag>
-        <el-button class="btnnn" v-if="click_if"  @click="gomail" style="width:100px;">{{messages}}</el-button>
-        <el-button class="btnnn"  v-else @click="gomail" disabled style="width:100px;">{{ time }}</el-button>
-        <el-button  style="width:100px;"  @click="goBind" type="primary">绑定</el-button>
-      </el-form-item>
+      <!-- <el-form-item > -->
+        <el-row>
+          <el-col :span="8">
+            <el-tag @click="pass">跳过</el-tag>
+          </el-col>
+          <el-col :span="8">
+            <el-button  style="width:100px;"  @click="goBind" type="primary">绑定</el-button>
+          </el-col>
+          <el-col :span="8">
+
+            <el-button class="btnnn" v-if="click_if"  @click="gomail" small style="width:100px;">{{messages}}</el-button>
+            <el-button class="btnnn"  v-else @click="gomail" disabled  style="width:100px;">{{ time }}</el-button>
+          </el-col>
+        </el-row>
+
+
+      <!-- </el-form-item> -->
       
   </el-form>
 
@@ -80,11 +91,12 @@ export default {
     var f
     let jwt = ref("")
     const pass  =()=>{
-      vue.nor = true
+      location.reload();
+      // vue.nor = true
     }
     const hh=()=>{
       vue.click_if = false
-      vue.time = 300
+      vue.time = 10
       f = setInterval(() => {
         if (vue.time > 0) {
           vue.time--
@@ -93,7 +105,6 @@ export default {
           vue.click_if = true
         }
       }, 1000)
-
     }
     const gomail = ()=>{
       if(vue.mail==="")return 
@@ -108,7 +119,7 @@ export default {
               to:vue.mail
             },
             success(res){
-               if(res===true)
+               if(res.code===200)
                 success("发送成功")
               else 
                 error("发送失败,稍后再试")
@@ -203,11 +214,11 @@ a:hover{
   align-items: center;
 }
 .el-form h1{
-  margin-left: 64px;
+  margin-left: 50px;
   margin-bottom: 20px;
 }
 .el-button{
-  margin-left: 80px;
+  margin-left: 65px;
   width: 300px;
 }
 </style>

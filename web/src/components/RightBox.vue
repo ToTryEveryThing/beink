@@ -49,11 +49,13 @@
             </el-col>
           </el-row>
     </el-drawer>
-    <el-dialog destroy-on-close :show-close="false" :fullscreen="true" v-model="dialogLogin" >
-        <template #header="{close}">
-            <div class="my-header" style="float:right;">
+    <el-dialog class="dialoggg"  :fullscreen="false" width="470px" :show-close="false" align-center  v-model="dialogLogin" >
+        <template #header="{ close, titleId, titleClass }">
+            <div class="my-header">
+              <h4 :id="titleId" :class="titleClass">This is a custom header!</h4>
               <el-button type="danger" @click="close">
-                关闭
+                <el-icon class="el-icon--left"><CircleCloseFilled /></el-icon>
+                Close
               </el-button>
             </div>
           </template>
@@ -61,14 +63,7 @@
             <li style="display:none;" v-if="hh.keyyy===true?dialogLogin=false:dialogLogin=true"></li>
         </login>
     </el-dialog>
-    <el-dialog destroy-on-close :fullscreen="true" :show-close="false" v-model="dialogRegister" >
-        <template #header="{close}">
-            <div class="my-header" style="float:right;">
-              <el-button type="danger" @click="close">
-                关闭
-              </el-button>
-            </div>
-          </template>
+    <el-dialog  class="dialoggg" :fullscreen="false" width="470px"  :show-close="false" align-center v-model="dialogRegister" >
         <register v-slot="hh">
             <li style="display:none;" v-if="hh.keyyy===true?(dialogRegister=false,dialogLogin=true):dialogRegister=true"></li>
         </register>
@@ -168,6 +163,7 @@ import {onMounted, reactive, ref, toRefs } from 'vue'
                 store.dispatch("getList",{keyPrefix:"background"})
                 if(localStorage.getItem("info")===null){
                     open2()
+                    store.dispatch("changeBackground","https://images.beink.cn/background/wallhaven-gp5k23.jpg")
                     localStorage.setItem("info","info")
                 }
             })
@@ -297,8 +293,14 @@ import {onMounted, reactive, ref, toRefs } from 'vue'
 </script>
 
 <style >
+    .my-header{
+        display: none;
+    }
     .card{
         margin-left:1px;
+    }
+    .dialoggg{
+        border-radius: 10px;
     }
     .main{
         display: flex;

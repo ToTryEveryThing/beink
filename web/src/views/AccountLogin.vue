@@ -1,5 +1,5 @@
 <template>
-    <el-form style="margin-top:10vh;" autocomplete="off" label-width="80px"  :label-position="labelPosition">
+    <el-form style="margin-top:-40px;" autocomplete="off" label-width="55px"  :label-position="labelPosition">
       <h1>Login</h1>
         <el-form-item label="名字" >
           <el-input autocomplete="off" autofocus="autofocus" maxlength="10" show-word-limit   v-model="account" />
@@ -116,11 +116,11 @@ export default {
     align-items: center;
   }
   .el-form h1{
-    margin-left: 64px;
+    margin-left: 50px;
     margin-bottom: 20px;
   }
   .el-button{
-    margin-left: 80px;
+    margin-left: 65px;
     width: 300px;
   }
 </style>
