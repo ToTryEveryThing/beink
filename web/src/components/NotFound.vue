@@ -4,13 +4,9 @@
 </template>
 
 <script>
-import router from '../router/index'
+// import router from '../router/index'
   export default{
-    mounted(){
-      setTimeout(function(){
-        router.push({"name":"main"})
-      },3000)
-    }
+
   }
 </script>
 

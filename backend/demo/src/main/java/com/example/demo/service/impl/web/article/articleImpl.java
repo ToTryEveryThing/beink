@@ -1,15 +1,22 @@
 package com.example.demo.service.impl.web.article;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.mapper.article.ArticleMapper;
+import com.example.demo.mapper.article.ArticleUpMapper;
+import com.example.demo.mapper.article.DiscussMapper;
+import com.example.demo.mapper.article.UpMapper;
+import com.example.demo.pojo.article.Discuss;
 import com.example.demo.pojo.article.article;
+import com.example.demo.pojo.article.articleUp;
 import com.example.demo.service.web.article.articleService;
 import com.example.demo.utils.redisUtil;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -31,6 +38,13 @@ public class articleImpl implements articleService {
 
     @Autowired
     private ArticleMapper articleMapper;
+
+    @Autowired
+    private ArticleUpMapper articleUpMapper;
+
+    @Autowired
+    private DiscussMapper discussMapper;
+
 
     @Override
     public ApiResponse<Void> add(String content, String name, String title) {
@@ -57,8 +71,22 @@ public class articleImpl implements articleService {
         return ApiResponse.error(0,"编辑失败");
     }
 
+
     @Override
+    @Transactional
     public ApiResponse<Void> delete(Integer id, String name) {
+
+        //删除点赞
+        LambdaQueryWrapper<articleUp> qqqq = new LambdaQueryWrapper<>();
+        qqqq.eq(articleUp::getArticleId,id);
+        articleUpMapper.delete(qqqq);
+        //删除评论
+        LambdaQueryWrapper<Discuss> discussLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        discussLambdaQueryWrapper.eq(Discuss::getArticleId,id);
+        discussMapper.delete(discussLambdaQueryWrapper);
+        //TODO 删除评论点赞
+
+
         int i = articleMapper.deleteById(id);
         if(i>=1){
             redisUtil.hdel(REDIS_ARTICLE, id.toString());

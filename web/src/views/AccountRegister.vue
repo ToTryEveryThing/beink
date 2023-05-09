@@ -3,7 +3,7 @@
   <el-form  style="margin-top:-40px;" v-if="show" autocomplete="off" label-width="60px"  :label-position="labelPosition">
     <h1>Register</h1>
       <el-form-item label="用户名" >
-        <el-input autocomplete="off" autofocus="autofocus" maxlength="10" show-word-limit   v-model="account" />
+        <el-input autocomplete="off" autofocus="autofocus" maxlength="20" show-word-limit   v-model="account" />
       </el-form-item>
       <el-form-item label="密码">
           <el-input  autocomplete="off"   show-password type="password" v-model="password" />
@@ -122,7 +122,7 @@ export default {
                if(res.code===200)
                 success("发送成功")
               else 
-                error("发送失败,稍后再试")
+                error(res.message)
             },
             error(){
               error("error")
@@ -143,13 +143,10 @@ export default {
             },
             success(res){
               if(res.code===0){
-                error(res.msg)
+                error(res.message)
               }else{
                 success("绑定成功")
                 clearInterval(f)
-                setTimeout(() => {
-                  vue.nor = true
-                }, 1500);
                 location.reload();
               }
             },

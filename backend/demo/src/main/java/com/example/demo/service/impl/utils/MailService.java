@@ -35,10 +35,13 @@ public class MailService {
 //    发送者 收件人  抄送人 主题 内容
     public ApiResponse sendSimpleMail(String to,
                                       String content){
-        if(!validate(to))return ApiResponse.error(0,"false");
+        String from = "totryeverything@qq.com";
+        if(redisUtil.hasKey(to))return ApiResponse.error(0, "发送过了偶");
+        if(!VerifyEmail(to))return ApiResponse.error(0,"检查邮箱格式");
+        System.out.println("");
         String code = this.code();
         SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setFrom("totryeverything@qq.com");
+        msg.setFrom(from + "(beink.cn)");
         msg.setTo(to);
         msg.setSubject("验证码为：" + code);
         msg.setText("如果这不是你所发送的请忽略！");
@@ -112,10 +115,12 @@ public class MailService {
                 "^([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)"
                         + "|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,}|[0-9]{1,3})(\\]?)$");
 
-        public static boolean validate(String email) {
-            Matcher matcher = pattern.matcher(email);
-            return matcher.matches();
+    public static boolean VerifyEmail(String email) {
+        if ((email != null) && (!email.isEmpty())) {
+            return Pattern.matches("^(\\w+([-.][A-Za-z0-9]+)*){3,18}@\\w+([-.][A-Za-z0-9]+)*\\.\\w+([-.][A-Za-z0-9]+)*$", email);
         }
+        return false;
+    }
 
 
 
