@@ -166,6 +166,7 @@ export default {
                 base64:vue.cha
             },
             success(res){
+              console.log(res)
                 if(res.code === 200){
                   success(res.message)
                   vue.show = false
@@ -173,7 +174,7 @@ export default {
                   jwt.value = res.data
                 }
                 else{
-                    error(res.msg)
+                    error(res.message)
                 }
             },
         })

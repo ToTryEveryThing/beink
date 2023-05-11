@@ -16,7 +16,7 @@
                     </el-col> 
                     <el-col :span="24" class="oonoono">
                         <el-row :gutter="20" justify="center">
-                            <el-col :span="18"  v-for="i  in content" :key="i.id" class="animate__animated  animate__fadeIn" >
+                            <el-col :span="18"  v-for="i  in content" style="cursor: pointer;" :key="i.id" @click="view(i.id)" class="animate__animated  animate__fadeIn" >
                                 <el-card shadow="hover" style="margin-top:20px;" > 
                                     <template #header>
                                         <div class="card-header">
@@ -26,9 +26,9 @@
                                             </el-button>
                                         </span>
                                         <el-button-group  class="ml-4">
-                                            <el-button type="primary" @click="view(i.id)" >
+                                            <!-- <el-button type="primary" @click="view(i.id)" >
                                                 <el-icon><View /></el-icon>
-                                            </el-button>
+                                            </el-button> -->
                                             <el-button type="primary" v-if="isisALL" @click="Edit(i)" >
                                                 <el-icon >
                                                     <Edit />

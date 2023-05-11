@@ -20,8 +20,8 @@
           <el-button text  style="margin-top:10px;" @click="GoHome('/')" >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-home"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
           </el-button>
-          <el-button text @click="gogogogog()" v-if="$store.state.discuss.article_author===$store.state.account" style="margin-top:20px;margin-left:0" >
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-3"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+          <el-button text @click="gogogogog('article')" style="margin-top:20px;margin-left:0" >
+            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="css-i6dzq1"><polyline points="9 10 4 15 9 20"></polyline><path d="M20 4v7a4 4 0 0 1-4 4H4"></path></svg>
           </el-button>
         </el-affix>
       </el-col>
@@ -43,7 +43,7 @@
                   </span>
                 </div>
               </template>
-              <el-avatar @click="gogogogog" class="author" size="50" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
+              <el-avatar @click="gogogogog('author')" class="author" size="50" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
               {{ TEXT.post }}
             </el-card>
             <el-card shadow="always" style="margin-top:20px;"> 
@@ -189,7 +189,10 @@ import { warning } from '@/utiles/message';
         })
     }
 
-    const gogogogog = ()=>{
+    const gogogogog = i =>{
+      if(i==='article')
+        router.go(-1)
+      else 
       router.push(`/author/${TEXT.value.post}/`)
     }
 

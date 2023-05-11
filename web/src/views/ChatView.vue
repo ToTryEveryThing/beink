@@ -51,7 +51,6 @@
                   :rows="4"
                   type="textarea"
                   placeholder="Please input"
-                  @keyup.enter="send"
                 />
                 <el-button style="float:right;" @click="send" type="primary">发送</el-button>
             </el-card>
@@ -74,10 +73,15 @@
     let textarea = ref("")
     let userList = ref([])
     let TTT = ref([])
+    let sstop = ref(true)
     let value1 = ref(false)
     let name = sessionStorage.getItem("name")
     const store = useStore()
     const send = ()=>{
+      if(sstop.value==false){
+        warning("功能已停用")
+        return 
+      }
       if(textarea.value==='')return
       if(oneUserName.value==="请选择一位发起聊天")return
       if(oneUserId.value===0)return
@@ -143,42 +147,48 @@
           store.state.socket.socket.send("all");
           store.commit("up",sessionStorage.getItem("name"))
           store.state.socket.socket.onmessage = msg => {
-        let value = JSON.parse(msg.data)
-        if(value.author==='All'){
-          userList.value = value.message
-          // 如果某个人退出了 给他删掉
-        }
-        else if(value.author==='oneself'){
-          // 目标用户已下线
-          // alert("666")
-          oneUserName.value = "请选择一位发起聊天"
-          TTT.value = []
-          warning(value.message)
-        } 
-        else if(value.author==="about"){
-          open2(value.message)
-        }
-        else{
-          //收到某人的信息
-          // 如果正在和当前人通信 即可加入到TTT 不用刷新了
-          // 否则 不加   进行提示
-          if(value.author===oneUserName.value && value.author!==name){
-            TTT.value.push({
-              id:new Date(),
-              from:value.author,
-              to:name,
-              content:value.message,
-              date:new Date()
-            })
-          }else{
-            // 进行提示
-            if(value.author!==name)
-            changeStatus(value.to,"true")
-          }
-        }
-        setTimeout(function(){
-        document.getElementById("bottom").scrollIntoView(false);
-      },50)
+              let value = JSON.parse(msg.data)
+              if(value.author==='All'){
+                userList.value = value.message
+                // 如果某个人退出了 给他删掉
+              }
+              else if(value.author==='oneself'){
+                // 目标用户已下线
+                // alert("666")
+                oneUserName.value = "请选择一位发起聊天"
+                TTT.value = []
+                warning(value.message)
+              } 
+              else if(value.author==="about"){
+                open2(value.message)
+              }
+              else if(value.author==="stop"){
+                oneUserName.value = "请选择一位发起聊天"
+                TTT.value = []
+                warning(value.message)
+                sstop.value = false
+              }
+              else{
+                //收到某人的信息
+                // 如果正在和当前人通信 即可加入到TTT 不用刷新了
+                // 否则 不加   进行提示
+                if(value.author===oneUserName.value && value.author!==name){
+                  TTT.value.push({
+                    id:new Date(),
+                    from:value.author,
+                    to:name,
+                    content:value.message,
+                    date:new Date()
+                  })
+                }else{
+                  // 进行提示
+                  if(value.author!==name)
+                  changeStatus(value.to,"true")
+                }
+              }
+              setTimeout(function(){
+              document.getElementById("bottom").scrollIntoView(false);
+            },50)
           }
         }, 1000);
     })

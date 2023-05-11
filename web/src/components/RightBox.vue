@@ -68,7 +68,7 @@
             <li style="display:none;" v-if="hh.keyyy===true?(dialogRegister=false,dialogLogin=true):dialogRegister=true"></li>
         </register>
     </el-dialog>
-    <el-dialog style="padding:0;" width="55%" :show-close="false"  :draggable="true" v-model="dialogBack" >
+    <el-dialog style="padding:0;border-radius: 10px;" width="55%" :show-close="false"  :draggable="true" v-model="dialogBack" >
         <template #header="{close}">
             <el-row justify="space-between">
                 <el-col :span="8">

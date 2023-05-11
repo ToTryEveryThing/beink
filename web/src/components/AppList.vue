@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="chat"  center :show-close="false">
+    <el-dialog v-model="chat" style="border-radius: 10px;" center :show-close="false">
         <template >
         </template>
         <chat/>
@@ -100,7 +100,7 @@
                     {href:'https://www.bilibili.com/',icon:'#icon-bilibili',name:'bilibil'},
                 ],
                 list2:[
-                    {href:'http://8.130.99.166/',icon:'#icon-tanchishedazuozhan',name:'Snake'},
+                    {href:'http://snake.beink.cn/',icon:'#icon-tanchishedazuozhan',name:'Snake'},
                     // {href:'https://www.w3school.com.cn/index.html',icon:'#icon-w3school',name:'w3school'}
                 ]
             })

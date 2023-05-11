@@ -11,6 +11,7 @@
       <el-table-column prop="type" label="Type" />
       <el-table-column prop="url" label="Url" />
     </el-table>
+
     <el-pagination
     @current-change="handleCurrentChange"
       background  
@@ -20,6 +21,7 @@
       layout="prev, pager, next"
       :total="total"
     />
+
     <table border="1">
       <tr>
         <td>username</td>
@@ -49,8 +51,10 @@
           </li>
         </td>
       </tr>
-      </table>
-    
+    </table>
+
+    <Limittt></Limittt>
+
   </el-card>
 </template>
 
@@ -61,9 +65,12 @@ import config from '@/utiles/config'
 import { onMounted, reactive, toRefs} from 'vue'
 import { useStore } from 'vuex';
 import moment from 'moment/moment'
+import Limittt from '@/components/admin/LimitUser.vue'
 export default{
 
+  components:{Limittt},
   setup(){
+
     const store = useStore();
     const vue = reactive({
       table:[],

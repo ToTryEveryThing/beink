@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.demo.mapper.ChatMapper;
 import com.example.demo.pojo.Chat;
 import com.example.demo.utils.IdandName;
+import com.example.demo.utils.redisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,9 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static com.example.demo.constants.radis.redisConstants.REDIS_CHAT;
+import static com.example.demo.constants.radis.redisConstants.REDIS_LIMIT;
 
 /**
  * @author 睡醒继续做梦
@@ -28,9 +32,16 @@ public class WebSocketServer {
 
     public static ChatMapper chatMapper;
 
+    public static redisUtil redisUtil;
+
     @Autowired
     public void setChatMapper(ChatMapper chatMapper){
         WebSocketServer.chatMapper = chatMapper;
+    }
+
+    @Autowired
+    public  void setRedisUtil(redisUtil redisUtil) {
+        WebSocketServer.redisUtil = redisUtil;
     }
 
     //  一个连接就是一个session
@@ -67,6 +78,13 @@ public class WebSocketServer {
 
     @OnMessage
     public void onMessage(String message, Session session){
+
+        Boolean hget = (Boolean) redisUtil.hget(REDIS_LIMIT, REDIS_CHAT);
+        if(!hget){
+            this.sendMessageSo(this.id, "功能已停用");
+            return ;
+        }
+
         System.out.println("message = " + message);
         if(message.equals("all")){
             System.out.println(message);
@@ -128,6 +146,21 @@ public class WebSocketServer {
 //                加入数据库
                 chatMapper.insert(new Chat(5,from,to,message,new Date()));
 
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public void sendMessageSo(Integer userId, String message){
+        JSONObject resp = new JSONObject();
+        Session newSession = null;
+        resp.put("author","stop");
+        resp.put("message",message);
+        newSession = user.get(userId).session;
+        synchronized (newSession){
+            try{
+                newSession.getBasicRemote().sendText(String.valueOf(resp));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

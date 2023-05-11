@@ -108,6 +108,11 @@ public class RegisterImpl implements RegisterService {
     @Override
     public ApiResponse<String> register(String account, String password, String code, String base64) {
 
+        Boolean canRegister = (Boolean) redisUtil.hget(REDIS_LIMIT, REDIS_REGISTER);
+        if(!canRegister){
+            return ApiResponse.error(0, "目前无法注册");
+        }
+
         Boolean f = new IsCode().is(REDIS_CAPTCHA + code,base64,redisUtil);
         if(!f){
             return ApiResponse.error(0,"验证码错误");
