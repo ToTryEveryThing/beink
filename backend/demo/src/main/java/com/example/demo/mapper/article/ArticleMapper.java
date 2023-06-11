@@ -3,6 +3,7 @@ package com.example.demo.mapper.article;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.demo.pojo.article.article;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /***
  * @author 睡醒继续做梦
@@ -11,4 +12,11 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface ArticleMapper extends BaseMapper<article> {
+
+    void selectById(@Param("id") int id);
+
+    int insertSelective(article article);
+
+    int updateSelective(article article);
+
 }

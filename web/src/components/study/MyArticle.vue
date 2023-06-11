@@ -16,8 +16,8 @@
                     </el-col> 
                     <el-col :span="24" class="oonoono">
                         <el-row :gutter="20" justify="center">
-                            <el-col :span="18"  v-for="i  in content" style="cursor: pointer;" :key="i.id" @click="view(i.id)" class="animate__animated  animate__fadeIn" >
-                                <el-card shadow="hover" style="margin-top:20px;" > 
+                            <el-col :span="18"  v-for="i  in content"  :key="i.id"  class="animate__animated  animate__fadeIn" >
+                                <el-card  shadow="hover" style="margin-top:20px;" > 
                                     <template #header>
                                         <div class="card-header">
                                         <span>
@@ -42,7 +42,7 @@
                                         </el-button-group>
                                         </div>
                                     </template>
-                                    <el-row>
+                                    <el-row @click="view(i.id)" style="cursor: pointer;">
                                         <el-col :span="6">
                                         <el-statistic title="Up" :value="i.up" />
                                         </el-col>
@@ -122,7 +122,11 @@ export default {
                 success(res){
                     if(res.code===200){
                         vue.content = res.data.filter(i => i.isshow==true || i.post===store.state.account)
-                        console.log(vue.content)
+                        if(vue.content.length===0)
+                        {
+                            router.push("/404")
+                        }
+                        // console.log(vue.content.length)
                     }
                 }
             })
