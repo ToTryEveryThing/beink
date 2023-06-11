@@ -1,6 +1,7 @@
 package com.example.demo.service.admin;
 
 import com.alibaba.fastjson.JSONObject;
+import com.example.demo.controller.common.ApiResponse;
 
 /***
  * @author 睡醒继续做梦
@@ -8,6 +9,7 @@ import com.alibaba.fastjson.JSONObject;
  */
 public interface getOperationLog {
 
-    public JSONObject getLog(Integer page);
+    public JSONObject getLog(Integer page, String ip, String result);
 
+    ApiResponse<Void> de(String result);
 }

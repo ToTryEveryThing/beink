@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -30,11 +31,14 @@ public class getOperationLogService implements getOperationLog {
 
 
     @Override
-    public JSONObject getLog(Integer page) {
+    public JSONObject getLog(Integer page, String ip, String result) {
 
         IPage<Log> logIPage = new Page<>(page,10);
         QueryWrapper<Log> queryWrapper = new QueryWrapper<>();
+        if(!ip.equals("")&&ip!=null)queryWrapper.eq("ip",ip);
+        if(!result.equals("")&&result!=null)queryWrapper.eq("result",result);
         queryWrapper.orderByAsc("result");
+        queryWrapper.orderByDesc("create_date");
         JSONObject jsonObject = new JSONObject();
         List<Log> records = logMapper.selectPage(logIPage, queryWrapper).getRecords();
         jsonObject.put("code", 200);
@@ -61,5 +65,13 @@ public class getOperationLogService implements getOperationLog {
 
         return jsonObject;
 
+    }
+
+    @Override
+    public ApiResponse<Void> de(String result) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("result",result);
+        logMapper.deleteByMap(map);
+        return ApiResponse.success( );
     }
 }

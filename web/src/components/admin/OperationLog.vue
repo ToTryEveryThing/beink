@@ -1,5 +1,24 @@
 <template>
   <el-card>
+    <el-row>
+      <el-col :span="5">
+        <el-input v-model="Result" placeholder="Please input">
+          <template #prepend>Result</template>
+        </el-input>
+      </el-col>
+      <el-col :span="5">
+        <el-input v-model="IP" placeholder="Please input">
+          <template #prepend>IP</template>
+        </el-input>
+      </el-col>
+      <el-col :span="12">
+        <el-button type="primary" @click="show">查询</el-button>
+        <el-button type="info" @click="reback">重置</el-button>
+        <el-button type="primary" @click="deleteSuccess('200')">删除成功日志</el-button>
+        <el-button type="warning" @click="deleteSuccess('-1')">删除异常日志</el-button>
+        <el-button type="danger" @click="deleteSuccess('0')">删除失败日志</el-button>
+      </el-col>
+    </el-row>
     <el-table :data="table" border  style="width: 100%">
       <el-table-column prop="id" label="ID" width="180" />
       <el-table-column prop="username" label="Name" width="180" />
@@ -66,10 +85,12 @@ import { onMounted, reactive, toRefs} from 'vue'
 import { useStore } from 'vuex';
 import moment from 'moment/moment'
 import Limittt from '@/components/admin/LimitUser.vue'
+import { success } from '@/utiles/message';
 export default{
 
   components:{Limittt},
   setup(){
+
 
     const store = useStore();
     const vue = reactive({
@@ -79,8 +100,34 @@ export default{
       username:{},
       result:{},
       ip:{},
-      url:{}
+      url:{},
+      IP:"",
+      Result:""
     })
+
+    const reback = ()=>{
+      vue.IP = ""
+      vue.Result = ""
+      show()
+    }
+
+    const deleteSuccess = (i)=>{
+      $.ajax({
+          url:`${config.API_URL}/admin/log/delete/${i}`,
+          type:'delete',
+          headers:{
+              Authorization:"Bearer " + store.state.token
+          },
+          success(res){
+            console.log(res,i)
+            if(res.code===200){
+              success(res.message)
+              show()
+            }
+          }
+      })
+    }
+
     const show = ()=>{
       $.ajax({
           url:`${config.API_URL}/admin/log/`,
@@ -89,7 +136,9 @@ export default{
               Authorization:"Bearer " + store.state.token
           },
           data:{
-            page:vue.page
+            page:vue.page,
+            ip:vue.IP,
+            result:vue.Result
           },
           success(res){
             if(res.code===200){
@@ -121,8 +170,8 @@ export default{
     })
 
     return{
-      ...toRefs(vue),
-      ppage,
+      ...toRefs(vue),show,reback,
+      ppage,deleteSuccess,
       handleCurrentChange
       
     }

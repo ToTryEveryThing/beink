@@ -7,10 +7,7 @@ import com.example.demo.pojo.Log;
 import com.example.demo.pojo.user.LimitOfUser;
 import com.example.demo.service.impl.admin.getOperationLogService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,9 +23,16 @@ public class OperationLogController {
     private getOperationLogService getOperationLogService;
 
     @GetMapping("/admin/log/")
-    public JSONObject getLog(@RequestParam  Integer page){
+    public JSONObject getLog(@RequestParam  Integer page,
+                             @RequestParam String ip,
+                             @RequestParam String result){
 
-        return getOperationLogService.getLog(page);
+        return getOperationLogService.getLog(page,ip,result);
+    }
+
+    @DeleteMapping("/admin/log/delete/{result}")
+    public ApiResponse<Void> ddd(@PathVariable String result ){
+        return getOperationLogService.de(result);
     }
 
 }
