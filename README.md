@@ -14,80 +14,64 @@
     | |/ |/ / / / /      / /_/ /  __/      / /_/ / /| |  
     |__/|__/_/_/_/      /_ ___/\___/       \____/_/ |_| 
     
-    
-    
  > 演示地址 [https://beink.cn](https://beink.cn)
+
+
+
+
+
+
+|Vue|aliyun-icon|Element plus|v-md-editor | jquery|
+|-|-|-|-|-| 
+
+
+|Spring Boot| mysql| Spring Security| Mybatis Plus| Redis| aliyun-OSS|easy-captcha| WebSocket|
+|-|-|-|-|-|-| -| -|
+
  
-> 源版本地址： [vue](https://github.com/ToTryEveryThing/vue)  |   [Spring Boot](https://github.com/ToTryEveryThing/Spring-Boot)
+- [x] 想办法优化 表中的某条数据的+1  
 
->> 毕生所学
+  > 使用UpdateWrapper
 
----
+- [x] 先点增加article然后取消 再编辑，会增加一个
 
+- [x] 用户列表 没有email
 
-### 添加markdowm
-官方网址 [v-md-editor](https://code-farmer-i.github.io/vue-markdown-editor/zh/)
+- [x] 文章点赞
 
-#### 安装
+- [x] security 捕获 抛出的 异常提示
 
-```bash
-# 使用 npm
-npm i @kangc/v-md-editor@next -S
-```
+  - [x] 认证失效
 
-#### main.js配置
+  - [ ] 权限不足
 
-```js
-//Preview  渲染
-import VMdPreview from '@kangc/v-md-editor/lib/preview';
-import '@kangc/v-md-editor/lib/style/preview.css';
+  - [x] token 不可用
 
-//editor  编辑
-import VueMarkdownEditor from '@kangc/v-md-editor';
-import '@kangc/v-md-editor/lib/style/base-editor.css';
+    >让他自己抛异常，然后查看是啥异常，再捕获
 
-// 引入你所使用的主题 此处以 github 主题为例
-import githubTheme from '@kangc/v-md-editor/lib/theme/github';
-import '@kangc/v-md-editor/lib/theme/style/github.css';
+- [x] 重新排列一下目录(mvn clear下)
 
-// highlightjs
-import hljs from 'highlight.js';
-VueMarkdownEditor.use(githubTheme, {
-    Hljs: hljs,
-});
-VMdPreview.use(githubTheme, {
-    Hljs: hljs,
-});
-
-//挂载
-app.use(VMdPreview)
-app.use(VueMarkdownEditor)
-```
-
-#### 使用
-
-```vue
-<template>
- 		<!-- 编辑 -->
-    <v-md-editor v-model="markdown" v-if="isShow" @save="save" height="800px"></v-md-editor>
-    	<!-- 预览 -->
-	<v-md-preview  :text="markdown"></v-md-preview >
-</template>
-
-<script>
-export default {
-  data() {
-    return {
-      markdown: '',
-    };
-  },
-};
-</script>
-```
-
-|Vue|aliyun-icon|element plus|v-md-editor | jquery|
-|-|-|-| - | -| 
+- [x] 文章是否被展示
 
 
-|Spring Boot| mysql|
-|-|-|
+- [x] 编辑文章高度 动态改变
+
+  > document.body.clientHeight 
+
+
+- [x] chat放在首页，不用路径跳转，弹出框显示
+- [x] 很多东西并没有放入redis中
+- [x] 有空删掉public表和`/git/*`吧
+- [x] spring security rbac(hasrole)
+- [x] token如何正确的存入redis中
+- [x] 修改密码(只写了后端)
+- [x] 分开发 上线环境
+- [x] 枚举
+- [x] ApiResponse<T>
+- [x] 增加文章个人主页
+- [ ] 上传进度条(可选)
+- [ ] 关注用户(可选)
+- [x] 绑定邮箱页面
+- [x] 日志
+- [x] 控制是否登录、注册、验证码、
+
