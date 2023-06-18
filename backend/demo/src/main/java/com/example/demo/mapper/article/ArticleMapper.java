@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface ArticleMapper extends BaseMapper<article> {
 
-    void selectById(@Param("id") int id);
+//    void selectById(@Param("id") int id);
 
     int insertSelective(article article);
 
