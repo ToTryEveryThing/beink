@@ -57,7 +57,6 @@ public class LoginUser implements UserDetails , Serializable {
         return web.getAccount();
     }
 
-    //todo 一系列都试试
     @Override
     public boolean isAccountNonExpired() {
         return true;

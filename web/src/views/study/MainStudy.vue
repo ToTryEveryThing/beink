@@ -7,14 +7,13 @@
       <el-main  class="main" >
         <el-row class="row-bg" :span="20" justify="center">
             <ul>
-              <li v-for="i in da" :key="i.name"  class="animate__animated  animate__fadeIn"> 
+              <li v-for="i in da" :key="i.id"  class="animate__animated  animate__fadeIn"> 
                 <div class="card" v-if="i.isshow">
                   <div class="card-top">
-                      <p class="card__title">{{i.title}}</p>
-                      <div >
-                        {{ i.name }}
+                      <p class="card__title">{{i.title}}
+                         <!-- <el-tag>{{ i.post }}</el-tag>  -->
+                        </p>
                         <el-divider border-style="dashed" />
-                      </div>
                   </div>
                   <div  >
                     <el-row>
@@ -72,10 +71,10 @@ export default{
         })
     })
     store.dispatch("connectToWebSocket", {
-    id: localStorage.getItem("id"),
-    name: localStorage.getItem("name"),
-    token: localStorage.getItem("jwt"),
-});
+      id: localStorage.getItem("id"),
+      name: localStorage.getItem("name"),
+      token: localStorage.getItem("jwt"),
+    });
     const go=(i)=>{
       router.push(`/article/${i}/`)
     }

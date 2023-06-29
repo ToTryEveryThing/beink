@@ -49,31 +49,32 @@ public class articleUpServiceImpl implements articleUpService {
         }else{
             q.setSql("up = up - 1").eq("id",articleId);
         }
+        // 点赞 存入数据库
         int update = articleMapper.update(null, q);
-        System.out.println("gasgsgasgwsegwgeagw" + update);
+
+        //改变自己给这个文章的点赞状态
         aaaa.eq("article_id",articleId);
         aaaa.eq("user_name", userName);
-        if(articleUpMapper.selectOne(aaaa)!=null){
+        if(articleUpMapper.selectOne(aaaa)!=null){ //点过赞
             qq.eq(articleUp::getArticleId, articleId);
             qq.set(articleUp::getStatus,status);
             articleUpMapper.update(null,qq);
-            //TODO 简单存一下吧
-            article article = articleMapper.selectById(articleId);
-            redisUtil.hset(REDIS_ARTICLE, String.valueOf(articleId), article);
-        } else{
-            //TODO 点赞后离开 并没有将此数据存入redis
-            // 导致文章点数量异常
+        } else{  //没有点过赞
             articleUp articleUp = new articleUp();
             articleUp.setArticleId(articleId);
             articleUp.setStatus(status);
             articleUp.setUserName(userName);
             articleUpMapper.insert(articleUp);
-
-            //TODO 简单存一下吧
-            article article = articleMapper.selectById(articleId);
-            redisUtil.hset(REDIS_ARTICLE, String.valueOf(articleId), article);
-
         }
+
+        // 如果点赞操作成功，更新redis
+        if(update>=1){
+            article article = (article) redisUtil.hget(REDIS_ARTICLE, String.valueOf(articleId));
+            if(status.equals(1)) article.setUp(article.getUp()+1);
+            else article.setUp(article.getUp()-1);
+            redisUtil.hset(REDIS_ARTICLE, String.valueOf(articleId), article);
+        }
+
         return ApiResponse.success();
 
     }
