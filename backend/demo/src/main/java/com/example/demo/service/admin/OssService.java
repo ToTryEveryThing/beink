@@ -90,7 +90,6 @@ public class OssService {
     }
 
     public void getList(String keyPrefix){
-        System.out.println("我是一");
         OSS ossClient = new OSSClientBuilder().build(aliossConfig.getEndpoint()
                 ,aliossConfig.getAccessKeyId()
                 ,aliossConfig.getAccessKeySecert());

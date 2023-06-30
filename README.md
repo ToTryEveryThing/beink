@@ -13,7 +13,7 @@
     | | /| / / / / /      / __ / _  \       / / / / / <   
     | |/ |/ / / / /      / /_/ /  __/      / /_/ / /| |  
     |__/|__/_/_/_/      /_ ___/\___/       \____/_/ |_| 
-    
+
  > 演示地址 [https://beink.cn](https://beink.cn)
 
 
@@ -28,7 +28,7 @@
 |Spring Boot| mysql| Spring Security| Mybatis Plus| Redis| aliyun-OSS|easy-captcha| WebSocket|
 |-|-|-|-|-|-| -| -|
 
- 
+
 - [x] 想办法优化 表中的某条数据的+1  
 
   > 使用UpdateWrapper
@@ -72,6 +72,7 @@
 - [ ] 上传进度条(可选)
 - [ ] 关注用户(可选)
 - [x] 绑定邮箱页面
-- [x] 日志
+- [x] 日志 写入文件
 - [x] 控制是否登录、注册、验证码、
+- [x] task -- redis--oss
 

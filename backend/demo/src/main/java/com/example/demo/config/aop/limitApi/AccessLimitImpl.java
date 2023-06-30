@@ -1,6 +1,7 @@
 package com.example.demo.config.aop.limitApi;
 
 import com.example.demo.exception.controllerException.LimitException;
+import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -17,6 +18,7 @@ import static com.example.demo.constants.radis.redisConstants.REDIS_ACCESS;
 
 @Component
 @Aspect
+@Log4j2
 public class AccessLimitImpl {
 
     @Autowired
@@ -44,6 +46,7 @@ public class AccessLimitImpl {
             redisTemplate.opsForValue().increment(key);
         } else {
             // 如果次数超过了最大访问次数，则返回错误信息
+            log.warn(key,"访问次数过多");
             throw new LimitException("服务异常,稍后再试",-1);
         }
 
