@@ -37,4 +37,8 @@ import {useStore} from 'vuex'
   body{
     margin: 0;
   }
+  
+  #nprogress .bar {
+    background: rgb(79, 133, 234) !important; 
+  }
 </style>

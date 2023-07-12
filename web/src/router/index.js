@@ -12,6 +12,19 @@ import me from '@/components/study/MyArticle'
 import log from '@/components/admin/OperationLog'
 import profile from "@/components/UserProfile" 
 
+// 路由切换进度条
+// https://blog.csdn.net/weixin_73337633/article/details/131376644
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
+
+NProgress.configure({
+  easing: 'ease', // 动画方式
+  speed: 500, // 递增进度条的速度
+  showSpinner: false, // 是否显示加载ico
+  trickleSpeed: 200, // 自动递增间隔
+  minimum: 0.3,// 初始化时的最小百分比,
+})
+
 const routes = [ 
   {
     path:'/',
@@ -141,4 +154,17 @@ router.beforeEach((to,from,next)=>{
         next()
     }
 })
+
+
+router.beforeEach((to, from, next) => {
+  //这这里开启加载条
+  NProgress.start()
+  next()
+})
+router.afterEach(() => {
+  // 在即将进入新的页面组件前，关闭掉进度条
+  NProgress.done()
+})
+
+
 export default router
