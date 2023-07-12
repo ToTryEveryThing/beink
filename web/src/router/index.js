@@ -10,7 +10,7 @@ import userlist from '@/components/admin/UserList'
 import broadcast from '@/components/admin/BroadCast'
 import me from '@/components/study/MyArticle'
 import log from '@/components/admin/OperationLog'
-import profile from "@/components/UserProfile" 
+import profile from "@/components/user/UserProfile" 
 
 // 路由切换进度条
 // https://blog.csdn.net/weixin_73337633/article/details/131376644

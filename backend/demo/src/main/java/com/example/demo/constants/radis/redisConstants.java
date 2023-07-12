@@ -14,4 +14,6 @@ public class redisConstants {
     public static final String REDIS_REGISTER = "register";
     public static final String REDIS_CHAT = "chat";
     public static final String REDIS_LIMIT = "limit";
+
+    public static final String REDIS_OSS_USER = "userImage";
 }

@@ -25,7 +25,7 @@ public class controller {
             "/user/admin/git/save/","/user/discuss/add/",
             "/user/discuss/delete/","/user/up/","/user/down/","/user/discussstatus/",
             "/user/mailbind/","/user/chat/content/","/user/article/delete/","/user/article/edit/",
-            "/user/article/add/","/user/article/up/","/user/account/changpasswd/"
+            "/user/article/add/","/user/article/up/","/user/account/changpasswd/","/user/upload/image/"
     };
 
     /**

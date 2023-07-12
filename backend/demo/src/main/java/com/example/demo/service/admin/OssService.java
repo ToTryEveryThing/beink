@@ -10,9 +10,12 @@ import com.aliyuncs.auth.sts.AssumeRoleRequest;
 import com.aliyuncs.auth.sts.AssumeRoleResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.config.AliossConfig;
 import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.controller.common.Result;
+import com.example.demo.mapper.user.WebMapper;
+import com.example.demo.pojo.user.web;
 import com.example.demo.utils.redisUtil;
 import com.example.demo.pojo.OssTokenVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +39,9 @@ public class OssService {
 
     @Autowired
     private redisUtil redisUtil;
+
+    @Autowired
+    private WebMapper webMapper;
 
 
     @Autowired
@@ -154,4 +160,31 @@ public class OssService {
         }
         return ApiResponse.error(0,"删除失败");
     }
+
+    public ApiResponse userupload(MultipartFile file, String keyPrefix, String name) throws IOException {
+
+        // TODO 限制大小 重命名 限制格式
+        String objectName = keyPrefix + "/";
+        String originalFilename = name + "_" + file.getOriginalFilename();
+        OSS  os = new OSSClientBuilder().build(
+                aliossConfig.getEndpoint(),
+                aliossConfig.getAccessKeyId(),
+                aliossConfig.getAccessKeySecert());
+        os.putObject(
+                aliossConfig.getBucket(),
+                objectName + originalFilename,
+                file.getInputStream()
+        );
+        os.shutdown();
+
+        redisUtil.hset(REDIS_OSS_USER, name, objectName + originalFilename);
+
+        QueryWrapper<web> q = new QueryWrapper<>();
+        q.eq("account",name);
+        web web = new web();
+        web.setUserimage(objectName + originalFilename);
+        webMapper.update(web,q);
+        return ApiResponse.success(objectName + originalFilename);
+    }
+
 }

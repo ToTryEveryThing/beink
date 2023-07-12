@@ -18,6 +18,9 @@ const state = {
     backImg:'',
     is_login:false,
     role:'',
+    userimage:"",
+    date: "",
+    email: "",
     localList:JSON.parse(localStorage.getItem('list')) || [],
     is_author:false,
     list:[
@@ -98,8 +101,8 @@ const actions = {
                 localStorage.removeItem("jwt")
               }   
           },
-          error(res){
-            error(res.data.message)
+          error(){
+            error("系统异常")
             localStorage.removeItem("jwt")
           }
       })
@@ -164,6 +167,9 @@ const mutations = {
     state.is_login = value.is_login
     state.backImg = value.backImg
     state.role = value.role
+    state.userimage = value.userimage
+    state.email = value.email
+    state.date = value.date
     state.localList = JSON.parse(value.listlist)
     sessionStorage.setItem("name",state.account)
     sessionStorage.setItem("role",value.role)
