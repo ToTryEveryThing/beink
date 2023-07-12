@@ -6,6 +6,17 @@ const message = (i) => {
       message: i,
     })
 }
+const articlMessage = (x,y,z) => {
+  ElNotification({
+    title: `${x}更新了`,
+    dangerouslyUseHTMLString: true,
+    message: `<a href="http://127.0.0.1:8080/article/${z}">
+                《${y}》
+            </a>点击前去查看`,
+    // message: `<strong>This is <i>标题为：${y}地址为：${z}</i> string</strong>`,
+    duration: 0
+  })
+}
 
 const success = (i) => {
     ElMessage({
@@ -41,5 +52,5 @@ const open2 = (i) => {
 
 
 
-export {message,success,warning,error,open2}
+export {message,success,warning,error,open2,articlMessage}
 

@@ -6,9 +6,12 @@ import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.mapper.article.ArticleMapper;
 import com.example.demo.mapper.article.ArticleUpMapper;
 import com.example.demo.mapper.article.DiscussMapper;
+import com.example.demo.mapper.user.WebMapper;
 import com.example.demo.pojo.article.Discuss;
 import com.example.demo.pojo.article.article;
 import com.example.demo.pojo.article.articleUp;
+import com.example.demo.pojo.user.web;
+import com.example.demo.service.impl.web.user.FansServiceImpl;
 import com.example.demo.service.web.article.articleService;
 import com.example.demo.utils.redisUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,6 +40,9 @@ public class articleImpl implements articleService {
     RedissonClient redissonClient;
 
     @Autowired
+    WebMapper webMapper;
+
+    @Autowired
     redisUtil redisUtil;
 
     @Autowired
@@ -51,6 +57,9 @@ public class articleImpl implements articleService {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    private FansServiceImpl fansService;
+
 
     @Override
     public ApiResponse<Void> add(String content, String name, String title) {
@@ -58,6 +67,8 @@ public class articleImpl implements articleService {
         int insert = articleMapper.insert(addArticle);
         // mybatis plus  可以从实体类中获取id 666
         redisUtil.hset(REDIS_ARTICLE, String.valueOf(addArticle.getId()),addArticle);
+        //给自己的粉丝发送文章信息
+        fansService.addRelationship(name,title ,nametoid(name), addArticle.getId());
         if(insert>=1)
             return ApiResponse.success();
         return  ApiResponse.error(0,"添加失败");
@@ -119,7 +130,6 @@ public class articleImpl implements articleService {
         try{
             if(redisUtil.hHasKey(REDIS_ARTICLE, String.valueOf(id))){
                 article article = (article) redisUtil.hget(REDIS_ARTICLE, String.valueOf(id));
-                System.out.println(article);
                 article.setViews(article.getViews()+1);
                 articleMapper.updateById(article);
                 System.out.println("redis");
@@ -170,4 +180,12 @@ public class articleImpl implements articleService {
         return collect;
 
     }
+
+    Integer nametoid(String name){
+        QueryWrapper<web> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("account",name);
+        web web = webMapper.selectOne(queryWrapper);
+        return web.getId();
+    }
+
 }

@@ -62,7 +62,7 @@
 - [x] chat放在首页，不用路径跳转，弹出框显示
 - [x] 很多东西并没有放入redis中
 - [x] 有空删掉public表和`/git/*`吧
-- [x] spring security rbac(hasrole)
+- [x] spring security rbac(hashrole)
 - [x] token如何正确的存入redis中
 - [x] 修改密码(只写了后端)
 - [x] 分开发 上线环境
@@ -70,9 +70,17 @@
 - [x] ApiResponse<T>
 - [x] 增加文章个人主页
 - [ ] 上传进度条(可选)
-- [ ] 关注用户(可选)
+- [x] 关注用户(可选)
 - [x] 绑定邮箱页面
 - [x] 日志 写入文件
 - [x] 控制是否登录、注册、验证码、
 - [x] task -- redis--oss
+
+
+
+
+
+
+
+
 

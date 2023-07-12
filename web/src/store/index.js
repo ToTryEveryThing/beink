@@ -1,6 +1,6 @@
 //引入vuex
 import { createStore  } from 'vuex'
-import { error } from '@/utiles/message'
+import { error, articlMessage} from '@/utiles/message'
 import $ from 'jquery'
 import images from './images'
 import study from './study'
@@ -83,6 +83,11 @@ const actions = {
           success(res){
               if(res.code == 200){
                 res = res.data
+                let articles = JSON.parse(res.article)
+                // let articles = ""
+                  for(let i=0;i<articles.length;i++){
+                    articlMessage(articles[i].name,articles[i].title,articles[i].id)
+                  }
                   context.commit("updateUser",{
                     ...res,
                     is_login : true, 

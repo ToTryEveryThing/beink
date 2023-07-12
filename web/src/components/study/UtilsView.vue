@@ -178,6 +178,8 @@ import { warning } from '@/utiles/message';
                   toc()
                 },100)
                 showOne()
+                console.log(store.state.is_login)
+                if(store.state.is_login)
                 store.dispatch("getStatus")
               }else if(res.date==='')router.push("/")
               else{

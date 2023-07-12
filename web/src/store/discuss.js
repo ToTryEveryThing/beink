@@ -47,6 +47,7 @@ export default {
                         state.content[index].date = moment(i.date).format('YYYY-MM-DD HH:mm')
                         state.discussId.push(i.id)
                     })
+                    if(localStorage.getItem("jwt"))
                     $.ajax({
                         url:`${config.API_URL}/user/discussstatus/`,
                         type:'post',

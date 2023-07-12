@@ -24,7 +24,7 @@ import static com.example.demo.constants.radis.redisConstants.REDIS_ARTICLE;
 
 @Configuration
 @Log4j2
-@EnableScheduling
+//@EnableScheduling
 public class tasks {
 
     /**

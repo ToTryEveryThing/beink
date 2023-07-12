@@ -10,6 +10,7 @@ import userlist from '@/components/admin/UserList'
 import broadcast from '@/components/admin/BroadCast'
 import me from '@/components/study/MyArticle'
 import log from '@/components/admin/OperationLog'
+import profile from "@/components/UserProfile" 
 
 const routes = [ 
   {
@@ -48,6 +49,15 @@ const routes = [
     path:"/login",
     name:'login',
     component:login,
+    meta: {
+      req:false,
+      login:false
+    }, 
+  },
+  {
+    path:"/user/profile",
+    name:'profile',
+    component:profile,
     meta: {
       req:false,
       login:false

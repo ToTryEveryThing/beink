@@ -76,7 +76,7 @@
                     <el-tag >
                         <el-link href="https://wallhaven.cc/" type="primary">图片来源</el-link>
                     </el-tag>
-                    <el-select v-if=" $store.state.role==='admin' " v-model="value" @change="CChange" placeholder="Select" size="small">
+                    <el-select v-if="$store.state.role==='admin' " v-model="value" @change="CChange" placeholder="Select" size="small">
                         <el-option
                           v-for="item in options"
                           :key="item.value"
@@ -187,6 +187,7 @@ import {onMounted, reactive, ref, toRefs } from 'vue'
                 })
             }
             const CChange = (val)=>{
+                console.log(val)
                 store.dispatch("getList",{keyPrefix:val})
             }
             const previewImage = (event)=>{
@@ -208,7 +209,7 @@ import {onMounted, reactive, ref, toRefs } from 'vue'
                 var formData = new FormData(); 
                 //表单可以增加数据 如下
 		        formData.append('file', e.files[0]); //传给后端的路径
-                formData.append("keyPrefix","background")
+                formData.append("keyPrefix",vue.value)
                 loading.value = true
                 store.dispatch("upload",{
                     token:store.state.token,

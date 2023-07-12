@@ -6,7 +6,11 @@
                         <div class="bgggg">
                             <div class="author">
                                 <el-avatar :size="50" src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
-                                <div class="preson">{{ name }}</div>
+                                <div class="preson">
+                                    {{ name }} 
+                                    <el-button @click="changeStatus" v-if="guanzhu==0" size="small" type="danger">关注</el-button> 
+                                    <el-button @click="changeStatus" v-else size="small" type="primary">已关注</el-button>
+                                </div> 
                                 <div  @click="adddd" class="addd" v-if="!editShow&&isisALL">
                                     <!-- 添加 -->
                                     <svg xmlns="http://www.w3.org/2000/svg" width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#0984e3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-square"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
@@ -91,7 +95,8 @@ export default {
         const store = useStore()
         const route = useRoute()
         const vue = reactive({
-            isisALL:false,
+            guanzhu: 0,
+            isisALL: false,
             name:'',
             content:[],
             editorHeight:"900px",
@@ -133,10 +138,13 @@ export default {
         }
         onMounted(()=>{
             vue.name = route.params.name
+            console.log(vue.name)
             show()
             setTimeout(()=>{
             vue.isisALL = (store.state.account===vue.name)
+            getguanzhuStatus()
             },1000)
+
             // vue.editorHeight = document.body.clientHeight  + "px"
             // console.log(vue.editorHeight)
         })
@@ -231,6 +239,53 @@ export default {
                 },
              })
         }
+
+        const getguanzhuStatus =()=>{
+            console.log("is_login",store.state.is_login,"gg")
+            // if(store.state.is_login)
+            $.ajax({
+                url:`${config.API_URL}/follow/getstatus/`,
+                type:'get',
+                headers:{
+                    Authorization:"Bearer " + localStorage.getItem("jwt")
+                },
+                data:{
+                    followerId: store.state.id,
+                    followingId: null,
+                    name: vue.name
+                },
+                success(res){
+                    console.log("hhhhhhhhhhhh ")
+                    if(res.code===200){
+                        vue.guanzhu = res.data
+                        console.log(vue.guanzhu)
+                    }
+                },
+             })
+        }
+
+        const changeStatus = ()=>{
+            if(store.state.is_login)
+            $.ajax({
+                url:`${config.API_URL}/follow/changefollow/`,
+                type:'get',
+                headers:{
+                    Authorization:"Bearer " + localStorage.getItem("jwt")
+                },
+                data:{
+                    followerId: store.state.id,
+                    followingId: null,
+                    change: vue.guanzhu,
+                    name: vue.name
+                },
+                success(res){
+                    if(res.code===200){
+                        vue.guanzhu = vue.guanzhu == 1 ? 0 :1
+                    }
+                },
+             })
+        }
+
         const view = i =>{
             router.push(`/article/${i}/`)
         }
@@ -270,7 +325,7 @@ export default {
         }
         return {
             ...toRefs(vue),view,handleUploadImage,
-            Delete,Edit,save,adddd
+            Delete,Edit,save,adddd,changeStatus
         }
     }
 }
