@@ -25,7 +25,11 @@
           <el-menu-item index="/admin/log">
             <el-icon><Guide /></el-icon>
             <span>日志</span>
-        </el-menu-item>
+          </el-menu-item>
+          <el-menu-item index="/admin/background">
+            <el-icon><Picture /></el-icon>
+            <span>背景图片</span>
+          </el-menu-item>
         </el-menu>
       </el-aside>
       <el-container>

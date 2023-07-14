@@ -1,11 +1,13 @@
 <template>
-    <el-row :gutter="20" style="padding-top:20px;" justify="space-evenly">
+    <el-row  style="padding-top:20px;"  justify="space-evenly">
         <el-col :span="8" >
-            <el-tabs tab-position="left" style="height: 100%" class="demo-tabs">
+            <el-tabs tab-position="left" style="height: 90%" class="demo-tabs">
             <el-tab-pane label="setting">
                 <userView/>
             </el-tab-pane>
-            <el-tab-pane disabled label="配置">Config</el-tab-pane>
+            <el-tab-pane label="配置">
+                <el-skeleton :rows="5" animated />
+            </el-tab-pane>
             <el-tab-pane disabled label="角色">
                 Role：{{ $store.state.role }}
             </el-tab-pane>

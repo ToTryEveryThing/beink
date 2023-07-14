@@ -10,7 +10,8 @@ import userlist from '@/components/admin/UserList'
 import broadcast from '@/components/admin/BroadCast'
 import me from '@/components/study/MyArticle'
 import log from '@/components/admin/OperationLog'
-import profile from "@/components/user/UserProfile" 
+import profile from "@/components/user/UserProfile"
+import background from '@/components/admin/BackgroundImages.vue' 
 
 // 路由切换进度条
 // https://blog.csdn.net/weixin_73337633/article/details/131376644
@@ -42,7 +43,8 @@ const routes = [
     children:[
       {path:'userlist', component:userlist},
       {path:'broadcast', component:broadcast},
-      {path:'log', component:log}
+      {path:'log', component:log},
+      {path:'background', component:background},
     ],
     meta: {
       req:true,

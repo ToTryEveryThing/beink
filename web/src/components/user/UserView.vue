@@ -51,7 +51,7 @@
 
         <el-avatar
          v-for="i in 30" :key="i" size="large" 
-         :src="`https://images.beink.cn/userimage/vue-color-avatar/${i}.png`"
+         :src="`https://cdn.beink.cn/userimage/vue-color-avatar/${i}.png`"
           style="cursor: pointer; margin:5px;" 
           @click="userimage(i)"
           />

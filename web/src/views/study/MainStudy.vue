@@ -1,4 +1,8 @@
 <template>
+  <el-alert title="在线文档：https://totryeverything.github.io/my-docs/" 
+  type="info" center  effect="dark" 
+  :closable="false"
+  />
   <div class="common-layout">
     <el-container>
       <el-header  class="header">

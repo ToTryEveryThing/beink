@@ -16,17 +16,7 @@
 
  > 演示地址 [https://beink.cn](https://beink.cn)
 
-
-
-
-
-
-|Vue|aliyun-icon|Element plus|v-md-editor | jquery|
-|-|-|-|-|-| 
-
-
-|Spring Boot| mysql| Spring Security| Mybatis Plus| Redis| aliyun-OSS|easy-captcha| WebSocket|
-|-|-|-|-|-|-| -| -|
+![](https://cdn.beink.cn/study/beink.png)
 
 
 - [x] 想办法优化 表中的某条数据的+1  
@@ -76,11 +66,16 @@
 - [x] 控制是否登录、注册、验证码、
 - [x] task -- redis--oss
 - [x] 加载进度条
-- [x] 个人中心
+- [ ] 个人中心
 
 
 
+| Vue  | aliyun-icon | Element plus | v-md-editor | jquery |
+| ---- | ----------- | ------------ | ----------- | ------ |
 
+
+| Spring Boot | mysql | Spring Security | Mybatis Plus | Redis | aliyun-OSS | easy-captcha | WebSocket |
+| ----------- | ----- | --------------- | ------------ | ----- | ---------- | ------------ | --------- |
 
 
 
