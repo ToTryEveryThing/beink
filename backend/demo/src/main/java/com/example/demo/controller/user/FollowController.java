@@ -1,6 +1,7 @@
 package com.example.demo.controller.user;
 
 
+import com.example.demo.config.aop.operationLog.MyLog;
 import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.service.impl.web.user.FollowServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,17 @@ public class FollowController {
     }
 
     @GetMapping("/follow/changefollow/")
+    @MyLog
     public ApiResponse changeFollow(Integer followerId,Integer followingId, Boolean change, String name){
         return followService.changeFollow(followerId,followingId,change,name);
     }
+
 
     @GetMapping("/follow/getfollowinglist/")
     public ApiResponse getFansList(Integer id){
         return followService.getFansList(id);
     }
+
 
     @GetMapping("/follow/getfollowerlist/")
     public ApiResponse getFollowerList(Integer id){

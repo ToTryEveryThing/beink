@@ -21,6 +21,7 @@ public class InfoController {
      *
      * @return
      */
+    @MyLog
     @GetMapping("/user/account/info/")
     public ApiResponse<Map<String, String>> getInfo(){
         return infoService.getinfo();

@@ -1,8 +1,13 @@
 <template>
-    <el-dialog v-model="chat" style="border-radius: 10px;" center :show-close="false">
-        <template >
-        </template>
-        <chat/>
+    <el-dialog v-model="chat" width-head="false"  style="border-radius: 10px;" center :show-close="false">
+        <el-tabs v-model="activeName" class="demo-tabs" body-style="padding:0" @tab-click="handleClick">
+            <el-tab-pane label="私聊" name="first">
+                <chat/>
+            </el-tab-pane>
+            <el-tab-pane label="群聊" name="second">
+                <groupChat/>
+            </el-tab-pane>
+        </el-tabs>
       </el-dialog>
     <div class="open" v-if="$store.state.background===''">
         <ul>
@@ -83,13 +88,15 @@
 </template>
 
 <script>
-    import {reactive,toRefs} from 'vue'
+    import {reactive,toRefs, ref} from 'vue'
     import { useStore } from 'vuex'
     import { warning } from '@/utiles/message'
     import chat from '@/views/ChatView.vue'
+    import groupChat from '@/views/GroupChat.vue'
     export default{
-        components:{chat},
+        components:{chat, groupChat},
         setup(){
+            const activeName = ref('first')
             const store = useStore()
             const vue = reactive({
                 chat:false,
@@ -114,6 +121,7 @@
             }
 
             return {
+                activeName,
                 ...toRefs(vue),
                 showChat
             }
@@ -123,6 +131,16 @@
 </script>
 
 <style scoped>
+
+    .demo-tabs{
+        margin-top: -50px;
+    }
+    .demo-tabsel-tabs__header{
+        margin:0 !important;
+    } 
+    .demo-tabs >>> .el-tabs__header{
+        padding: 0;
+    }
     *{
         padding: 0;
         margin: 0;

@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 import static com.example.demo.constants.radis.redisConstants.REDIS_CHAT;
 import static com.example.demo.constants.radis.redisConstants.REDIS_LIMIT;
@@ -49,6 +50,12 @@ public class WebSocketServer {
     //  线程安全的哈希表
     private static ConcurrentHashMap<Integer,WebSocketServer> user = new ConcurrentHashMap<>();
 
+    //群聊
+    private static ConcurrentHashMap<Integer, String> groupChat = new ConcurrentHashMap<>();
+
+    //群聊中的用户
+    private static ConcurrentSkipListSet<Integer> groupChatUser = new ConcurrentSkipListSet<>();
+
     @OnOpen
     public void onOpen(Session session,
                        @PathParam("id") String id,
@@ -64,6 +71,7 @@ public class WebSocketServer {
         this.id = userId;
         this.name = name;
         user.put(userId,this);
+        groupChatUser.add(userId);
         System.out.println(user.size() + "??????????????????????");
         sendAllMessage();
     }
@@ -72,6 +80,7 @@ public class WebSocketServer {
     public void onClose() {
         if(id!=null) {
             user.remove(this.id);
+            groupChatUser.remove(this.id);
         }
         sendAllMessage();
     }
@@ -93,6 +102,14 @@ public class WebSocketServer {
             return  ;
         }
         JSONObject data = JSONObject.parseObject(message);
+
+        //TODO       groupchat
+        if(data.getString("about").equals("group")){
+            sendMessageToGroup(data.getString("message"),name);
+            System.out.println("群聊");
+            return ;
+        }
+
 //        广播
         if(data.getString("about").equals("all")&&"admin".equals(this.name)){
             sendAllMessage(data.getString("msg"));
@@ -197,6 +214,27 @@ public class WebSocketServer {
             }
         });
 
+    }
+
+    /**
+     * 群聊消息发送
+     * @param message
+     */
+    public static void sendMessageToGroup(String message, String name){
+        JSONObject resp = new JSONObject();
+        resp.put("author","group");
+        resp.put("who", name);
+        resp.put("message",message);
+        user.forEach((key,value)->{
+            synchronized (value.session){
+                try{
+                    value.session.getBasicRemote().sendText(String.valueOf(resp));
+                    System.out.println("发送信息了");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
     }
 
     public static void sendAllMessage(String message) {

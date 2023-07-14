@@ -1,5 +1,5 @@
 <template>
-    <el-row class="row-bg" justify="space-evenly">
+    <el-row class="row-bg" style="padding-top:0" justify="space-evenly">
       <el-col :span="24">
         <el-row>
           <el-col :sm="5" :xs="7">
@@ -43,7 +43,6 @@
                   </div>
                   <div id="bottom"></div>
                 </el-scrollbar>
-                <el-divider />
                 <el-input
                   maxlength="20"
                   show-word-limit
@@ -161,6 +160,12 @@
               } 
               else if(value.author==="about"){
                 open2(value.message)
+              }else if(value.author==='group'){
+                store.commit("updateGroupChat",{
+                  name:value.who,
+                  message:value.message,
+                  time:moment(new Date()). utcOffset( 480). format( 'YYYY-MM-DD HH:mm:ss')
+                })
               }
               else if(value.author==="stop"){
                 oneUserName.value = "请选择一位发起聊天"
@@ -187,8 +192,9 @@
                 }
               }
               setTimeout(function(){
-              document.getElementById("bottom").scrollIntoView(false);
-            },50)
+                document.getElementById("bottom").scrollIntoView(false);
+                document.getElementById("hashasdh").scrollIntoView(false);
+              },50)
           }
         }, 1000);
     })
@@ -196,10 +202,6 @@
   </script>
   
   <style scoped>
-    .row-bg{
-      margin-top: -30px;
-
-    }
     li{
       list-style: none;
   

@@ -2,7 +2,8 @@ import { open2 } from "@/utiles/message";
 export default {
     state: {
         socket:null,
-        userList:[]
+        userList:[],
+        groupChat:[],
     },
     actions: {
         connectToWebSocket({ commit }, { id, name, token }) {
@@ -29,5 +30,8 @@ export default {
         updateWebSocket(state, socket) {
             state.socket = socket;
         },
+        updateGroupChat(state,value){
+          state.groupChat.push(value)
+        }
     },
 }
