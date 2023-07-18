@@ -70,6 +70,9 @@ export default {
                         success("登录成功")
                         sessionStorage.setItem("name",store.state.account)
                         router.push("/")
+                        account.value=""
+                        password.value=""
+                        code.value=""
                       },
                   })
               },
@@ -77,6 +80,7 @@ export default {
                 error(res)
               }
           })
+          vue.nor = false
       }
       return{
         captcha,

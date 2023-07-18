@@ -54,13 +54,14 @@ public class updataImpl implements updataService {
         }else return ApiResponse.error(0,"false");
     }
 
+
+//    用户自己更新
     @Override
     public ApiResponse update(String map) {
 
         System.out.println(map);
 
         JSONObject jsonObject = JSONObject.parseObject(map);
-
         //TODO email 名字  麻烦 暂时不改
         // 改完 用户名 所属文章没了。。。
         String email = jsonObject.getString("email");
@@ -94,16 +95,26 @@ public class updataImpl implements updataService {
 
         web web1 = webMapper.selectById(id);
         if(web1 != null){
-            if(!passwordEncoder.matches(oldpassword, web1.getPassword())){
-                return ApiResponse.error(0,"密码错误");
+
+            if(oldpassword==null||newpassword==null){
+                return ApiResponse.error(0,"密码填写完整");
             }
 
-            if(passwordEncoder.matches(newpassword, web1.getPassword())){
-                return ApiResponse.error(0,"新旧密码一样");
+            oldpassword = oldpassword.trim();
+            newpassword = newpassword.trim();
+
+            if(oldpassword.length() != 0 && newpassword.length() != 0){
+
+                if(!passwordEncoder.matches(oldpassword, web1.getPassword())){
+                    return ApiResponse.error(0,"旧密码错误");
+                }
+                if(passwordEncoder.matches(newpassword, web1.getPassword())){
+                    return ApiResponse.error(0,"新旧密码一样");
+                }
+                web.setPassword(passwordEncoder.encode(newpassword));
             }
         }
 
-        web.setPassword(passwordEncoder.encode(newpassword));
         webMapper.updateById(web);
 
 

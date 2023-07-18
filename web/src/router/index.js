@@ -75,8 +75,17 @@ const routes = [
     component:profile,
     meta: {
       req:false,
-      login:false
+      login:true,
     }, 
+    beforeEnter: (to ,from,next) => {
+        if(localStorage.getItem("jwt")){
+            next()
+        }
+        else{
+            next('/404')
+        }
+        
+    }
   },
   {
     path:"/article/:id/",
@@ -139,6 +148,7 @@ const router = createRouter({
 
 
 router.beforeEach((to,from,next)=>{
+  //必须登录才能访问所有的页面
     // if(to.meta.login){
     //   if(localStorage.getItem("jwt")){
     //     next()

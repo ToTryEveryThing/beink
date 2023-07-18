@@ -155,6 +155,14 @@ public class articleImpl implements articleService {
 
     @Override
     public ApiResponse<List<article>> showone(String post) {
+
+        QueryWrapper<web> ww = new QueryWrapper<>();
+        ww.eq("account", post);
+        web web = webMapper.selectOne(ww);
+        if(web==null||web.equals("")){
+            return ApiResponse.error(ApiResponse.Status.BAD_REQUEST);
+        }
+
         QueryWrapper<article> q = new QueryWrapper<>();
 //        q.eq("isshow",true);
         q.eq("post",post);

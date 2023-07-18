@@ -7,7 +7,12 @@
         </div>
         <div class="main" v-else>
             <h3 style="margin-bottom:5px;"><UserFilled style="width: 1em; height: 1em; margin-right: 10px; margin-bottom:-3px;color: #79bbff;" />{{$store.state.account}}</h3>
-            <router-link v-if="$store.state.role=='admin'" to="/admin/userlist"><More style="width: 1em; height: 1em;  margin-bottom:-3px;color:  #73767a;"/></router-link>
+            <router-link  to="/user/profile">
+                <Tools style="width: 1em; height: 1em;  margin-bottom:-3px;color:  #73767a;"/>
+            </router-link>
+            <router-link v-if="$store.state.role=='admin'" to="/admin/userlist">
+                <More style="width: 1em; height: 1em;  margin-bottom:-3px;color:  #73767a;"/>
+            </router-link>
         </div>
         <el-carousel  interval="2000" direction="horizontal" >
             <el-carousel-item v-for="i in list" :key="i.src">

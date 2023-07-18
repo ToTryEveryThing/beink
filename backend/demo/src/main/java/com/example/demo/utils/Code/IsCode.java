@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class IsCode {
 
     public static Boolean is(String code,String base,redisUtil redisUtil){
+        code = code.toLowerCase();
         System.out.println(code+"............");
         System.out.println("hhhhhhhhh");
         if(code==null||"".equals(code)||base==null||"".equals(base)){

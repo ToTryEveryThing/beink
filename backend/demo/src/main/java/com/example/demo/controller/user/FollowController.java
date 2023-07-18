@@ -28,8 +28,8 @@ public class FollowController {
 
 
     @GetMapping("/follow/getfollowinglist/")
-    public ApiResponse getFansList(Integer id){
-        return followService.getFansList(id);
+    public ApiResponse getFollowingList(Integer id){
+        return followService.getFollowingList(id);
     }
 
 

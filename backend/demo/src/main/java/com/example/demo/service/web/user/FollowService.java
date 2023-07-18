@@ -15,7 +15,7 @@ public interface FollowService{
 
     ApiResponse changeFollow(Integer followerId, Integer followingId, Boolean change, String name);
 
-    ApiResponse getFansList(Integer id);
+    ApiResponse getFollowingList(Integer id);
 
     ApiResponse getFollowerList(Integer id);
 }

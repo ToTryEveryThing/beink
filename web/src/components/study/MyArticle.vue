@@ -127,11 +127,11 @@ export default {
                 success(res){
                     if(res.code===200){
                         vue.content = res.data.filter(i => i.isshow==true || i.post===store.state.account)
-                        if(vue.content.length===0)
-                        {
-                            router.push("/404")
-                        }
-                        // console.log(vue.content.length)
+                    }
+                    else{
+                        console.log(res)
+                        // alert(res.message)
+                        // router.go(-1) //后退1步
                     }
                 }
             })
@@ -141,8 +141,8 @@ export default {
             console.log(vue.name)
             show()
             setTimeout(()=>{
-            vue.isisALL = (store.state.account===vue.name)
-            getguanzhuStatus()
+                vue.isisALL = (store.state.account===vue.name)
+                getguanzhuStatus()
             },1000)
 
             // vue.editorHeight = document.body.clientHeight  + "px"
@@ -170,6 +170,7 @@ export default {
                 },
              })
         }
+
         const Edit = i =>{
             vue.editContent = i.content
             vue.title = i.title
@@ -177,10 +178,12 @@ export default {
             vue.editShow = true
             vue.isshow = i.isshow
         }
+
         const changeContent = i =>{
             // let filteredKeys = keysArray.filter(key => key.length > 5);
             vue.content = vue.content.filter(key=>key!=i)
         }
+
         const ADD = ()=>{
             if(vue.title==='')return 
             if(vue.editContent==='')return
@@ -205,6 +208,7 @@ export default {
                 },
              })
         }
+
         const  save = ()=>{
             if(vue.ad){
                 ADD()
@@ -289,6 +293,7 @@ export default {
         const view = i =>{
             router.push(`/article/${i}/`)
         }
+
         const handleUploadImage = (event, insertImage, files) =>{
             if(store.state.role==="use"){
                 warning("没有权限")

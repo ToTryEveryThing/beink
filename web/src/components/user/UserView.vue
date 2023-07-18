@@ -12,14 +12,14 @@
             <el-input  style="width:100%;"
              v-model="form.oldpassword"
              placeholder="不填则默认不改"
-              type="password" show-password/>
+               />
         </el-form-item>
 
         <el-form-item label="新密码">
             <el-input  style="width:100%;"
              v-model="form.newpassword"
              placeholder="不填则默认不改"
-              type="password" show-password/>
+              />
         </el-form-item>
 
         <el-form-item  label="邮箱">
@@ -34,7 +34,6 @@
                 placeholder="Select date and time"
             />
         </el-form-item>
-
         <el-form-item label="头像" >
             <el-avatar size="large" :src="form.image" style="cursor: pointer;" @click="dialogTableVisible = true" />
         </el-form-item>
@@ -48,7 +47,6 @@
 
     <el-dialog  width="35%" style=" border-radius: 10px;" :show-close="false"
     v-model="dialogTableVisible" title="选择一个作为头像">
-
         <el-avatar
          v-for="i in 30" :key="i" size="large" 
          :src="`https://cdn.beink.cn/userimage/vue-color-avatar/${i}.png`"

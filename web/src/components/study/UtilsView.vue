@@ -121,7 +121,7 @@ import { nanoid } from 'nanoid'
 import {onMounted, ref,reactive} from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router';
-import router from '../../router/index'
+import router from '@/router';
 import dark from '../../utiles/dark'
 import config from '../../utiles/config'
 import $ from 'jquery'
@@ -181,7 +181,10 @@ import { warning } from '@/utiles/message';
                 console.log(store.state.is_login)
                 if(store.state.is_login)
                 store.dispatch("getStatus")
-              }else if(res.date==='')router.push("/")
+              }else if(res.code===400){
+                router.push("/article")
+              }
+              else if(res.date==='')router.push("/")
               else{
                 router.push("/article")
               }

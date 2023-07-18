@@ -11,6 +11,7 @@ import com.example.demo.mapper.user.FollowMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -74,16 +75,35 @@ public class FollowServiceImpl implements FollowService{
 
     }
 
+    /**
+     *  获取谁关注了该id
+     * @param id
+     * @return
+     */
     @Override
-    public ApiResponse getFansList(Integer id) {
+    public ApiResponse getFollowingList(Integer id) {
         List<Follow> follows = followMapper.selectAllByFollowingId(id);
-        return ApiResponse.success(follows);
+        List<web> list = new ArrayList<>();
+        follows.forEach(follow ->{
+            list.add(webMapper.selectById(follow.getFollowerId()));
+        });
+        return ApiResponse.success(list);
     }
 
+
+    /**
+     * id关注了谁
+     * @param id
+     * @return
+     */
     @Override
     public ApiResponse getFollowerList(Integer id) {
         List<Follow> follows = followMapper.selectAllByFollowerId(id);
-        return ApiResponse.success(follows);
+        List<web> list = new ArrayList<>();
+        follows.forEach(follow ->{
+            list.add(webMapper.selectById(follow.getFollowingId()));
+        });
+        return ApiResponse.success(list);
     }
 
     Integer NAMETOID(String name){

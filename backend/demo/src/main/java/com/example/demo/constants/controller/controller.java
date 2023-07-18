@@ -14,7 +14,8 @@ public class controller {
             "/user/account/register/","/user/admin/backlist/show/",
             "/oss/getList/","/captcha/",
             "/user/discuss/show/","/translate/query/","/user/article/showbyid/",
-            "/user/article/showall/","/user/article/showone/"
+            "/user/article/showall/","/user/article/showone/",
+            "/follow/getfollowerlist/","/follow/getfollowinglist/"
     };
 
     /**
