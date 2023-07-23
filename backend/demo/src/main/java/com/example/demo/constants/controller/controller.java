@@ -15,7 +15,8 @@ public class controller {
             "/oss/getList/","/captcha/",
             "/user/discuss/show/","/translate/query/","/user/article/showbyid/",
             "/user/article/showall/","/user/article/showone/",
-            "/follow/getfollowerlist/","/follow/getfollowinglist/"
+            "/follow/getfollowerlist/","/follow/getfollowinglist/",
+            "/search/article/{content}/"
     };
 
     /**

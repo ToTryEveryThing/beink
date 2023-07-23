@@ -1,4 +1,5 @@
 <template>
+  <test/>
   <el-alert title="在线文档：https://totryeverything.github.io/my-docs/" 
   type="info" center  effect="dark" 
   :closable="false"
@@ -52,7 +53,9 @@ import { useStore } from 'vuex';
 import $ from 'jquery'
 import router from '@/router';
 import config from '@/utiles/config'
+import test from '@/components/study/BaiduTranslate'
 export default{
+  components:{test},
   setup(){
     const store = useStore()
     let da = ref([])

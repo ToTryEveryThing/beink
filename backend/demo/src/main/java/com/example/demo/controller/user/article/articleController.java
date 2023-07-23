@@ -5,12 +5,13 @@ import com.example.demo.config.aop.operationLog.MyLog;
 import com.example.demo.config.aop.userInfo.UserInfo;
 import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.controller.common.Result;
+import com.example.demo.pojo.article.ArticleES;
 import com.example.demo.pojo.article.article;
+import com.example.demo.service.impl.web.article.ElasticSearchArticleImpl;
 import com.example.demo.service.impl.web.article.articleImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +25,9 @@ public class articleController {
 
     @Autowired
     private articleImpl articleImpl;
+
+    @Autowired
+    ElasticSearchArticleImpl elasticSearchArticle;
 
     @PostMapping("/user/article/add/")
     @MyLog
@@ -69,6 +73,12 @@ public class articleController {
     @PostMapping("/user/article/showone/")
     public ApiResponse<List<article>> showone(@RequestParam String post){
         return articleImpl.showone(post);
+    }
+
+
+    @GetMapping("/search/article/{content}/")
+    public ApiResponse<List<ArticleES>> searchHitsApiResponse(@PathVariable String content){
+        return elasticSearchArticle.searchArticle(content);
     }
 
 

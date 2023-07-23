@@ -23,6 +23,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -183,10 +184,9 @@ public class articleImpl implements articleService {
         List<article> collect = values.stream()
                 .filter(s->s!=null)
                 .map(s -> new ObjectMapper().convertValue(s, article.class))
+                .sorted(Comparator.comparing(article::getUp).reversed())//降序
                 .collect(Collectors.toList());
-
         return collect;
-
     }
 
     Integer nametoid(String name){

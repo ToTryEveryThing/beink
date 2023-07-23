@@ -5,12 +5,16 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.mapper.user.WebMapper;
 import com.example.demo.pojo.Follow;
+import com.example.demo.pojo.user.FollowUser;
 import com.example.demo.pojo.user.web;
 import com.example.demo.service.web.user.FollowService;
 import com.example.demo.mapper.user.FollowMapper;
+import org.apache.commons.beanutils.BeanUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,11 +87,7 @@ public class FollowServiceImpl implements FollowService{
     @Override
     public ApiResponse getFollowingList(Integer id) {
         List<Follow> follows = followMapper.selectAllByFollowingId(id);
-        List<web> list = new ArrayList<>();
-        follows.forEach(follow ->{
-            list.add(webMapper.selectById(follow.getFollowerId()));
-        });
-        return ApiResponse.success(list);
+        return getApiResponse(follows);
     }
 
 
@@ -99,9 +99,21 @@ public class FollowServiceImpl implements FollowService{
     @Override
     public ApiResponse getFollowerList(Integer id) {
         List<Follow> follows = followMapper.selectAllByFollowerId(id);
-        List<web> list = new ArrayList<>();
+        return getApiResponse(follows);
+    }
+
+    @NotNull
+    private ApiResponse getApiResponse(List<Follow> follows) {
+        List<FollowUser> list = new ArrayList<>();
         follows.forEach(follow ->{
-            list.add(webMapper.selectById(follow.getFollowingId()));
+            web web = webMapper.selectById(follow.getFollowerId());
+            FollowUser followUser = new FollowUser();
+            try {
+                BeanUtils.copyProperties(followUser,web);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+            list.add(followUser);
         });
         return ApiResponse.success(list);
     }

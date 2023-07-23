@@ -4,12 +4,18 @@ package com.example.demo.controller;
 import com.example.demo.config.aop.operationLog.MyLog;
 import com.example.demo.mapper.article.ArticleMapper;
 import com.example.demo.mapper.article.ArticleUpMapper;
+import com.example.demo.pojo.article.ArticleES;
 import com.example.demo.pojo.article.article;
 import com.example.demo.pojo.article.articleUp;
+import com.example.demo.service.web.article.ElasticSearchArticleService;
 import lombok.extern.slf4j.Slf4j;
 
+import org.elasticsearch.index.query.QueryBuilders;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -40,8 +46,8 @@ public class InitController {
     @Autowired
     ArticleUpMapper articleUpMapper;
 
-    @GetMapping ("/redis/")
-    public String  index(){
+    @GetMapping("/redis/")
+    public String index() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         List<GrantedAuthority> authorities = (List<GrantedAuthority>) authentication.getAuthorities();
         if (authorities.stream().anyMatch(auth -> auth.getAuthority().equals("ROLE_admin"))) {
@@ -52,11 +58,11 @@ public class InitController {
             // 当前用户具有ROLE_user角色
             System.out.println("当前用户具有ROLE_user角色");
             return null;
-        } else if (authorities.stream().anyMatch(auth -> auth.getAuthority().equals("admin"))){
+        } else if (authorities.stream().anyMatch(auth -> auth.getAuthority().equals("admin"))) {
             System.out.println("woc");
             return null;
-        }else {
-            for (GrantedAuthority i : authorities){
+        } else {
+            for (GrantedAuthority i : authorities) {
                 System.out.println(i);
             }
             // 当前用户没有任何角色
@@ -64,5 +70,4 @@ public class InitController {
             return null;
         }
     }
-
 }

@@ -4,6 +4,7 @@ import com.example.demo.mapper.article.ArticleMapper;
 import com.example.demo.pojo.article.article;
 import com.example.demo.service.admin.OssService;
 import com.example.demo.service.impl.utils.MailService;
+import com.example.demo.service.impl.web.article.ElasticSearchArticleImpl;
 import com.example.demo.utils.redisUtil;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.log4j.Log4j2;
@@ -39,6 +40,9 @@ public class tasks {
     ArticleMapper articleMapper;
 
     @Autowired
+    private ElasticSearchArticleImpl elasticSearchArticle;
+
+    @Autowired
     redisUtil redisUtil;
 
 
@@ -51,6 +55,9 @@ public class tasks {
         service.getList("study");
         service.getList("background");
         log.warn(new Date() + "对象存储同步成功");
+        //      同步es
+        elasticSearchArticle.createIndex();
+        elasticSearchArticle.together();
     }
 
     /**
@@ -64,6 +71,8 @@ public class tasks {
                 redisUtil.hset(REDIS_ARTICLE, String.valueOf(s.getId()),s)
         );
         log.warn("redis 同步完成");
+
+
     }
 
 

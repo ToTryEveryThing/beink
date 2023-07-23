@@ -26,3 +26,6 @@
 </dependency>
 ```
 
+### ElasticSearch
+
+[ElasticSearch (totryeverything.github.io)](https://totryeverything.github.io/my-docs/blog/springboot/ElasticSearch.html)

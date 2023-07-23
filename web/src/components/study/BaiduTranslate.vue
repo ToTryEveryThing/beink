@@ -1,77 +1,76 @@
 <template>
+    <el-button text @click="dialogTableVisible = true">
+        搜索
+    </el-button>
+      <el-dialog v-model="dialogTableVisible" title="搜一下" :show-close="false">
+                <el-input @change="sear" v-model="inputtt">
+                    <template #append>
+                        <el-button @click="sear">搜索</el-button>
+                    </template>
+                </el-input>
+                <el-card v-for="i in datta" :key="i.id" style="margin-top:10px;" shadow="hover">
+                    <template #header>
+                        <div class="card-header">
+                            <span>{{ i.title }}</span>
+                            <el-button class="button" text>{{ i.post }}</el-button>
+                        </div>
+                    </template>
+                    <div v-html="i.content" style="cursor: pointer;" @click="goto(i.id)"></div>
+                </el-card >
+      </el-dialog>
 
-    
-    <el-row>
-        <el-col :span="24">
-            <el-button type="primary" @click="send">翻译</el-button>
-            <el-select v-model="TO" style="float:right;" placeholder="翻译为" v-loading="loading" size="large">
-                <el-option
-                  label="中文"
-                  value="zh"
-                />
-                <el-option
-                  label="英文"
-                  value="en"
-                />
-            </el-select>
-        </el-col>
-        <el-col :span="12">
-            <el-input v-model="query" placeholder="Please input" type="textarea" :rows="8" class="input" clearable />
-        </el-col>
-        <el-col :span="12" >
-            <el-input v-model="result"  type="textarea" :rows="8"  class="input" clearable />
-        </el-col>
-      </el-row>
+
 </template>
 
-<script>
-import config from '../../utiles/config'
-import $ from 'jquery'
-import {ref } from 'vue'
-export default {
-    setup(){
-        let query = ref("")
-        // let from = ref("auto")
-        let TO = ref("")
-        let loading  = ref(false)
-        let result = ref("")
-        const options = [
-            {
-                value: 'zh',
-                label: '中文',
-            },
-            {
-                value: 'en',
-                label: '英文',
-            },
-        ]  
-        const send=()=>{
-            if(TO.value==="")TO.value = "zh"
-            loading.value =  true
-            $.ajax({
-                url:`${config.API_URL}/translate/query/`,
-                type:'post',
-                data:{
-                    query:query.value,
-                    from:"auto",
-                    to:TO.value
-                },
-                success(res){
-                    result.value = res.trans_result[0].dst
-                    loading.value = false
-                },
-            })
-        }
-        return{
-            query,send,result,options,TO,loading
-        }
+<script setup>
+import $  from 'jquery'
+import { ref } from 'vue'
+import config from '@/utiles/config'
+import router from '@/router'
 
+    let dialogTableVisible = ref(false)
+    let inputtt = ref('')
+    let datta = ref([])
+    const sear = ()=>{
+        datta.value = []
+        $.ajax({
+            url:`${config.API_URL}/search/article/${inputtt.value}/`,
+            type:'get',
+            success(res){
+                if(res.code===200){
+                    datta.value = res.data
+                }
+            },
+        })
     }
-}
+
+    const goto = (i)=>{
+        router.push(`/article/${i}`)
+    }
+
+
 </script>
 
 <style scoped>
-.input{
-    padding: 10px;
-}
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 0px;;
+  }
+  
+  .text {
+    font-size: 14px;
+  }
+  
+  .item {
+    margin-bottom: 18px;
+  }
+  
+  .box-card {
+    width: 480px;
+  }
+  .fashdfs{
+    position: relative;
+  }
 </style>
