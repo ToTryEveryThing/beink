@@ -3,8 +3,11 @@ package com.example.demo.service.admin;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.OSSException;
+import com.aliyun.oss.common.utils.BinaryUtil;
+import com.aliyun.oss.model.MatchMode;
 import com.aliyun.oss.model.OSSObjectSummary;
 import com.aliyun.oss.model.ObjectListing;
+import com.aliyun.oss.model.PolicyConditions;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.auth.sts.AssumeRoleRequest;
 import com.aliyuncs.auth.sts.AssumeRoleResponse;
@@ -13,7 +16,6 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.example.demo.config.AliossConfig;
 import com.example.demo.controller.common.ApiResponse;
-import com.example.demo.controller.common.Result;
 import com.example.demo.mapper.user.WebMapper;
 import com.example.demo.pojo.user.web;
 import com.example.demo.utils.redisUtil;
@@ -23,9 +25,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 import static com.example.demo.constants.radis.redisConstants.*;
 
@@ -33,7 +34,6 @@ import static com.example.demo.constants.radis.redisConstants.*;
  * @author 睡醒继续做梦
  * @date 2022/12/20
  */
-
 @Service
 public class OssService {
 
@@ -46,6 +46,7 @@ public class OssService {
 
     @Autowired
     private AliossConfig aliossConfig;
+
 
     public ApiResponse<Set<Object>> uploadObject(MultipartFile file, String keyPrefix) throws IOException {
         String objectName = keyPrefix + "/";
@@ -185,6 +186,43 @@ public class OssService {
         web.setUserimage(objectName + originalFilename);
         webMapper.update(web,q);
         return ApiResponse.success(objectName + originalFilename);
+    }
+
+    /**
+     * 后端签名
+     */
+    public ApiResponse<Map<String, String>> policyyyy()  {
+
+        String host = "https://" + aliossConfig.getBucket() + "." + "oss-cn-beijing.aliyuncs.com";
+        String dir = "background/";
+
+        OSS ossClient = new OSSClientBuilder().build(
+                aliossConfig.getEndpoint()
+                ,aliossConfig.getAccessKeyId()
+                ,aliossConfig.getAccessKeySecert());
+
+        long expireTime = 6000;
+        long expireEndTime = System.currentTimeMillis() + expireTime * 1000;
+        Date expiration = new Date(expireEndTime);
+        PolicyConditions policyConds = new PolicyConditions();
+        policyConds.addConditionItem(PolicyConditions.COND_CONTENT_LENGTH_RANGE, 0, 1048576000);
+        policyConds.addConditionItem(MatchMode.StartWith, PolicyConditions.COND_KEY, dir);
+
+        String postPolicy = ossClient.generatePostPolicy(expiration, policyConds);
+        byte[] binaryData;
+        binaryData = postPolicy.getBytes(StandardCharsets.UTF_8);
+        String encodedPolicy = BinaryUtil.toBase64String(binaryData);
+        String postSignature = ossClient.calculatePostSignature(postPolicy);
+
+        Map<String, String> respMap = new LinkedHashMap<>();
+        respMap.put("OSSAccessKeyId", aliossConfig.getAccessKeyId());
+        respMap.put("policy", encodedPolicy);
+        respMap.put("Signature", postSignature);
+        respMap.put("dir", dir);
+        respMap.put("host", host);
+        respMap.put("expire", String.valueOf(expireEndTime / 1000));
+
+        return ApiResponse.success(respMap);
     }
 
 }

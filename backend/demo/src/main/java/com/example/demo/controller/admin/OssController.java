@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -42,6 +44,12 @@ public class OssController {
     public ApiResponse<Set<Object>> deleteImage (@RequestParam(value = "url",required = false) String url,
                                @RequestParam("keyPrefix") String keyPrefix) {
          return ossService.deleteObject(url,keyPrefix);
+    }
+
+    @MyLog
+    @PostMapping("/admin/oss/policy/")
+    public ApiResponse<Map<String, String>> policy() {
+        return ossService.policyyyy();
     }
 
 }

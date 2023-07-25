@@ -1,7 +1,6 @@
 package com.example.demo.config.filter;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.example.demo.exception.controllerException.TokenException;
 import com.example.demo.mapper.user.WebMapper;
 import com.example.demo.pojo.user.web;
 import com.example.demo.utils.JwtUtil;
@@ -16,10 +15,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 import static com.example.demo.constants.radis.redisConstants.REDIS_TOKEN;
 

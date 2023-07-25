@@ -78,7 +78,6 @@
 </template>
 
 <script>
-
 import $ from 'jquery'
 import config from '@/utiles/config'
 import { onMounted, reactive, toRefs} from 'vue'

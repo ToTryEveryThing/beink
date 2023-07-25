@@ -1,4 +1,6 @@
 <template>
+    <uploadfile/>
+    <el-button @click="load">加载图片</el-button>
     <el-select  v-model="vue.value" @change="CChange" placeholder="Select" size="lagre">
         <el-option
           v-for="item in vue.options"
@@ -33,14 +35,15 @@
                 <el-image :src="'https://cdn.beink.cn/'+i"  >
                 </el-image>
             </el-card>
-
         </el-col>
       </el-row>
 </template>
 
 <script setup>
-import { onMounted, reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { useStore } from 'vuex';
+import uploadfile from './UploadFiles.vue'
+    
 
     const store = useStore()
 
@@ -94,9 +97,9 @@ import { useStore } from 'vuex';
         value:'background'
     })
 
-    onMounted(()=>{
+    const load = ()=>{
         store.dispatch("getList",{keyPrefix:"background"})
-    })
+    }
 
     const deleteImage = i=>{
         store.dispatch("delete",{
