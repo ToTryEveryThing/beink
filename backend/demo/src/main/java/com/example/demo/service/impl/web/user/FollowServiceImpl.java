@@ -87,7 +87,7 @@ public class FollowServiceImpl implements FollowService{
     @Override
     public ApiResponse getFollowingList(Integer id) {
         List<Follow> follows = followMapper.selectAllByFollowingId(id);
-        return getApiResponse(follows);
+        return getApiResponse(follows, "ing");
     }
 
 
@@ -99,14 +99,16 @@ public class FollowServiceImpl implements FollowService{
     @Override
     public ApiResponse getFollowerList(Integer id) {
         List<Follow> follows = followMapper.selectAllByFollowerId(id);
-        return getApiResponse(follows);
+        return getApiResponse(follows, "er");
     }
 
     @NotNull
-    private ApiResponse getApiResponse(List<Follow> follows) {
+    private ApiResponse getApiResponse(List<Follow> follows, String ffff) {
         List<FollowUser> list = new ArrayList<>();
         follows.forEach(follow ->{
-            web web = webMapper.selectById(follow.getFollowerId());
+            web web;
+            if(ffff.equals("ing")) web = webMapper.selectById(follow.getFollowerId());
+            else web = webMapper.selectById(follow.getFollowingId());
             FollowUser followUser = new FollowUser();
             try {
                 BeanUtils.copyProperties(followUser,web);

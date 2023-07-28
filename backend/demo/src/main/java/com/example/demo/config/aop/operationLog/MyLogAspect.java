@@ -79,7 +79,10 @@ public class MyLogAspect {
 
             log1.setCreateDate(new Date()); //操作时间
             //操作用户
-            String token = request.getHeader("Authorization");
+            String token = null;
+            if (request != null) {
+                token = request.getHeader("Authorization");
+            }
             //        判断为空
             if (!StringUtils.hasText(token) || !token.startsWith("Bearer ")) {
                 log1.setUsername("匿名");
@@ -99,7 +102,6 @@ public class MyLogAspect {
 //            }
 //            if(sss.equals("getToken")||sss.equals("register"))log1.setParams("");
 //            else log1.setParams(Arrays.asList(joinPoint.getArgs()).toString());//请求参数
-                log.info(Arrays.toString(args),"入参");
                 log1.setParams("");
 
 
@@ -113,6 +115,8 @@ public class MyLogAspect {
 //            log1.setResult(dataResult.get("msg").toString()); //獲取方法返回值中的msg，如果上面的類型錯誤就拿不到msg就會拋異常
             //保存日志
             log1.setId(0);
+            log.info(log1.toString());
+            log.info(Arrays.toString(args),"入参");
             logMapper.insert(log1);
         } catch (Exception e){
             e.printStackTrace();

@@ -23,6 +23,7 @@ public class ApiResponse<T> {
         UNAUTHORIZED(401, "没有权限"),
         FORBIDDEN(403, "禁止访问"),
         NOT_FOUND(404, "没有找到"),
+        METHOD_NOT_ALLOWED(405, "不允许使用此方法"),
         INTERNAL_SERVER_ERROR(500, "内部错误");
 
 
@@ -53,6 +54,10 @@ public class ApiResponse<T> {
 
     public static <T> ApiResponse<T> error(Status status) {
         return new ApiResponse<>(status.getCode(),status.getMessage(), null);
+    }
+
+    public static <T> ApiResponse<T> error(Status status, String message) {
+        return new ApiResponse<>(status.getCode(),message, null);
     }
 
     //    自定义

@@ -26,7 +26,15 @@
       <!-- <el-table-column prop="params" label="Params" /> -->
       <el-table-column prop="ip" label="IP" />
       <el-table-column prop="createDate" label="createDate" />
-      <el-table-column prop="result" label="Result" />
+      <el-table-column label="Result">
+        <template #default="scope">
+          <el-tag type="primary"   v-if="scope.row.result === '200'">{{ scope.row.result }} </el-tag>
+          <el-tag type="danger" v-else-if="scope.row.result === '400'">错误的请求</el-tag>
+          <el-tag type="warning" v-else-if="scope.row.result === '405'">方法错误</el-tag>
+          <el-tag type="info" v-else-if="scope.row.result === '401'">没有权限</el-tag>
+          <el-tag v-else type="danger" color="red">{{ scope.row.result }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="type" label="Type" />
       <el-table-column prop="url" label="Url" />
     </el-table>

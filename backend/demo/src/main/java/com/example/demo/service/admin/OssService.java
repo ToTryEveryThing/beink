@@ -127,6 +127,8 @@ public class OssService {
     }
 
     public ApiResponse<Set<Object>> redisList(String keyPrefix){
+        if(!keyPrefix.equals("background")&&!keyPrefix.equals("study"))
+            return ApiResponse.error(ApiResponse.Status.BAD_REQUEST);
         System.out.println("!!!!!!!!!!!!!!!!!!!");
         if(redisUtil.hasKey(REDIS_OSS + keyPrefix))
             return ApiResponse.success(redisUtil.sGet(REDIS_OSS + keyPrefix));
