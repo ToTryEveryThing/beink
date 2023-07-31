@@ -79,7 +79,6 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponse<Void> BAD_REQUEST(MissingServletRequestParameterException e){
         return ApiResponse.error(ApiResponse.Status.BAD_REQUEST,e.getMessage());
-
     }
 
 

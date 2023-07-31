@@ -60,7 +60,7 @@
 - [x] ApiResponse<T>
 - [x] 增加文章个人主页
 - [ ] 上传进度条(可选)
-- [x] 关注用户(可选)
+- [x] 关注用户
 - [x] 绑定邮箱页面
 - [x] 日志 写入文件
 - [x] 控制是否登录、注册、验证码、
@@ -76,8 +76,8 @@
 | ---- | ----------- | ------------ | ----------- | ------ |
 
 
-| Spring Boot | mysql | Spring Security | Mybatis Plus | Redis | aliyun-OSS | easy-captcha | WebSocket |
-| ----------- | ----- | --------------- | ------------ | ----- | ---------- | ------------ | --------- |
+| Spring Boot | mysql | Spring Security | Mybatis Plus | Redis | aliyun-OSS | easy-captcha | WebSocket | ElasticSearch |
+| ----------- | ----- | --------------- | ------------ | ----- | ---------- | ------------ | --------- | ------------- |
 
 
 
