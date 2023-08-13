@@ -3,6 +3,7 @@ package com.example.demo.controller.common;
 import com.example.demo.config.aop.operationLog.MyLog;
 import com.example.demo.exception.controllerException.LimitException;
 import com.example.demo.exception.controllerException.TokenException;
+import org.hibernate.validator.internal.engine.path.PathImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
@@ -11,6 +12,10 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.Set;
 
 /**
  * @author 睡醒继续做梦
@@ -106,6 +111,26 @@ public class ExceptionAdvice {
     public ApiResponse<Void> passwdWrong(BadCredentialsException e){
         System.out.println("密码错误");
         return ApiResponse.error(0, "密码错误");
+    }
+
+
+    /**
+     * 参数校验
+     */
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ApiResponse<String> hh(ConstraintViolationException e){
+
+        Set<ConstraintViolation<?>> constraintViolations = e.getConstraintViolations();
+        StringBuilder msg = new StringBuilder();
+
+        for (ConstraintViolation<?> constraintViolation : constraintViolations) {
+            PathImpl pathImpl = (PathImpl) constraintViolation.getPropertyPath();
+            String paramName = pathImpl.getLeafNode().getName();
+            String message = constraintViolation.getMessage();
+            if(message != null && !message.isEmpty()) msg.append("[").append(paramName).append(":").append(message).append("]");
+        }
+
+        return ApiResponse.error(ApiResponse.Status.REQUEST_PARAMETER_VALIDATION_FAILED,msg.toString());
     }
 
 

@@ -1,29 +1,25 @@
 package com.example.demo.controller;
 
 
-import com.example.demo.config.aop.operationLog.MyLog;
+
+import com.example.demo.config.aop.validate.DataType;
+import com.example.demo.config.aop.validate.MyValid;
 import com.example.demo.mapper.article.ArticleMapper;
 import com.example.demo.mapper.article.ArticleUpMapper;
-import com.example.demo.pojo.article.ArticleES;
-import com.example.demo.pojo.article.article;
-import com.example.demo.pojo.article.articleUp;
-import com.example.demo.service.web.article.ElasticSearchArticleService;
 import lombok.extern.slf4j.Slf4j;
 
-import org.elasticsearch.index.query.QueryBuilders;
+
+import org.hibernate.validator.constraints.Email;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
-import org.springframework.data.elasticsearch.core.SearchHits;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -33,6 +29,7 @@ import java.util.List;
  * @date 2023/1/16
  */
 @Slf4j
+@Validated
 @RestController
 public class InitController {
 
@@ -69,5 +66,15 @@ public class InitController {
             System.out.println("当前用户没有任何角色");
             return null;
         }
+    }
+
+    @PostMapping("/ggggggg")
+    public String hhh(@RequestParam("phone") @MyValid(type = DataType.PHONE_NUMBER) String phone,
+                      @RequestParam("name") @MyValid(type = DataType.NOT_NULL) String name,
+                      @RequestParam("email") @Email String email ){
+        System.out.println("name = " + name);
+        System.out.println("phone = " + phone);
+        System.out.println("email = " + email);
+        return "success";
     }
 }

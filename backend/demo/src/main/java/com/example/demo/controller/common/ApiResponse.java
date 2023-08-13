@@ -2,6 +2,7 @@ package com.example.demo.controller.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 /***
@@ -17,12 +18,14 @@ public class ApiResponse<T> {
     private String message;
     private T data;
 
+    @Getter
     public enum Status {
-        OK(200, "success"),
+        OK(200, "操作成功"),
         BAD_REQUEST(400, "错误的请求"),
         UNAUTHORIZED(401, "没有权限"),
         FORBIDDEN(403, "禁止访问"),
         NOT_FOUND(404, "没有找到"),
+        REQUEST_PARAMETER_VALIDATION_FAILED(422,"请求参数验证失败"),
         METHOD_NOT_ALLOWED(405, "不允许使用此方法"),
         INTERNAL_SERVER_ERROR(500, "内部错误");
 
@@ -35,13 +38,6 @@ public class ApiResponse<T> {
             this.message = message;
         }
 
-        public int getCode() {
-            return code;
-        }
-
-        public String getMessage() {
-            return message;
-        }
     }
 
     public static <T> ApiResponse<T> success(T data) {

@@ -65,26 +65,23 @@ public class JwtUtil {
     }
 
     public UsernamePasswordAuthenticationToken getRoleList(String token) throws Exception {
-        String role = String.valueOf(this.parseJWT(token).get("role"));
+        String role;
         String name = parseJWT(token).getSubject();
 
         try {
-            role = new JwtUtil().parseJWT(token).get("role").toString();
+            role = parseJWT(token).get("role").toString();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
         List<SimpleGrantedAuthority> roleList
-                = Stream.of(Optional.ofNullable("ROLE_" +  role).orElse(""))
+                = Stream.of(Optional.of("ROLE_" +  role).orElse(""))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(name
-                        , null
-                        ,roleList);
-
-        return authenticationToken;
+        return new UsernamePasswordAuthenticationToken(name
+                , null
+                ,roleList);
 
     }
 
