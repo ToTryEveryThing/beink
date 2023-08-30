@@ -5,7 +5,7 @@ import article from '../components/study/UtilsView'
 import more from '../views/more/MoreView'
 import guess from '../components/game/GuessGame'
 import login from '../views/AccountLogin'
-import snake from '@/components/game/SnakeGame'
+import battlebit from '@/components/game/BattleBit'
 import userlist from '@/components/admin/UserList'
 import broadcast from '@/components/admin/BroadCast'
 import me from '@/components/study/MyArticle'
@@ -109,7 +109,7 @@ const routes = [
     component:more,
     children:[
       {path:'guess',component:guess},
-      {path:'snake',component: snake}
+      {path:'battlebit',component: battlebit}
     ],
     meta: {
       req:false,
