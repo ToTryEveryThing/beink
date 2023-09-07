@@ -16,7 +16,7 @@ public class controller {
             "/user/discuss/show/","/translate/query/","/user/article/showbyid/",
             "/user/article/showall/","/user/article/showone/",
             "/follow/getfollowerlist/","/follow/getfollowinglist/",
-            "/search/article/{content}/","/ggggggg"
+            "/search/article/{content}/"
     };
 
     /**

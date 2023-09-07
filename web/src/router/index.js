@@ -37,6 +37,15 @@ const routes = [
     }, 
   },
   {
+    path:'/target',
+    name:'target',
+    component:()=>import ("../views/TargetView.vue"),
+    meta: {
+      req:true,
+      login:true
+    }, 
+  },
+  {
     path:"/admin",
     name:'admin',
     component:admin,

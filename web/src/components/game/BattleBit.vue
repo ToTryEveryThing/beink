@@ -40,6 +40,11 @@ import { onMounted, ref } from 'vue'
     show()
   })
 
+  setInterval(function(){
+    show()
+  },
+  10000*5)
+  
   const show = ()=>{
     $.ajax({
       url:"https://publicapi.battlebit.cloud/Servers/GetServerList",
@@ -48,6 +53,8 @@ import { onMounted, ref } from 'vue'
         count.value = 0
         data.value = res
         .filter(s=>{
+          if(s.Map ==="Namak" && s.Region === "Japan_Central")
+          alert("HHHHHHHHHHHHHH")
           count.value += s.Players
           count.value += s.QueuePlayers
           return s.Players
@@ -56,10 +63,5 @@ import { onMounted, ref } from 'vue'
       }
     })
   }
-
-
-
-
-
 
 </script>
