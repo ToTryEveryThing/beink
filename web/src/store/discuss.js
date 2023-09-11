@@ -40,6 +40,7 @@ export default {
                 },
                 success(res){
                   if(res.code===200){
+                    console.log("拿到评论")
                     state.discussId = []
                     state.count = res.count
                     state.content = res.data

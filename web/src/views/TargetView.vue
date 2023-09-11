@@ -1,27 +1,11 @@
 <template>
-  <el-dialog
-    v-model="dialogVisible"
-    width="30%"
-    :show-close="false"
-  >
-  <el-input v-model="wanle" autosize type="textarea"></el-input>
-  <el-button @click="save" size="small">save</el-button>
-  </el-dialog>
-  <el-dialog
-    v-model="adddialogVisible"
-    width="30%"
-    :show-close="false"
-  >
-  <el-input v-model="ghhhhh" autosize type="textarea"></el-input>
-  <el-button @click="add" size="small">add</el-button>
-  </el-dialog>
-  <el-button @click="addadd(),adddialogVisible = true"><el-icon><Plus /></el-icon></el-button>
+  <el-button @click="addddddd()"><el-icon><Plus /></el-icon></el-button>
   <el-row  justify="space-evenly">
     <el-col :span="8">
       <el-timeline>
         <el-timeline-item  size="large" :color="i.color" v-for="i in data" :key="i.target" :icon="i.icon" :timestamp="i.createTime" placement="top">
           <el-card class="father" body-style="padding-top:0px;" >
-            <el-button class="edit" text size="small" @click="edit(i),dialogVisible=true"><el-icon><EditPen /></el-icon></el-button>
+            <el-button class="edit" text size="small" @click="edit(i)"><el-icon><EditPen /></el-icon></el-button>
             <h2 style="margin-bottom:2px">{{ i.target }}</h2>
             <el-image v-for="l in i.images" :key="l" style="width: 100px; height: 100px; margin-right: 10px;" :src="l"  />
             <p style="margin:10px 0px;font-size: 10px;">{{ i.content }}</p>
@@ -37,42 +21,43 @@
       </el-timeline>
     </el-col>
   </el-row>
+
+  <el-dialog
+    v-model="dialogVisible"
+    fullscreen="true"
+    :show-close="false"
+  >
+    <targetComponent :data="tem" :type="type"></targetComponent>
+    <el-button @click="dialogVisible = false">关闭</el-button>
+  </el-dialog>
+
+
 </template>
 
 
 <script setup>
 import { onMounted, ref } from 'vue';
 import $ from 'jquery'
+import targetComponent from '@/components/TargetComponent.vue'
 import config from '@/utiles/config';
 
   const dialogVisible = ref(false)
-  const adddialogVisible = ref(false) 
-  const ghhhhh = ref({})
-  const wanle = ref("")
-  const addcontent = ref({
-      id:1,
-      target:"xbox",
-      content:"微软第一代游戏机",
-      icon:"Loading",
-      color:"#409eff",
-      createTime:"2023-09-06",
-      images:["https://cdn.beink.cn/background/wallhaven-gp5k23.jpg"],
-      address:[
-        {
-          address:"https://bilibili.com",
-          name:"bilibili",
-          type:"success"
-        }
-      ],
-      tabs:[
-        {
-          name:"动漫",
-          tabs:"warning"
-        }
-      ]
-  })
   const data = ref([])
 
+  const tem = ref({})
+
+  const bufen = ref({
+      id:1,
+      target:"",
+      content:"",
+      icon:"",
+      color:"#409eff",
+      createTime:"",
+      images:[],
+      address:[],
+      tabs:[]
+  })
+  const type = ref("save")
 
   const show = ()=>{
     $.ajax({
@@ -92,49 +77,18 @@ import config from '@/utiles/config';
     show()
   })
 
+  const addddddd = ()=>{
+    dialogVisible.value = true
+    type.value = "add" 
+    tem.value = bufen.value
+  }
 
   const edit = (i)=>{
-    wanle.value = JSON.stringify(i)
+    type.value = "edit"
+    dialogVisible.value = true
+    tem.value = i
   }
 
-  const save = ()=>{
-    $.ajax({
-        url:`${config.API_URL}/admin/target/update/`,
-        type:'post',
-        dataType: "json",
-        contentType: "application/json;charset=utf-8",
-        headers:{
-          Authorization:"Bearer " + localStorage.getItem("jwt")
-        },
-        data:wanle.value,
-        success(res){
-          if(res.code === 200)
-          dialogVisible.value = false 
-          show()
-        } 
-    })
-  }
-
-  const add = ()=>{ 
-    $.ajax({
-        url:`${config.API_URL}/admin/target/add/`,
-        type:'post',
-        dataType: "json",
-        contentType: "application/json;charset=utf-8",
-        headers:{
-          Authorization:"Bearer " + localStorage.getItem("jwt")
-        },
-        data:ghhhhh.value,
-        success(res){
-          if(res.code === 200)
-          data.value.push(JSON.parse(ghhhhh.value))
-        } 
-    })
-  }
-
-  const addadd = ()=>{
-    ghhhhh.value = JSON.stringify(addcontent.value)
-  }
 
 </script>
 
