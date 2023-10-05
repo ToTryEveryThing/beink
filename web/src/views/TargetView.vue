@@ -1,21 +1,27 @@
 <template>
   <el-button @click="addddddd()"><el-icon><Plus /></el-icon></el-button>
   <el-row  justify="space-evenly">
-    <el-col :span="8">
+    <el-col  :md="8" :xs="24" :sm="16">
       <el-timeline>
         <el-timeline-item  size="large" :color="i.color" v-for="i in data" :key="i.target" :icon="i.icon" :timestamp="i.createTime" placement="top">
           <el-card class="father" body-style="padding-top:0px;" >
-            <el-button class="edit" text size="small" @click="edit(i)"><el-icon><EditPen /></el-icon></el-button>
-            <h2 style="margin-bottom:2px">{{ i.target }}</h2>
-            <el-image v-for="l in i.images" :key="l" style="width: 100px; height: 100px; margin-right: 10px;" :src="l"  />
-            <p style="margin:10px 0px;font-size: 10px;">{{ i.content }}</p>
-            <el-link v-for="k in i.address" target="_blank" :key="k.address" :href="k.address" :type="k.type">
-              {{ k.name }}
-            </el-link>
-            <br>
-            <el-tag v-for="j in i.tabs" :key="j.name" effect="dark" :type="j.tabs">
-              {{ j.name }}
-            </el-tag>
+            <el-collapse >
+              <el-collapse-item :title="i.target" name="1">
+                <template #title>
+                  {{ i.target }}
+                  <el-button class="edit" text size="small" @click="edit(i)"><el-icon color="#2c3e50"><EditPen /></el-icon></el-button>
+                </template>
+                <el-image v-for="l in i.images" :key="l" style="width: 100px; height: 100px; margin-right: 10px;" :src="l"  />
+                <p style="margin:10px 0px;font-size: 10px;">{{ i.content }}</p>
+                <el-link v-for="k in i.address" target="_blank" :key="k.address" :href="k.address" :type="k.type">
+                  {{ k.name }}
+                </el-link>
+                <br>
+                <el-tag v-for="j in i.tabs" :key="j.name" effect="dark" :type="j.tabs">
+                  {{ j.name }}
+                </el-tag>
+              </el-collapse-item>
+            </el-collapse>
           </el-card>
         </el-timeline-item>
       </el-timeline>
