@@ -27,4 +27,6 @@ public class web {
     private String mail;
     private Boolean enable;
     private String userimage;
+
+    private Date loginTime;
 }

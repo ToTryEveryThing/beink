@@ -27,22 +27,23 @@
                     :data="tableData" stripe border
                     @selection-change="handleSelectionChange"
                      >
-                      <el-table-column type="selection" width="55" />
-                      <el-table-column   prop="id" label="ID" />
-                      <el-table-column prop="account" label="Name"  />
-                      <el-table-column  label="Role"  >
+                      <el-table-column type="selection" width="80" />
+                      <el-table-column   prop="id" label="ID" width="60"/>
+                      <el-table-column prop="account" label="Name" width="130" />
+                      <el-table-column  label="Role"  width="100">
                         <template #default="scope">
                               <el-tag v-if="scope.row.role==='admin'">{{ scope.row.role }}</el-tag>
                               <el-tag type="info" v-else>{{ scope.row.role }}</el-tag>
                         </template>
                       </el-table-column>>
-                      <el-table-column  label="Enable"  >
+                      <el-table-column  label="Enable" width="80" >
                         <template #default="scope">
                               <el-tag type="success" v-if="scope.row.enable"> 是 </el-tag>
                               <el-tag type="info" v-else>否 </el-tag>
                         </template>
                       </el-table-column>>
-                      <el-table-column prop="backimg" label="Img"  />
+                      <el-table-column prop="backimg" label="Img" width="60" />
+                      <el-table-column prop="loginTime" label="最后时间"  />
                       <el-table-column prop="mail" label="Email"  />
                       <el-table-column  prop="date" label="Date"   />
                       <el-table-column label="Operations" fixed="right" width="150">
@@ -270,6 +271,7 @@
                 vue.tableData = res.records
                 for (let i in vue.tableData){
                   vue.tableData[i].date = moment(vue.tableData[i].date). utcOffset( 480). format( 'YYYY-MM-DD')
+                  vue.tableData[i].loginTime = moment(vue.tableData[i].loginTime). utcOffset( 480). format( 'YYYY-MM-DD')
                 }
                 vue.loading = false
                 vue.table = vue.tableData

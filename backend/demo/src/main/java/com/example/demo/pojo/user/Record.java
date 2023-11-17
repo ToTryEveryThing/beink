@@ -23,4 +23,5 @@ public class Record {
     private String mail;
     private String role;
     private Boolean enable;
+    private Date loginTime;
 }

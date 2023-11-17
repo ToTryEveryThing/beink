@@ -2,6 +2,7 @@ package com.example.demo.service.impl.web.user;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.example.demo.controller.common.ApiResponse;
 import com.example.demo.mapper.user.FansMapper;
 import com.example.demo.mapper.user.WebMapper;
@@ -13,10 +14,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class InfoImpl implements InfoService {
@@ -52,6 +50,10 @@ public class InfoImpl implements InfoService {
         map.put("userimage",web.getUserimage());
         map.put("date", String.valueOf(web.getDate()));
         map.put("article", String.valueOf(fansService.sendArticle(web.getId())));
+
+        web.setLoginTime(new Date());
+        webMapper.updateById(web);
+
         return ApiResponse.success(map);
     }
 }

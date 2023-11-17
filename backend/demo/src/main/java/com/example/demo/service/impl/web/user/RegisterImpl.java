@@ -84,17 +84,7 @@ public class RegisterImpl implements RegisterService {
             if(!webs.isEmpty()){
                 return new Result(0,"用户名已存在");
             }
-            String pass = passwordEncoder.encode(password);
-
-            String jwt = JwtUtil.createJWT(account, "user");
-            web web1 = new web();
-            web1.setBackimg("5");
-            web1.setList("[]");
-            web1.setPassword(pass);
-            web1.setAccount(account);
-            web1.setDate(new Date());
-            webMapper.insert(web1);
-            System.out.println(new Date());
+            String jwt = encode(account, password);
             if(value.equals(v.get(key).toString())){
                 stringRedisTemplate.delete(key);
             }
@@ -140,6 +130,12 @@ public class RegisterImpl implements RegisterService {
         if(!webs.isEmpty()){
             return ApiResponse.error(0,"用户名已存在");
         }
+        String jwt =  encode(account, password);;
+        redisUtil.set(REDIS_TOKEN + account, jwt, REDIS_JWT_TTL);
+        return ApiResponse.success(jwt);
+    }
+
+    private String  encode(String account, String password) {
         String pass = passwordEncoder.encode(password);
 
         String jwt = JwtUtil.createJWT(account, "user");
@@ -150,9 +146,7 @@ public class RegisterImpl implements RegisterService {
         web1.setAccount(account);
         web1.setDate(new Date());
         webMapper.insert(web1);
-        System.out.println(new Date());
-        redisUtil.set(REDIS_TOKEN + account, jwt, REDIS_JWT_TTL);
-        return ApiResponse.success(jwt);
+        return jwt;
     }
 
 

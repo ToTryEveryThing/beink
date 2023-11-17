@@ -26,8 +26,6 @@ public class ExceptionAdvice {
 
     /**
      * 限制太频繁
-     * @parame
-     * @return
      */
     @MyLog
     @ExceptionHandler(LimitException.class)
@@ -38,8 +36,6 @@ public class ExceptionAdvice {
 
     /**
      * token异常
-     * @param e
-     * @return
      */
     @MyLog
     @ExceptionHandler(TokenException.class)
@@ -50,7 +46,6 @@ public class ExceptionAdvice {
 
     /**
      * 没有自定义的异常
-     * @return
      */
     @MyLog
     @ExceptionHandler(Exception.class)
@@ -63,8 +58,6 @@ public class ExceptionAdvice {
 
     /**
      * 访问方法不对
-     * @param e
-     * @return
      */
     @MyLog
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
@@ -76,8 +69,6 @@ public class ExceptionAdvice {
 
     /**
      * 访问参数错误
-     * @param e
-     * @return
      */
     @MyLog
     @ExceptionHandler(MissingServletRequestParameterException.class)
@@ -90,8 +81,6 @@ public class ExceptionAdvice {
 
     /**
      * 账号被停用
-     * @param e
-     * @return
      */
     @MyLog
     @ExceptionHandler(DisabledException.class)
@@ -103,8 +92,6 @@ public class ExceptionAdvice {
 
     /**
      * 密码错误
-     * @param e
-     * @return
      */
     @MyLog
     @ExceptionHandler(BadCredentialsException.class)

@@ -27,6 +27,7 @@ public class MailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
+
     @Autowired
     private redisUtil redisUtil;
 

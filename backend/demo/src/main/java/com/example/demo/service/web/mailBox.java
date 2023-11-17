@@ -7,7 +7,6 @@ import com.example.demo.controller.common.ApiResponse;
  * @date 2023/3/1 17:06
  */
 public interface mailBox {
-
     public ApiResponse<Void> bind(String account, String mail, String code);
 
 
