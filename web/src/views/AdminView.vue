@@ -40,9 +40,11 @@
           </el-radio-group>
         </el-header>
         <el-main style="padding:0;">
+          <router-view v-slot="{ Component }">
             <keep-alive>
-              <router-view ></router-view>
-          </keep-alive>
+              <component :is="Component" />
+            </keep-alive>
+          </router-view>
         </el-main>
       </el-container>
     </el-container>
