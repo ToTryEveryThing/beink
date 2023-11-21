@@ -26,6 +26,10 @@
             <el-icon><Guide /></el-icon>
             <span>日志</span>
           </el-menu-item>
+          <el-menu-item index="/admin/job">
+            <el-icon><Clock /></el-icon>
+            <span>定时任务</span>
+          </el-menu-item>
           <el-menu-item index="/admin/background">
             <el-icon><Picture /></el-icon>
             <span>背景图片</span>
@@ -33,12 +37,12 @@
         </el-menu>
       </el-aside>
       <el-container>
-        <el-header>
+        <!-- <el-header>
           <el-radio-group v-model="isCollapse" style="margin-bottom: 20px">
             <el-radio-button  :label="true"><el-icon><Fold /></el-icon></el-radio-button>
             <el-radio-button :label="false"><el-icon><Expand /></el-icon></el-radio-button>
           </el-radio-group>
-        </el-header>
+        </el-header> -->
         <el-main style="padding:0;">
           <router-view v-slot="{ Component }">
             <keep-alive>

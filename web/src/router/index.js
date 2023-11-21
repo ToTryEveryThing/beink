@@ -12,6 +12,7 @@ import me from '@/components/study/MyArticle'
 import log from '@/components/admin/OperationLog'
 import profile from "@/components/user/UserProfile"
 import background from '@/components/admin/BackgroundImages.vue' 
+import job from '@/components/admin/QuartzJob'
 
 // 路由切换进度条
 // https://blog.csdn.net/weixin_73337633/article/details/131376644
@@ -54,6 +55,7 @@ const routes = [
       {path:'broadcast', component:broadcast},
       {path:'log', component:log},
       {path:'background', component:background},
+      {path:'job', component: job}
     ],
     meta: {
       req:true,

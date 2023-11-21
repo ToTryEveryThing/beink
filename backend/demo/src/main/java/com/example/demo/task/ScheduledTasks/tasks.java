@@ -25,7 +25,7 @@ import static com.example.demo.constants.radis.redisConstants.REDIS_ARTICLE;
 
 @Configuration
 @Log4j2
-@EnableScheduling
+//@EnableScheduling
 public class tasks {
 
     /**
@@ -71,8 +71,6 @@ public class tasks {
                 redisUtil.hset(REDIS_ARTICLE, String.valueOf(s.getId()),s)
         );
         log.warn("redis 同步完成");
-
-
     }
 
 
