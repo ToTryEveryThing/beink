@@ -14,6 +14,7 @@
     <modules>
         <module>mail-service</module>
         <module>service-common</module>
+        <module>article-service</module>
     </modules>
 
     <properties>

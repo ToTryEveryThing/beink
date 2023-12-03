@@ -1,0 +1,108 @@
+package com.example.article.service.impl;
+
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.article.mapper.DiscussMapper;
+import com.example.article.mapper.UpMapper;
+import com.example.article.pojo.Discuss;
+import com.example.article.service.ThumbsUpService;
+import com.example.common.constants.response.ApiResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+
+@Service
+public class thumbsUpServiceImpl implements ThumbsUpService {
+
+    @Autowired
+    private UpMapper upMapper;
+
+    @Autowired
+    private DiscussMapper discussMapper;
+
+    @Override
+    public ApiResponse<Void> up(String userName, Integer articleId) {
+        System.out.println("userName + articleId = " + userName + articleId);
+        int insert;
+        QueryWrapper<com.example.article.pojo.ThumbsUp> q = new QueryWrapper<>();
+        q.eq("user_name",userName);
+        q.eq("article_id",articleId);
+        com.example.article.pojo.ThumbsUp thumbsUp1 = upMapper.selectOne(q);
+//        存在
+        if(thumbsUp1!=null){
+            Boolean f = thumbsUp1.getStatus();
+            if(f) return ApiResponse.error(0,"error");
+            thumbsUp1.setStatus(true);
+            insert = upMapper.update(thumbsUp1,q);
+        }else{
+            com.example.article.pojo.ThumbsUp thumbsUp = new com.example.article.pojo.ThumbsUp();
+            thumbsUp.setStatus(true);
+            thumbsUp.setArticleId(articleId);
+            thumbsUp.setUserName(userName);
+            thumbsUp.setCount(1);
+            insert = upMapper.insert(thumbsUp);
+            System.out.println("insert = " + insert);
+        }
+        Discuss discuss = discussMapper.selectById(articleId);
+        discuss.setUp(discuss.getUp()+1);
+        int i = discussMapper.updateById(discuss);
+//        并发 再次修改
+        if(i==0){
+            discuss = discussMapper.selectById(articleId);
+            discuss.setUp(discuss.getUp()+1);
+            discussMapper.updateById(discuss);
+        }
+        if(insert>=1)return ApiResponse.success();
+        return ApiResponse.error(0,"error");
+    }
+
+    @Override
+    public ApiResponse<Void> down(String userName, Integer articleId) {
+        QueryWrapper<com.example.article.pojo.ThumbsUp> q = new QueryWrapper<>();
+        q.eq("user_name",userName);
+        q.eq("article_id",articleId);
+        com.example.article.pojo.ThumbsUp thumbsUp = upMapper.selectOne(q);
+        if(!thumbsUp.getStatus()){
+            return ApiResponse.error(0,"error");
+        }
+        thumbsUp.setStatus(false);
+        upMapper.update(thumbsUp,q);
+        Discuss discuss = discussMapper.selectById(articleId);
+        int sum =discuss.getUp();
+        discuss.setUp(sum-1);
+        int i = discussMapper.updateById(discuss);
+//        并发 再次修改
+        if(i==0){
+            sum =discuss.getUp();
+            discuss.setUp(sum-1);
+            discussMapper.updateById(discuss);
+        }
+        return ApiResponse.success();
+    }
+
+    @Override
+    public JSONObject discussStatus(String userName,String ids) {
+        System.out.println("userName = " + userName);
+        System.out.println("ids = " + ids);
+        JSONObject data = JSONObject.parseObject(ids);
+        JSONObject res = new JSONObject();
+        JSONArray hh = data.getJSONArray("ids");
+        System.out.println(hh.getClass());
+        for(int i=0;i<hh.size();i++){
+            System.out.println(hh.get(i));
+            QueryWrapper<com.example.article.pojo.ThumbsUp> q = new QueryWrapper<>();
+            Integer id = (Integer) hh.get(i);
+            q.eq("article_id",id);
+            q.eq("user_name", userName);
+            com.example.article.pojo.ThumbsUp thumbsUp = upMapper.selectOne(q);
+            if(thumbsUp==null){
+                res.put(String.valueOf(id),false);
+            }else res.put(String.valueOf(thumbsUp.getArticleId()),thumbsUp.getStatus());
+        }
+        res.put("code", 200);
+        return res;
+    }
+
+
+}
