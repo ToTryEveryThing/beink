@@ -1,7 +1,8 @@
-package com.example.demo.service.impl.utils;
+package com.example.mail.service.impl;
 
-import com.example.demo.controller.common.ApiResponse;
-import com.example.demo.utils.redisUtil;
+
+import com.example.common.constants.response.ApiResponse;
+import com.example.common.utils.redisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
@@ -13,7 +14,6 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.util.Random;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /***
