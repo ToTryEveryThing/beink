@@ -27,7 +27,7 @@ public class SendMailController {
 
     @MyLog
     @AccessLimit(seconds = 10, maxCount = 2)
-    @PostMapping("/user/mail/")
+    @PostMapping("/user/mail/send/")
     public ApiResponse mail(@RequestParam String to){
          return sendMailService.sendSimpleMail(to,"4656555");
     }

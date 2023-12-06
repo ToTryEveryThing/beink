@@ -2,11 +2,15 @@ package com.example.article.controller;
 
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.example.article.service.impl.FansServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController("/fans")
 public class FansController {
@@ -14,6 +18,10 @@ public class FansController {
     @Autowired
     private FansServiceImpl fansService;
 
+    @PostMapping("/sendarticle")
+    public List<JSONObject> sendArticle(Integer id){
+        return fansService.sendArticle(id);
+    }
 
 
 

@@ -19,6 +19,7 @@ import java.util.List;
  */
 
 @RestController
+@RequestMapping("/user/article")
 public class ArticleController {
 
     @Autowired
@@ -27,7 +28,7 @@ public class ArticleController {
     @Autowired
     ElasticSearchArticleImpl elasticSearchArticle;
 
-    @PostMapping("/user/article/add/")
+    @PostMapping("/add/")
     @MyLog
     public ApiResponse<Void> add(@RequestParam String content,
                                  @RequestParam String name,
@@ -35,7 +36,7 @@ public class ArticleController {
         return articleService.add(content, name, title);
     }
 
-    @PostMapping("/user/article/edit/")
+    @PostMapping("/edit/")
     @MyLog
     public ApiResponse<Void> edit(@RequestParam Integer id,
                                   @RequestParam String name,
@@ -47,7 +48,7 @@ public class ArticleController {
         return articleService.edit(id, name, post, content, title, show);
     }
 
-    @PostMapping("/user/article/delete/")
+    @PostMapping("/delete/")
     @MyLog
     public ApiResponse<Void> delete(@RequestParam Integer id, @RequestParam String name,
                                     @RequestParam String post){
@@ -56,25 +57,25 @@ public class ArticleController {
     }
 
     @AccessLimit(seconds = 60*60,maxCount = 1000000)
-    @PostMapping("/user/article/showbyid/")
+    @PostMapping("/showbyid/")
     public ApiResponse<Article> showbyid(@RequestParam Integer id){
         return articleService.showbyid(id);
     }
 
 
-    @PostMapping("/user/article/showall/")
+    @PostMapping("/showall/")
     public ApiResponse<List<Article>> showall(){
         return articleService.showall();
     }
 
 
-    @PostMapping("/user/article/showone/")
+    @PostMapping("/showone/")
     public ApiResponse<List<Article>> showone(@RequestParam String post){
         return articleService.showone(post);
     }
 
 
-    @GetMapping("/search/article/{content}/")
+    @GetMapping("/{content}/")
     public ApiResponse<List<ArticleES>> searchHitsApiResponse(@PathVariable String content){
         return elasticSearchArticle.searchArticle(content);
     }

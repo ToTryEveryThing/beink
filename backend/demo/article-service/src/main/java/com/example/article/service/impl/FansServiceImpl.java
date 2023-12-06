@@ -43,8 +43,7 @@ public class FansServiceImpl implements FansService {
     }
 
 
-
-    List<JSONObject> sendArticle(Integer id){
+    public List<JSONObject> sendArticle(Integer id){
         QueryWrapper<Fans> q = new QueryWrapper<>();
         q.eq("`read`",false);
         q.eq("follower_id",id);

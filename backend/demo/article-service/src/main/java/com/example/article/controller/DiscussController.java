@@ -7,6 +7,7 @@ import com.example.common.config.limitApi.AccessLimit;
 import com.example.common.config.operationLog.MyLog;
 import com.example.common.constants.response.ApiResponse;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +19,7 @@ import java.util.Map;
  * @date 2023/2/16
  */
 @RestController
+@RequestMapping("/user/discuss")
 public class DiscussController {
 
 
@@ -25,7 +27,7 @@ public class DiscussController {
     private DiscussService discussService;
 
     @AccessLimit(seconds = 60*60,maxCount = 50)
-    @PostMapping("/user/discuss/add/")
+    @PostMapping("/add/")
     @MyLog
     public ApiResponse<Void> add(@RequestParam String userName, @RequestParam Map<String ,String> map){
         String content = map.get("content");
@@ -34,13 +36,13 @@ public class DiscussController {
     }
 
     @AccessLimit(seconds = 60*60,maxCount = 50)
-    @PostMapping("/user/discuss/show/")
+    @PostMapping("/show/")
     public JSONObject show(@RequestParam Map<String ,String> map){
         return discussService.showReply(Integer.valueOf(map.get("article_id")),
                 Integer.valueOf(map.get("page")));
     }
 
-    @PostMapping("/user/discuss/delete/")
+    @PostMapping("/delete/")
     @MyLog
     public ApiResponse<Void> del(@RequestParam String userName, Integer id){
         return discussService.delReply(userName,id);

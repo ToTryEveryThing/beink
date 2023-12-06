@@ -21,7 +21,7 @@ public class BindMainController {
     private MailBindService mailBindService;
 
 
-    @PostMapping("/user/mailbind/")
+    @PostMapping("/user/mail/bind/")
     public ApiResponse<Void> mail(String account , @RequestParam Map<String,String> map){
         return mailBindService.bind(account,
                 map.get("mail"),map.get("code"));

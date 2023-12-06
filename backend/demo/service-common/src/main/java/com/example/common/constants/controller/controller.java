@@ -10,25 +10,8 @@ public class controller {
      * 不需要授权访问
      */
     public static final String[] patterns = {
-            "/user/admin/git/show/","/user/account/token/",
-            "/user/account/register/","/user/admin/backlist/show/",
-            "/oss/getList/","/captcha/",
-            "/user/discuss/show/","/translate/query/","/user/article/showbyid/",
-            "/user/article/showall/","/user/article/showone/",
-            "/follow/getfollowerlist/","/follow/getfollowinglist/",
-            "/search/article/{content}/"
+           "/user/article/showall/","/user/article/showone/","/user/discuss/show/","/user/follow/getfollowinglist/",
+            "/user/follow/getfollowerlist/","/user/thumbs/discussstatus/","/user/mail/send/",
+            "/user/captcha/","/user/account/token/","/user/account/register/",
     };
-
-    /**
-     * 获取用户信息
-     */
-    public static final String[] USER_INFO  = {
-            "/user/account/color/",
-            "/user/admin/git/save/","/user/discuss/add/",
-            "/user/discuss/delete/","/user/up/","/user/down/","/user/discussstatus/",
-            "/user/mailbind/","/user/chat/content/","/user/article/delete/","/user/article/edit/",
-            "/user/article/add/","/user/article/up/","/user/account/changpasswd/","/user/upload/image/"
-
-    };
-
 }
