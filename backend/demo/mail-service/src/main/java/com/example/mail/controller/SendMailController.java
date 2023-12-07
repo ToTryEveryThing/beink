@@ -6,6 +6,7 @@ import com.example.common.config.limitApi.AccessLimit;
 import com.example.common.config.operationLog.MyLog;
 import com.example.common.constants.response.ApiResponse;
 import com.example.mail.service.impl.SendMailService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,7 @@ public class SendMailController {
     @MyLog
     @AccessLimit(seconds = 10, maxCount = 2)
     @PostMapping("/user/mail/send/")
+    @ApiOperation("发送邮件")
     public ApiResponse mail(@RequestParam String to){
          return sendMailService.sendSimpleMail(to,"4656555");
     }

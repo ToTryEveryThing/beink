@@ -7,6 +7,7 @@ import com.example.common.constants.response.ApiResponse;
 import com.example.common.utils.Code.CodeTypeEnum;
 import com.example.common.utils.Code.EasyCaptchaService;
 import com.example.common.utils.redisUtil;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +32,7 @@ public class captcha {
 
     @AccessLimit(seconds = 60*60*24,maxCount = 20)
     @MyLog
+    @ApiOperation("验证码")
     @PostMapping("/user/captcha/")
     public ApiResponse captcha(){
         Map<String, String> Base = easyCaptchaService.getCaptchaValueAndBase64(CodeTypeEnum.SPEC);

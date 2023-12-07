@@ -3,6 +3,7 @@ package com.example.user.controller;
 import com.example.common.config.operationLog.MyLog;
 import com.example.common.constants.response.ApiResponse;
 import com.example.user.service.UserUpdateService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,6 +22,7 @@ public class UserUpdateController {
 
 
     @PostMapping("/user/account/updata/")
+    @ApiOperation("更新用户信息")
     @MyLog
     public ApiResponse<String> updata(@RequestParam Map<String,String> map){
         int id = Integer.parseInt(map.get("id"));
@@ -33,6 +35,7 @@ public class UserUpdateController {
 
     @MyLog
     @PostMapping("/user/account/update/")
+    @ApiOperation("更新用户信息")
     public ApiResponse update(@RequestParam("all") String map){
 
         return UserUpdateService.update(map);

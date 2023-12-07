@@ -3,9 +3,13 @@ package com.example.gateway.interceptor;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.common.constants.response.ApiResponse;
+import com.example.common.exception.controllerException.TokenException;
 import com.example.common.mapper.WebMapper;
 import com.example.common.pojo.web;
 import com.example.common.utils.JwtUtil;
+import com.example.common.utils.redisUtil;
+import io.jsonwebtoken.Claims;
+import lombok.SneakyThrows;
 import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -40,21 +44,25 @@ public class MyGlobalFilter  implements GlobalFilter, Ordered {
     @Autowired
     private WebMapper webMapper;
 
+    @Autowired
+    private redisUtil redisUtil;
 
-
+    @SneakyThrows
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
 
+        ServerHttpResponse response = exchange.getResponse();
+
         ServerHttpRequest request = exchange.getRequest();
+
+        String path = request.getPath().toString();
+
         //放行
-        if(isExclude(request.getPath().toString())){
+        if(isExclude(path)){
             return chain.filter(exchange);
         }
         String token = null;
-
-
-        ServerHttpResponse response = exchange.getResponse();
 
         List<String> authorization = request.getHeaders().get("Authorization");
         if(authorization != null && !authorization.isEmpty()){
@@ -62,20 +70,39 @@ public class MyGlobalFilter  implements GlobalFilter, Ordered {
             token = token.substring(7);
         }else{
             System.out.println("token为空");
-            response.setStatusCode(org.springframework.http.HttpStatus.valueOf(HttpStatus.SC_UNAUTHORIZED));
-            return response.setComplete();
+            String responseBody = "{\n" +
+                    "    \"code\":403,\n" +
+                    "    \"message\": \"登录后操作\"\n" +
+                    "}";
+            return response.writeWith(Mono.just(response.bufferFactory().wrap(responseBody.getBytes())));
         }
+
+
 
         System.out.println(token);
         try {
-            String username = jwtUtil.parseJWT(token).getSubject();
+            Claims claims = jwtUtil.parseJWT(token);
+            System.out.println("claims.get(\"role\") = " + claims.get("role"));
+            String username = claims.getSubject();
+
+            if(path.contains("admin") && claims.get("role").equals("user")){
+                String responseBody = "{\n" +
+                        "    \"code\":403,\n" +
+                        "    \"message\": \"权限不足\"\n" +
+                        "}";
+                return response.writeWith(Mono.just(response.bufferFactory().wrap(responseBody.getBytes())));
+            }
+
             LambdaQueryWrapper<web> q = new LambdaQueryWrapper<>();
             q.eq(web::getAccount,username);
             web web = webMapper.selectOne(q);
             if(web == null) {
                 System.out.println("用户不存在");
-                response.setStatusCode(org.springframework.http.HttpStatus.valueOf(HttpStatus.SC_UNAUTHORIZED));
-                return response.setComplete();
+                String responseBody = "{\n" +
+                        "    \"code\":500,\n" +
+                        "    \"message\": \"用户不存在\"\n" +
+                        "}";
+                return response.writeWith(Mono.just(response.bufferFactory().wrap(responseBody.getBytes())));
             }
             System.out.println("用户存在");
             //用户名放在请求头中
@@ -84,8 +111,11 @@ public class MyGlobalFilter  implements GlobalFilter, Ordered {
                     .build();
             return chain.filter(build);
         } catch (Exception e) {
-            response.setStatusCode(org.springframework.http.HttpStatus.valueOf(HttpStatus.SC_UNAUTHORIZED));
-            return response.setComplete();
+            String responseBody = "{\n" +
+                    "    \"code\":500,\n" +
+                    "    \"message\": \"操作异常\"\n" +
+                    "}";
+            return response.writeWith(Mono.just(response.bufferFactory().wrap(responseBody.getBytes())));
         }
     }
 
