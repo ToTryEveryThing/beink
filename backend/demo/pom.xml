@@ -18,6 +18,7 @@
         <module>user-service</module>
         <module>gateway-service</module>
         <module>alioss-service</module>
+        <module>quartz-service</module>
     </modules>
 
     <properties>
