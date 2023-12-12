@@ -2,22 +2,19 @@ package com.example.gateway.interceptor;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.example.common.constants.response.ApiResponse;
-import com.example.common.exception.controllerException.TokenException;
 import com.example.common.mapper.WebMapper;
 import com.example.common.pojo.web;
 import com.example.common.utils.JwtUtil;
 import com.example.common.utils.redisUtil;
+import com.example.gateway.constants.exception;
 import io.jsonwebtoken.Claims;
 import lombok.SneakyThrows;
-import org.apache.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 
-import org.springframework.http.server.RequestPath;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -28,6 +25,8 @@ import javax.annotation.Resource;
 import java.util.List;
 
 import static com.example.common.constants.controller.controller.patterns;
+import static com.example.common.constants.radis.redisConstants.REDIS_TOKEN;
+import static com.example.gateway.constants.exception.*;
 
 /**
  * @author ToTryEveryThing
@@ -37,6 +36,8 @@ import static com.example.common.constants.controller.controller.patterns;
 @Component
 @Configuration
 public class MyGlobalFilter  implements GlobalFilter, Ordered {
+
+
 
     @Resource
     private JwtUtil jwtUtil;
@@ -70,27 +71,14 @@ public class MyGlobalFilter  implements GlobalFilter, Ordered {
             token = token.substring(7);
         }else{
             System.out.println("token为空");
-            String responseBody = "{\n" +
-                    "    \"code\":403,\n" +
-                    "    \"message\": \"登录后操作\"\n" +
-                    "}";
-            return response.writeWith(Mono.just(response.bufferFactory().wrap(responseBody.getBytes())));
+            return response.writeWith(Mono.just(response.bufferFactory().wrap(FIRST_LOGIN.getBytes())));
         }
-
-
-
-        System.out.println(token);
         try {
             Claims claims = jwtUtil.parseJWT(token);
-            System.out.println("claims.get(\"role\") = " + claims.get("role"));
             String username = claims.getSubject();
 
             if(path.contains("admin") && claims.get("role").equals("user")){
-                String responseBody = "{\n" +
-                        "    \"code\":403,\n" +
-                        "    \"message\": \"权限不足\"\n" +
-                        "}";
-                return response.writeWith(Mono.just(response.bufferFactory().wrap(responseBody.getBytes())));
+                return response.writeWith(Mono.just(response.bufferFactory().wrap(NO_AUTHORIZATION.getBytes())));
             }
 
             LambdaQueryWrapper<web> q = new LambdaQueryWrapper<>();
@@ -98,11 +86,7 @@ public class MyGlobalFilter  implements GlobalFilter, Ordered {
             web web = webMapper.selectOne(q);
             if(web == null) {
                 System.out.println("用户不存在");
-                String responseBody = "{\n" +
-                        "    \"code\":500,\n" +
-                        "    \"message\": \"用户不存在\"\n" +
-                        "}";
-                return response.writeWith(Mono.just(response.bufferFactory().wrap(responseBody.getBytes())));
+                return response.writeWith(Mono.just(response.bufferFactory().wrap(NO_USER.getBytes())));
             }
             System.out.println("用户存在");
             //用户名放在请求头中
@@ -111,11 +95,7 @@ public class MyGlobalFilter  implements GlobalFilter, Ordered {
                     .build();
             return chain.filter(build);
         } catch (Exception e) {
-            String responseBody = "{\n" +
-                    "    \"code\":500,\n" +
-                    "    \"message\": \"操作异常\"\n" +
-                    "}";
-            return response.writeWith(Mono.just(response.bufferFactory().wrap(responseBody.getBytes())));
+            return response.writeWith(Mono.just(response.bufferFactory().wrap(OPERATION_EXCEPTION.getBytes())));
         }
     }
 

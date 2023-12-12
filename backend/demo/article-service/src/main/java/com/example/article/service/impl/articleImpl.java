@@ -107,8 +107,8 @@ public class articleImpl implements ArticleService {
         LambdaQueryWrapper<Discuss> discussLambdaQueryWrapper = new LambdaQueryWrapper<>();
         discussLambdaQueryWrapper.eq(Discuss::getArticleId,id);
         discussMapper.delete(discussLambdaQueryWrapper);
-        //TODO 删除评论点赞
-        /**
+        //TODO 删除用户时删除评论点赞
+        /*
          * 可以在数据库中 使用外键约束
          * 也可以在后端 直接写
          * 待实现。。。

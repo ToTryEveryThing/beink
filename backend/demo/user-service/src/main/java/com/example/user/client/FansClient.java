@@ -14,7 +14,7 @@ import java.util.List;
 @FeignClient("article-service")
 public interface FansClient {
 
-        @PostMapping("/fans/sendarticle")
+        @PostMapping("/user/fans/sendarticle")
         List<JSONObject> sendarticle(Integer id);
 
 }

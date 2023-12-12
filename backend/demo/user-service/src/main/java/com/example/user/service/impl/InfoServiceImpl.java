@@ -24,9 +24,6 @@ public class InfoServiceImpl implements InfoService {
     @Override
     public ApiResponse<Map<String, String>> getinfo() {
 
-
-
-//   TODO 拿到token中信息
         QueryWrapper<web> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("account","admin");
         web web = webMapper.selectOne(queryWrapper);

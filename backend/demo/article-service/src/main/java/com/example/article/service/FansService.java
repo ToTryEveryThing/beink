@@ -1,7 +1,9 @@
 package com.example.article.service;
 
 
+import com.alibaba.fastjson.JSONObject;
 
+import java.util.List;
 
 /**
 * @author longlong
@@ -11,5 +13,7 @@ package com.example.article.service;
 public interface FansService {
 
     void  addRelationship(String name,String title,Integer authorId, Integer articleId);
+
+    public List<JSONObject> sendArticle(Integer id);
 
 }

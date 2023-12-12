@@ -104,7 +104,6 @@ public class WebSocketServer {
         }
         JSONObject data = JSONObject.parseObject(message);
 
-        //TODO       groupchat
         if(data.getString("about").equals("group")){
             sendMessageToGroup(data.getString("message"),name);
             System.out.println("群聊");

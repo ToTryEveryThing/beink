@@ -1,6 +1,7 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com/example/common/config/limitApi/AccessLimitImpl,com/example/common/config/operationLog/MyLogAspect,\
   com/example/common/config/DataSourceConfig,\
-  com/example/common/config/MvcConfig,com/example/common/config/RedisConfig
+  com/example/common/config/MvcConfig,com/example/common/config/RedisConfig,com/example/common/config/MybatisConfig
+
 
 

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.example.common.constants.response.ApiResponse;
 import com.example.common.mapper.WebMapper;
 import com.example.common.pojo.web;
+import com.example.common.utils.Code.IsCode;
 import com.example.common.utils.JwtUtil;
 import com.example.common.utils.redisUtil;
 import com.example.user.service.LoginService;
@@ -32,11 +33,10 @@ public class LoginImpl implements LoginService {
     @Override
     public ApiResponse<Map<String, String>> getToken(String account, String password, String code, String base64) {
 
-        // TODO 验证吗有点问题
-//        Boolean f = IsCode.is(REDIS_CAPTCHA + code,base64,redisUtil);
-//        if(!f){
-//            return ApiResponse.error(0,"验证码错误");
-//        }
+        Boolean f = IsCode.is(REDIS_CAPTCHA + code,base64,redisUtil);
+        if(!f){
+            return ApiResponse.error(0,"验证码错误");
+        }
 
         LambdaQueryWrapper<web> q = new LambdaQueryWrapper<>();
         q.eq(web::getAccount,account);

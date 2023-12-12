@@ -22,12 +22,12 @@ public class LoginController  {
     @AccessLimit(seconds = 60*60*24, maxCount = 50)
     @PostMapping("/user/account/token/")
     @ApiOperation("登录")
-    @MyLog
     public ApiResponse<Map<String, String>> getToken(@RequestParam Map<String,String>map){
         String account = map.get("account");
         String password = map.get("password");
         String code = map.get("code");
         String base64 = map.get("base64");
+        System.out.println(base64);
         return loginService.getToken(account, password, code, base64);
 
     }

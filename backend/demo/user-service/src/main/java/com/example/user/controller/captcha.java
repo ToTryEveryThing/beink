@@ -4,6 +4,7 @@ package com.example.user.controller;
 import com.example.common.config.limitApi.AccessLimit;
 import com.example.common.config.operationLog.MyLog;
 import com.example.common.constants.response.ApiResponse;
+import com.example.common.utils.Base64HashCalculator;
 import com.example.common.utils.Code.CodeTypeEnum;
 import com.example.common.utils.Code.EasyCaptchaService;
 import com.example.common.utils.redisUtil;
@@ -28,16 +29,14 @@ public class captcha {
     private EasyCaptchaService easyCaptchaService;
 
     @Autowired
-    private redisUtil redisTemplate;
+    private redisUtil redisUtil;
 
     @AccessLimit(seconds = 60*60*24,maxCount = 20)
-    @MyLog
     @ApiOperation("验证码")
     @PostMapping("/user/captcha/")
     public ApiResponse captcha(){
         Map<String, String> Base = easyCaptchaService.getCaptchaValueAndBase64(CodeTypeEnum.SPEC);
-        redisTemplate.set(REDIS_CAPTCHA + Base.get("code").toLowerCase(),Base.get("base64"));
-        redisTemplate.expire(REDIS_CAPTCHA + Base.get("code"), 120);
+        redisUtil.set(REDIS_CAPTCHA + Base.get("code").toLowerCase(),Base.get("base64"),120);
         return new ApiResponse(200,"success",Base.get("base64"));
     }
 }

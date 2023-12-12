@@ -83,9 +83,6 @@ public class MyLogAspect {
             if (!StringUtils.hasText(token) || !token.startsWith("Bearer ")) {
                 log1.setUsername("匿名");
             }else{
-//                todo token中拿用户名
-//                token = token.substring(7);
-//                Claims claims = JwtUtil.parseJWT(token);
                 log1.setUsername("hh");
             }
             log1.setIp(getRequestIp()); //请求ip
