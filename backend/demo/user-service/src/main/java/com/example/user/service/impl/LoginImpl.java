@@ -31,9 +31,9 @@ public class LoginImpl implements LoginService {
 
 
     @Override
-    public ApiResponse<Map<String, String>> getToken(String account, String password, String code, String base64) {
+    public ApiResponse<Map<String, String>> getToken(String account, String password, String code) {
 
-        Boolean f = IsCode.is(REDIS_CAPTCHA + code,base64,redisUtil);
+        Boolean f = IsCode.is(REDIS_CAPTCHA + account + ":" + code,redisUtil);
         if(!f){
             return ApiResponse.error(0,"验证码错误");
         }
@@ -60,6 +60,7 @@ public class LoginImpl implements LoginService {
         System.out.println("web.getEnable() = " + web.getEnable());
 
         redisUtil.set(REDIS_TOKEN + account, jwt, REDIS_JWT_TTL);
+        redisUtil.del(REDIS_CAPTCHA + account + ":" + code);
 
         return ApiResponse.success(map);
     }

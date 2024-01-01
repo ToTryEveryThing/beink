@@ -8,14 +8,17 @@ import com.example.common.utils.Base64HashCalculator;
 import com.example.common.utils.Code.CodeTypeEnum;
 import com.example.common.utils.Code.EasyCaptchaService;
 import com.example.common.utils.redisUtil;
+import com.example.user.utils.CaptchaPool;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
 import static com.example.common.constants.radis.redisConstants.REDIS_CAPTCHA;
+import static com.example.common.constants.response.ApiResponse.Status.REQUEST_PARAMETER_VALIDATION_FAILED;
 
 
 /**
@@ -31,12 +34,16 @@ public class captcha {
     @Autowired
     private redisUtil redisUtil;
 
+
     @AccessLimit(seconds = 60*60*24,maxCount = 20)
     @ApiOperation("验证码")
     @PostMapping("/user/captcha/")
-    public ApiResponse captcha(){
+    public ApiResponse captcha(String name){
+        if(name==null|| name.isEmpty())
+            return ApiResponse.error(REQUEST_PARAMETER_VALIDATION_FAILED);
+
         Map<String, String> Base = easyCaptchaService.getCaptchaValueAndBase64(CodeTypeEnum.SPEC);
-        redisUtil.set(REDIS_CAPTCHA + Base.get("code").toLowerCase(),Base.get("base64"),120);
-        return new ApiResponse(200,"success",Base.get("base64"));
+        redisUtil.set(REDIS_CAPTCHA + name + ":" + Base.get("code").toLowerCase(),Base.get("base64"),120);
+        return  ApiResponse.success(Base.get("base64"));
     }
 }

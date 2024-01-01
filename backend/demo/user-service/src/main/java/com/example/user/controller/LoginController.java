@@ -26,9 +26,7 @@ public class LoginController  {
         String account = map.get("account");
         String password = map.get("password");
         String code = map.get("code");
-        String base64 = map.get("base64");
-        System.out.println(base64);
-        return loginService.getToken(account, password, code, base64);
+        return loginService.getToken(account, password, code);
 
     }
 
