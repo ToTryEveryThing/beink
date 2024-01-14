@@ -77,9 +77,10 @@ public class MyGlobalFilter  implements GlobalFilter, Ordered {
             Claims claims = jwtUtil.parseJWT(token);
             String username = claims.getSubject();
 
-            if(path.contains("admin") && claims.get("role").equals("user")){
-                return response.writeWith(Mono.just(response.bufferFactory().wrap(NO_AUTHORIZATION.getBytes())));
-            }
+            // 服务自己鉴权
+//            if(path.contains("admin") && claims.get("role").equals("user")){
+//                return response.writeWith(Mono.just(response.bufferFactory().wrap(NO_AUTHORIZATION.getBytes())));
+//            }
 
             LambdaQueryWrapper<web> q = new LambdaQueryWrapper<>();
             q.eq(web::getAccount,username);

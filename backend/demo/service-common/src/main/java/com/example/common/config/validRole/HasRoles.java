@@ -1,5 +1,7 @@
 package com.example.common.config.validRole;
 
+import com.example.common.constants.UserType;
+
 import java.lang.annotation.*;
 
 /**
@@ -11,6 +13,5 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
 public @interface HasRoles {
-
-    String value();
+    UserType value() ;
 }

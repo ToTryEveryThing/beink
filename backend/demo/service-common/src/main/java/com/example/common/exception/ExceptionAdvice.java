@@ -3,6 +3,7 @@ package com.example.common.exception;
 import com.example.common.config.operationLog.MyLog;
 import com.example.common.constants.response.ApiResponse;
 import com.example.common.exception.controllerException.LimitException;
+import com.example.common.exception.controllerException.NoPermission;
 import com.example.common.exception.controllerException.TokenException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -70,6 +71,16 @@ public class ExceptionAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiResponse<Void> BAD_REQUEST(MissingServletRequestParameterException e){
         return ApiResponse.error(ApiResponse.Status.BAD_REQUEST,e.getMessage());
+    }
+
+
+    /**
+     * 没有相应role
+     */
+    @MyLog
+    @ExceptionHandler(NoPermission.class)
+    public ApiResponse NOPERMISSION(){
+        return ApiResponse.error(ApiResponse.Status.UNAUTHORIZED);
     }
 
 
