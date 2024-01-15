@@ -1,0 +1,57 @@
+version: "1.0"
+
+services:
+  mysql:
+    image: mysql
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: 123456
+    volumes:
+      - "/home/test/mysql/data:/var/lib/mysql"
+      - "/home/test/mysql/conf:/etc/mysql/conf.d"
+      - "/home/test/mysql/init:/docker-entrypoint-initdb.d"
+    networks:
+      - new
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - "/home/test/redis/redis.conf:/etc/redis/redis.conf"
+      - "/home/test/redis:/data"
+    command: redis-server /etc/redis/redis.conf
+    networks:
+      - new
+    depends_on:
+      - mysql
+  beink:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: beink
+    ports:
+      - "9090:9090"
+    networks:
+      - new
+    depends_on:
+      - mysql
+    command: ["java", "-jar", "/home.test/beink.jar", "--spring.profiles.active=docker"]
+  nginx:
+    image: nginx
+    container_name: nginx
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/home/test/nginx/html:/etc/nginx/html"
+      - "/home/test/nginx/nginx.conf:/etc/nginx/nginx.conf"
+    depends_on:
+      - beink
+    networks:
+      - new  
+networks:
+  new:
+    name: beink
