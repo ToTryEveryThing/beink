@@ -16,10 +16,13 @@ public class RedissonConfig {
 
     @Value("${redisson.key}")
     private String key;
+
+    @Value("${spring.redis.host}")
+    private String host;
     @Bean
     RedissonClient redisson() {
         Config config = new Config();
-        config.useSingleServer().setAddress("redis://localhost:6379").setDatabase(0).setPassword(key);
+        config.useSingleServer().setAddress("redis://"+host+":6379").setDatabase(0).setPassword(key);
         return Redisson.create(config);
     }
 }

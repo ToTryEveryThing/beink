@@ -26,7 +26,7 @@ public class captchaInterceptor implements HandlerInterceptor {
         String code = request.getParameter("code");
         String base = request.getParameter("base64");
         System.out.print(code);
-        Boolean f = new IsCode().is(REDIS_CAPTCHA + code,base,redisUtil);
+        Boolean f = IsCode.is(REDIS_CAPTCHA + code,redisUtil);
         if(!f){
             response.setStatus(HttpServletResponse.SC_OK);
             response.getWriter().write("error");

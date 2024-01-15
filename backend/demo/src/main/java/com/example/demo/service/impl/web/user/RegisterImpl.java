@@ -8,6 +8,7 @@ import com.example.demo.pojo.user.web;
 import com.example.demo.service.web.user.RegisterService;
 import com.example.demo.utils.Code.IsCode;
 import com.example.demo.utils.JwtUtil;
+import com.example.demo.utils.Code.IsCode;
 import com.example.demo.utils.redisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -96,14 +97,14 @@ public class RegisterImpl implements RegisterService {
 
 
     @Override
-    public ApiResponse<String> register(String account, String password, String code, String base64) {
+    public ApiResponse<String> register(String account, String password, String code) {
 
         Boolean canRegister = (Boolean) redisUtil.hget(REDIS_LIMIT, REDIS_REGISTER);
         if(!canRegister){
             return ApiResponse.error(0, "目前无法注册");
         }
 
-        Boolean f = new IsCode().is(REDIS_CAPTCHA + code,base64,redisUtil);
+        Boolean f = IsCode.is(REDIS_CAPTCHA + account + ":" + code, redisUtil);
         if(!f){
             return ApiResponse.error(0,"验证码错误");
         }

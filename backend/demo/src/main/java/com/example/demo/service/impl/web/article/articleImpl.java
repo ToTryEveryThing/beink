@@ -176,9 +176,18 @@ public class articleImpl implements articleService {
 
         HashOperations<String, String, Object> hashOperations = redisTemplate.opsForHash();
 
-
         // 获取Hash结构中的所有值
         List<Object> values = hashOperations.values(REDIS_ARTICLE);
+
+        if(values.isEmpty()){
+
+            List<article> articles = articleMapper.selectList(null);
+            articles.forEach(article -> {
+                redisUtil.hset(REDIS_ARTICLE, String.valueOf(article.getId()),article);
+            });
+
+            return articles;
+        }
 
         //把空的过滤掉 因为他是缓存击穿 存的值
         List<article> collect = values.stream()

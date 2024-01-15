@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import {error} from './message'
-const BASE_URL ='http://localhost:9090';
+const BASE_URL ='http://82.157.80.203:9090';
 // const BASE_URL ='https://so.beink.cn';
 
 export default {

@@ -29,10 +29,13 @@ public class captcha {
     @AccessLimit(seconds = 60*60*24,maxCount = 20)
     @MyLog
     @PostMapping("/captcha/")
-    public Result captcha(){
+    public Result getCaptcha(String userName){
+        if(userName.isEmpty()) return new Result(0,"填写用户名");
         Map<String, String> Base = easyCaptchaService.getCaptchaValueAndBase64(CodeTypeEnum.SPEC);
-        redisTemplate.set(REDIS_CAPTCHA + Base.get("code").toLowerCase(),Base.get("base64"));
-        redisTemplate.expire(REDIS_CAPTCHA + Base.get("code"), 120);
+        String redis = REDIS_CAPTCHA + userName + ":" + Base.get("code").toLowerCase();
+        System.out.println(redis);
+        redisTemplate.set(redis,Base.get("base64"));
+        redisTemplate.expire(redis, 120);
         return new Result(200,"success",Base.get("base64"));
     }
 }

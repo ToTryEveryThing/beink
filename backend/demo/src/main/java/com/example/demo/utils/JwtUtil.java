@@ -85,7 +85,7 @@ public class JwtUtil {
 
     }
 
-//解析Token
+    //解析Token
     public static Claims parseJWT(String jwt) throws Exception {
         SecretKey secretKey = generalKey();
         return Jwts.parserBuilder()

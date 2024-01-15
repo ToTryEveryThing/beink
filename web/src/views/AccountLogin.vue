@@ -43,6 +43,9 @@ export default {
     const captcha = ()=>{
       $.ajax({
         url:`${config.API_URL}/captcha/`,
+        data:{
+          userName:account.value
+        },
         type:'post',
         success(res){
           vue.cha = res.data

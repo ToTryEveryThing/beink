@@ -30,14 +30,9 @@ public class LoginImpl implements LoginService {
 
 
     @Override
-    public ApiResponse<Map<String, String>> getToken(String account, String password, String code, String base64) {
+    public ApiResponse<Map<String, String>> getToken(String account, String password, String code) {
 
-        /***
-         * 调用 UserDetailServiceImpl
-         * 进行认证
-         */
-
-        Boolean f = new IsCode().is(REDIS_CAPTCHA + code,base64,redisUtil);
+        Boolean f = IsCode.is(REDIS_CAPTCHA + account + ":" + code, redisUtil);
         if(!f){
            return ApiResponse.error(0,"验证码错误");
         }
