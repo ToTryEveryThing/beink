@@ -10,7 +10,7 @@ const articlMessage = (x,y,z) => {
   ElNotification({
     title: `${x}更新了`,
     dangerouslyUseHTMLString: true,
-    message: `<a href="http://127.0.0.1:8080/article/${z}">
+    message: `<a href="/article/${z}">
                 《${y}》
             </a>点击前去查看`,
     // message: `<strong>This is <i>标题为：${y}地址为：${z}</i> string</strong>`,
